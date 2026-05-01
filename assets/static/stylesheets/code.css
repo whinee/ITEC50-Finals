@@ -1,0 +1,122 @@
+@import '/assets/static/stylesheets/fonts/inconsolata.css';
+
+#wrapper {
+    padding: 0 !important;
+}
+
+p {
+    margin: 0 !important;
+}
+
+body:before {
+    background-image: none !important;
+    background-color: var(--bg-1) !important;
+    background-size: cover;
+}
+
+body {
+    display: block !important;
+    box-sizing: border-box;
+    height: 100%;
+    font-family: "Inconsolata" !important;
+    font-size: 1.5rem;
+    color: var(--fg-3);
+    text-shadow:
+        0 0 1ex hsla(var(--rfg-3), 0.8),
+        0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+h1 {
+    text-align: left !important;
+    font-family: "Inconsolata" !important;
+    color: var(--fg-3) !important;
+}
+
+#main {
+    --alignment: var(--site-language-alignment);
+    text-align: var(--alignment);
+}
+
+.terminal {
+    box-sizing: inherit;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    padding: 4rem;
+    text-transform: uppercase;
+}
+
+.terminal > p {
+    color: hsla(var(--rfg-3), 0.8);
+    text-shadow:
+        0 0 1px hsla(var(--rfg-3), 0.8),
+        0 0 2px hsla(0, 0%, 100%, 0.8);
+}
+
+.op::before {
+    content: "> ";
+}
+
+.op.pds, .op.sg {
+    margin-left: 1em !important;
+}
+
+.op.sg_pds {
+    margin-left: 2em !important;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+a::before {
+    content: "[";
+}
+
+a::after {
+    content: "]";
+}
+
+/* RESPONIVE CSS: START */
+
+@media (max-width: 1680px) {
+    html {
+        font-size: 14pt;
+    }
+}
+
+@media (max-width: 1280px) {
+    html {
+        font-size: 13pt;
+    }
+}
+
+@media (max-width: 1024px) {}
+
+@media (max-width: 980px) {
+    html {
+        font-size: 12pt;
+    }
+}
+
+@media (max-width: 736px) {
+    html {
+        font-size: 11pt;
+    }
+
+    #h1 {
+        letter-spacing: 0rem;
+        width: 100%;
+        font-size: 2.5em;
+        line-height: 1.25;
+    }
+}
+
+@media (max-width: 360px) {
+    #h1 {
+        font-size: 2em;
+    }
+}
+
+/* RESPONSIVE CSS: END */

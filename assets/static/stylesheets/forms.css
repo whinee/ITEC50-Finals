@@ -1,0 +1,101 @@
+.form-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.input {
+    border: none;
+    background: var(--bg-1-2);
+    box-shadow: inset 5px -5px 10px var(--bg-1-1), inset -5px 5px 10px var(--bg-1-3);
+    padding: var(--space-xs);
+    width: min(80%, 400px);
+    border-radius: 60px;
+    -webkit-transition: all .5s ease-out;
+    -moz-transition: all .5s ease-out;
+    -ms-transition: all .5s ease-out;
+    -o-transition: all .5s ease-out;
+    transition: all .5s ease-out;
+    color: var(--fg-2)
+}
+
+.input:focus {
+    outline-color: var(--fg-1);
+    outline-style: solid;
+    outline-width: 3px;
+}
+
+.input.invalid {
+    outline-color: var(--error-1);
+    outline-style: solid;
+    outline-width: 3px;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -ms-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+}
+
+.input.valid {
+    outline-color: var(--valid-1);
+    outline-style: solid;
+    outline-width: 3px;
+    -webkit-transition: all .5s;
+    -moz-transition: all .5s;
+    -ms-transition: all .5s;
+    -o-transition: all .5s;
+    transition: all .5s;
+}
+
+.input::-webkit-input-placeholder {
+    color: var(--fg-1-2);
+}
+
+.input::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: var(--fg-1-2);
+    opacity: 1;
+}
+
+.input:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: var(--fg-1-3);
+}
+
+.input::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: var(--fg-1-3);
+}
+
+.input:focus::-webkit-input-placeholder {
+    color: var(--fg-1);
+    transition: all .3s;
+}
+
+.star-rating {
+    direction: rtl;
+    font-size: 3rem;
+    display: flex;
+    justify-content: center;
+}
+
+.star-rating input[type="radio"] {
+    display: none;
+}
+
+.star-rating label {
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.star-rating label:before {
+    content: "★"; /* star character */
+}
+
+.star-rating input[type="radio"]:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: gold;
+}

@@ -1,0 +1,51 @@
+@import 'https://fonts.googleapis.com/css?family=Roboto:300';
+@import 'https://fonts.googleapis.com/css?family=Inconsolata';
+
+/* # colors */
+:root {
+    /* ## background*/
+    /* base: hsl(230, 25%, 10%) */
+    --rbg-1: 230, 25%, 10%;
+    --bg-1: hsl(var(--rbg-1));
+    --bg-1-1: hsl(229, 24%, 15%);
+    --bg-1-2: hsl(228, 23%, 20%);
+    --bg-1-3: hsl(227, 22%, 25%);
+    --bg-1-4: hsl(226, 21%, 30%);
+    --bg-1-5: hsl(225, 20%, 35%);
+    --bg-1-6: hsl(224, 19%, 40%);
+
+    /* base: hsl(232, 22%, 40%); */
+    --rbg-2: 232, 22%, 40%;
+    --bg-2: hsl(var(--rbg-2));
+    --bg-2-1: hsl(231, 21%, 47%);
+    --bg-2-2: hsl(230, 20%, 54%);
+
+    /* ## foreground*/
+    /* base: hsl(260, 50%, 70%); */
+    --rfg-1: 260, 50%, 70%;
+    --fg-1: hsl(var(--rfg-1));
+    --fg-1-1: hsl(260, 51%, 65%);
+    --fg-1-2: hsl(260, 52%, 60%);
+    --fg-1-3: hsl(260, 53%, 55%);
+
+    /* base: hsl(326, 70%, 70%); */
+    --rfg-2: 326, 70%, 70%;
+    --fg-2: hsl(var(--rfg-2));
+    --fg-2-1: hsl(326, 75%, 65%);
+    --fg-2-2: hsl(326, 80%, 60%);
+    --fg-2-3: hsl(326, 85%, 55%);
+
+    /* base: hsl(321, 100%, 81%) */
+    --rfg-3: 321, 100%, 81%;
+    --fg-3: hsl(var(--rfg-3));
+
+    /* ## codes */
+
+    --error-1: hsl(0, 80%, 65%);
+    --valid-1: hsl(120, 60%, 65%);
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}

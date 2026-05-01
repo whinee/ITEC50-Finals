@@ -1,0 +1,57 @@
+{
+    "latex-workshop.latex.tools": [
+        {
+            "name": "xelatex",
+            "command": "just",
+            "args": [
+                "build_tex",
+                "%DOC%"
+            ]
+        }
+    ],
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "xelatex",
+            "tools": [
+                "xelatex"
+            ]
+        }
+    ],
+    "files.watcherExclude": {
+        "**/node_modules": true,
+        "**/assets/static/images/screenshots/**": true
+    },
+    "latex-workshop.latex.autoBuild.run": "onFileChange",
+    "files.exclude": {
+        "_minted": true,
+        "**/.~*#": true,
+        "**/*.4ct": true,
+        "**/*.4tc": true,
+        "**/*.fdb_latexmk": true,
+        "**/*.idv": true,
+        "**/*.lg": true,
+        "**/*.lof": true,
+        "**/*.synctex.gz": true,
+        "**/*.synctex(busy)": true,
+        "**/*.tmp": true,
+        "**/*.xref": true,
+        "**/*.fls": true,
+        "**/*.loc": true,
+        "**/*.run.xml": true,
+        "**/*.soc": true,
+        "**/*.snm": true,
+        "**/*-SAVE-ERROR": true,
+        "**/*.ind": true,
+        "**/*.aux": true,
+        "**/*.bbl": true,
+        "**/*-blx.bib": true,
+        "**/*.idx": true,
+        "**/*.ilg": true,
+        "**/*.out": true,
+        "**/*.toc": true,
+        "**/*.lot": true,
+        "**/*.bcf": true,
+        "**/*.xdv": true,
+        "**/*.minted": true,
+    },
+}

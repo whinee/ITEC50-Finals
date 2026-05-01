@@ -1,0 +1,11 @@
+{
+    "scripts": {
+        "watch-files": "chokidar './**/*.{html,css,js}' --ignore '.history/**' --ignore 'assets/static/images/screenshots/**' -c \"bash -c 'if [ -z \"$SCREENSHOT_LOCK\" ]; then SCREENSHOT_LOCK=1; node screenshot.js && xelatex -synctex=1 -interaction=nonstopmode -file-line-error -shell-escape main.tex; unset SCREENSHOT_LOCK; fi'\""
+    },
+    "devDependencies": {
+        "chokidar-cli": "^3.0.0",
+        "chrome-launcher": "^1.2.1",
+        "lighthouse": "^13.0.3",
+        "puppeteer": "^24.37.5"
+    }
+}

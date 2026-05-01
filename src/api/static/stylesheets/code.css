@@ -1,0 +1,53 @@
+body {
+    box-sizing: border-box;
+    height: 100%;
+    background-color: var(--bg-1);
+    background-size: cover;
+    font-family: 'Inconsolata', Helvetica, sans-serif;
+    font-size: 1.5rem;
+    color: var(--fg-3);
+    text-shadow:
+        0 0 1ex hsla(var(--rfg-3), 0.8),
+        0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+.terminal {
+    box-sizing: inherit;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 4rem;
+    text-transform: uppercase;
+}
+
+.terminal > p {
+    color: hsla(var(--rfg-3), 0.8);
+    text-shadow:
+        0 0 1px hsla(var(--rfg-3), 0.8),
+        0 0 2px hsla(0, 0%, 100%, 0.8);
+}
+
+.op::before {
+    content: "> ";
+}
+
+.op.\31, .c2 {
+    margin-left: 1em
+}
+
+.op.\32 {
+    margin-left: 2em
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+a::before {
+    content: "[";
+}
+
+a::after {
+    content: "]";
+}
