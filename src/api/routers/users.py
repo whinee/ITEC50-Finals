@@ -65,7 +65,7 @@ async def login_post(
     password: str = Form(),
 ):
     response.delete_cookie("token")
-    flash = CustomResponse.tpl(request, "login.j2.html")
+    flash = CustomResponse.template(request, "login.j2.html")
     if du := DB.get(username):
         if comp_pw(password, du["passwd"]):
             payload = {

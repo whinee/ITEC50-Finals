@@ -1,4 +1,3 @@
-from collections.abc import Callable
 from typing import Any
 
 from fastapi import Request
@@ -158,7 +157,7 @@ class CustomResponse:
         )
 
     @staticmethod
-    def tpl(
+    def template(
         request: Request,
         tpl: str,
     ):
@@ -178,11 +177,6 @@ class CustomResponse:
                 tpl,
                 *args,
                 **kwargs,
-                content={
-                    **content,
-                    **json,
-                    "status": status,
-                },
             )
 
         return inner
