@@ -5,6 +5,9 @@ This repository is multi-licensed:
 - The following files contain code derived from [Pebble Recall by Team Phasmolysis](https://github.com/phasmolysis-team/phasmolysis-pebble-recall) and are licensed under the Mozilla Public License 2.0 (see [LICENSES/MPL-2.0.md](./LICENSES/MPL-2.0.md)):
 
   - All files under `src/security`
+  - `src/config/settings.py`
+  - `src/middlewares/auth.py`
+  - `src/models/cookies.py`
   - `.direnvrc.uv`
   - `.envrc`
   - `alembic.ini`

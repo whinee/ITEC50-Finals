@@ -1,11 +1,12 @@
-from app.core.config import settings
-from datetime import UTC
-from jwt.types import Options
-from typing import Callable
 import datetime
-import jwt
+from collections.abc import Callable
+from datetime import UTC
 
+import jwt
+from jwt.types import Options
 from pydantic import BaseModel
+
+from src.config.settings import settings
 
 
 class Claims(BaseModel):
@@ -25,13 +26,16 @@ class JwtService:
     __options: Options
 
     def __init__(
-        self, secret: str, algo: str = "HS256", options: Options | None = None
-    ):
+        self,
+        secret: str,
+        algo: str = "HS256",
+        options: Options | None = None,
+    ) -> None:
         self.__algorithm = algo
         self.__secret = secret
         self.__options = Options()
         self.__options["require"] = [
-            "exp"
+            "exp",
         ]  # NOTE: I believe exp should be always required
         self.__options["verify_exp"] = True
         if options is not None:
@@ -60,8 +64,7 @@ class JwtService:
 
     def verify(self, token: str) -> Claims:
         payload = self.__decoding(token)
-        claims = Claims(**payload)
-        return claims
+        return Claims(**payload)
 
 
 def get_jwt_service() -> JwtService:

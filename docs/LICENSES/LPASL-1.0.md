@@ -2,29 +2,29 @@
 
 **Copyright (c) 2026 Lyra Phasma**
 
----
+______________________________________________________________________
 
 ## Table of Contents
 
 1. [Definition of Terms](#1-definition-of-terms)
-2. [Information](#2-information)
-3. [Acceptance](#3-acceptance)
-4. [Helper Scripts License (MIT-Based)](#4-helper-scripts-license-mit-based)
-5. [Restricted Works License](#5-restricted-works-license)
-6. [Permitted Use](#6-permitted-use)
-7. [Attribution Requirements](#7-attribution-requirements)
-8. [Heavy Modification](#8-heavy-modification)
-9. [Learning Without Copying](#9-learning-without-copying)
-10. [Clean Room Implementation](#10-clean-room-implementation)
-11. [Derivative Works](#11-derivative-works)
-12. [Pre-Submission Review](#12-pre-submission-review)
-13. [Prohibited Use](#13-prohibited-use)
-14. [Pseudonym and Privacy](#14-pseudonym-and-privacy)
-15. [Sunset Clause](#15-sunset-clause)
-16. [Violations and Termination](#16-violations-and-termination)
-17. [No Liability](#17-no-liability)
+1. [Information](#2-information)
+1. [Acceptance](#3-acceptance)
+1. [Helper Scripts License (MIT-Based)](#4-helper-scripts-license-mit-based)
+1. [Restricted Works License](#5-restricted-works-license)
+1. [Permitted Use](#6-permitted-use)
+1. [Attribution Requirements](#7-attribution-requirements)
+1. [Heavy Modification](#8-heavy-modification)
+1. [Learning Without Copying](#9-learning-without-copying)
+1. [Clean Room Implementation](#10-clean-room-implementation)
+1. [Derivative Works](#11-derivative-works)
+1. [Pre-Submission Review](#12-pre-submission-review)
+1. [Prohibited Use](#13-prohibited-use)
+1. [Pseudonym and Privacy](#14-pseudonym-and-privacy)
+1. [Sunset Clause](#15-sunset-clause)
+1. [Violations and Termination](#16-violations-and-termination)
+1. [No Liability](#17-no-liability)
 
----
+______________________________________________________________________
 
 ## 1. Definition of Terms
 
@@ -48,7 +48,7 @@
 - **(j)** **"Attribution"** SHALL refer to a clear, visible acknowledgment crediting **Lyra Phasma** as the original source of the **Work** or any portion thereof.
 - **(k)** The **"Pseudonym"** SHALL refer to the name **Lyra Phasma**, used by the **Licensor** for personal safety reasons, and SHALL NOT be linked to any legal identity by any **Licensee**.
 
----
+______________________________________________________________________
 
 ## 2. Information
 
@@ -56,7 +56,7 @@
 
 **2.2** This **License** is an original work by **Lyra Phasma** and is not affiliated with, endorsed by, or derived from any third-party license project.
 
----
+______________________________________________________________________
 
 ## 3. Acceptance
 
@@ -64,7 +64,7 @@
 
 **3.2** Any **Use** of the **Work** constitutes full acceptance of this **License**.
 
----
+______________________________________________________________________
 
 ## 4. Helper Scripts License (MIT-Based)
 
@@ -75,7 +75,7 @@
 
 **4.2** THE **HELPER SCRIPTS** ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE **LICENSOR** BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE **HELPER SCRIPTS** OR THE USE OR OTHER DEALINGS THEREIN.
 
----
+______________________________________________________________________
 
 ## 5. Restricted Works License
 
@@ -83,7 +83,7 @@
 
 **5.2** No rights to distribute, sublicense, or sell the **Restricted Works** are granted under this **License** unless explicitly permitted by Section 6.
 
----
+______________________________________________________________________
 
 ## 6. Permitted Use
 
@@ -93,7 +93,7 @@
 - **(b)** creating a **Heavy Modification** of the **Work** for use in an original project, subject to the conditions of Section 8; or
 - **(c)** producing an independent original work informed by the **Work**, subject to the conditions of Section 9.
 
----
+______________________________________________________________________
 
 ## 7. Attribution Requirements
 
@@ -103,7 +103,7 @@
 
 **7.3** **Attribution** MUST NOT be obscured, omitted, or misrepresented in any form.
 
----
+______________________________________________________________________
 
 ## 8. Heavy Modification
 
@@ -114,7 +114,7 @@
 
 **8.2** Variable renaming, whitespace changes, and superficial restructuring do NOT constitute **Heavy Modification** and MUST NOT be represented as such.
 
----
+______________________________________________________________________
 
 ## 9. Learning Without Copying
 
@@ -123,7 +123,7 @@
 - **(a)** a brief description of what was learned from the **Work**; and
 - **(b)** a description of how that learning influenced the **Licensee's** own independent implementation.
 
----
+______________________________________________________________________
 
 ## 10. Clean Room Implementation
 
@@ -137,7 +137,7 @@
 
 **10.3** Variable renaming and superficial restructuring do NOT constitute independent implementation under this Section.
 
----
+______________________________________________________________________
 
 ## 11. Derivative Works
 
@@ -145,7 +145,7 @@
 
 **11.2** Derivative works require full **Attribution** and change documentation as described in Sections 7 and 8, regardless of the extent of modification.
 
----
+______________________________________________________________________
 
 ## 12. Pre-Submission Review
 
@@ -157,7 +157,7 @@
 
 **12.2** Misuse of the **Work** in an **Academic Submission** MAY be reported to relevant course instructors or university authorities, with full documentation of the violation.
 
----
+______________________________________________________________________
 
 ## 13. Prohibited Use
 
@@ -167,7 +167,7 @@
 
 **13.3** The **Licensee** MUST NOT represent variable renaming, whitespace changes, or superficial restructuring as **Heavy Modification** or independent implementation.
 
----
+______________________________________________________________________
 
 ## 14. Pseudonym and Privacy
 
@@ -177,7 +177,7 @@
 
 **14.3** This Section is a sincere request from the **Licensor** and, while not a legally enforceable license condition in all jurisdictions, reflects the spirit of good faith under which this **License** is offered.
 
----
+______________________________________________________________________
 
 ## 15. Sunset Clause
 
@@ -185,7 +185,7 @@
 
 **15.2** After this date, all **Restricted Works** previously governed by Sections 5 through 13 SHALL automatically convert to the MIT-based terms described in Section 4, subject to the same **Attribution** requirements stated therein.
 
----
+______________________________________________________________________
 
 ## 16. Violations and Termination
 
@@ -193,12 +193,12 @@
 
 **16.2** Otherwise, all permissions granted under this **License** end immediately upon violation.
 
----
+______________________________________________________________________
 
 ## 17. No Liability
 
 **17.1** As far as the law allows, the **Work** comes as is, without any warranty or condition, and the **Licensor** will not be liable to the **Licensee** for any damages arising out of these terms or the use or nature of the **Work**, under any kind of legal claim.
 
----
+______________________________________________________________________
 
 *LPASL v1.0 — Lyra Phasma — 2026*

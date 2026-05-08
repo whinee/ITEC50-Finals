@@ -1,36 +1,38 @@
-import time
-from typing import Any, Union
+from typing import Annotated
 
-import jwt
-from fastapi import Cookie
+from app.schemas.cookies import decode_encrypted_cookie
+from fastapi import Depends, HTTPException, Request
+from sqlmodel.ext.asyncio.session import AsyncSession
+from starlette.status import HTTP_401_UNAUTHORIZED
 
-from ..config import env
+from src.db.main import get_session
+from src.security.jwt_service import JwtService, get_jwt_service
 
 
-async def verify_token(
-    token: Union[str, None] = Cookie(default=None),
-) -> Union[dict[str, Any], bool]:
-    print(token)
-    if token:
-        try:
-            decoded_token = jwt.decode(
-                token,
-                env.require("JWT_SECRET"),
-                algorithms=["HS256"],
-            )
-            print(decoded_token["expires"], time.time())
-            if decoded_token["expires"] >= time.time():
-                return {"authorized": True, "token": decoded_token}
-        except jwt.exceptions.InvalidSignatureError:
-            return {
-                "authorized": False,
-                "status_code": 400,
-                "detail": "Signature Verification Failed",
-                "message": "The server could not verify that you are authorized to access the URL requested. You either supplied the wrong credentials (e.g., bad password), or your browser doesn't understand how to supply the credentials required.",
-            }
-    return {
-        "authorized": False,
-        "status_code": 401,
-        "detail": "Unauthorized Access",
-        "message": "You should first authorize before hitting this endpoint.",
-    }
+def get_session_cookie(
+    request: Request,
+):
+    return request.cookies.get("session")
+
+
+def check_if_logged_in(
+    request: Request,
+):
+    return request.cookies.get("session") is not None
+
+
+async def check_encrypted_cookie_auth(
+    request: Request,
+    session: Annotated[AsyncSession, Depends(get_session)],
+    jwt_service: Annotated[JwtService, Depends(get_jwt_service)],
+    session_cookie: Annotated[str, Depends(get_session_cookie)],
+):
+    if session_cookie is None:
+        raise HTTPException(status_code=HTTP_401_UNAUTHORIZED)
+
+    try:
+        jwt_token = decode_encrypted_cookie(session_cookie)
+        return jwt_service.verify(jwt_token)
+
+    except BaseException as e:
+        raise HTTPException(status_code=HTTP_401_UNAUTHORIZED) from e

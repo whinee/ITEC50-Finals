@@ -1,5 +1,6 @@
-from cryptography.hazmat.primitives.kdf.argon2 import Argon2id
 import os
+
+from cryptography.hazmat.primitives.kdf.argon2 import Argon2id
 
 
 def get_kdf() -> Argon2id:
