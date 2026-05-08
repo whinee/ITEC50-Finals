@@ -1,12 +1,14 @@
-from typing import Any
+from collections.abc import Mapping
+from typing import Any, Protocol
 
 from fastapi import Request
 from fastapi.responses import UJSONResponse
 from pydantic import BaseModel
+from starlette.background import BackgroundTask
 from starlette.templating import Jinja2Templates
 
-from src.api.config.constants import STRINGS
-from src.api.models.strings import HTTPGroupString
+from src.config.constants import STRINGS
+from src.models.strings import HTTPGroupString
 
 # Constants
 STATUS_KEY_PRIORITY = ["phrase", "description", "spec", "spec_link"]
@@ -96,6 +98,19 @@ def build_status_meta(status_code: int) -> dict[str, Any]:
     }
 
 
+class TemplateInnerCallable(Protocol):
+    def __call__(
+        self,
+        message: str,
+        category: str = "primary",
+        context: dict[str, Any] | None = None,
+        status_code: int = 200,
+        headers: Mapping[str, str] | None = None,
+        media_type: str | None = None,
+        background: BackgroundTask | None = None,
+    ) -> Jinja2Templates.TemplateResponse: ...
+
+
 class CustomResponse:
     @staticmethod
     def raw_json(
@@ -160,23 +175,29 @@ class CustomResponse:
     def template(
         request: Request,
         tpl: str,
-    ):
+    ) -> TemplateInnerCallable:
         def inner(
             message: str,
             category: str = "primary",
-            *args,
-            **kwargs,
-        ):
+            context: dict[str, Any] | None = None,
+            status_code: int = 200,
+            headers: Mapping[str, str] | None = None,
+            media_type: str | None = None,
+            background: BackgroundTask | None = None,
+        ) -> Jinja2Templates.TemplateResponse:
             if "_messages" not in request.session:
                 request.session["_messages"] = []
             request.session["_messages"].append(
                 {"message": message, "category": category},
             )
             return TEMPLATES.TemplateResponse(
-                request,
-                tpl,
-                *args,
-                **kwargs,
+                request=request,
+                name=tpl,
+                context=context,
+                status_code=status_code,
+                headers=headers,
+                media_type=media_type,
+                background=background,
             )
 
         return inner

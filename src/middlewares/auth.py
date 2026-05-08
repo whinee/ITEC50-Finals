@@ -4,7 +4,7 @@ from typing import Any, Union
 import jwt
 from fastapi import Cookie
 
-from ..globals import ENV_VARS
+from ..config import env
 
 
 async def verify_token(
@@ -15,7 +15,7 @@ async def verify_token(
         try:
             decoded_token = jwt.decode(
                 token,
-                ENV_VARS["JWT_SECRET"],
+                env.require("JWT_SECRET"),
                 algorithms=["HS256"],
             )
             print(decoded_token["expires"], time.time())

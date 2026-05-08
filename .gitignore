@@ -4,6 +4,7 @@ pyenv/
 .venv/
 .mypy_cache/
 **/__pycache__/
+pgdata
 
 # User-ignored Files
 .env

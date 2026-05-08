@@ -13,14 +13,16 @@ from fastapi.staticfiles import StaticFiles
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
 
-from src.api.models.settings import settings
-
-# from src.api.routers import users
-from src.api.utils import TEMPLATES, CustomResponse
+from src.config import env
+from src.models.settings import settings
+from src.routers import users
+from src.utils import TEMPLATES, CustomResponse
 
 description = """
 Lyra Phasma's Website and Blog :3
 """
+
+env.load_environment()
 
 security = HTTPBasic()
 
@@ -72,7 +74,14 @@ async def add_process_time_header(request: Request, call_next) -> Any:  # type: 
             json={"traceback": traceback.format_exc()},
         )
 
-# app.include_router(users.router, prefix="/users", tags=["users"])
+app.mount("/static/", StaticFiles(directory="src/static"), name="static")
+app.include_router(users.router, prefix="/users", tags=["users"])
+
+
+@app.get("/{page}")
+async def serve_page(request: Request, page: str):
+    return TEMPLATES.TemplateResponse(request=request, name=f"{page}.j2.html")
+
 
 @app.get("/docs", include_in_schema=False, status_code=200)
 async def docs(response: Response):  # type: ignore[no-untyped-def]
@@ -113,11 +122,3 @@ async def handle_webhook(request: Request): # type: ignore[no-untyped-def]
         raise HTTPException(status_code=403, detail="Invalid signature")
     subprocess.Popen(f"kill -9 {os.getpid()}", shell=True)  # noqa: S602
     return {"message": "Webhook received successfully!"}
-
-
-app.mount("/static/", StaticFiles(directory="src/api/static"), name="static")
-app.mount(
-    "/",
-    StaticFiles(directory="src/pages", html=True),
-    name="pages",
-)

@@ -1,9 +1,9 @@
 from pydantic import BaseModel, ConfigDict
 
-from src.api.config.constants import STRINGS
-from src.api.config.env import optional, require
-from src.api.config.loader import load_environment
-from src.api.models.strings import Strings
+from src.config.constants import STRINGS
+from src.config.env import optional, require
+from src.config.loader import load_environment
+from src.models.strings import Strings
 
 
 class Settings(BaseModel):

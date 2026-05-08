@@ -4,7 +4,7 @@ from typing import TypeVar
 from alltheutils.config import read_conf_file
 from pydantic import BaseModel, TypeAdapter
 
-from src.api.models.strings import Strings
+from src.models.strings import Strings
 
 BM = TypeVar("BM", bound=BaseModel)
 

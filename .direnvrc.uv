@@ -1,0 +1,22 @@
+layout_uv() {
+    if [[ -d ".venv" ]]; then
+	if [[ -z $VIRTUAL_ENV ]]; then
+		VIRTUAL_ENV=$(pwd)/.venv
+	fi
+	# Otherwise do not set if it's set in envrc
+	
+    fi
+    if [[ -z $VIRTUAL_ENV || ! -d $VIRTUAL_ENV ]]; then
+        log_status "No virtual environment exists. Executing \`uv venv\` to create one."
+        uv venv $VIRTUAL_ENV
+    fi
+
+    if [ -d "${VIRTUAL_ENV}/bin" ]; then
+        PATH_add ${VIRTUAL_ENV}/bin
+    elif [ -d ".venv/Scripts" ]; then
+        PATH_add ${VIRTUAL_ENV}/Scripts
+    fi
+
+    export UV_ACTIVE=1  # or VENV_ACTIVE=1
+    export VIRTUAL_ENV
+}

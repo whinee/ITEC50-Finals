@@ -5,10 +5,9 @@ import jwt
 from fastapi import APIRouter, Depends, Form, Request, Response
 from fastapi.responses import HTMLResponse
 
-from ..globals import ENV_VARS
-from ..middlewares import auth
-from ..models.user import UserReg, comp_pw, hash_pw
-from ..utils import TEMPLATES, CustomResponse
+from src.middlewares import auth
+from src.models.user import UserReg, comp_pw, hash_pw
+from src.utils import TEMPLATES, CustomResponse
 
 router = APIRouter()
 
@@ -24,8 +23,8 @@ async def register(user: UserReg, response: Response):
             details="E-mail Error",
             message="E-mail already used. Try again.",
         )
-    else:
-        emails.append(user.email)
+    
+    emails.append(user.email)
 
     if DB.get(user.username):
         response.status_code = 400
@@ -42,6 +41,7 @@ async def register(user: UserReg, response: Response):
             details="Password Error",
             message="Password does not match. Try again.",
         )
+
     DB.put(
         {
             "email": user.email,
@@ -49,6 +49,7 @@ async def register(user: UserReg, response: Response):
         },
         user.username,
     )
+
     return CustomResponse.json(200)
 
 

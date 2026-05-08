@@ -1,4 +1,4 @@
-from os import getenv
+from os import environ, getenv
 
 from dotenv import load_dotenv
 
@@ -14,3 +14,14 @@ def load_environment() -> str:
         raise RuntimeError(f"Invalid ENV: {env}")
 
     return env
+
+
+def require(name: str) -> str:
+    value = environ.get(name)
+    if not value:
+        raise RuntimeError(f"Missing required env var: {name}")
+    return value
+
+
+def optional(name: str, default=None):
+    return environ.get(name, default)

@@ -226,6 +226,7 @@
 \begin{titlepage}
     \centering
     \vspace*{2cm}
+    {\Huge\bfseries DeciMark\par}
     {\LARGE\bfseries Workflow Justification \& Reflections on Collaborative Development\par}
     \vspace{1cm}
     {\large ITEC50 Final Project --- Individual Submission\par}
@@ -243,7 +244,7 @@
  
 \section{Website Type \& Purpose}
  
-\textbf{BookmarkJD} is a browser-based \textit{Bookmark Link Manager}---a client-side web application that enables users to save, organize, retrieve, and annotate URLs. According to \citet{abrams1998web}, it belongs to the broader category of \textit{Personal Information Management} (PIM) systems, specifically the subcategory of social and personal bookmarking tools .
+\textbf{DeciMark} is a browser-based \textit{Bookmark Link Manager}---a client-side web application that enables users to save, organize, retrieve, and annotate URLs. According to \citet{abrams1998web}, it belongs to the broader category of \textit{Personal Information Management} (PIM) systems, specifically the subcategory of social and personal bookmarking tools .
  
 The application requires no server, no account, and no installation. It runs entirely as a static \texttt{HTML/CSS/JS} artifact in any modern browser, making it immediately accessible to students and professionals alike.
  
@@ -372,7 +373,7 @@ Table \ref{tab:competitor-matrix} summarizes the feature gaps across all three r
 \label{tab:competitor-matrix}
 \begin{tabular}{|p{3.8cm}|p{2.4cm}|p{2.4cm}|p{2.4cm}|p{3.2cm}|}
 \hline
-\textbf{Feature} & \textbf{Pinboard} & \textbf{linkding} & \textbf{Raindrop.io} & \textbf{BookmarkJD (Ours)} \\
+\textbf{Feature} & \textbf{Pinboard} & \textbf{linkding} & \textbf{Raindrop.io} & \textbf{DeciMark (Ours)} \\
 \hline
 Visual card UI         & None              & None              & Grid/Masonry         & Card + List toggle \\
 \hline
@@ -394,23 +395,23 @@ Collaborative use      & Public pins only  & Multi-user (admin)& Pro tier       
 \end{table}
  
 % ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
-\section{Our Project: BookmarkJD}
+\section{Our Project: DeciMark}
  
 \subsection{Design Philosophy \& Differentiation}
  
-BookmarkJD does not attempt to replicate the full feature surface of any single existing tool. Instead, it occupies a deliberate gap: a \textit{zero-dependency, visually structured, schema-enforced} bookmark manager that any user can open in a browser without an account, a server, or a subscription.
+DeciMark does not attempt to replicate the full feature surface of any single existing tool. Instead, it occupies a deliberate gap: a \textit{zero-dependency, visually structured, schema-enforced} bookmark manager that any user can open in a browser without an account, a server, or a subscription.
  
 The three founding design principles are:
  
 \begin{enumerate}
-    \item \textbf{Structural discipline over organizational freedom.} Free-form tags and arbitrary folder names produce entropy over time. BookmarkJD enforces the Johnny.Decimal classification scheme as a first-class field on every bookmark, ensuring consistent addressability across users and sessions.
+    \item \textbf{Structural discipline over organizational freedom.} Free-form tags and arbitrary folder names produce entropy over time. DeciMark enforces the Johnny.Decimal classification scheme as a first-class field on every bookmark, ensuring consistent addressability across users and sessions.
     \item \textbf{Zero barrier to entry.} The application is a static \texttt{index.html} file. It runs offline, requires no backend, and degrades gracefully across browsers.
     \item \textbf{Visual clarity without visual bloat.} A card-based layout with list-view toggle provides the visual orientation that Pinboard and linkding lack, without the complexity of Raindrop.io's full platform.
 \end{enumerate}
  
 \subsection{Inspiration: The Johnny.Decimal System}
  
-The primary structural innovation in BookmarkJD is the integration of the \textbf{Johnny.Decimal} (JD) organizational system, developed by Johnny Noble (\url{https://johnnydecimal.com}) \citep{johnnydecimal2021}.
+The primary structural innovation in DeciMark is the integration of the \textbf{Johnny.Decimal} (JD) organizational system, developed by Johnny Noble (\url{https://johnnydecimal.com}) \citep{johnnydecimal2021}.
  
 The JD system assigns every item in a collection a unique two-part numeric identifier in the format \texttt{AC.ID}, where:
  
@@ -437,7 +438,7 @@ This has several concrete advantages over free-form tagging:
     \item \textbf{IDs are sortable and filterable.} The numeric schema enables deterministic sorting and range-based filtering (e.g., display all items in Area \texttt{30-39}).
 \end{itemize}
  
-No existing bookmark manager on the market integrates this system as a native field. This is the primary differentiating feature of BookmarkJD.
+No existing bookmark manager on the market integrates this system as a native field. This is the primary differentiating feature of DeciMark.
  
 \subsection{Features Adopted from Existing Tools}
  
