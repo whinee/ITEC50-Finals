@@ -23,7 +23,7 @@ async def register(user: UserReg, response: Response):
             details="E-mail Error",
             message="E-mail already used. Try again.",
         )
-    
+
     emails.append(user.email)
 
     if DB.get(user.username):

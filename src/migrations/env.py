@@ -1,18 +1,22 @@
+# ruff: file-ignore[F401, ARG001]
 import sys
-import os
-
 from logging.config import fileConfig
 
 from alembic import context
+from alltheutils.utils import parent_dir_nth_times
 from sqlalchemy import engine_from_config, pool
 from sqlmodel import SQLModel
-from alltheutils.utils import parent_dir_nth_times
 
 sys.path.insert(0, parent_dir_nth_times(__file__, 3))
 
 from src.config import env
-from src.models.db import User, Bookmark, Tag, JDNode, BookmarkTagJunction
-
+from src.models.db import (  # noqa: F401
+    Bookmark,  # type: ignore
+    BookmarkTagJunction,  # type: ignore
+    JDNode,  # type: ignore
+    Tag,  # type: ignore
+    User,  # type: ignore
+)
 
 env.load_environment()
 
@@ -74,9 +78,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

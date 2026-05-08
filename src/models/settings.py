@@ -1,8 +1,8 @@
 from pydantic import BaseModel, ConfigDict
+from src.config.loader import load_environment
 
 from src.config.constants import STRINGS
 from src.config.env import optional, require
-from src.config.loader import load_environment
 from src.models.strings import Strings
 
 

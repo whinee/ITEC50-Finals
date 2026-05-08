@@ -48,6 +48,7 @@ app = FastAPI(
     middleware=middleware,
 )
 
+
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next) -> Any:  # type: ignore[no-untyped-def]
     try:
@@ -73,6 +74,7 @@ async def add_process_time_header(request: Request, call_next) -> Any:  # type: 
             message="Error occured",
             json={"traceback": traceback.format_exc()},
         )
+
 
 app.mount("/static/", StaticFiles(directory="src/static"), name="static")
 app.include_router(users.router, prefix="/users", tags=["users"])
@@ -108,17 +110,20 @@ async def code_get(request: Request, code: int):  # type: ignore[no-untyped-def]
 
 
 @app.post("/code/{code}")
-async def code_post(code: int): # type: ignore[no-untyped-def]
+async def code_post(code: int):  # type: ignore[no-untyped-def]
     return CustomResponse.json(status_code=code)
 
 
 @app.post("/webhook")
-async def handle_webhook(request: Request): # type: ignore[no-untyped-def]
+async def handle_webhook(request: Request):  # type: ignore[no-untyped-def]
     payload = await request.body()
     secret = settings.WEBHOOK_SECRET
     signature = request.headers.get("X-Hub-Signature-256")
-    exp_signature = "sha256=" + hmac.new(secret.encode("utf-8"), payload, hashlib.sha256).hexdigest()
-    if not hmac.compare_digest(exp_signature, signature): # type: ignore[type-var]
+    exp_signature = (
+        "sha256="
+        + hmac.new(secret.encode("utf-8"), payload, hashlib.sha256).hexdigest()
+    )
+    if not hmac.compare_digest(exp_signature, signature):  # type: ignore[type-var]
         raise HTTPException(status_code=403, detail="Invalid signature")
     subprocess.Popen(f"kill -9 {os.getpid()}", shell=True)  # noqa: S602
     return {"message": "Webhook received successfully!"}

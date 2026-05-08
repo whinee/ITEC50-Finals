@@ -1,5 +1,9 @@
 # DeciMark
 
+## License
+
+See [LICENSE.md](./LICENSE.md) for more details. Please read carefully as the project is multi-licensed. If in doubt, do not hesitate to contact me and inquire about licensing.
+
 ## Initial setup
 
 Requires [direnv](https://direnv.net/).
@@ -17,9 +21,19 @@ source .venv
 ```
 
 ```sh
-alembic init src/migrations
+just start-db
 ```
 
 ```sh
-ENV=development uv run alembic revision --autogenerate -m "init"
+just create-db
+```
+
+Run the following command if you need to re-initialize `src/migrations`:
+
+```sh
+just alembic init src/migrations
+```
+
+```sh
+just run alembic revision --autogenerate -m "init"
 ```

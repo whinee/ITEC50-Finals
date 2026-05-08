@@ -34,6 +34,7 @@ DEFAULT_ERROR = {
     7: True,
 }
 
+
 def fetch_flash(request: Request):
     return request.session.pop("_messages") if "_messages" in request.session else []
 
@@ -46,6 +47,7 @@ HTTPStrings = STRINGS.http
 HTTPCodeStrings = HTTPStrings.code
 HTTPGroupStrings = HTTPStrings.group
 
+
 def normalize_http_status(code: int) -> int:
     group = code // 100
     if group == 1:
@@ -53,6 +55,7 @@ def normalize_http_status(code: int) -> int:
     if group == 7:
         return 500
     return code
+
 
 def extract_prioritized(
     source: BaseModel,
@@ -68,6 +71,7 @@ def extract_prioritized(
 
     return picked, rest
 
+
 def build_status_meta(status_code: int) -> dict[str, Any]:
     code_group = str(status_code // 100)
     code_key = str(status_code)
@@ -78,7 +82,10 @@ def build_status_meta(status_code: int) -> dict[str, Any]:
 
     ci, remaining_code_info = extract_prioritized(code_info, STATUS_KEY_PRIORITY)
 
-    group_info = HTTPGroupStrings.get(code_group, HTTPGroupString(phrase="", description="", spec="", spec_link=""))
+    group_info = HTTPGroupStrings.get(
+        code_group,
+        HTTPGroupString(phrase="", description="", spec="", spec_link=""),
+    )
     gi, remaining_group = extract_prioritized(group_info, STATUS_KEY_PRIORITY)
 
     subgroup = group_info.subgroup
@@ -201,4 +208,3 @@ class CustomResponse:
             )
 
         return inner
-
