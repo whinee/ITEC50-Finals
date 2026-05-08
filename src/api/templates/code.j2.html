@@ -4,7 +4,7 @@
 {% endblock head %}
 {% block body %}
     <div class="terminal">
-        <h1>Code <span class="code">{{ status.pop('code') }}</span></h1>
+        <h1>HTTP Code <span class="code">{{ status.pop('code') }}</span></h1>
         {% for k, v in content.items() %}
             <p class="op">{{ k }}: {{ v }}</p>
         {% endfor %}

@@ -7,8 +7,10 @@ pyenv/
 
 # User-ignored Files
 .env
+*/*.bbl-SAVE-ERROR
 
-# Created by https://www.toptal.com/developers/gitignore/api/latex,node,python
+# Created by 
+
 # Edit at https://www.toptal.com/developers/gitignore?templates=latex,node,python
 
 ### LaTeX ###

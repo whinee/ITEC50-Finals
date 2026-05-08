@@ -63,12 +63,17 @@
 \newfontfamily{\LatinModernRoman}{Latin Modern Roman}
 
 \setmainfont[
-  Path=assets/static/fonts/,
-  UprightFont = *,
-  BoldFont    = *-Bold,
+    Path=fonts/,
+    UprightFont = *-Regular,
+    BoldFont    = *-Bold,
 ]{Arial}
 
-\setmonofont[Path=assets/static/fonts/,Scale=0.9]{ComicMono.ttf}
+\setmonofont[
+    Path=fonts/,
+    Scale=0.9,
+    UprightFont = *-Regular,
+    BoldFont    = *-Bold,
+]{ComicMono}
 
 \hyphenpenalty=9999
 \exhyphenpenalty=10000
@@ -454,7 +459,25 @@ The following features present in existing tools were intentionally omitted from
     \item \textbf{Browser extension}---extension APIs are browser-specific and platform-dependent, placing them outside the course's technology constraints.
     \item \textbf{Full-text page archiving}---requires a server-side crawler; not feasible in a purely static implementation.
 \end{itemize}
+
+\chapter{Preface to the Reflection}
+
+I want to be upfront about something before you read any of this: I was not always this way about coding.
  
+There was a time when I did it purely because I loved it. Open source contributions, small projects, learning something new every day --- not because anyone needed me to, not because my medication costs 700 pesos every two days and someone has to cover it, but just because it was fun. It was my first love. And then, because of circumstances largely outside my control, I was pushed to monetize it before I was ready. It became survival. And somewhere in that transition, I lost the plot a little.
+ 
+I say this because it explains, at least partially, why I reacted the way I did to a group of first-year students I had known for less than 48 hours.
+ 
+They had the sparkle. The ambition, the optimism, the whole universe of ideas and dreams that comes with being at the beginning of something. And I, having lost that somewhere along the way, did not handle it gracefully. I saw their optimism and called it naivety. I saw their excitement and called it poor scope management. And I was not entirely wrong --- the technical concerns in this document are real --- but I was not entirely right either, because being technically correct is not the same as being a good collaborator.
+ 
+Here is what I genuinely regret: I robbed myself of the opportunity to actually collaborate with them. To remember what it felt like to be excited about something for no reason other than the excitement itself. Instead, I got rigid, I got frustrated, and I got clinical about it --- which, in fairness, produced this document, so it was not entirely unproductive. But still.
+ 
+They hurt my credibility by dismissing concerns I had earned the right to raise. I hurt their confidence by treating their beginning like a deficiency. The damage is done, on both sides, and I own my share of it.
+ 
+What I can say is this: the arguments that follow are honest, and the engineering principles are sound, and the self-reflection is as genuine as I could make it. But they were also written by someone who is tired, and jaded, and still quietly grieving a version of herself that coded for fun --- and who took that grief out, at least partly, on a group of first-year students who just wanted to build something together.
+ 
+They were not wrong to want that. I just forgot, briefly, that wanting to build something together was once enough of a reason.
+
 %=============================================================
 \chapter{Reflection}
 %=============================================================
