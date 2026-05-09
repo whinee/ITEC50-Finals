@@ -26,24 +26,6 @@
 \usepackage{float}
 \usepackage{pdfpages}
 \usepackage{metalogo}
-\usepackage[%
-    backend=biber,
-    %style=authoryear,
-    style=apa, 
-    citestyle=authoryear,
-    sorting=nyt,
-    sortcites=true,
-    block=none,
-    indexing=true,
-    citereset=none,
-    isbn=true,
-    url=true,
-    doi=true,
-    natbib=true,
-    dateabbrev=false,
-    alldates=long,
-    eprint=true,
-]{biblatex}
 
 \definecolor{accentgray}{RGB}{80, 80, 80}
 
@@ -226,11 +208,13 @@
 
 \chapter{Project Overview}
 
-\textbf{DeciMark} is a browser-based \textit{Bookmark Link Manager} --- a client-side web application that enables users to save, organize, retrieve, and annotate URLs using the \textbf{Johnny.Decimal} classification system. It requires no server, no account, and no installation, running entirely as a static \texttt{HTML/CSS/JS} artifact in any modern browser. Target users are students and professionals who need structured, consistent link organization without the overhead of cloud-dependent platforms.
+\textbf{DeciMark} is a \textit{Bookmark Link Manager} --- a web application that enables users to save, organize, retrieve, and annotate URLs using the \textbf{Johnny.Decimal} classification system. The application is server-backed with a full database layer, and requires an account to use. No client-side installation is required --- users access DeciMark entirely through a browser, with all complexity contained on the server side.
+
+Target users are students and professionals who need structured, consistent link organization without the entropy of free-form tagging systems. In later development stages, DeciMark is planned to be distributable as a portable installable --- \texttt{.exe}, \texttt{.msi}, or \texttt{.AppImage} --- for users who prefer self-hosting without a full server setup.
 
 \chapter{Current Progress}
 
-Conceptualization and competitive analysis are complete. Core design philosophy and feature differentiation from existing tools --- including Pinboard, linkding, and Raindrop.io --- have been fully documented. The Johnny.Decimal classification scheme has been selected and justified as the primary organizational model, and the project's scope has been deliberately bounded to a zero-dependency, offline-first static implementation.
+Conceptualization and competitive analysis are complete. Core design philosophy and feature differentiation from existing tools --- including Pinboard, linkding, and Raindrop.io --- have been fully documented. The Johnny.Decimal classification scheme has been selected and justified as the primary organizational model. The project scope has evolved from an initial static concept into a full server-backed implementation, with user accounts and a persistent database layer.
 
 \chapter{Planned Tasks}
 
@@ -238,30 +222,35 @@ Conceptualization and competitive analysis are complete. Core design philosophy 
     \item Implementation of the card-based UI with list-view toggle
     \item Johnny.Decimal ID field integration and range-based filtering
     \item Tag support and multi-attribute search functionality
-    \item JSON-based local data persistence
+    \item User account system and authentication
+    \item Cloud synchronization of bookmark data across sessions
+    \item Persistent database integration
     \item Final polish, accessibility improvements, and export functionality
+    \item Long-term: portable distribution as \texttt{.exe}, \texttt{.msi}, and \texttt{.AppImage}
 \end{itemize}
 
 \chapter{Tools and Technologies}
 
 \begin{itemize}
-    \item \textbf{Languages:} HTML, CSS, JavaScript, Python
+    \item \textbf{Frontend:} HTML, CSS, JavaScript
+    \item \textbf{Backend:} Python, FastAPI
+    \item \textbf{Database:} PostgreSQL, SQLModel, Alembic (migrations)
+    \item \textbf{Authentication:} JWT, itsdangerous, bcrypt
     \item \textbf{Design reference:} Johnny.Decimal organizational system (\url{https://johnnydecimal.com})
-    \item \textbf{No external frameworks or backend dependencies} --- by design
 \end{itemize}
 
 \chapter{Challenges / Concerns}
+
 Working as a sole member required managing all responsibilities --- research, design, documentation, and implementation --- independently. This was not without its silver linings, however. A concurrent hackathon project provided substantial hands-on experience in full-stack development, database architecture, backend frameworks, and deployment pipelines, all of which have meaningfully deepened my understanding of web systems at a level that directly informs the execution of DeciMark.
 
 \chapter{Additional Notes}
 
 It was not all in vain.
 
-The hackathon experience --- undertaken in parallel with this course --- resulted in the development of \textbf{Pebble Recall}, a full-stack psychiatric care companion application built with Python, FastAPI, SQLModel, PostgreSQL, and Jinja2, deployed live at \url{https://pebble-recall.lyra-on.top}.
+The hackathon experience --- undertaken in parallel with this course --- resulted in the development of \textbf{Pebble Recall}, a full-stack psychiatric care companion application built with Python, FastAPI, SQLModel, PostgreSQL, and Jinja2, stored at \url{https://github.com/phasmolysis-team/phasmolysis-pebble-recall} and deployed live at \url{https://pebble-recall.lyra-on.top}.
 
 Pebble Recall placed \textbf{\#1 in judge's choice} and \textbf{\#1 in community vote} out of more than 140 competing teams, winning the \textbf{₱20,000 grand prize}.
 
-The skills developed over the course of that project --- including database migration with Alembic, asynchronous backend architecture, authentication systems, and full deployment pipelines --- will directly strengthen the technical execution of DeciMark going forward.
-The detour, it turns out, was not a detour at all.
+The skills developed over the course of that project --- including database migration with Alembic, asynchronous backend architecture, authentication systems, and full deployment pipelines --- are not merely adjacent to DeciMark. They are directly applicable to it. The detour, it turns out, was not a detour at all.
 
 \end{document}
