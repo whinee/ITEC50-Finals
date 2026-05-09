@@ -1,0 +1,267 @@
+\documentclass[11pt,a4paper]{book}
+\usepackage[margin=1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{setspace}
+\usepackage{parskip}
+\usepackage{csquotes}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fontspec}
+\usepackage{etoolbox} % for patchcmd
+\usepackage[compact]{titlesec}
+\usepackage{minted}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{etoolbox}
+\usepackage{framed}
+\usepackage{float}
+\usepackage{pdfpages}
+\usepackage{metalogo}
+\usepackage[%
+    backend=biber,
+    %style=authoryear,
+    style=apa, 
+    citestyle=authoryear,
+    sorting=nyt,
+    sortcites=true,
+    block=none,
+    indexing=true,
+    citereset=none,
+    isbn=true,
+    url=true,
+    doi=true,
+    natbib=true,
+    dateabbrev=false,
+    alldates=long,
+    eprint=true,
+]{biblatex}
+
+\definecolor{accentgray}{RGB}{80, 80, 80}
+
+\onehalfspacing
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{\thepage} % Put page number in center footer
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=accentgray,
+}
+
+\newfontfamily{\LatinModernRoman}{Latin Modern Roman}
+
+\setmainfont[
+    Path=fonts/,
+    UprightFont = *-Regular,
+    BoldFont    = *-Bold,
+]{Arial}
+
+\setmonofont[
+    Path=fonts/,
+    Scale=0.9,
+    UprightFont = *-Regular,
+    BoldFont    = *-Bold,
+]{ComicMono}
+
+\hyphenpenalty=9999
+\exhyphenpenalty=10000
+\sloppy
+\renewcommand{\arraystretch}{1.5}
+\setlength{\emergencystretch}{4em}
+\setlength{\parskip}{1em}
+\AtBeginEnvironment{tabular}{\fontsize{10}{12}\selectfont}
+\titleformat{\chapter}[display]{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{-0.5em}{\Huge}
+\titlespacing*{\chapter}
+  {0pt}    % left margin
+  {-5em}    % space before
+  {-0.5em}    % space after
+\setlength{\parindent}{0pt}
+
+\renewcommand{\contentsname}{Table of Contents}
+
+\lstdefinestyle{text}{
+    basicstyle=\ttfamily\color{black},
+    breaklines=true,
+}
+
+\definecolor{white}{HTML}{ffffff}
+\definecolor{purple}{HTML}{a68cd9}
+
+\makeatletter
+
+% PATCH: CHAPTER
+\patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
+\let\old@chapter\chapter
+\renewcommand{\chapter}{%
+  \ifdim\pagetotal=0pt % remove margin if it's at top of page
+    \vspace*{-2.5em}
+  \fi
+  \@ifstar
+    {\old@chapter*}
+    {\old@chapter}%
+}
+\titleformat{\chapter} % or [block]
+  {\normalfont\LARGE\bfseries}
+  {\thechapter}{0.625em}{}
+\titlespacing*{\chapter}
+  {0pt}    % left margin
+  {0em}    % space before
+  {-0.5em}    % space after
+
+\makeatother
+
+\usemintedstyle{tango}
+\newcommand{\inputmintedstyled}[2]{%
+  \inputminted[
+    fontsize=\small,
+    fontfamily=tt,
+    bgcolor=white,
+    rulecolor=\color{purple},
+    linenos,
+    numbersep=10pt,
+    frame=single,
+    framesep=2mm,
+    breaklines,
+    tabsize=4,
+    breakafter=-/\{,
+    breakbefore=\,\\
+  ]{#1}{#2}%
+}
+
+\newcommand{\inputmintedstyledtwocolumns}[2]{%
+  \begin{multicols*}{2}
+  \inputminted[
+    fontsize=\small,
+    fontfamily=tt,
+    bgcolor=white,
+    rulecolor=\color{purple},
+    linenos,
+    numbersep=0pt,
+    frame=single,
+    framesep=2mm,
+    breaklines,
+    tabsize=4,
+    breakafter=-/\{,
+    breakbefore=\,\\
+  ]{#1}{#2}
+  \end{multicols*}%
+}
+
+\newcommand{\quotefont}{\rmfamily}
+
+\newcommand*\quotesize{80} % if quote size changes, need a way to make shifts relative
+% Make commands for the quotes
+\newcommand*{\openquote}
+   {\tikz[remember picture,overlay,xshift=-2.5ex,yshift=-4.5ex]
+   \node (OQ) {\quotefont\fontsize{\quotesize}{\quotesize}\selectfont``};\kern0pt}
+
+\newcommand*{\closequote}[1]
+  {\tikz[remember picture,overlay,xshift=2.5ex,yshift={#1}]
+   \node (CQ) {\quotefont\fontsize{\quotesize}{\quotesize}\selectfont''};}
+
+% select a colour for the shading
+\colorlet{shadecolor}{gray!10}
+
+\newcommand*\shadedauthorformat{\emph} % define format for the author argument
+
+% Now a command to allow left, right and centre alignment of the author
+\newcommand*\authoralign[1]{%
+  \if#1l
+    \def\authorfill{}\def\quotefill{\hfill}
+  \else
+    \if#1r
+      \def\authorfill{\hfill}\def\quotefill{}
+    \else
+      \if#1c
+        \gdef\authorfill{\hfill}\def\quotefill{\hfill}
+      \else\typeout{Invalid option}
+      \fi
+    \fi
+  \fi}
+% wrap everything in its own environment which takes one argument (author) and one optional argument
+% specifying the alignment [l, r or c]
+%
+\newenvironment{shadequote}[2][l]%
+{
+\vspace{1em}
+\authoralign{#1}
+ \ifblank{#2}
+   {\def\shadequoteauthor{}\def\yshift{-2ex}\def\quotefill{\hfill}}
+   {\def\shadequoteauthor{\par\authorfill\shadedauthorformat{#2}}\def\yshift{-2ex}}
+ \begin{snugshade}\vspace{0.5em}\begin{quote}\openquote}
+{\shadequoteauthor\quotefill\closequote{\yshift}\end{quote}\vspace{0.5em}\end{snugshade}%
+}
+
+\begin{document}
+
+\begin{center}
+{\large\bfseries ITEC 50: Web Systems and Technologies}
+
+{\large\bfseries Final Project --- Group Progress Update Report}
+
+\end{center}
+
+\vspace{1em}
+\hrule
+\vspace{1em}
+
+\noindent\textbf{Project Title:} DeciMark
+
+\textbf{Members:} Lyra Phasma
+\vspace{1.5em}
+\hrule
+\vspace{1em}
+
+\chapter{Project Overview}
+
+\textbf{DeciMark} is a browser-based \textit{Bookmark Link Manager} --- a client-side web application that enables users to save, organize, retrieve, and annotate URLs using the \textbf{Johnny.Decimal} classification system. It requires no server, no account, and no installation, running entirely as a static \texttt{HTML/CSS/JS} artifact in any modern browser. Target users are students and professionals who need structured, consistent link organization without the overhead of cloud-dependent platforms.
+
+\chapter{Current Progress}
+
+Conceptualization and competitive analysis are complete. Core design philosophy and feature differentiation from existing tools --- including Pinboard, linkding, and Raindrop.io --- have been fully documented. The Johnny.Decimal classification scheme has been selected and justified as the primary organizational model, and the project's scope has been deliberately bounded to a zero-dependency, offline-first static implementation.
+
+\chapter{Planned Tasks}
+
+\begin{itemize}
+    \item Implementation of the card-based UI with list-view toggle
+    \item Johnny.Decimal ID field integration and range-based filtering
+    \item Tag support and multi-attribute search functionality
+    \item JSON-based local data persistence
+    \item Final polish, accessibility improvements, and export functionality
+\end{itemize}
+
+\chapter{Tools and Technologies}
+
+\begin{itemize}
+    \item \textbf{Languages:} HTML, CSS, JavaScript, Python
+    \item \textbf{Design reference:} Johnny.Decimal organizational system (\url{https://johnnydecimal.com})
+    \item \textbf{No external frameworks or backend dependencies} --- by design
+\end{itemize}
+
+\chapter{Challenges / Concerns}
+Working as a sole member required managing all responsibilities --- research, design, documentation, and implementation --- independently. This was not without its silver linings, however. A concurrent hackathon project provided substantial hands-on experience in full-stack development, database architecture, backend frameworks, and deployment pipelines, all of which have meaningfully deepened my understanding of web systems at a level that directly informs the execution of DeciMark.
+
+\chapter{Additional Notes}
+
+It was not all in vain.
+
+The hackathon experience --- undertaken in parallel with this course --- resulted in the development of \textbf{Pebble Recall}, a full-stack psychiatric care companion application built with Python, FastAPI, SQLModel, PostgreSQL, and Jinja2, deployed live at \url{https://pebble-recall.lyra-on.top}.
+
+Pebble Recall placed \textbf{\#1 in judge's choice} and \textbf{\#1 in community vote} out of more than 140 competing teams, winning the \textbf{₱20,000 grand prize}.
+
+The skills developed over the course of that project --- including database migration with Alembic, asynchronous backend architecture, authentication systems, and full deployment pipelines --- will directly strengthen the technical execution of DeciMark going forward.
+The detour, it turns out, was not a detour at all.
+
+\end{document}

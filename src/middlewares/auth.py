@@ -1,11 +1,11 @@
 from typing import Annotated
 
-from app.schemas.cookies import decode_encrypted_cookie
 from fastapi import Depends, HTTPException, Request
 from sqlmodel.ext.asyncio.session import AsyncSession
 from starlette.status import HTTP_401_UNAUTHORIZED
 
 from src.db.main import get_session
+from src.models.cookies import decode_encrypted_cookie
 from src.security.jwt_service import JwtService, get_jwt_service
 
 

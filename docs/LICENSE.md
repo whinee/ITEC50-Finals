@@ -8,6 +8,7 @@ This repository is multi-licensed:
   - `src/config/settings.py`
   - `src/middlewares/auth.py`
   - `src/models/cookies.py`
+  - `src/models/users.py`
   - `.direnvrc.uv`
   - `.envrc`
   - `alembic.ini`

@@ -244,9 +244,9 @@
  
 \section{Website Type \& Purpose}
  
-\textbf{DeciMark} is a browser-based \textit{Bookmark Link Manager}---a client-side web application that enables users to save, organize, retrieve, and annotate URLs. According to \citet{abrams1998web}, it belongs to the broader category of \textit{Personal Information Management} (PIM) systems, specifically the subcategory of social and personal bookmarking tools .
+\textbf{DeciMark} is a \textit{Bookmark Link Manager}---a web application that enables users to save, organize, retrieve, and annotate URLs. According to \citet{abrams1998web}, it belongs to the broader category of \textit{Personal Information Management} (PIM) systems, specifically the subcategory of social and personal bookmarking tools.
  
-The application requires no server, no account, and no installation. It runs entirely as a static \texttt{HTML/CSS/JS} artifact in any modern browser, making it immediately accessible to students and professionals alike.
+The application is server-backed with a full database layer and requires a user account. No client-side installation is required: users access DeciMark entirely through a browser, with all infrastructure complexity contained on the server side. In later development stages, DeciMark is planned to be distributable as a portable installable---\texttt{.exe}, \texttt{.msi}, or \texttt{.AppImage}---for users who prefer self-hosting without a full server environment.
  
 \subsection{Why Bookmark Management Is Essential in Professional Contexts}
  
@@ -267,7 +267,6 @@ Users spend most of their time on other sites. This means that users prefer your
  
 This principle extends to \textit{information architecture}: users expect to find things where they expect them. A bookmark manager without a coherent organizational scheme violates this expectation at scale.
  
-% ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
 \section{Existing Professional Examples}
  
 The following two platforms were selected as primary reference points because they represent opposite ends of the bookmark manager design spectrum: one prizing radical minimalism, the other prizing self-sovereignty.
@@ -299,15 +298,13 @@ Pinboard's design philosophy of deliberate minimalism, while coherent, produces 
     \item \textbf{No collaborative features.} Beyond making individual pins public, Pinboard offers no team workspaces, shared collections, or multi-user permission systems.
 \end{itemize}
  
-Most critically: as of late 2024, Pinboard entered a period of significant operational decline. The service is maintained by a single developer who became largely unresponsive to support inquiries, with users reporting increasing downtime, throttled API access (limiting downloads to 100 pins at a time despite users holding tens of thousands of pins), and no public roadmap \citep{tsai2024pinboard}. Long-time subscribers publicly migrated to alternatives.
+Most critically: as of late 2024, Pinboard entered a period of significant operational decline. The service is maintained by a single developer who became largely unresponsive to support inquiries, with users reporting increasing downtime, throttled API access, and no public roadmap \citep{tsai2024pinboard}. Long-time subscribers publicly migrated to alternatives.
  
 \begin{shadequote}[l]{Michael Tsai \textcite{tsai2024pinboard}}
 Pinboard is a one person show and that person is no longer responding to support emails. Maciej is no longer active on social media that I know of. His Pinboard.in support forum has been quiescent for years.
 \end{shadequote}
  
-This is a meaningful lesson in the fragility of single-maintainer SaaS dependencies---and a direct motivation for our \textit{offline-first, zero-dependency} architecture.
- 
-% ──
+This is a meaningful lesson in the fragility of single-maintainer SaaS dependencies---and a direct motivation for DeciMark's self-hostable architecture.
  
 \subsection{linkding}
  
@@ -335,8 +332,6 @@ This is a meaningful lesson in the fragility of single-maintainer SaaS dependenc
     \item \textbf{No link metadata enrichment.} Beyond a title and description scraped at save-time, no visual preview or favicon resolution is performed.
 \end{itemize}
  
-% ──
- 
 \subsection{Raindrop.io (Additional Reference)}
  
 \textbf{Raindrop.io} (\url{https://raindrop.io}) was examined as a third reference point representing the premium, cloud-hosted segment of the market. It offers a substantially more visual and feature-rich experience than either Pinboard or linkding \citep{raindropio2024}.
@@ -358,11 +353,10 @@ This is a meaningful lesson in the fragility of single-maintainer SaaS dependenc
 \begin{itemize}
     \item \textbf{No structured numeric classification.} Folder naming is entirely user-defined with no enforced schema. Two team members will inevitably use different naming conventions \citep{jones2007keeping}.
     \item \textbf{Key features are paywalled.} Nested collections, full-text search, and permanent caching require a Pro subscription at \$28/year, which is a barrier for student use \citep{raindropio2024}.
-    \item \textbf{Cloud-only, no offline mode.} Raindrop.io has no local-first or offline-capable mode; all data is held on their servers.
+    \item \textbf{Cloud-only, no self-hosting option.} Raindrop.io has no self-hostable mode; all data is held on their servers with no operator control.
     \item \textbf{Overengineered for constrained use cases.} For a student team or small business needing only structured, consistent categorization, Raindrop.io introduces organizational surface area without enforcing organizational discipline.
 \end{itemize}
  
-% ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
 \section{Competitor Comparison Matrix}
  
 Table \ref{tab:competitor-matrix} summarizes the feature gaps across all three reference platforms relative to our project's design goals.
@@ -381,31 +375,34 @@ Org. model             & Flat tags         & Flat tags         & Folders + tags 
 \hline
 JD numeric system      & None              & None              & None                 & \textbf{Built-in} \\
 \hline
-Free \& accessible     & Paid only         & Self-host (Docker)& Freemium             & Static HTML (no server) \\
+User accounts          & Yes               & Yes (admin)       & Yes                  & Yes \\
 \hline
-Service reliability    & Declining (2024)  & Stable            & Stable               & Offline-first \\
+Client-side install    & None required     & None required     & None required        & None required \\
+\hline
+Self-hostable          & No                & Yes (Docker)      & No                   & Yes \\
+\hline
+Service reliability    & Declining (2024)  & Stable            & Stable               & Self-hosted \\
 \hline
 Mobile responsive      & Poor              & Basic             & Good                 & Mobile-first \\
 \hline
-Setup complexity       & Low               & High (Docker)     & Low                  & Zero (open file) \\
+Portable distribution  & No                & No                & No                   & Planned (.exe/.AppImage) \\
 \hline
 Collaborative use      & Public pins only  & Multi-user (admin)& Pro tier             & Scoped by JD area \\
 \hline
 \end{tabular}
 \end{table}
  
-% ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ── ──
 \section{Our Project: DeciMark}
  
 \subsection{Design Philosophy \& Differentiation}
  
-DeciMark does not attempt to replicate the full feature surface of any single existing tool. Instead, it occupies a deliberate gap: a \textit{zero-dependency, visually structured, schema-enforced} bookmark manager that any user can open in a browser without an account, a server, or a subscription.
+DeciMark does not attempt to replicate the full feature surface of any single existing tool. Instead, it occupies a deliberate gap: a \textit{visually structured, schema-enforced, self-hostable} bookmark manager that any user can access through a browser without installing anything on their machine---while giving operators full control over their own data and infrastructure.
  
 The three founding design principles are:
  
 \begin{enumerate}
     \item \textbf{Structural discipline over organizational freedom.} Free-form tags and arbitrary folder names produce entropy over time. DeciMark enforces the Johnny.Decimal classification scheme as a first-class field on every bookmark, ensuring consistent addressability across users and sessions.
-    \item \textbf{Zero barrier to entry.} The application is a static \texttt{index.html} file. It runs offline, requires no backend, and degrades gracefully across browsers.
+    \item \textbf{Zero client-side friction.} The application is accessed through a browser. End users install nothing. All infrastructure complexity lives on the server, where it belongs.
     \item \textbf{Visual clarity without visual bloat.} A card-based layout with list-view toggle provides the visual orientation that Pinboard and linkding lack, without the complexity of Raindrop.io's full platform.
 \end{enumerate}
  
@@ -449,16 +446,17 @@ Where existing tools already solve a problem well, we adopt rather than reinvent
     \item \textbf{Card-based visual layout}---inspired by Raindrop.io's grid view, which we identified as the most effective at-a-glance organization model. This is implemented as the primary view mode.
     \item \textbf{Multi-attribute search and filter}---combining linkding's keyword search speed with Raindrop.io's filtering by multiple attributes (tag, JD ID range, keyword).
     \item \textbf{Minimalist interface}---Pinboard's commitment to speed and the absence of unnecessary UI chrome informed our visual design restraint.
+    \item \textbf{User accounts and persistent data}---adopted from linkding and Raindrop.io. Bookmark collections are tied to authenticated user accounts and persisted in a database, enabling access from any device without client-side storage.
 \end{itemize}
  
 \subsection{Features Deliberately Excluded}
  
-The following features present in existing tools were intentionally omitted from the MVP scope:
+The following features present in existing tools were intentionally omitted from the current MVP scope:
  
 \begin{itemize}
-    \item \textbf{Cloud synchronization / user accounts}---adds backend complexity that is out of scope for a client-side \texttt{HTML/CSS/JS} implementation.
-    \item \textbf{Browser extension}---extension APIs are browser-specific and platform-dependent, placing them outside the course's technology constraints.
-    \item \textbf{Full-text page archiving}---requires a server-side crawler; not feasible in a purely static implementation.
+    \item \textbf{Browser extension}---extension APIs are browser-specific and platform-dependent, placing them outside the current implementation scope. Planned for a future release.
+    \item \textbf{Full-text page archiving}---requires a server-side crawler with significant storage overhead. Out of scope for the current iteration.
+    \item \textbf{Portable distribution}---\texttt{.exe}, \texttt{.msi}, and \texttt{.AppImage} packaging is planned for later development stages to support self-hosting without a full server environment.
 \end{itemize}
 
 \chapter{Preface to the Reflection}
@@ -803,4 +801,3 @@ And some people, it turns out, will only pick up the tools after the person who 
 \printbibliography
  
 \end{document}
-
