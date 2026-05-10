@@ -2,7 +2,7 @@
 
 ## License
 
-See [LICENSE.md](./LICENSE.md) for more details. Please read carefully as the project is multi-licensed. If in doubt, do not hesitate to contact me and inquire about licensing.
+See [LICENSE.md](./LICENSE.md) for more details. Please read carefully as the project is dual-licensed. If in doubt, do not hesitate to contact me and inquire about licensing.
 
 ## Initial setup
 

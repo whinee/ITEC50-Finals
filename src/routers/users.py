@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, Form, Request, Response
 from fastapi.responses import HTMLResponse
 
 from src.middlewares import auth
-from src.models.user import UserReg, comp_pw, hash_pw
+from src.models.users import UserReg, comp_pw, hash_pw
 from src.utils import TEMPLATES, CustomResponse
 
 router = APIRouter()

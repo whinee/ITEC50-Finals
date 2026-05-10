@@ -1,5 +1,5 @@
 from collections.abc import Mapping
-from typing import Any, Protocol
+from typing import Any, Literal, Protocol
 
 from fastapi import Request
 from fastapi.responses import UJSONResponse
@@ -39,7 +39,7 @@ def fetch_flash(request: Request):
     return request.session.pop("_messages") if "_messages" in request.session else []
 
 
-TEMPLATES = Jinja2Templates(directory="src/api/templates")
+TEMPLATES = Jinja2Templates(directory="src/templates")
 TEMPLATES.env.globals["fetch_flash"] = fetch_flash
 
 
@@ -109,12 +109,13 @@ class TemplateInnerCallable(Protocol):
     def __call__(
         self,
         message: str,
-        category: str = "primary",
+        category: Literal["primary", "danger", "success"] = "primary",
         context: dict[str, Any] | None = None,
         status_code: int = 200,
         headers: Mapping[str, str] | None = None,
         media_type: str | None = None,
         background: BackgroundTask | None = None,
+        cookie_params: dict[str, Any] | None = None,
     ) -> Jinja2Templates.TemplateResponse: ...
 
 
@@ -185,19 +186,20 @@ class CustomResponse:
     ) -> TemplateInnerCallable:
         def inner(
             message: str,
-            category: str = "primary",
+            category: Literal["primary", "danger", "success"] = "primary",
             context: dict[str, Any] | None = None,
             status_code: int = 200,
             headers: Mapping[str, str] | None = None,
             media_type: str | None = None,
             background: BackgroundTask | None = None,
+            cookie_params: dict[str, Any] | None = None,
         ) -> Jinja2Templates.TemplateResponse:
             if "_messages" not in request.session:
                 request.session["_messages"] = []
             request.session["_messages"].append(
                 {"message": message, "category": category},
             )
-            return TEMPLATES.TemplateResponse(
+            response = TEMPLATES.TemplateResponse(
                 request=request,
                 name=tpl,
                 context=context,
@@ -206,5 +208,11 @@ class CustomResponse:
                 media_type=media_type,
                 background=background,
             )
+
+            if cookie_params:
+                for key, value in cookie_params.items():
+                    response.set_cookie(key, value)
+
+            return response
 
         return inner

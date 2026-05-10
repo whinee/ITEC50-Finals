@@ -25,4 +25,4 @@ def load_constants[BM: BaseModel](raw_path: str, model: type[BM]) -> BM:
     return type_adapter.validate_python(data)
 
 
-STRINGS = load_constants("src/api/config/values/strings.yml", Strings)
+STRINGS = load_constants("src/config/values/strings.yml", Strings)

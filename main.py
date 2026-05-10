@@ -13,9 +13,9 @@ from fastapi.staticfiles import StaticFiles
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
 
+from src.api import auth
 from src.config import env
-from src.models.settings import settings
-from src.routers import users
+from src.config.settings import settings
 from src.utils import TEMPLATES, CustomResponse
 
 description = """
@@ -27,8 +27,9 @@ env.load_environment()
 security = HTTPBasic()
 
 middleware = [
-    Middleware(SessionMiddleware, secret_key=settings.JWT_SECRET),  # type: ignore
+    Middleware(SessionMiddleware, secret_key=settings.AUTH.JWT_SECRET),  # type: ignore
 ]
+
 app = FastAPI(
     title="Lyra-on.top",
     description=description,
@@ -37,11 +38,11 @@ app = FastAPI(
     contact={
         "name": "Lyra Phasma",
         "url": "https://lyra-on.top",
-        "email": "whinyaan@disroot.org",
+        "email": "lyraphasma@gmail.com",
     },
     license_info={
-        "name": "MIT",
-        "url": "https://choosealicense.com/licenses/mit/",
+        "name": "Custom Dual-License",
+        "url": "https://github.com/whinee/ITEC50-Finals/blob/main/docs/LICENSE.md",
     },
     docs_url=None,
     redoc_url=None,
@@ -77,7 +78,7 @@ async def add_process_time_header(request: Request, call_next) -> Any:  # type: 
 
 
 app.mount("/static/", StaticFiles(directory="src/static"), name="static")
-app.include_router(users.router, prefix="/users", tags=["users"])
+app.include_router(auth.router, prefix="/auth", tags=["auth"])
 
 
 @app.get("/{page}")
@@ -117,7 +118,7 @@ async def code_post(code: int):  # type: ignore[no-untyped-def]
 @app.post("/webhook")
 async def handle_webhook(request: Request):  # type: ignore[no-untyped-def]
     payload = await request.body()
-    secret = settings.WEBHOOK_SECRET
+    secret = settings.AUTH.WEBHOOK_SECRET
     signature = request.headers.get("X-Hub-Signature-256")
     exp_signature = (
         "sha256="

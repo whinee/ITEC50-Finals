@@ -1,32 +1,35 @@
-from app.middlewares.auth import check_if_logged_in, get_session_cookie
-from app.core.security.jwt_service import JwtService, Claims, get_jwt_service
-from sqlalchemy.exc import NoResultFound
-from datetime import UTC
 import datetime
-from starlette.status import (
-    HTTP_401_UNAUTHORIZED,
-    HTTP_500_INTERNAL_SERVER_ERROR,
-    HTTP_200_OK,
-    HTTP_409_CONFLICT,
-    HTTP_201_CREATED,
-    HTTP_406_NOT_ACCEPTABLE, HTTP_301_MOVED_PERMANENTLY,
-)
+from datetime import UTC
+from typing import Annotated, Literal
+
 from cryptography.exceptions import InvalidKey
-from src.security.kdf_pass import get_kdf
 from cryptography.hazmat.primitives.kdf.argon2 import Argon2id
-from app.models.users import Users, BaseUsers
+from fastapi import APIRouter, Depends, Form, HTTPException, Request, Response
+from pydantic import BaseModel
+from sqlalchemy.exc import NoResultFound
+from sqlmodel import or_, select
+from sqlmodel.ext.asyncio.session import AsyncSession
+from starlette.status import (
+    HTTP_200_OK,
+    HTTP_201_CREATED,
+    HTTP_301_MOVED_PERMANENTLY,
+    HTTP_401_UNAUTHORIZED,
+    HTTP_406_NOT_ACCEPTABLE,
+    HTTP_409_CONFLICT,
+    HTTP_500_INTERNAL_SERVER_ERROR,
+)
 
 from src.db.main import get_session
+from src.middlewares.auth import check_if_logged_in, get_session_cookie
 from src.models.cookies import (
+    decode_encrypted_cookie,
     set_default_cookie_params,
     set_default_cookie_params_with_encryption,
-    decode_encrypted_cookie,
 )
-from sqlmodel.ext.asyncio.session import AsyncSession
-from typing import Annotated, Literal
-from fastapi import APIRouter, Form, Depends, HTTPException, Response, Request
-from pydantic import BaseModel
-from sqlmodel import select, or_
+from src.models.users import BaseUsers, Users
+from src.security.jwt_service import Claims, JwtService, get_jwt_service
+from src.security.kdf_pass import get_kdf
+from src.utils import CustomResponse
 
 router = APIRouter()
 
@@ -47,29 +50,34 @@ async def login_user(
     data: Annotated[LoginData, Form()],
     is_logged_in: Annotated[bool, Depends(check_if_logged_in)],
 ):
+    flash = CustomResponse.template(request, "login.j2.html")
     if is_logged_in:
         raise HTTPException(
-            status_code=HTTP_406_NOT_ACCEPTABLE, detail="You must logout first."
+            status_code=HTTP_406_NOT_ACCEPTABLE, detail="You must logout first.",
         )
 
     statement = select(Users).where(
-        or_(Users.username == data.username, Users.email == data.username)
+        or_(Users.username == data.username, Users.email == data.username),
     )
     result = await session.exec(statement)
     try:
         user = result.one()
         kdf.verify_phc_encoded(data.password.encode(), user.password)
     except InvalidKey:
-        raise HTTPException(
-            status_code=HTTP_401_UNAUTHORIZED, detail="Username or password is invalid"
+        return flash(
+            "Username or password is invalid",
+            "danger",
+            status_code=HTTP_401_UNAUTHORIZED,
         )
     except NoResultFound:
-        raise HTTPException(
-            status_code=HTTP_401_UNAUTHORIZED, detail="Username or password is invalid"
+        return flash(
+            "Username or password is invalid",
+            "danger",
+            status_code=HTTP_401_UNAUTHORIZED,
         )
-    except BaseException:
-        raise HTTPException(
-            status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Something went wrong"
+    except BaseException:  # noqa: BLE001
+        return flash(
+            "Something went wrong", "danger", status_code=HTTP_500_INTERNAL_SERVER_ERROR,
         )
     issued_at = int(datetime.datetime.now(datetime.UTC).timestamp())
     expires_at = issued_at + (60 * 60 * 24)
@@ -82,9 +90,15 @@ async def login_user(
     )
 
     response.set_cookie(**cookie_params)
-    response.headers["Location"] = "/"
-    response.status_code = HTTP_301_MOVED_PERMANENTLY
-    return response
+    return flash(
+        "Username or password is invalid",
+        "success",
+        status_code=HTTP_301_MOVED_PERMANENTLY,
+        headers={
+            "Location": "/",
+        },
+        cookie_params=cookie_params,
+    )
 
 
 @router.get(path="/decrypt_cookie")
@@ -115,7 +129,7 @@ async def logout_user(
     jwt_token = decode_encrypted_cookie(session_cookie)
     if jwt_service.verify(jwt_token) is not None:
         cookie_params = set_default_cookie_params(name="session")
-        # NOTE: `delete_cookie` does not have the following params
+        # NOTE: `delete_cookie` does not have the following params:
         # - value
         # - expires
         del cookie_params["value"]
@@ -131,7 +145,7 @@ async def logout_user(
     "/register",
     status_code=HTTP_201_CREATED,
 )
-async def register_new_user(
+async def register_new_user(  # noqa: C901
     request: Request,
     session: Annotated[AsyncSession, Depends(get_session)],
     kdf: Annotated[Argon2id, Depends(get_kdf)],
@@ -140,12 +154,12 @@ async def register_new_user(
 ):
     if is_logged_in:
         raise HTTPException(
-            status_code=HTTP_406_NOT_ACCEPTABLE, detail="You must logout first."
+            status_code=HTTP_406_NOT_ACCEPTABLE, detail="You must logout first.",
         )
 
     if payload.username:
         statement = select(Users).where(
-            or_(Users.username == payload.username, Users.email == payload.email)
+            or_(Users.username == payload.username, Users.email == payload.email),
         )
     else:
         statement = select(Users).where(Users.email == payload.email)

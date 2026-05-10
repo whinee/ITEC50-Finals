@@ -1,0 +1,10 @@
+api:
+  description: |-
+    Lyra Phasma
+  contact:
+    name: Lyra Phasma
+    url: https://lyra-on.top
+    email: lyraphasma@gmail.com
+  license_info:
+    name: Custom Dual-License
+    url: https://github.com/whinee/ITEC50-Finals/blob/main/docs/LICENSE.md

@@ -22,7 +22,7 @@ def set_default_cookie_params(
     name: str,
     value: str = "",
     expires_at: datetime.datetime | None = None,
-) -> dict:
+) -> dict[str, Any]:
     cookie: dict[str, Any] = {}
     cookie["key"] = name
     cookie["value"] = value
@@ -39,7 +39,7 @@ def set_default_cookie_params_with_encryption(
     name: str,
     value: str = "",
     expires_at: datetime.datetime | None = None,
-):
+) -> dict[str, Any]:
     f = Fernet(settings.AUTH.COOKIE_SECRET.encode())
     token_bytes = f.encrypt(value.encode())
     token = base64.urlsafe_b64encode(token_bytes).decode(encoding="utf-8")

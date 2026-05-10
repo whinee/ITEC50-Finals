@@ -21,7 +21,8 @@ class AuthConfig(BaseModel):
 class Settings(BaseSettings):
     DEBUG: Annotated[bool, Field()] = False
     AUTH: Annotated[AuthConfig, Field()] = AuthConfig()
-    PG_URL: Annotated[str, Field()] = ""
+    PG_SYNC_URL: Annotated[str, Field()] = ""
+    PG_ASYNC_URL: Annotated[str, Field()] = ""
     ORIGINS: Annotated[str | set[str], Field()] = set()
     API_ROOT: Annotated[str, Field()] = "/api"
     PORT: Annotated[int, Field()] = 8080

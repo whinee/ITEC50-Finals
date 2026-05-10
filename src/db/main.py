@@ -4,19 +4,16 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from src.config import env
+from src.config.settings import settings
 
-DATABASE_URL = env.require("PG_URL")
-
-DB_PROTOCOL, DB_PARTIAL_URL = DATABASE_URL.split("+")
-
-SYNC_DATABASE_URL = "://".join([DB_PROTOCOL, DB_PARTIAL_URL.split("://")[1]])  # type: ignore
-
-# async engine for queries
-async_engine = create_async_engine(DATABASE_URL, echo=True)
+DATABASE_SYNC_URL = settings.PG_SYNC_URL
+DATABASE_ASYNC_URL = settings.PG_ASYNC_URL
 
 # sync engine ONLY for table creation
-sync_engine = create_engine(SYNC_DATABASE_URL)
+sync_engine = create_engine(DATABASE_SYNC_URL)
+
+# async engine for queries
+async_engine = create_async_engine(DATABASE_ASYNC_URL, echo=True)
 
 async_session = async_sessionmaker(
     async_engine,
