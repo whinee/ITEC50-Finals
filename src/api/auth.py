@@ -29,7 +29,7 @@ from src.models.cookies import (
 from src.models.users import BaseUsers, Users
 from src.security.jwt_service import Claims, JwtService, get_jwt_service
 from src.security.kdf_pass import get_kdf
-from src.utils import CustomResponse
+from src.utils.custom_response import CustomResponse
 
 router = APIRouter()
 
@@ -50,10 +50,11 @@ async def login_user(
     data: Annotated[LoginData, Form()],
     is_logged_in: Annotated[bool, Depends(check_if_logged_in)],
 ):
-    flash = CustomResponse.template(request, "login.j2.html")
+    flash = CustomResponse.template_flash(request, "login.j2.html")
     if is_logged_in:
         raise HTTPException(
-            status_code=HTTP_406_NOT_ACCEPTABLE, detail="You must logout first.",
+            status_code=HTTP_406_NOT_ACCEPTABLE,
+            detail="You must logout first.",
         )
 
     statement = select(Users).where(
@@ -77,7 +78,9 @@ async def login_user(
         )
     except BaseException:  # noqa: BLE001
         return flash(
-            "Something went wrong", "danger", status_code=HTTP_500_INTERNAL_SERVER_ERROR,
+            "Something went wrong",
+            "danger",
+            status_code=HTTP_500_INTERNAL_SERVER_ERROR,
         )
     issued_at = int(datetime.datetime.now(datetime.UTC).timestamp())
     expires_at = issued_at + (60 * 60 * 24)
@@ -154,7 +157,8 @@ async def register_new_user(  # noqa: C901
 ):
     if is_logged_in:
         raise HTTPException(
-            status_code=HTTP_406_NOT_ACCEPTABLE, detail="You must logout first.",
+            status_code=HTTP_406_NOT_ACCEPTABLE,
+            detail="You must logout first.",
         )
 
     if payload.username:

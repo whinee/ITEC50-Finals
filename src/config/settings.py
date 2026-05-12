@@ -1,4 +1,4 @@
-from typing import Annotated
+from typing import Annotated, Literal
 
 from pydantic import BaseModel, Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -19,6 +19,7 @@ class AuthConfig(BaseModel):
 
 
 class Settings(BaseSettings):
+    ENV: Annotated[Literal["development", "production", "test"], Field()] = "production"
     DEBUG: Annotated[bool, Field()] = False
     AUTH: Annotated[AuthConfig, Field()] = AuthConfig()
     PG_SYNC_URL: Annotated[str, Field()] = ""

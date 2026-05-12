@@ -90,6 +90,26 @@ nio_src:
 ruff:
     @ uv run ruff check src --fix; exit 0
 
+# Lint JS files
+[private]
+lint-js:
+    @ npx eslint "**/*.js" --fix; exit 0
+
+# Lint CSS files
+[private]
+lint-css:
+    @ npx prettier "src/static/stylesheets/*.css" --write; exit 0
+
+# Lint HTML files
+[private]
+lint-html:
+    @ npx htmlhint "**/*.html"; exit 0
+
+# Lint Jinja2 templates
+[private]
+lint-jinja:
+    @ uv run djlint ./src/templates --reformat --quiet; exit 0
+
 # Lint codebase
 lint:
     # just nio_dev
@@ -97,11 +117,17 @@ lint:
     uv run mdformat docs
     uv run black -q .
     just ruff
-
-# Run web app
-run:
-    ENV=development hypercorn main:app --reload --bind 0.0.0.0:8000 --workers 16
+    # just lint-js
+    just lint-css
+    # just lint-html
+    just lint-jinja
 
 # Run web app in a lightweight way
 dev:
-    ENV=development hypercorn main:app --reload --bind 0.0.0.0:8000 --workers 1
+    hypercorn main:app --reload --bind 0.0.0.0:8000 --workers 1
+
+# Run web app
+run:
+    hypercorn main:app --reload --bind 0.0.0.0:8000 --workers 16
+
+

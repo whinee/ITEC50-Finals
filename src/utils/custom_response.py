@@ -3,36 +3,17 @@ from typing import Any, Literal, Protocol
 
 from fastapi import Request
 from fastapi.responses import UJSONResponse
-from pydantic import BaseModel
 from starlette.background import BackgroundTask
 from starlette.templating import Jinja2Templates
 
-from src.config.constants import STRINGS
-from src.models.strings import HTTPGroupString
-
-# Constants
-STATUS_KEY_PRIORITY = ["phrase", "description", "spec", "spec_link"]
-DEFAULT_DETAILS = {
-    1: "Information",
-    2: "Success",
-    3: "Redirect",
-    4: "Client Error",
-    5: "Server Error",
-    7: "Developer Error",
-}
-DEFAULT_MESSAGE = {
-    4: "The client has erred.",
-    5: "The server has erred.",
-    7: "Thy underpaid yet overworked developer hath erred.",
-}
-DEFAULT_ERROR = {
-    1: False,
-    2: False,
-    3: False,
-    4: True,
-    5: True,
-    7: True,
-}
+from src.utils.http_code import (
+    build_status_meta,
+    check_if_http_code_group_error,
+    get_http_code_group,
+    get_http_code_group_details,
+    get_http_code_group_message,
+    normalize_http_status,
+)
 
 
 def fetch_flash(request: Request):
@@ -43,69 +24,7 @@ TEMPLATES = Jinja2Templates(directory="src/templates")
 TEMPLATES.env.globals["fetch_flash"] = fetch_flash
 
 
-HTTPStrings = STRINGS.http
-HTTPCodeStrings = HTTPStrings.code
-HTTPGroupStrings = HTTPStrings.group
-
-
-def normalize_http_status(code: int) -> int:
-    group = code // 100
-    if group == 1:
-        return 200
-    if group == 7:
-        return 500
-    return code
-
-
-def extract_prioritized(
-    source: BaseModel,
-    keys: list[str],
-) -> tuple[dict[str, Any], dict[str, Any]]:
-    picked: dict[str, Any] = {}
-    rest = source.model_dump()
-
-    for key in keys:
-        value = rest.pop(key, None)
-        if value is not None:
-            picked[key] = value
-
-    return picked, rest
-
-
-def build_status_meta(status_code: int) -> dict[str, Any]:
-    code_group = str(status_code // 100)
-    code_key = str(status_code)
-
-    code_info = HTTPCodeStrings.get(code_key, None)
-    if code_info is None:
-        return {"code": status_code}
-
-    ci, remaining_code_info = extract_prioritized(code_info, STATUS_KEY_PRIORITY)
-
-    group_info = HTTPGroupStrings.get(
-        code_group,
-        HTTPGroupString(phrase="", description="", spec="", spec_link=""),
-    )
-    gi, remaining_group = extract_prioritized(group_info, STATUS_KEY_PRIORITY)
-
-    subgroup = group_info.subgroup
-    if isinstance(subgroup, dict):
-        sg = subgroup.get(code_key[1])
-        if sg:
-            gi["subgroup"] = sg
-
-    return {
-        "code": status_code,
-        **ci,
-        **remaining_code_info,
-        "group": {
-            **gi,
-            **remaining_group,
-        },
-    }
-
-
-class TemplateInnerCallable(Protocol):
+class TemplateFlashInnerCallable(Protocol):
     def __call__(
         self,
         message: str,
@@ -123,28 +42,21 @@ class CustomResponse:
     @staticmethod
     def raw_json(
         status_code: int,
-        detail: str | None = None,
+        details: str | None = None,
         message: str | None = None,
         error: bool | None = None,
     ) -> tuple[int, dict[str, Any], dict[str, Any]]:
 
-        code_group = status_code // 100
-
-        if error is None:
-            error = DEFAULT_ERROR.get(code_group, False)
+        code_group = get_http_code_group(status_code)
 
         status = build_status_meta(status_code)
         status_code = normalize_http_status(status_code)
 
-        content: dict[str, Any] = {}
-
-        if detail or (detail := DEFAULT_DETAILS.get(code_group)):
-            content["detail"] = detail
-
-        if message or (message := DEFAULT_MESSAGE.get(code_group)):
-            content["message"] = message
-
-        content["error"] = error
+        content: dict[str, Any] = {
+            "detail": get_http_code_group_details(code_group, details),
+            "message": get_http_code_group_message(code_group, message),
+            "error": check_if_http_code_group_error(code_group, error),
+        }
 
         return status_code, content, status
 
@@ -182,8 +94,35 @@ class CustomResponse:
     @staticmethod
     def template(
         request: Request,
-        tpl: str,
-    ) -> TemplateInnerCallable:
+        name: str,
+        context: dict[str, Any] | None = None,
+        status_code: int = 200,
+        headers: Mapping[str, str] | None = None,
+        media_type: str | None = None,
+        background: BackgroundTask | None = None,
+        cookie_params: dict[str, Any] | None = None,
+    ) -> Jinja2Templates.TemplateResponse:
+        response = TEMPLATES.TemplateResponse(
+            request=request,
+            name=name,
+            context=context,
+            status_code=status_code,
+            headers=headers,
+            media_type=media_type,
+            background=background,
+        )
+
+        if cookie_params:
+            for key, value in cookie_params.items():
+                response.set_cookie(key, value)
+
+        return response
+
+    @staticmethod
+    def template_flash(
+        request: Request,
+        name: str,
+    ) -> TemplateFlashInnerCallable:
         def inner(
             message: str,
             category: Literal["primary", "danger", "success"] = "primary",
@@ -199,20 +138,16 @@ class CustomResponse:
             request.session["_messages"].append(
                 {"message": message, "category": category},
             )
-            response = TEMPLATES.TemplateResponse(
+
+            return CustomResponse.template(
                 request=request,
-                name=tpl,
+                name=name,
                 context=context,
                 status_code=status_code,
                 headers=headers,
                 media_type=media_type,
                 background=background,
+                cookie_params=cookie_params,
             )
-
-            if cookie_params:
-                for key, value in cookie_params.items():
-                    response.set_cookie(key, value)
-
-            return response
 
         return inner

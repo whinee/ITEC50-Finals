@@ -1,0 +1,259 @@
+[0m
+[4m/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/src/static/stylesheets/code.css[24m
+   [2m4:27[22m  [31merror[39m  Can't validate with unknown variable '--bg-1'   [2mcss/no-invalid-properties[22m
+   [2m8:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-3'   [2mcss/no-invalid-properties[22m
+  [2m10:26[22m  [31merror[39m  Can't validate with unknown variable '--rfg-3'  [2mcss/no-invalid-properties[22m
+  [2m24:21[22m  [31merror[39m  Can't validate with unknown variable '--rfg-3'  [2mcss/no-invalid-properties[22m
+  [2m26:26[22m  [31merror[39m  Can't validate with unknown variable '--rfg-3'  [2mcss/no-invalid-properties[22m
+
+[4m/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/src/static/stylesheets/docs.css[24m
+      [2m4:27[22m  [31merror[39m  Can't validate with unknown variable '--bg-1'                                           [2mcss/no-invalid-properties[22m
+      [2m8:21[22m  [31merror[39m  Can't validate with unknown variable '--bg-1-1'                                         [2mcss/no-invalid-properties[22m
+      [2m8:31[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+     [2m12:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+    [2m494:28[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+    [2m498:30[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+    [2m503:32[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+    [2m507:34[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+    [2m513:32[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+    [2m517:34[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+    [2m523:32[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+    [2m527:34[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+   [2m8658:5[22m   [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+   [2m8659:5[22m   [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+   [2m8660:21[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+   [2m8661:25[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+   [2m8666:9[22m   [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+   [2m8667:9[22m   [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+   [2m8668:25[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+   [2m8669:29[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+   [2m8675:9[22m   [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+   [2m8676:9[22m   [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+   [2m8677:25[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+   [2m8678:29[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+   [2m8684:9[22m   [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+   [2m8685:9[22m   [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+   [2m8686:25[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+   [2m8687:29[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+   [2m9042:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9057:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9074:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9178:21[22m  [31merror[39m  Can't validate with unknown variable '--bg-1-1'                                         [2mcss/no-invalid-properties[22m
+   [2m9187:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9200:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9222:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9228:17[22m  [31merror[39m  Value 'break-word' of property 'word-break' is not a widely available baseline feature  [2mcss/use-baseline[22m
+   [2m9251:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9255:17[22m  [31merror[39m  Value 'break-word' of property 'word-break' is not a widely available baseline feature  [2mcss/use-baseline[22m
+   [2m9331:21[22m  [31merror[39m  Can't validate with unknown variable '--bg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9453:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9491:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9499:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9506:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9548:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9559:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9572:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9614:17[22m  [31merror[39m  Value 'break-word' of property 'word-break' is not a widely available baseline feature  [2mcss/use-baseline[22m
+   [2m9632:27[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+   [2m9672:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9701:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9802:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+   [2m9869:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10035:21[22m  [31merror[39m  Can't validate with unknown variable '--bg-1-3'                                         [2mcss/no-invalid-properties[22m
+  [2m10040:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10048:21[22m  [31merror[39m  Can't validate with unknown variable '--bg-1-3'                                         [2mcss/no-invalid-properties[22m
+  [2m10071:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10085:21[22m  [31merror[39m  Can't validate with unknown variable '--bg-1-2'                                         [2mcss/no-invalid-properties[22m
+  [2m10086:27[22m  [31merror[39m  Can't validate with unknown variable '--bg-2-1'                                         [2mcss/no-invalid-properties[22m
+  [2m10091:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10097:21[22m  [31merror[39m  Can't validate with unknown variable '--bg-1-2'                                         [2mcss/no-invalid-properties[22m
+  [2m10102:27[22m  [31merror[39m  Can't validate with unknown variable '--bg-1-2'                                         [2mcss/no-invalid-properties[22m
+  [2m10103:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1-1'                                         [2mcss/no-invalid-properties[22m
+  [2m10156:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10180:5[22m   [31merror[39m  Property 'resize' is not a widely available baseline feature                            [2mcss/use-baseline[22m
+  [2m10194:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10197:22[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m10199:15[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m10270:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10277:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10301:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10311:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10319:20[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m10425:21[22m  [31merror[39m  Can't validate with unknown variable '--bg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10445:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1-1'                                         [2mcss/no-invalid-properties[22m
+  [2m10480:21[22m  [31merror[39m  Can't validate with unknown variable '--bg-1-1'                                         [2mcss/no-invalid-properties[22m
+  [2m10488:21[22m  [31merror[39m  Can't validate with unknown variable '--bg-1-2'                                         [2mcss/no-invalid-properties[22m
+  [2m10527:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1-2'                                         [2mcss/no-invalid-properties[22m
+  [2m10564:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1-1'                                         [2mcss/no-invalid-properties[22m
+  [2m10568:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10641:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10666:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10689:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10862:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10868:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10888:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10891:22[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m10897:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10960:24[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m10976:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m10990:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m11022:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m11030:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1-1'                                         [2mcss/no-invalid-properties[22m
+  [2m11052:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'                                           [2mcss/no-invalid-properties[22m
+  [2m11090:17[22m  [31merror[39m  Value 'break-word' of property 'word-break' is not a widely available baseline feature  [2mcss/use-baseline[22m
+
+[4m/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/src/static/stylesheets/font-awesome.min.css[24m
+  [2m4:597[22m    [31merror[39m  Use fallback fonts and a generic font last                  [2mcss/font-family-fallbacks[22m
+  [2m4:28816[22m  [31merror[39m  Property 'clip' is not a widely available baseline feature  [2mcss/use-baseline[22m
+  [2m4:28963[22m  [31merror[39m  Property 'clip' is not a widely available baseline feature  [2mcss/use-baseline[22m
+
+[4m/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/src/static/stylesheets/landing page.css[24m
+   [2m191:15[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+   [2m217:15[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m1557:2[22m   [31merror[39m  Unknown at-rule '@-ms-viewport' found                                                                                                                                                                        [2mcss/no-invalid-at-rules[22m
+  [2m1558:3[22m   [31merror[39m  Unknown descriptor 'width' found for at-rule '@-ms-viewport'                                                                                                                                                 [2mcss/no-invalid-at-rules[22m
+  [2m1578:25[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m1579:28[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m1580:24[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m1581:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m1582:26[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m1583:29[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m1584:25[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m1585:21[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m1986:15[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2012:16[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2045:19[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2114:17[22m  [31merror[39m  Use fallback fonts and a generic font last                                                                                                                                                                   [2mcss/font-family-fallbacks[22m
+  [2m2117:25[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2178:18[22m  [31merror[39m  Use fallback fonts and a generic font last                                                                                                                                                                   [2mcss/font-family-fallbacks[22m
+  [2m2181:26[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2283:15[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2287:15[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2291:15[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2295:15[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2299:15[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2313:17[22m  [31merror[39m  Use fallback fonts and a generic font last                                                                                                                                                                   [2mcss/font-family-fallbacks[22m
+  [2m2316:25[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2519:18[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2730:17[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2756:21[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2789:21[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2843:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2847:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2851:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2855:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2859:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2938:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2948:18[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m2981:21[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3051:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3055:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3059:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3063:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3067:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3107:27[22m  [31merror[39m  Value 'fixed' of property 'background-attachment' is not a widely available baseline feature                                                                                                                 [2mcss/use-baseline[22m
+  [2m3151:17[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3177:21[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3210:21[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3280:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3284:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3288:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3292:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3296:20[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3411:12[22m  [31merror[39m  Invalid value '-moz-flex' for property 'display'. Expected [ <display-outside> || <display-inside> ] | <display-listitem> | <display-internal> | <display-box> | <display-legacy> | <-non-standard-display>  [2mcss/no-invalid-properties[22m
+  [2m3413:12[22m  [31merror[39m  Invalid value '-ms-flex' for property 'display'. Expected [ <display-outside> || <display-inside> ] | <display-listitem> | <display-internal> | <display-box> | <display-legacy> | <-non-standard-display>   [2mcss/no-invalid-properties[22m
+  [2m3534:12[22m  [31merror[39m  Invalid value '-moz-flex' for property 'display'. Expected [ <display-outside> || <display-inside> ] | <display-listitem> | <display-internal> | <display-box> | <display-legacy> | <-non-standard-display>  [2mcss/no-invalid-properties[22m
+  [2m3536:12[22m  [31merror[39m  Invalid value '-ms-flex' for property 'display'. Expected [ <display-outside> || <display-inside> ] | <display-listitem> | <display-internal> | <display-box> | <display-legacy> | <-non-standard-display>   [2mcss/no-invalid-properties[22m
+  [2m3779:19[22m  [31merror[39m  Use fallback fonts and a generic font last                                                                                                                                                                   [2mcss/font-family-fallbacks[22m
+  [2m3782:27[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3932:21[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m3960:18[22m  [31merror[39m  Use fallback fonts and a generic font last                                                                                                                                                                   [2mcss/font-family-fallbacks[22m
+  [2m3963:26[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m4042:18[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m4048:17[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m4119:27[22m  [31merror[39m  Value 'fixed' of property 'background-attachment' is not a widely available baseline feature                                                                                                                 [2mcss/use-baseline[22m
+  [2m4216:27[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m4217:30[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m4218:26[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m4219:22[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m4232:18[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+  [2m4242:18[22m  [31merror[39m  Unexpected !important flag found                                                                                                                                                                             [2mcss/no-important[22m
+
+[4m/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/src/static/stylesheets/raw-docs.css[24m
+  [2m1:13207[22m   [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:13262[22m   [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:13351[22m   [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:13409[22m   [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:13518[22m   [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:13575[22m   [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:13664[22m   [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:13721[22m   [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:30273[22m   [31merror[39m  Property 'zoom' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+  [2m1:105365[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:105394[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:105405[22m  [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+  [2m1:105432[22m  [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+  [2m1:105529[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:105558[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:105569[22m  [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+  [2m1:105596[22m  [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+  [2m1:105713[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:105742[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:105753[22m  [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+  [2m1:105780[22m  [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+  [2m1:105877[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:105906[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:105917[22m  [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+  [2m1:105944[22m  [31merror[39m  Property 'clip' is not a widely available baseline feature                              [2mcss/use-baseline[22m
+  [2m1:114249[22m  [31merror[39m  Value 'break-word' of property 'word-break' is not a widely available baseline feature  [2mcss/use-baseline[22m
+  [2m1:114923[22m  [31merror[39m  Value 'break-word' of property 'word-break' is not a widely available baseline feature  [2mcss/use-baseline[22m
+  [2m1:121963[22m  [31merror[39m  Value 'break-word' of property 'word-break' is not a widely available baseline feature  [2mcss/use-baseline[22m
+  [2m1:122310[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:123372[22m  [31merror[39m  Selector 'has' is not a widely available baseline feature                               [2mcss/use-baseline[22m
+  [2m1:131956[22m  [31merror[39m  Property 'resize' is not a widely available baseline feature                            [2mcss/use-baseline[22m
+  [2m1:132180[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:132215[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:134333[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:137921[22m  [31merror[39m  Selector 'has' is not a widely available baseline feature                               [2mcss/use-baseline[22m
+  [2m1:140060[22m  [31merror[39m  Selector 'has' is not a widely available baseline feature                               [2mcss/use-baseline[22m
+  [2m1:144651[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:145635[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:147445[22m  [31merror[39m  Value 'break-word' of property 'word-break' is not a widely available baseline feature  [2mcss/use-baseline[22m
+  [2m1:157107[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:159834[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:174644[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:174742[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:174773[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:174797[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:174888[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:174912[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+  [2m1:174992[22m  [31merror[39m  Unexpected !important flag found                                                        [2mcss/no-important[22m
+
+[4m/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/src/static/stylesheets/style.css[24m
+   [2m13:21[22m  [31merror[39m  Can't validate with unknown variable '--bg-1-1'   [2mcss/no-invalid-properties[22m
+   [2m23:21[22m  [31merror[39m  Can't validate with unknown variable '--bg-1-2'   [2mcss/no-invalid-properties[22m
+   [2m38:21[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'     [2mcss/no-invalid-properties[22m
+   [2m49:21[22m  [31merror[39m  Can't validate with unknown variable '--fg-1-1'   [2mcss/no-invalid-properties[22m
+   [2m59:16[22m  [31merror[39m  Can't validate with unknown variable '--fg-1-1'   [2mcss/no-invalid-properties[22m
+  [2m108:21[22m  [31merror[39m  Can't validate with unknown variable '--bg-1'     [2mcss/no-invalid-properties[22m
+  [2m109:44[22m  [31merror[39m  Can't validate with unknown variable '--bg-1'     [2mcss/no-invalid-properties[22m
+  [2m116:24[22m  [31merror[39m  Can't validate with unknown variable '--error-1'  [2mcss/no-invalid-properties[22m
+  [2m127:24[22m  [31merror[39m  Can't validate with unknown variable '--valid-1'  [2mcss/no-invalid-properties[22m
+  [2m138:30[22m  [31merror[39m  Unexpected !important flag found                  [2mcss/no-important[22m
+  [2m139:22[22m  [31merror[39m  Unexpected !important flag found                  [2mcss/no-important[22m
+  [2m140:29[22m  [31merror[39m  Unexpected !important flag found                  [2mcss/no-important[22m
+  [2m141:25[22m  [31merror[39m  Unexpected !important flag found                  [2mcss/no-important[22m
+  [2m142:21[22m  [31merror[39m  Unexpected !important flag found                  [2mcss/no-important[22m
+  [2m143:25[22m  [31merror[39m  Unexpected !important flag found                  [2mcss/no-important[22m
+  [2m153:27[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'     [2mcss/no-invalid-properties[22m
+  [2m165:32[22m  [31merror[39m  Can't validate with unknown variable '--rfg-1'    [2mcss/no-invalid-properties[22m
+  [2m165:47[22m  [31merror[39m  Unexpected !important flag found                  [2mcss/no-important[22m
+  [2m169:27[22m  [31merror[39m  Can't validate with unknown variable '--fg-2'     [2mcss/no-invalid-properties[22m
+  [2m170:48[22m  [31merror[39m  Can't validate with unknown variable '--rfg-2'    [2mcss/no-invalid-properties[22m
+  [2m171:40[22m  [31merror[39m  Can't validate with unknown variable '--rfg-2'    [2mcss/no-invalid-properties[22m
+  [2m178:27[22m  [31merror[39m  Can't validate with unknown variable '--fg-1'     [2mcss/no-invalid-properties[22m
+  [2m179:48[22m  [31merror[39m  Can't validate with unknown variable '--rfg-1'    [2mcss/no-invalid-properties[22m
+  [2m180:40[22m  [31merror[39m  Can't validate with unknown variable '--rfg-1'    [2mcss/no-invalid-properties[22m
+
+[31m[1m✖ 244 problems (244 errors, 0 warnings)[22m[39m
+[0m

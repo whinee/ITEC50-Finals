@@ -4,30 +4,30 @@
 {% endblock head %}
 {% block body %}
     <div class="terminal">
-        <h1>HTTP Code <span class="code">{{ status.pop('code') }}</span></h1>
-        {% for k, v in content.items() %}
-            <p class="op">{{ k }}: {{ v }}</p>
-        {% endfor %}
+        <h1>
+            HTTP Code <span class="code">{{ status.pop("code") }}</span>
+        </h1>
+        {% for k, v in content.items() %}<p class="op">{{ k }}: {{ v }}</p>{% endfor %}
         {% set group = status.pop('group', None) %}
         {% set spec = status.pop('spec', None) %}
         {% set spec_link = status.pop('spec_link', None) %}
-        {% for k, v in status.items() %}
-            <p class="op">{{ k }}: {{ v }}</p>
-        {% endfor %}
+        {% for k, v in status.items() %}<p class="op">{{ k }}: {{ v }}</p>{% endfor %}
         {% if spec +%}
-            <p class="op">spec: <a href="{{ spec_link }}" target="_blank" rel="noopener">{{ spec }}</a></p>
+            <p class="op">
+                spec: <a href="{{ spec_link }}" target="_blank" rel="noopener">{{ spec }}</a>
+            </p>
         {% endif %}
         {% if group +%}
             <p class="op c1">group:</p>
             {% set spec = group.pop('spec', None) %}
             {% set spec_link = group.pop('spec_link', None) %}
             {% for k, v in group.items() %}
-                {% if k != "subgroup" +%}
-                    <p class="op 1">{{ k }}: {{ v }}</p>
-                {% endif %}
+                {% if k != "subgroup" +%}<p class="op 1">{{ k }}: {{ v }}</p>{% endif %}
             {% endfor %}
             {% if spec +%}
-                <p class="op 1">spec: <a href="{{ spec_link }}" target="_blank" rel="noopener">{{ spec }}</a></p>
+                <p class="op 1">
+                    spec: <a href="{{ spec_link }}" target="_blank" rel="noopener">{{ spec }}</a>
+                </p>
             {% endif %}
         {% endif %}
     </div>

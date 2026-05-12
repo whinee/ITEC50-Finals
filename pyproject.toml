@@ -188,3 +188,16 @@ max-complexity = 5
 
 [tool.ruff.lint.pycodestyle]
 ignore-overlong-task-comments = false
+
+[tool.djlint]
+extension="j2.html"
+format_css=true
+format_js=true
+max_line_length=88
+profile="jinja"
+
+[tool.djlint.css]
+indent_size=4
+
+[tool.djlint.js]
+indent_size=4

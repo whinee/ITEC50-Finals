@@ -22,10 +22,13 @@ class HTTPSubgroupString(BaseModel):
 class HTTPGroupString(BaseModel):
     model_config = ConfigDict(frozen=True, extra="forbid")
 
-    phrase: str
-    description: str
-    spec: str
-    spec_link: str
+    phrase: str = ""
+    description: str = ""
+    spec: str = ""
+    spec_link: str = ""
+    default_details: str = ""
+    default_message: str = ""
+    default_error: bool | None = None
     subgroup: dict[str, HTTPSubgroupString] = Field(default_factory=dict)
 
 

@@ -1,55 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport"
-        content="width=device-width,initial-scale=1,user-scalable=no" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-
-    <meta name="apple-mobile-web-app-title" content="{{ title }}" />
-    <meta name="twitter:title" content="{{ title }}" />
-    <meta property="og:site_name" content="{{ title }}" />
-    <meta property="og:title" content="{{ title }}" />
-    <title>{{ title }}</title>
-
-    <meta name="author" content="{{ author }}">
-
-    <meta name="description" content="{{ description }}" />
-    <meta property="og:description" content="{{ description }}" />
-
-    <meta name="twitter:site:domain" content="{{ FQDN }}" />
-    <meta name="twitter:url" content="https://{{ FQDN }}" />
-    <meta property="og:url" content="https://{{ FQDN }}" />
-    <link rel="canonical" href="https://{{ FQDN }}" />
-
-    <meta name="twitter:image" content="https://{{ FQDN }}{{ banner_path }}" />
-    <meta property="og:image" content="{{ banner_path }}" />
-    <meta property="og:image:width" content="1280" />
-    <meta property="og:image:height" content="800" />
-
-    <link rel="icon" type="image/x-icon" href="{{ favicon_path }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ icon_path }}" />
-
-    {% for stylesheet in stylesheets %}
-        <link rel="stylesheet" href="{{ stylesheet }}">
-    {% endfor %}
-
-    <link rel="preload stylesheet" as="style"
-        href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css"
-        integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
-    <link rel="preload stylesheet" as="style"
-        href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css"
-        integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
-    <link href="/static/stylesheets/base.css" rel="stylesheet">
-    {% block head %}
-
-    {% endblock head %}
-</head>
-<body>
-    {% block body %}
-
-    {% endblock body %}
-</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport"
+              content="width=device-width,initial-scale=1,user-scalable=no" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="apple-mobile-web-app-title" content="{{ title }}" />
+        <meta name="twitter:title" content="{{ title }}" />
+        <meta property="og:site_name" content="{{ title }}" />
+        <meta property="og:title" content="{{ title }}" />
+        <title>{{ title }}</title>
+        <meta name="author" content="{{ author }}">
+        <meta name="description" content="{{ description }}" />
+        <meta property="og:description" content="{{ description }}" />
+        <meta name="twitter:site:domain" content="{{ FQDN }}" />
+        <meta name="twitter:url" content="https://{{ FQDN }}" />
+        <meta property="og:url" content="https://{{ FQDN }}" />
+        <link rel="canonical" href="https://{{ FQDN }}" />
+        <meta name="twitter:image" content="https://{{ FQDN }}{{ banner_path }}" />
+        <meta property="og:image" content="{{ banner_path }}" />
+        <meta property="og:image:width" content="1280" />
+        <meta property="og:image:height" content="800" />
+        <link rel="icon" type="image/x-icon" href="{{ favicon_path }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ icon_path }}" />
+        {% for stylesheet in stylesheets %}
+            <link rel="stylesheet" href="{{ stylesheet }}">
+        {% endfor %}
+        <link rel="preload stylesheet"
+              as="style"
+              href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css"
+              integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs="
+              crossorigin>
+        <link rel="preload stylesheet"
+              as="style"
+              href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css"
+              integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg="
+              crossorigin>
+        <link href="/static/stylesheets/base.css" rel="stylesheet">
+        {% block head %}
+        {% endblock head %}
+    </head>
+    <body>
+        {% block body %}
+        {% endblock body %}
+    </body>
 </html>

@@ -12,12 +12,14 @@ class AllPhone(PhoneNumber):
     supported_regions: list[str] = []
     phone_format = "INTERNATIONAL"
 
+
 class BaseUsers(SQLModel, table=False):
     username: str | None = None
     email: EmailStr
     contact_number: AllPhone
     professional_license_id: str | None = None
     password: str
+
 
 class Users(BaseUsers, table=True):
     id: Annotated[int | None, Field(primary_key=True)] = None
@@ -34,4 +36,3 @@ class Users(BaseUsers, table=True):
         Field(sa_column=Column(sa.TIMESTAMP(timezone=True), nullable=True)),
     ]
     disabled: Annotated[bool, Field(sa_column=Column(sa.BOOLEAN, nullable=False))]
-

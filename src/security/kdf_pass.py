@@ -4,9 +4,8 @@ from cryptography.hazmat.primitives.kdf.argon2 import Argon2id
 
 
 def get_kdf() -> Argon2id:
-    salt = os.urandom(16)
-    kdf = Argon2id(
-        salt=salt,
+    return Argon2id(
+        salt=os.urandom(16),
         length=32,
         iterations=1,
         lanes=4,
@@ -14,4 +13,3 @@ def get_kdf() -> Argon2id:
         ad=None,
         secret=None,
     )
-    return kdf

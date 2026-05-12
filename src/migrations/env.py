@@ -9,7 +9,7 @@ from sqlmodel import SQLModel
 
 sys.path.insert(0, parent_dir_nth_times(__file__, 3))
 
-from src.config import env
+from src.config.settings import settings
 from src.models.db import (  # noqa: F401
     Bookmark,  # type: ignore
     BookmarkTagJunction,  # type: ignore
@@ -18,13 +18,11 @@ from src.models.db import (  # noqa: F401
     User,  # type: ignore
 )
 
-env.load_environment()
-
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
 
-config.set_main_option("sqlalchemy.url", env.require("PG_URL"))
+config.set_main_option("sqlalchemy.url", settings.PG_ASYNC_URL)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

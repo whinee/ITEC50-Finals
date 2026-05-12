@@ -5,7 +5,12 @@
     "devDependencies": {
         "chokidar-cli": "^3.0.0",
         "chrome-launcher": "^1.2.1",
+        "eslint": "^10.3.0",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-prettier": "^5.5.5",
+        "htmlhint": "^1.9.2",
         "lighthouse": "^13.0.3",
+        "prettier": "^3.8.3",
         "puppeteer": "^24.37.5"
     }
 }
