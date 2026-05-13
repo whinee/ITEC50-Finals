@@ -2,7 +2,7 @@ from collections.abc import Mapping
 from typing import Any, Literal, Protocol
 
 from fastapi import Request
-from fastapi.responses import UJSONResponse
+from fastapi.responses import UJSONResponse  # type: ignore
 from starlette.background import BackgroundTask
 from starlette.templating import Jinja2Templates
 
@@ -69,7 +69,7 @@ class CustomResponse:
         json: dict[str, Any] | None = None,
         *args,
         **kwargs,
-    ) -> UJSONResponse:
+    ) -> UJSONResponse:  # type: ignore
         if json is None:
             json = {}
 

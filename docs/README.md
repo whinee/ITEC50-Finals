@@ -15,6 +15,8 @@ cat .direnv.uv >> ~/.config/direnv/direnvrc
 direnv allow
 ```
 
+## What I Had to Run
+
 ```sh
 uv venv
 source .venv
@@ -35,5 +37,9 @@ just alembic init src/migrations
 ```
 
 ```sh
-just run alembic revision --autogenerate -m "init"
+just alembic revision --autogenerate -m "init"
+```
+
+```sh
+just alembic upgrade head
 ```

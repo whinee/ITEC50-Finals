@@ -24,6 +24,7 @@ dependencies = [
     "pydantic-extra-types>=2.11.1",
     "psycopg[binary]>=3.3.4",
     "phonenumbers>=9.0.30",
+    "wonderwords>=3.0.1",
 ]
 maintainers = [
     { name = "Lyra Phasma", email = "lyraphasma@gmail.com" },
@@ -188,6 +189,11 @@ max-complexity = 5
 
 [tool.ruff.lint.pycodestyle]
 ignore-overlong-task-comments = false
+
+[tool.ruff.lint.extend-per-file-ignores]
+# Also ignore `E402` in all `__init__.py` files.
+"src/migrations/versions/*.py" = ["D400", "D415", "INP001"]
+
 
 [tool.djlint]
 extension="j2.html"

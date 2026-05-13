@@ -1,6 +1,7 @@
 import datetime
+import random
 from datetime import UTC
-from typing import Annotated, Literal
+from typing import Annotated
 
 from cryptography.exceptions import InvalidKey
 from cryptography.hazmat.primitives.kdf.argon2 import Argon2id
@@ -18,6 +19,7 @@ from starlette.status import (
     HTTP_409_CONFLICT,
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
+from wonderwords import RandomWord
 
 from src.db.main import get_session
 from src.middlewares.auth import check_if_logged_in, get_session_cookie
@@ -26,19 +28,59 @@ from src.models.cookies import (
     set_default_cookie_params,
     set_default_cookie_params_with_encryption,
 )
-from src.models.users import BaseUsers, Users
+from src.schema import BaseUsers, User
 from src.security.jwt_service import Claims, JwtService, get_jwt_service
 from src.security.kdf_pass import get_kdf
 from src.utils.custom_response import CustomResponse
 
 router = APIRouter()
 
+_rw = RandomWord()
+
+# pre-filter the lists once at startup, not on every call
+ADJECTIVES = _rw.filter(
+    include_parts_of_speech=["adjectives"],
+    word_max_length=14,
+    exclude_with_spaces=True,
+)
+NOUNS = _rw.filter(
+    include_parts_of_speech=["nouns"],
+    word_max_length=14,
+    exclude_with_spaces=True,
+)
+
+# shuffle so we exhaust randomly
+random.shuffle(ADJECTIVES)
+random.shuffle(NOUNS)
+
+_adj_pool = list(ADJECTIVES)
+_noun_pool = list(NOUNS)
 
 class LoginData(BaseModel):
     username: str
     password: str
-    role: Literal["professional", "patient"]
 
+async def generate_username(session: AsyncSession) -> str:  # noqa: C901
+    while True:
+        if not _adj_pool:
+            _adj_pool.extend(ADJECTIVES)
+            random.shuffle(_adj_pool)
+        if not _noun_pool:
+            _noun_pool.extend(NOUNS)
+            random.shuffle(_noun_pool)
+
+        adj = _adj_pool.pop()
+        noun = _noun_pool.pop()
+        number = random.randint(1, 99)  # noqa: S311
+        username = f"{adj}_{noun}_{number}"
+
+        if len(username) > 32:
+            continue
+
+        # check db
+        result = await session.exec(select(User).where(User.username == username))
+        if result.first() is None:
+            return username
 
 @router.post(path="/login", status_code=HTTP_200_OK)
 async def login_user(
@@ -57,8 +99,8 @@ async def login_user(
             detail="You must logout first.",
         )
 
-    statement = select(Users).where(
-        or_(Users.username == data.username, Users.email == data.username),
+    statement = select(User).where(
+        or_(User.username == data.username, User.email == data.username),
     )
     result = await session.exec(statement)
     try:
@@ -148,7 +190,7 @@ async def logout_user(
     "/register",
     status_code=HTTP_201_CREATED,
 )
-async def register_new_user(  # noqa: C901
+async def register_new_user(
     request: Request,
     session: Annotated[AsyncSession, Depends(get_session)],
     kdf: Annotated[Argon2id, Depends(get_kdf)],
@@ -162,11 +204,11 @@ async def register_new_user(  # noqa: C901
         )
 
     if payload.username:
-        statement = select(Users).where(
-            or_(Users.username == payload.username, Users.email == payload.email),
+        statement = select(User).where(
+            or_(User.username == payload.username, User.email == payload.email),
         )
     else:
-        statement = select(Users).where(Users.email == payload.email)
+        statement = select(User).where(User.email == payload.email)
     results = await session.exec(statement)
     has_first = results.first()
     if has_first:
@@ -177,27 +219,13 @@ async def register_new_user(  # noqa: C901
 
     created_at = datetime.datetime.now(tz=UTC)
     updated_at = created_at
-    user = Users(created_at=created_at, updated_at=updated_at, **payload.model_dump())
+    user = User(created_at=created_at, updated_at=updated_at, **payload.model_dump())
     key = kdf.derive_phc_encoded(payload.password.encode())
-    if payload.professional_license_id:
-        user.role = ["professional"]
-    else:
-        user.role = ["patient"]
     user.password = key
     user.disabled = False
-    if user.username == "":
-        user.username = None
-    if user.professional_license_id == "":
-        user.professional_license_id = None
     session.add(user)
     await session.commit()
     await session.refresh(user)
-    # payload = UserWithoutPassword(
-    #     username=user.username,
-    #     email=user.email,
-    #     contact_number=user.contact_number,
-    #     professional_license_id=user.professional_license_id,
-    # )
     response = Response(status_code=HTTP_301_MOVED_PERMANENTLY)
     response.headers["Location"] = "/"
     return response

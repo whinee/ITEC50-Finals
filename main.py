@@ -8,7 +8,7 @@ from collections.abc import Awaitable, Callable
 
 from fastapi import FastAPI, HTTPException, Request, Response
 from fastapi.openapi.docs import get_swagger_ui_html
-from fastapi.responses import UJSONResponse
+from fastapi.responses import UJSONResponse  # type: ignore
 from fastapi.security import HTTPBasic
 from fastapi.staticfiles import StaticFiles
 from jinja2 import TemplateNotFound
@@ -19,7 +19,8 @@ from starlette.templating import _TemplateResponse
 from src.api import auth
 from src.config.settings import settings
 from src.utils.custom_response import TEMPLATES, CustomResponse
-from src.utils.http_code import check_if_http_code_group_error, get_http_code_group
+
+# from src.utils.http_code import check_if_http_code_group_error, get_http_code_group
 
 # Constants
 DEFAULT_ERROR_HTTP_CODE = 500
@@ -68,14 +69,16 @@ def _code_get(request: Request, status_code: int) -> _TemplateResponse:
 
 @app.middleware("http")
 async def add_process_time_header(
-    request: Request, call_next: Callable[[Request], Awaitable[Response]]
-) -> Response | UJSONResponse | _TemplateResponse:
+    request: Request,
+    call_next: Callable[[Request], Awaitable[Response]],
+) -> Response | UJSONResponse | _TemplateResponse:  # type: ignore
     try:
         start_time = time.time()
         response = await call_next(request)
         process_time = time.time() - start_time
         status_code = response.status_code
-        if check_if_http_code_group_error(get_http_code_group(status_code)):
+        # if check_if_http_code_group_error(get_http_code_group(status_code)):
+        if status_code == 404:
             return _code_get(request, status_code)
         response.headers["X-Process-Time"] = str(process_time)
         return response
@@ -91,14 +94,6 @@ async def add_process_time_header(
 
 app.mount("/static/", StaticFiles(directory="src/static"), name="static")
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
-
-
-# @app.get("/{page}")
-# async def serve_page(request: Request, page: str):
-#     try:
-#         return TEMPLATES.TemplateResponse(request=request, name=f"{page}.j2.html")
-#     except TemplateNotFound as e:
-#         raise HTTPException(status_code=404) from e
 
 
 @app.get("/docs", include_in_schema=False, status_code=200)
@@ -134,3 +129,11 @@ async def handle_webhook(request: Request):  # type: ignore[no-untyped-def]
         raise HTTPException(status_code=403, detail="Invalid signature")
     subprocess.Popen(f"kill -9 {os.getpid()}", shell=True)  # noqa: S602
     return {"message": "Webhook received successfully!"}
+
+
+@app.get("/{page}")
+async def serve_page(request: Request, page: str):
+    try:
+        return TEMPLATES.TemplateResponse(request=request, name=f"{page}.j2.html")
+    except TemplateNotFound as e:
+        raise HTTPException(status_code=404) from e

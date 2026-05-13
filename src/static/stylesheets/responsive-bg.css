@@ -1,0 +1,40 @@
+body:before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: var(--background-height);
+    pointer-events: none;
+    transform: scale(1);
+    background-attachment: scroll;
+    background-position: 0% 0%, center center;
+    background-repeat: repeat, no-repeat;
+    background-size: cover;
+    background-color: #FFFFFF;
+}
+
+.bg-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: var(--background-height);
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.bg-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.bg-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+}

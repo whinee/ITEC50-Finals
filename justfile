@@ -1,5 +1,6 @@
 # regex to match recipe names and their comments:
 # ^    (?P<recipe>\S+)(?P<args>(?:\s[^#\s]+)*)(?:\s+# (?P<docs>.+))*
+
 set dotenv-load := true
 set shell := ["bash", "-cu"]
 
@@ -124,6 +125,7 @@ lint:
 
 # Run web app in a lightweight way
 dev:
+    just start-db
     hypercorn main:app --reload --bind 0.0.0.0:8000 --workers 1
 
 # Run web app
