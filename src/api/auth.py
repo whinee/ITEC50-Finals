@@ -37,7 +37,6 @@ router = APIRouter()
 
 _rw = RandomWord()
 
-# pre-filter the lists once at startup, not on every call
 ADJECTIVES = _rw.filter(
     include_parts_of_speech=["adjectives"],
     word_max_length=14,
@@ -49,16 +48,17 @@ NOUNS = _rw.filter(
     exclude_with_spaces=True,
 )
 
-# shuffle so we exhaust randomly
 random.shuffle(ADJECTIVES)
 random.shuffle(NOUNS)
 
 _adj_pool = list(ADJECTIVES)
 _noun_pool = list(NOUNS)
 
+
 class LoginData(BaseModel):
     username: str
     password: str
+
 
 async def generate_username(session: AsyncSession) -> str:  # noqa: C901
     while True:
@@ -77,10 +77,10 @@ async def generate_username(session: AsyncSession) -> str:  # noqa: C901
         if len(username) > 32:
             continue
 
-        # check db
         result = await session.exec(select(User).where(User.username == username))
         if result.first() is None:
             return username
+
 
 @router.post(path="/login", status_code=HTTP_200_OK)
 async def login_user(
@@ -136,8 +136,8 @@ async def login_user(
 
     response.set_cookie(**cookie_params)
     return flash(
-        "Username or password is invalid",
-        "success",
+        message="Username or password is invalid",
+        category="success",
         status_code=HTTP_301_MOVED_PERMANENTLY,
         headers={
             "Location": "/",
@@ -156,8 +156,7 @@ async def decrypt_cookie(
     if not is_logged_in:
         raise HTTPException(status_code=HTTP_401_UNAUTHORIZED)
 
-    jwt_token = decode_encrypted_cookie(session_cookie)
-    return jwt_service.verify(jwt_token)
+    return jwt_service.verify(decode_encrypted_cookie(session_cookie))
 
 
 @router.get(path="/logout")
@@ -171,8 +170,7 @@ async def logout_user(
     if not is_logged_in:
         raise HTTPException(status_code=HTTP_401_UNAUTHORIZED)
 
-    jwt_token = decode_encrypted_cookie(session_cookie)
-    if jwt_service.verify(jwt_token) is not None:
+    if jwt_service.verify(decode_encrypted_cookie(session_cookie)) is not None:
         cookie_params = set_default_cookie_params(name="session")
         # NOTE: `delete_cookie` does not have the following params:
         # - value
@@ -183,7 +181,10 @@ async def logout_user(
         response.headers["Location"] = "/"
         response.status_code = HTTP_301_MOVED_PERMANENTLY
         return response
-    raise HTTPException(status_code=HTTP_500_INTERNAL_SERVER_ERROR)
+    return CustomResponse.http_code(
+        request=request,
+        status_code=HTTP_500_INTERNAL_SERVER_ERROR,
+    )
 
 
 @router.post(
@@ -197,25 +198,36 @@ async def register_new_user(
     payload: Annotated[BaseUsers, Form()],
     is_logged_in: Annotated[bool, Depends(check_if_logged_in)],
 ):
+    flash = CustomResponse.template_flash(request, "login.j2.html")
     if is_logged_in:
-        raise HTTPException(
+        return flash(
+            message="You must logout first.",
+            category="warning",
             status_code=HTTP_406_NOT_ACCEPTABLE,
-            detail="You must logout first.",
+        )
+
+    email_statement = select(User).where(User.email == payload.email)
+    email_results = await session.exec(email_statement)
+    email_has_first = email_results.first()
+    if email_has_first:
+        return flash(
+            message="User with E-mail already exists.",
+            category="warning",
+            status_code=HTTP_409_CONFLICT,
         )
 
     if payload.username:
-        statement = select(User).where(
-            or_(User.username == payload.username, User.email == payload.email),
-        )
+        username_statement = select(User).where(User.username == payload.username)
+        username_results = await session.exec(username_statement)
+        username_has_first = username_results.first()
+        if username_has_first:
+            return flash(
+                message="User with this username already exists.",
+                category="warning",
+                status_code=HTTP_409_CONFLICT,
+            )
     else:
-        statement = select(User).where(User.email == payload.email)
-    results = await session.exec(statement)
-    has_first = results.first()
-    if has_first:
-        raise HTTPException(
-            status_code=HTTP_409_CONFLICT,
-            detail="User with email or username already exists",
-        )
+        payload.username = await generate_username(session=session)
 
     created_at = datetime.datetime.now(tz=UTC)
     updated_at = created_at
@@ -226,6 +238,12 @@ async def register_new_user(
     session.add(user)
     await session.commit()
     await session.refresh(user)
-    response = Response(status_code=HTTP_301_MOVED_PERMANENTLY)
-    response.headers["Location"] = "/"
-    return response
+
+    return flash(
+        message="Logged in successfully!",
+        category="success",
+        status_code=HTTP_301_MOVED_PERMANENTLY,
+        headers={
+            "Location": "/",
+        },
+    )

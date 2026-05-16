@@ -64,6 +64,8 @@ dev = [
     "djlint>=1.34.1",
     "alembic>=1.18.4",
     "mdformat>=1.0.0",
+    "fonttools>=4.63.0",
+    "brotli>=1.2.0",
 ]
 
 [build-system]

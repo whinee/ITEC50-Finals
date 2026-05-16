@@ -4,7 +4,7 @@ from typing import Any, Literal, Protocol
 from fastapi import Request
 from fastapi.responses import UJSONResponse  # type: ignore
 from starlette.background import BackgroundTask
-from starlette.templating import Jinja2Templates
+from starlette.templating import Jinja2Templates, _TemplateResponse
 
 from src.utils.http_code import (
     build_status_meta,
@@ -28,7 +28,7 @@ class TemplateFlashInnerCallable(Protocol):
     def __call__(
         self,
         message: str,
-        category: Literal["primary", "danger", "success"] = "primary",
+        category: Literal["primary", "success", "warning", "danger"] = "primary",
         context: dict[str, Any] | None = None,
         status_code: int = 200,
         headers: Mapping[str, str] | None = None,
@@ -92,6 +92,30 @@ class CustomResponse:
         )
 
     @staticmethod
+    def http_code(
+        request: Request,
+        status_code: int,
+        details: str | None = None,
+        message: str | None = None,
+        error: bool | None = None,
+    ) -> _TemplateResponse:
+        status_code, content, status = CustomResponse.raw_json(
+            status_code=status_code,
+            details=details,
+            message=message,
+            error=error,
+        )
+        return TEMPLATES.TemplateResponse(
+            name="code.j2.html",
+            request=request,
+            context={
+                "content": content,
+                "status": {"code": status_code, **status.copy()},
+            },
+            status_code=status_code,
+        )
+
+    @staticmethod
     def template(
         request: Request,
         name: str,
@@ -125,7 +149,7 @@ class CustomResponse:
     ) -> TemplateFlashInnerCallable:
         def inner(
             message: str,
-            category: Literal["primary", "danger", "success"] = "primary",
+            category: Literal["primary", "success", "warning", "danger"] = "primary",
             context: dict[str, Any] | None = None,
             status_code: int = 200,
             headers: Mapping[str, str] | None = None,

@@ -4,19 +4,15 @@ Copyright (c) 2026 Lyra Phasma
 
 This repository is dual-licensed:
 
-- All files under `src` are licensed under the Lyra Phasma Academic
-  Source License (LPASL) v1.0 (see [`docs/LICENSES/LPASL-1.0.md`](./LICENSES/LPASL-1.0.md))
+- All files under `src` are licensed under the Lyra Phasma Academic Source License (LPASL) v1.0 (see [`docs/LICENSES/LPASL-1.0.md`](./LICENSES/LPASL-1.0.md))
 
-- Everything else is licensed under the MIT License
-  (see [`docs/LICENSES/MIT.md`](./LICENSES/MIT.md))
+- Everything else is licensed under the MIT License (see [`docs/LICENSES/MIT.md`](./LICENSES/MIT.md))
 
 ## Third-Party Attributions and Licensing History
 
 ### Pebble Recall by Team Phasmolysis
 
-Parts or the entirety of the following files are derived from
-[Pebble Recall by Team Phasmolysis](https://github.com/phasmolysis-team/phasmolysis-pebble-recall),
-originally authored solely by uncomfyhalomacro:
+Parts or the entirety of the following files are derived from [Pebble Recall by Team Phasmolysis](https://github.com/phasmolysis-team/phasmolysis-pebble-recall), originally authored solely by uncomfyhalomacro:
 
 - All files under `src/security`
 - `src/api/auth.py`

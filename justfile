@@ -44,7 +44,7 @@ test-migrations:
     echo "Stopped postgres server. Do not forget to run start-db with your own PGDATA to restart"
 
 alembic +args:
-    ENV=development uv run alembic {{args}}
+    uv run alembic {{args}}
 
 start-db:
     if [ ! -f "${PGDATA}/PG_VERSION" ]; then initdb -D "${PGDATA}" -U ${PG__USER}; fi
@@ -131,5 +131,3 @@ dev:
 # Run web app
 run:
     hypercorn main:app --reload --bind 0.0.0.0:8000 --workers 16
-
-
