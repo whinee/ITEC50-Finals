@@ -196,7 +196,6 @@ ignore-overlong-task-comments = false
 # Also ignore `E402` in all `__init__.py` files.
 "src/migrations/versions/*.py" = ["D400", "D415", "INP001"]
 
-
 [tool.djlint]
 extension="j2.html"
 format_css=true

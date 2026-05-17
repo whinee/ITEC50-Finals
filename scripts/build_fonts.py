@@ -37,6 +37,7 @@ from __future__ import annotations
 import argparse
 import sys
 from collections import defaultdict
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -91,7 +92,7 @@ def section(title: str) -> None:
 def cff_to_tt_outlines(font: Any) -> None:  # noqa: C901
     """
     Convert CFF cubic outlines to TrueType quadratic in-place.
-    
+
     Uses Cu2QuPen + TTGlyphPen — works with fontTools 4.x.
     Typed as Any to avoid Pylance false positives on dynamic TTFont attributes.
 
@@ -116,8 +117,8 @@ def cff_to_tt_outlines(font: Any) -> None:  # noqa: C901
         glyphs[name] = tt_pen.glyph()
 
     glyf = newTable("glyf")
-    glyf.glyphs = glyphs # type: ignore[attr]
-    glyf.glyphOrder = glyph_order # type: ignore[attr]
+    glyf.glyphs = glyphs  # type: ignore[attr]
+    glyf.glyphOrder = glyph_order  # type: ignore[attr]
     font["glyf"] = glyf
 
     # ── Add loca (required; fontTools populates it during compile) ─────────────
@@ -195,7 +196,8 @@ MasterEntry = dict[str, Any]
 
 
 def collect_families(  # noqa: C901
-    src_dir: Path, ttf_dir: Path,
+    src_dir: Path,
+    ttf_dir: Path,
 ) -> dict[str, dict[str, list[MasterEntry]]]:
     """
     Scan src_dir for .ttf/.otf files, group by family, parse weight + italic.
@@ -412,7 +414,7 @@ def build_variable_font(  # noqa: C901
         return f
 
     for src in ds.sources:
-        src.font = load_and_patch(src.path) # type: ignore
+        src.font = load_and_patch(src.path)  # type: ignore
 
         # ── Compile ───────────────────────────────────────────────────────────────────────────────────
     # Pass the DesignSpaceDocument object directly (not a path) so that
@@ -439,19 +441,21 @@ def build_variable_font(  # noqa: C901
 # ─────────────────────────────────────────────────────────────────────────────
 
 
-def ttf_to_woff2(ttf_path: Path) -> None:
-    """Convert a TTF/variable TTF to woff2, saved alongside the source."""
-    from fontTools.ttLib import TTFont
+def ttf_to_woff2(out_path: Path) -> Callable[[Path], None]:
+    def inner(ttf_path: Path) -> None:
+        """Convert a TTF/variable TTF to woff2, saved alongside the source."""
 
-    woff2_path = ttf_path.with_suffix(".woff2")
-    if woff2_path.exists():
-        log(f"[skip] {woff2_path.name} already exists")
-        return
+        woff2_path = Path.joinpath(out_path, ttf_path.stem + ".woff2")
+        if woff2_path.exists():
+            log(f"[skip] {woff2_path.name} already exists")
+            return
 
-    font = TTFont(ttf_path)
-    font.flavor = "woff2"
-    font.save(str(woff2_path))
-    log(f"[ttf→woff2] {ttf_path.name} → {woff2_path.name}")
+        font = TTFont(ttf_path)
+        font.flavor = "woff2"
+        font.save(str(woff2_path))
+        log(f"[ttf→woff2] {ttf_path.name} → {woff2_path.name}")
+
+    return inner
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -466,7 +470,9 @@ def main() -> None:  # noqa: C901
         epilog=__doc__,
     )
     parser.add_argument(
-        "--src", required=True, help="Folder with font masters (TTF or OTF)",
+        "--src",
+        required=True,
+        help="Folder with font masters (TTF or OTF)",
     )
     parser.add_argument("--out", required=True, help="Output folder")
     parser.add_argument(
@@ -550,12 +556,14 @@ def main() -> None:  # noqa: C901
         if args.ttf_extras:
             search_dirs.append(Path(args.ttf_extras).expanduser().resolve())
 
+        _ttf_to_woff2 = ttf_to_woff2(out_dir)
+
         for fname in WOFF2_WHITELIST:
             found = False
             for d in search_dirs:
                 candidate = d / fname
                 if candidate.exists():
-                    ttf_to_woff2(candidate)
+                    _ttf_to_woff2(candidate)
                     found = True
                     break
             if not found:

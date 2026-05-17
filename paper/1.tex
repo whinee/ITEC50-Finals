@@ -40,24 +40,24 @@
 \fancyfoot[C]{\thepage} % Put page number in center footer
 
 \hypersetup{
-    colorlinks=true,
-    linkcolor=black,
-    urlcolor=accentgray,
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=accentgray,
 }
 
 \newfontfamily{\LatinModernRoman}{Latin Modern Roman}
 
 \setmainfont[
-    Path=fonts/,
-    UprightFont = *-Regular,
-    BoldFont    = *-Bold,
+  Path=fonts/,
+  UprightFont = *-Regular,
+  BoldFont    = *-Bold,
 ]{Arial}
 
 \setmonofont[
-    Path=fonts/,
-    Scale=0.9,
-    UprightFont = *-Regular,
-    BoldFont    = *-Bold,
+  Path=fonts/,
+  Scale=0.9,
+  UprightFont = *-Regular,
+  BoldFont    = *-Bold,
 ]{ComicMono}
 
 \hyphenpenalty=9999
@@ -69,16 +69,16 @@
 \AtBeginEnvironment{tabular}{\fontsize{10}{12}\selectfont}
 \titleformat{\chapter}[display]{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{-0.5em}{\Huge}
 \titlespacing*{\chapter}
-  {0pt}    % left margin
-  {-5em}    % space before
-  {-0.5em}    % space after
+{0pt}    % left margin
+{-5em}    % space before
+{-0.5em}    % space after
 \setlength{\parindent}{0pt}
 
 \renewcommand{\contentsname}{Table of Contents}
 
 \lstdefinestyle{text}{
-    basicstyle=\ttfamily\color{black},
-    breaklines=true,
+  basicstyle=\ttfamily\color{black},
+  breaklines=true,
 }
 
 \definecolor{white}{HTML}{ffffff}
@@ -91,23 +91,24 @@
 \let\old@chapter\chapter
 \renewcommand{\chapter}{%
   \ifdim\pagetotal=0pt % remove margin if it's at top of page
-    \vspace*{-2.5em}
+  \vspace*{-2.5em}
   \fi
   \@ifstar
-    {\old@chapter*}
-    {\old@chapter}%
+  {\old@chapter*}
+  {\old@chapter}%
 }
 \titleformat{\chapter} % or [block]
-  {\normalfont\LARGE\bfseries}
-  {\thechapter}{0.625em}{}
+{\normalfont\LARGE\bfseries}
+{\thechapter}{0.625em}{}
 \titlespacing*{\chapter}
-  {0pt}    % left margin
-  {0em}    % space before
-  {-0.5em}    % space after
+{0pt}    % left margin
+{0em}    % space before
+{-0.5em}    % space after
 
 \makeatother
 
 \usemintedstyle{tango}
+% tex-fmt: off
 \newcommand{\inputmintedstyled}[2]{%
   \inputminted[
     fontsize=\small,
@@ -143,18 +144,19 @@
   ]{#1}{#2}
   \end{multicols*}%
 }
+% tex-fmt: on
 
 \newcommand{\quotefont}{\rmfamily}
 
 \newcommand*\quotesize{80} % if quote size changes, need a way to make shifts relative
 % Make commands for the quotes
 \newcommand*{\openquote}
-   {\tikz[remember picture,overlay,xshift=-2.5ex,yshift=-4.5ex]
-   \node (OQ) {\quotefont\fontsize{\quotesize}{\quotesize}\selectfont``};\kern0pt}
+{\tikz[remember picture,overlay,xshift=-2.5ex,yshift=-4.5ex]
+\node (OQ) {\quotefont\fontsize{\quotesize}{\quotesize}\selectfont``};\kern0pt}
 
 \newcommand*{\closequote}[1]
-  {\tikz[remember picture,overlay,xshift=2.5ex,yshift={#1}]
-   \node (CQ) {\quotefont\fontsize{\quotesize}{\quotesize}\selectfont''};}
+{\tikz[remember picture,overlay,xshift=2.5ex,yshift={#1}]
+\node (CQ) {\quotefont\fontsize{\quotesize}{\quotesize}\selectfont''};}
 
 % select a colour for the shading
 \colorlet{shadecolor}{gray!10}
@@ -164,37 +166,40 @@
 % Now a command to allow left, right and centre alignment of the author
 \newcommand*\authoralign[1]{%
   \if#1l
-    \def\authorfill{}\def\quotefill{\hfill}
+  \def\authorfill{}\def\quotefill{\hfill}
   \else
-    \if#1r
-      \def\authorfill{\hfill}\def\quotefill{}
-    \else
-      \if#1c
-        \gdef\authorfill{\hfill}\def\quotefill{\hfill}
-      \else\typeout{Invalid option}
-      \fi
-    \fi
-  \fi}
+  \if#1r
+  \def\authorfill{\hfill}\def\quotefill{}
+  \else
+  \if#1c
+  \gdef\authorfill{\hfill}\def\quotefill{\hfill}
+  \else\typeout{Invalid option}
+  \fi
+  \fi
+\fi}
 % wrap everything in its own environment which takes one argument (author) and one optional argument
 % specifying the alignment [l, r or c]
 %
 \newenvironment{shadequote}[2][l]%
 {
-\vspace{1em}
-\authoralign{#1}
- \ifblank{#2}
-   {\def\shadequoteauthor{}\def\yshift{-2ex}\def\quotefill{\hfill}}
-   {\def\shadequoteauthor{\par\authorfill\shadedauthorformat{#2}}\def\yshift{-2ex}}
- \begin{snugshade}\vspace{0.5em}\begin{quote}\openquote}
-{\shadequoteauthor\quotefill\closequote{\yshift}\end{quote}\vspace{0.5em}\end{snugshade}%
+  \vspace{1em}
+  \authoralign{#1}
+  \ifblank{#2}
+  {\def\shadequoteauthor{}\def\yshift{-2ex}\def\quotefill{\hfill}}
+  {\def\shadequoteauthor{\par\authorfill\shadedauthorformat{#2}}\def\yshift{-2ex}}
+  \begin{snugshade}\vspace{0.5em}
+  \begin{quote}\openquote}
+    {\shadequoteauthor\quotefill\closequote{\yshift}
+    \end{quote}\vspace{0.5em}
+  \end{snugshade}%
 }
 
 \begin{document}
 
 \begin{center}
-{\large\bfseries ITEC 50: Web Systems and Technologies}
+  {\large\bfseries ITEC 50: Web Systems and Technologies}
 
-{\large\bfseries Final Project --- Group Progress Update Report}
+  {\large\bfseries Final Project --- Group Progress Update Report}
 
 \end{center}
 
@@ -222,24 +227,24 @@ Conceptualization and competitive analysis are complete. Core design philosophy 
 \chapter{Planned Tasks}
 
 \begin{itemize}
-    \item Implementation of the card-based UI with list-view toggle
-    \item Johnny.Decimal ID field integration and range-based filtering
-    \item Tag support and multi-attribute search functionality
-    \item User account system and authentication
-    \item Cloud synchronization of bookmark data across sessions
-    \item Persistent database integration
-    \item Final polish, accessibility improvements, and export functionality
-    \item Long-term: portable distribution as \texttt{.exe}, \texttt{.msi}, and \texttt{.AppImage}
+  \item Implementation of the card-based UI with list-view toggle
+  \item Johnny.Decimal ID field integration and range-based filtering
+  \item Tag support and multi-attribute search functionality
+  \item User account system and authentication
+  \item Cloud synchronization of bookmark data across sessions
+  \item Persistent database integration
+  \item Final polish, accessibility improvements, and export functionality
+  \item Long-term: portable distribution as \texttt{.exe}, \texttt{.msi}, and \texttt{.AppImage}
 \end{itemize}
 
 \chapter{Tools and Technologies}
 
 \begin{itemize}
-    \item \textbf{Frontend:} HTML, CSS, JavaScript
-    \item \textbf{Backend:} Python, FastAPI
-    \item \textbf{Database:} PostgreSQL, SQLModel, Alembic (migrations)
-    \item \textbf{Authentication:} JWT, itsdangerous, bcrypt
-    \item \textbf{Design reference:} Johnny.Decimal organizational system (\url{https://johnnydecimal.com})
+  \item \textbf{Frontend:} HTML, CSS, JavaScript
+  \item \textbf{Backend:} Python, FastAPI
+  \item \textbf{Database:} PostgreSQL, SQLModel, Alembic (migrations)
+  \item \textbf{Authentication:} JWT, itsdangerous, bcrypt
+  \item \textbf{Design reference:} Johnny.Decimal organizational system (\url{https://johnnydecimal.com})
 \end{itemize}
 
 \chapter{Challenges / Concerns}
@@ -261,9 +266,9 @@ DeciMark is currently in active development, with the backend implementation und
 To promote genuine learning while protecting both intellectual property and academic integrity, the DeciMark repository is multi-licensed:
 
 \begin{itemize}
-    \item \textbf{Mozilla Public License 2.0} --- applied to files derived from Pebble Recall, in compliance with that project's licensing terms
-    \item \textbf{Lyra Phasma Academic Source License v1.0 (LPASL v1.0)} --- applied to all original source code. This license permits students to study and learn from the codebase, while explicitly prohibiting direct copying or unattributed submission as one's own academic work
-    \item \textbf{MIT License} --- applied to all remaining files, including tooling and configuration
+  \item \textbf{Mozilla Public License 2.0} --- applied to files derived from Pebble Recall, in compliance with that project's licensing terms
+  \item \textbf{Lyra Phasma Academic Source License v1.0 (LPASL v1.0)} --- applied to all original source code. This license permits students to study and learn from the codebase, while explicitly prohibiting direct copying or unattributed submission as one's own academic work
+  \item \textbf{MIT License} --- applied to all remaining files, including tooling and configuration
 \end{itemize}
 
 The LPASL v1.0 is an original license authored by the developer, designed specifically for the academic context: it encourages learning from open source without enabling academic dishonesty, and includes a sunset clause converting all restricted works to MIT terms on December 31, 2030.

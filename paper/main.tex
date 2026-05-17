@@ -27,22 +27,22 @@
 \usepackage{pdfpages}
 \usepackage{metalogo}
 \usepackage[%
-    backend=biber,
-    %style=authoryear,
-    style=apa, 
-    citestyle=authoryear,
-    sorting=nyt,
-    sortcites=true,
-    block=none,
-    indexing=true,
-    citereset=none,
-    isbn=true,
-    url=true,
-    doi=true,
-    natbib=true,
-    dateabbrev=false,
-    alldates=long,
-    eprint=true,
+  backend=biber,
+  %style=authoryear,
+  style=apa,
+  citestyle=authoryear,
+  sorting=nyt,
+  sortcites=true,
+  block=none,
+  indexing=true,
+  citereset=none,
+  isbn=true,
+  url=true,
+  doi=true,
+  natbib=true,
+  dateabbrev=false,
+  alldates=long,
+  eprint=true,
 ]{biblatex}
 \usepackage{setspace}
 
@@ -58,24 +58,24 @@
 \fancyfoot[C]{\thepage} % Put page number in center footer
 
 \hypersetup{
-    colorlinks=true,
-    linkcolor=black,
-    urlcolor=accentgray,
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=accentgray,
 }
 
 \newfontfamily{\LatinModernRoman}{Latin Modern Roman}
 
 \setmainfont[
-    Path=fonts/,
-    UprightFont = *-Regular,
-    BoldFont    = *-Bold,
+  Path=fonts/,
+  UprightFont = *-Regular,
+  BoldFont    = *-Bold,
 ]{Arial}
 
 \setmonofont[
-    Path=fonts/,
-    Scale=0.9,
-    UprightFont = *-Regular,
-    BoldFont    = *-Bold,
+  Path=fonts/,
+  Scale=0.9,
+  UprightFont = *-Regular,
+  BoldFont    = *-Bold,
 ]{ComicMono}
 
 \hyphenpenalty=9999
@@ -87,16 +87,16 @@
 \AtBeginEnvironment{tabular}{\fontsize{10}{12}\selectfont}
 \titleformat{\chapter}[display]{\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{-0.5em}{\Huge}
 \titlespacing*{\chapter}
-  {0pt}    % left margin
-  {-5em}    % space before
-  {-0.5em}    % space after
+{0pt}    % left margin
+{-5em}    % space before
+{-0.5em}    % space after
 \setlength{\parindent}{0pt}
 
 \renewcommand{\contentsname}{Table of Contents}
 
 \lstdefinestyle{text}{
-    basicstyle=\ttfamily\color{black},
-    breaklines=true,
+  basicstyle=\ttfamily\color{black},
+  breaklines=true,
 }
 
 \definecolor{white}{HTML}{ffffff}
@@ -109,23 +109,24 @@
 \let\old@chapter\chapter
 \renewcommand{\chapter}{%
   \ifdim\pagetotal=0pt % remove margin if it's at top of page
-    \vspace*{-2.5em}
+  \vspace*{-2.5em}
   \fi
   \@ifstar
-    {\old@chapter*}
-    {\old@chapter}%
+  {\old@chapter*}
+  {\old@chapter}%
 }
 \titleformat{\chapter} % or [block]
-  {\normalfont\LARGE\bfseries}
-  {\thechapter}{0.625em}{}
+{\normalfont\LARGE\bfseries}
+{\thechapter}{0.625em}{}
 \titlespacing*{\chapter}
-  {0pt}    % left margin
-  {0em}    % space before
-  {-0.5em}    % space after
+{0pt}    % left margin
+{0em}    % space before
+{-0.5em}    % space after
 
 \makeatother
 
 \usemintedstyle{tango}
+% tex-fmt: off
 \newcommand{\inputmintedstyled}[2]{%
   \inputminted[
     fontsize=\small,
@@ -161,18 +162,19 @@
   ]{#1}{#2}
   \end{multicols*}%
 }
+% tex-fmt: on
 
 \newcommand{\quotefont}{\rmfamily}
 
 \newcommand*\quotesize{80} % if quote size changes, need a way to make shifts relative
 % Make commands for the quotes
 \newcommand*{\openquote}
-   {\tikz[remember picture,overlay,xshift=-2.5ex,yshift=-4.5ex]
-   \node (OQ) {\quotefont\fontsize{\quotesize}{\quotesize}\selectfont``};\kern0pt}
+{\tikz[remember picture,overlay,xshift=-2.5ex,yshift=-4.5ex]
+\node (OQ) {\quotefont\fontsize{\quotesize}{\quotesize}\selectfont``};\kern0pt}
 
 \newcommand*{\closequote}[1]
-  {\tikz[remember picture,overlay,xshift=2.5ex,yshift={#1}]
-   \node (CQ) {\quotefont\fontsize{\quotesize}{\quotesize}\selectfont''};}
+{\tikz[remember picture,overlay,xshift=2.5ex,yshift={#1}]
+\node (CQ) {\quotefont\fontsize{\quotesize}{\quotesize}\selectfont''};}
 
 % select a colour for the shading
 \colorlet{shadecolor}{gray!10}
@@ -182,623 +184,626 @@
 % Now a command to allow left, right and centre alignment of the author
 \newcommand*\authoralign[1]{%
   \if#1l
-    \def\authorfill{}\def\quotefill{\hfill}
+  \def\authorfill{}\def\quotefill{\hfill}
   \else
-    \if#1r
-      \def\authorfill{\hfill}\def\quotefill{}
-    \else
-      \if#1c
-        \gdef\authorfill{\hfill}\def\quotefill{\hfill}
-      \else\typeout{Invalid option}
-      \fi
-    \fi
-  \fi}
+  \if#1r
+  \def\authorfill{\hfill}\def\quotefill{}
+  \else
+  \if#1c
+  \gdef\authorfill{\hfill}\def\quotefill{\hfill}
+  \else\typeout{Invalid option}
+  \fi
+  \fi
+\fi}
 % wrap everything in its own environment which takes one argument (author) and one optional argument
 % specifying the alignment [l, r or c]
 %
 \newenvironment{shadequote}[2][l]%
 {
-\vspace{1em}
-\authoralign{#1}
- \ifblank{#2}
-   {\def\shadequoteauthor{}\def\yshift{-2ex}\def\quotefill{\hfill}}
-   {\def\shadequoteauthor{\par\authorfill\shadedauthorformat{#2}}\def\yshift{-2ex}}
- \begin{snugshade}\vspace{0.5em}\begin{quote}\openquote}
-{\shadequoteauthor\quotefill\closequote{\yshift}\end{quote}\vspace{0.5em}\end{snugshade}%
+  \vspace{1em}
+  \authoralign{#1}
+  \ifblank{#2}
+  {\def\shadequoteauthor{}\def\yshift{-2ex}\def\quotefill{\hfill}}
+  {\def\shadequoteauthor{\par\authorfill\shadedauthorformat{#2}}\def\yshift{-2ex}}
+  \begin{snugshade}\vspace{0.5em}
+  \begin{quote}\openquote}
+    {\shadequoteauthor\quotefill\closequote{\yshift}
+    \end{quote}\vspace{0.5em}
+  \end{snugshade}%
 }
 
 \DefineBibliographyStrings{english}{
-    urlseen = {Retrieved},
+  urlseen = {Retrieved},
 }
 
 \DeclareFieldFormat{citehyperref}{%
   \DeclareFieldAlias{bibhyperref}{noformat}% Avoid nested links
-  \bibhyperref{#1}}
+\bibhyperref{#1}}
 
 \savebibmacro{cite}
 
 \renewbibmacro*{cite}{%
   \printtext[citehyperref]{%
     \restorebibmacro{cite}%
-    \usebibmacro{cite}}}
+\usebibmacro{cite}}}
 
 \addbibresource{refs.bib}
 
 \begin{document}
- 
+
 \begin{titlepage}
-    \centering
-    \vspace*{2cm}
-    {\Huge\bfseries DeciMark\par}
-    {\LARGE\bfseries Workflow Justification \& Reflections on Collaborative Development\par}
-    \vspace{1cm}
-    {\large ITEC50 Final Project --- Individual Submission\par}
-    \vspace{0.5cm}
-    {\normalsize\color{accentgray} A documentation of technical decisions, professional standards, and the realities of collaborative development\par}
-    \vfill
-    {\normalsize Lyra Phasma\par}
-    {\normalsize ITEC50\par}
+  \centering
+  \vspace*{2cm}
+  {\Huge\bfseries DeciMark\par}
+  {\LARGE\bfseries Workflow Justification \& Reflections on Collaborative Development\par}
+  \vspace{1cm}
+  {\large ITEC50 Final Project --- Individual Submission\par}
+  \vspace{0.5cm}
+  {\normalsize\color{accentgray} A documentation of technical decisions, professional standards, and the realities of collaborative development\par}
+  \vfill
+  {\normalsize Lyra Phasma\par}
+  {\normalsize ITEC50\par}
 \end{titlepage}
- 
+
 \tableofcontents
 \newpage
 
 \chapter{Background Research \& Competitive Analysis}
- 
+
 \section{Website Type \& Purpose}
- 
+
 \textbf{DeciMark} is a \textit{Bookmark Link Manager}---a web application that enables users to save, organize, retrieve, and annotate URLs. According to \citet{abrams1998web}, it belongs to the broader category of \textit{Personal Information Management} (PIM) systems, specifically the subcategory of social and personal bookmarking tools.
- 
+
 The application is server-backed with a full database layer and requires a user account. No client-side installation is required: users access DeciMark entirely through a browser, with all infrastructure complexity contained on the server side. In later development stages, DeciMark is planned to be distributable as a portable installable---\texttt{.exe}, \texttt{.msi}, or \texttt{.AppImage}---for users who prefer self-hosting without a full server environment.
- 
+
 \subsection{Why Bookmark Management Is Essential in Professional Contexts}
- 
+
 In the modern knowledge economy, information workers routinely navigate dozens of shared digital resources daily: vendor portals, internal wikis, project dashboards, compliance references, design assets, and client-facing URLs. Without a structured system, these links scatter across browser bookmarks, messaging threads, spreadsheets, and email histories---invisible to collaborators and impossible to audit.
- 
+
 A McKinsey Global Institute study found that knowledge workers spend an estimated \textbf{20\% of their working week} searching for information or tracking down colleagues who can help locate it \citep{chui2012social}. A centralized, structured bookmark manager directly reduces this friction. In a professional team context, it functions as an operational backbone for the following use cases:
- 
+
 \begin{itemize}
-    \item \textbf{Research teams} cataloguing literature, citations, and reference links by project phase
-    \item \textbf{Developers} tracking documentation pages, API references, and deployment dashboards
-    \item \textbf{Business analysts} managing client portals, third-party SaaS tools, and reporting endpoints
-    \item \textbf{Students} organizing academic resources, course links, reading lists, and submission portals
+  \item \textbf{Research teams} cataloguing literature, citations, and reference links by project phase
+  \item \textbf{Developers} tracking documentation pages, API references, and deployment dashboards
+  \item \textbf{Business analysts} managing client portals, third-party SaaS tools, and reporting endpoints
+  \item \textbf{Students} organizing academic resources, course links, reading lists, and submission portals
 \end{itemize}
- 
+
 \begin{shadequote}[l]{\citet{pernice2014navigation}}
-Users spend most of their time on other sites. This means that users prefer your site to work the same way as all the other sites they already know.
+  Users spend most of their time on other sites. This means that users prefer your site to work the same way as all the other sites they already know.
 \end{shadequote}
- 
+
 This principle extends to \textit{information architecture}: users expect to find things where they expect them. A bookmark manager without a coherent organizational scheme violates this expectation at scale.
- 
+
 \section{Existing Professional Examples}
- 
+
 The following two platforms were selected as primary reference points because they represent opposite ends of the bookmark manager design spectrum: one prizing radical minimalism, the other prizing self-sovereignty.
- 
+
 \subsection{Pinboard.in}
- 
-\textbf{Pinboard} (\url{https://pinboard.in}) is one of the oldest surviving social bookmark managers on the web, founded in 2009 by Maciej Ceg\l{}owski as a deliberate antidote to the bloat of its contemporaries \citep{pinboard2009launch}. It gained significant adoption when the formerly dominant \textit{Delicious} bookmarking service was acquired and effectively shuttered by Yahoo! in 2010, driving thousands of users to seek alternatives \citep{singel2010delicious}.
- 
+
+\textbf{Pinboard} (\url{https://pinboard.in}) is one of the oldest surviving social bookmark managers on the web, founded in 2009 by Maciej Ceg{\l}owski as a deliberate antidote to the bloat of its contemporaries \citep{pinboard2009launch}. It gained significant adoption when the formerly dominant \textit{Delicious} bookmarking service was acquired and effectively shuttered by Yahoo! in 2010, driving thousands of users to seek alternatives \citep{singel2010delicious}.
+
 \subsubsection{Core Features}
- 
+
 \begin{itemize}
-    \item Tag-based flat organization (no folders or hierarchy)
-    \item Optional archive mode---saves a cached copy of bookmarked pages (paid tier)
-    \item Public and private bookmark visibility toggles
-    \item Minimalist, text-only interface explicitly designed for speed over aesthetics
-    \item REST API for third-party application integration
-    \item Annual subscription model (\$11/year for new accounts as of 2015) \citep{pinboard2015pricing}
+  \item Tag-based flat organization (no folders or hierarchy)
+  \item Optional archive mode---saves a cached copy of bookmarked pages (paid tier)
+  \item Public and private bookmark visibility toggles
+  \item Minimalist, text-only interface explicitly designed for speed over aesthetics
+  \item REST API for third-party application integration
+  \item Annual subscription model (\$11/year for new accounts as of 2015) \citep{pinboard2015pricing}
 \end{itemize}
- 
+
 \subsubsection{Identified Gaps \& Weaknesses}
- 
+
 Pinboard's design philosophy of deliberate minimalism, while coherent, produces several structural gaps that our project addresses:
- 
+
 \begin{itemize}
-    \item \textbf{No visual interface.} Pinboard renders as a plain text list with no thumbnails, link previews, or card-based layouts. This imposes a high cognitive load on users managing large collections, as links are distinguished only by title text and tags \citep{jones2007keeping}.
-    \item \textbf{Flat tag system.} Pinboard offers no hierarchical organization---no folders, no categories, no enforced naming schema. Tags are entirely free-form, meaning any two users will inevitably develop incompatible taxonomies for the same content domain.
-    \item \textbf{No structured classification.} There is no concept of a numeric identifier, reference code, or stable address for any given bookmark beyond its URL.
-    \item \textbf{Poor mobile responsiveness.} The interface pre-dates mobile-first design paradigms and has not been substantially updated.
-    \item \textbf{No collaborative features.} Beyond making individual pins public, Pinboard offers no team workspaces, shared collections, or multi-user permission systems.
+  \item \textbf{No visual interface.} Pinboard renders as a plain text list with no thumbnails, link previews, or card-based layouts. This imposes a high cognitive load on users managing large collections, as links are distinguished only by title text and tags \citep{jones2007keeping}.
+  \item \textbf{Flat tag system.} Pinboard offers no hierarchical organization---no folders, no categories, no enforced naming schema. Tags are entirely free-form, meaning any two users will inevitably develop incompatible taxonomies for the same content domain.
+  \item \textbf{No structured classification.} There is no concept of a numeric identifier, reference code, or stable address for any given bookmark beyond its URL.
+  \item \textbf{Poor mobile responsiveness.} The interface pre-dates mobile-first design paradigms and has not been substantially updated.
+  \item \textbf{No collaborative features.} Beyond making individual pins public, Pinboard offers no team workspaces, shared collections, or multi-user permission systems.
 \end{itemize}
- 
+
 Most critically: as of late 2024, Pinboard entered a period of significant operational decline. The service is maintained by a single developer who became largely unresponsive to support inquiries, with users reporting increasing downtime, throttled API access, and no public roadmap \citep{tsai2024pinboard}. Long-time subscribers publicly migrated to alternatives.
- 
+
 \begin{shadequote}[l]{Michael Tsai \textcite{tsai2024pinboard}}
-Pinboard is a one person show and that person is no longer responding to support emails. Maciej is no longer active on social media that I know of. His Pinboard.in support forum has been quiescent for years.
+  Pinboard is a one person show and that person is no longer responding to support emails. Maciej is no longer active on social media that I know of. His Pinboard.in support forum has been quiescent for years.
 \end{shadequote}
- 
+
 This is a meaningful lesson in the fragility of single-maintainer SaaS dependencies---and a direct motivation for DeciMark's self-hostable architecture.
- 
+
 \subsection{linkding}
- 
+
 \textbf{linkding} (\url{https://linkding.link}) is a self-hosted, open-source bookmark manager built with the Django web framework and designed to be deployed via Docker \citep{linkding2020github}. It is minimally scoped by design: fast, auditable, and entirely under the operator's control.
- 
+
 \subsubsection{Core Features}
- 
+
 \begin{itemize}
-    \item Full self-hosting: the operator owns all data and infrastructure
-    \item Tag-based bookmark organization
-    \item Browser extension for one-click saving
-    \item REST API for automation and integrations
-    \item Netscape HTML bookmark import and export
-    \item Multi-user support via Django's admin panel
-    \item Snapshot archiving via \texttt{singlefile} integration
+  \item Full self-hosting: the operator owns all data and infrastructure
+  \item Tag-based bookmark organization
+  \item Browser extension for one-click saving
+  \item REST API for automation and integrations
+  \item Netscape HTML bookmark import and export
+  \item Multi-user support via Django's admin panel
+  \item Snapshot archiving via \texttt{singlefile} integration
 \end{itemize}
- 
+
 \subsubsection{Identified Gaps \& Weaknesses}
- 
+
 \begin{itemize}
-    \item \textbf{Requires Docker and server infrastructure.} linkding is inaccessible to any user without Linux/server administration experience. For a student team or a small business without a DevOps resource, the setup cost is prohibitive \citep{linkding2020github}.
-    \item \textbf{No visual card or grid view.} The interface is list-only. Link previews and thumbnail generation are absent.
-    \item \textbf{Flat tagging, no structural schema.} Like Pinboard, linkding uses free-form tags without any enforced hierarchy or classification model.
-    \item \textbf{Zero onboarding for general users.} The project is explicitly developer-targeted; there is no guided setup, no hosted version, and no consumer-facing documentation.
-    \item \textbf{No link metadata enrichment.} Beyond a title and description scraped at save-time, no visual preview or favicon resolution is performed.
+  \item \textbf{Requires Docker and server infrastructure.} linkding is inaccessible to any user without Linux/server administration experience. For a student team or a small business without a DevOps resource, the setup cost is prohibitive \citep{linkding2020github}.
+  \item \textbf{No visual card or grid view.} The interface is list-only. Link previews and thumbnail generation are absent.
+  \item \textbf{Flat tagging, no structural schema.} Like Pinboard, linkding uses free-form tags without any enforced hierarchy or classification model.
+  \item \textbf{Zero onboarding for general users.} The project is explicitly developer-targeted; there is no guided setup, no hosted version, and no consumer-facing documentation.
+  \item \textbf{No link metadata enrichment.} Beyond a title and description scraped at save-time, no visual preview or favicon resolution is performed.
 \end{itemize}
- 
+
 \subsection{Raindrop.io (Additional Reference)}
- 
+
 \textbf{Raindrop.io} (\url{https://raindrop.io}) was examined as a third reference point representing the premium, cloud-hosted segment of the market. It offers a substantially more visual and feature-rich experience than either Pinboard or linkding \citep{raindropio2024}.
- 
+
 \subsubsection{Core Features}
- 
+
 \begin{itemize}
-    \item Nested collections (folders with sub-folders)
-    \item Multiple view modes: Grid, Masonry, Headlines, List
-    \item Tag support alongside folder hierarchy
-    \item Browser extensions, iOS/Android apps, Windows/macOS desktop apps
-    \item Broken-link and duplicate detection
-    \item Full-text search within saved pages (Pro tier)
-    \item Annotation and highlighting tools
+  \item Nested collections (folders with sub-folders)
+  \item Multiple view modes: Grid, Masonry, Headlines, List
+  \item Tag support alongside folder hierarchy
+  \item Browser extensions, iOS/Android apps, Windows/macOS desktop apps
+  \item Broken-link and duplicate detection
+  \item Full-text search within saved pages (Pro tier)
+  \item Annotation and highlighting tools
 \end{itemize}
- 
+
 \subsubsection{Identified Gaps \& Weaknesses}
- 
+
 \begin{itemize}
-    \item \textbf{No structured numeric classification.} Folder naming is entirely user-defined with no enforced schema. Two team members will inevitably use different naming conventions \citep{jones2007keeping}.
-    \item \textbf{Key features are paywalled.} Nested collections, full-text search, and permanent caching require a Pro subscription at \$28/year, which is a barrier for student use \citep{raindropio2024}.
-    \item \textbf{Cloud-only, no self-hosting option.} Raindrop.io has no self-hostable mode; all data is held on their servers with no operator control.
-    \item \textbf{Overengineered for constrained use cases.} For a student team or small business needing only structured, consistent categorization, Raindrop.io introduces organizational surface area without enforcing organizational discipline.
+  \item \textbf{No structured numeric classification.} Folder naming is entirely user-defined with no enforced schema. Two team members will inevitably use different naming conventions \citep{jones2007keeping}.
+  \item \textbf{Key features are paywalled.} Nested collections, full-text search, and permanent caching require a Pro subscription at \$28/year, which is a barrier for student use \citep{raindropio2024}.
+  \item \textbf{Cloud-only, no self-hosting option.} Raindrop.io has no self-hostable mode; all data is held on their servers with no operator control.
+  \item \textbf{Overengineered for constrained use cases.} For a student team or small business needing only structured, consistent categorization, Raindrop.io introduces organizational surface area without enforcing organizational discipline.
 \end{itemize}
- 
+
 \section{Competitor Comparison Matrix}
- 
+
 Table \ref{tab:competitor-matrix} summarizes the feature gaps across all three reference platforms relative to our project's design goals.
- 
+
 \begin{table}[H]
-\centering
-\caption{Competitor Feature Comparison Matrix}
-\label{tab:competitor-matrix}
-\begin{tabular}{|p{3.8cm}|p{2.4cm}|p{2.4cm}|p{2.4cm}|p{3.2cm}|}
-\hline
-\textbf{Feature} & \textbf{Pinboard} & \textbf{linkding} & \textbf{Raindrop.io} & \textbf{DeciMark (Ours)} \\
-\hline
-Visual card UI         & None              & None              & Grid/Masonry         & Card + List toggle \\
-\hline
-Org. model             & Flat tags         & Flat tags         & Folders + tags       & JD IDs + tags + folders \\
-\hline
-JD numeric system      & None              & None              & None                 & \textbf{Built-in} \\
-\hline
-User accounts          & Yes               & Yes (admin)       & Yes                  & Yes \\
-\hline
-Client-side install    & None required     & None required     & None required        & None required \\
-\hline
-Self-hostable          & No                & Yes (Docker)      & No                   & Yes \\
-\hline
-Service reliability    & Declining (2024)  & Stable            & Stable               & Self-hosted \\
-\hline
-Mobile responsive      & Poor              & Basic             & Good                 & Mobile-first \\
-\hline
-Portable distribution  & No                & No                & No                   & Planned (.exe/.AppImage) \\
-\hline
-Collaborative use      & Public pins only  & Multi-user (admin)& Pro tier             & Scoped by JD area \\
-\hline
-\end{tabular}
+  \centering
+  \caption{Competitor Feature Comparison Matrix}
+  \label{tab:competitor-matrix}
+  \begin{tabular}{|p{3.8cm}|p{2.4cm}|p{2.4cm}|p{2.4cm}|p{3.2cm}|}
+    \hline
+    \textbf{Feature} & \textbf{Pinboard} & \textbf{linkding} & \textbf{Raindrop.io} & \textbf{DeciMark (Ours)} \\
+    \hline
+    Visual card UI         & None              & None              & Grid/Masonry         & Card + List toggle \\
+    \hline
+    Org. model             & Flat tags         & Flat tags         & Folders + tags       & JD IDs + tags + folders \\
+    \hline
+    JD numeric system      & None              & None              & None                 & \textbf{Built-in} \\
+    \hline
+    User accounts          & Yes               & Yes (admin)       & Yes                  & Yes \\
+    \hline
+    Client-side install    & None required     & None required     & None required        & None required \\
+    \hline
+    Self-hostable          & No                & Yes (Docker)      & No                   & Yes \\
+    \hline
+    Service reliability    & Declining (2024)  & Stable            & Stable               & Self-hosted \\
+    \hline
+    Mobile responsive      & Poor              & Basic             & Good                 & Mobile-first \\
+    \hline
+    Portable distribution  & No                & No                & No                   & Planned (.exe/.AppImage) \\
+    \hline
+    Collaborative use      & Public pins only  & Multi-user (admin)& Pro tier             & Scoped by JD area \\
+    \hline
+  \end{tabular}
 \end{table}
- 
+
 \section{Our Project: DeciMark}
- 
+
 \subsection{Design Philosophy \& Differentiation}
- 
+
 DeciMark does not attempt to replicate the full feature surface of any single existing tool. Instead, it occupies a deliberate gap: a \textit{visually structured, schema-enforced, self-hostable} bookmark manager that any user can access through a browser without installing anything on their machine---while giving operators full control over their own data and infrastructure.
- 
+
 The three founding design principles are:
- 
+
 \begin{enumerate}
-    \item \textbf{Structural discipline over organizational freedom.} Free-form tags and arbitrary folder names produce entropy over time. DeciMark enforces the Johnny.Decimal classification scheme as a first-class field on every bookmark, ensuring consistent addressability across users and sessions.
-    \item \textbf{Zero client-side friction.} The application is accessed through a browser. End users install nothing. All infrastructure complexity lives on the server, where it belongs.
-    \item \textbf{Visual clarity without visual bloat.} A card-based layout with list-view toggle provides the visual orientation that Pinboard and linkding lack, without the complexity of Raindrop.io's full platform.
+  \item \textbf{Structural discipline over organizational freedom.} Free-form tags and arbitrary folder names produce entropy over time. DeciMark enforces the Johnny.Decimal classification scheme as a first-class field on every bookmark, ensuring consistent addressability across users and sessions.
+  \item \textbf{Zero client-side friction.} The application is accessed through a browser. End users install nothing. All infrastructure complexity lives on the server, where it belongs.
+  \item \textbf{Visual clarity without visual bloat.} A card-based layout with list-view toggle provides the visual orientation that Pinboard and linkding lack, without the complexity of Raindrop.io's full platform.
 \end{enumerate}
- 
+
 \subsection{Inspiration: The Johnny.Decimal System}
- 
+
 The primary structural innovation in DeciMark is the integration of the \textbf{Johnny.Decimal} (JD) organizational system, developed by Johnny Noble (\url{https://johnnydecimal.com}) \citep{johnnydecimal2021}.
- 
+
 The JD system assigns every item in a collection a unique two-part numeric identifier in the format \texttt{AC.ID}, where:
- 
+
 \begin{itemize}
-    \item The \textbf{Area} (\texttt{10--19}, \texttt{20--29}, \ldots) groups broad domains of activity into sets of ten categories
-    \item The \textbf{Category} (\texttt{15}, \texttt{32}, \ldots) groups related items within an area, with a maximum of ten categories per area
-    \item The \textbf{ID} (\texttt{15.23}, \texttt{32.04}, \ldots) uniquely identifies the specific item within its category
+  \item The \textbf{Area} (\texttt{10--19}, \texttt{20--29}, \ldots) groups broad domains of activity into sets of ten categories
+  \item The \textbf{Category} (\texttt{15}, \texttt{32}, \ldots) groups related items within an area, with a maximum of ten categories per area
+  \item The \textbf{ID} (\texttt{15.23}, \texttt{32.04}, \ldots) uniquely identifies the specific item within its category
 \end{itemize}
- 
+
 \begin{shadequote}[l]{\citet{johnnydecimal2021}}
-You assign a unique ID to everything in your life. These IDs help you stay organised. They impose constraints that make it harder to get lost.
+  You assign a unique ID to everything in your life. These IDs help you stay organised. They impose constraints that make it harder to get lost.
 \end{shadequote}
- 
+
 \textbf{Example application to bookmarks:}
- 
+
 A link to a vendor's API documentation might be assigned \texttt{32.04}, placing it in Area \texttt{30-39} (\textit{``Engineering \& Tools''}), Category \texttt{32} (\textit{``External APIs''}), as the fourth item in that category.
- 
+
 This has several concrete advantages over free-form tagging:
- 
+
 \begin{itemize}
-    \item \textbf{IDs are stable.} Unlike folder names that shift with renaming, a JD number does not move. \texttt{32.04} always refers to the same thing.
-    \item \textbf{IDs are speakable.} ``Check thirty-two oh-four'' is faster to communicate than ``it's in the Engineering folder, under External APIs, find the vendor docs.''
-    \item \textbf{IDs impose productive constraints.} A maximum of 10 categories per area and 99 items per category forces regular pruning and prevents organizational sprawl \citep{johnnydecimal2021}.
-    \item \textbf{IDs are sortable and filterable.} The numeric schema enables deterministic sorting and range-based filtering (e.g., display all items in Area \texttt{30-39}).
+  \item \textbf{IDs are stable.} Unlike folder names that shift with renaming, a JD number does not move. \texttt{32.04} always refers to the same thing.
+  \item \textbf{IDs are speakable.} ``Check thirty-two oh-four'' is faster to communicate than ``it's in the Engineering folder, under External APIs, find the vendor docs.''
+  \item \textbf{IDs impose productive constraints.} A maximum of 10 categories per area and 99 items per category forces regular pruning and prevents organizational sprawl \citep{johnnydecimal2021}.
+  \item \textbf{IDs are sortable and filterable.} The numeric schema enables deterministic sorting and range-based filtering (e.g., display all items in Area \texttt{30-39}).
 \end{itemize}
- 
+
 No existing bookmark manager on the market integrates this system as a native field. This is the primary differentiating feature of DeciMark.
- 
+
 \subsection{Features Adopted from Existing Tools}
- 
+
 Where existing tools already solve a problem well, we adopt rather than reinvent:
- 
+
 \begin{itemize}
-    \item \textbf{Tag support}---adopted from Pinboard and linkding. Free-form tags complement the structured JD IDs and support cross-cutting retrieval that the numeric scheme alone cannot express.
-    \item \textbf{Card-based visual layout}---inspired by Raindrop.io's grid view, which we identified as the most effective at-a-glance organization model. This is implemented as the primary view mode.
-    \item \textbf{Multi-attribute search and filter}---combining linkding's keyword search speed with Raindrop.io's filtering by multiple attributes (tag, JD ID range, keyword).
-    \item \textbf{Minimalist interface}---Pinboard's commitment to speed and the absence of unnecessary UI chrome informed our visual design restraint.
-    \item \textbf{User accounts and persistent data}---adopted from linkding and Raindrop.io. Bookmark collections are tied to authenticated user accounts and persisted in a database, enabling access from any device without client-side storage.
+  \item \textbf{Tag support}---adopted from Pinboard and linkding. Free-form tags complement the structured JD IDs and support cross-cutting retrieval that the numeric scheme alone cannot express.
+  \item \textbf{Card-based visual layout}---inspired by Raindrop.io's grid view, which we identified as the most effective at-a-glance organization model. This is implemented as the primary view mode.
+  \item \textbf{Multi-attribute search and filter}---combining linkding's keyword search speed with Raindrop.io's filtering by multiple attributes (tag, JD ID range, keyword).
+  \item \textbf{Minimalist interface}---Pinboard's commitment to speed and the absence of unnecessary UI chrome informed our visual design restraint.
+  \item \textbf{User accounts and persistent data}---adopted from linkding and Raindrop.io. Bookmark collections are tied to authenticated user accounts and persisted in a database, enabling access from any device without client-side storage.
 \end{itemize}
- 
+
 \subsection{Features Deliberately Excluded}
- 
+
 The following features present in existing tools were intentionally omitted from the current MVP scope:
- 
+
 \begin{itemize}
-    \item \textbf{Browser extension}---extension APIs are browser-specific and platform-dependent, placing them outside the current implementation scope. Planned for a future release.
-    \item \textbf{Full-text page archiving}---requires a server-side crawler with significant storage overhead. Out of scope for the current iteration.
-    \item \textbf{Portable distribution}---\texttt{.exe}, \texttt{.msi}, and \texttt{.AppImage} packaging is planned for later development stages to support self-hosting without a full server environment.
+  \item \textbf{Browser extension}---extension APIs are browser-specific and platform-dependent, placing them outside the current implementation scope. Planned for a future release.
+  \item \textbf{Full-text page archiving}---requires a server-side crawler with significant storage overhead. Out of scope for the current iteration.
+  \item \textbf{Portable distribution}---\texttt{.exe}, \texttt{.msi}, and \texttt{.AppImage} packaging is planned for later development stages to support self-hosting without a full server environment.
 \end{itemize}
 
 \chapter{Preface to the Reflection}
 
 I want to be upfront about something before you read any of this: I was not always this way about coding.
- 
+
 There was a time when I did it purely because I loved it. Open source contributions, small projects, learning something new every day --- not because anyone needed me to, not because my medication costs 700 pesos every two days and someone has to cover it, but just because it was fun. It was my first love. And then, because of circumstances largely outside my control, I was pushed to monetize it before I was ready. It became survival. And somewhere in that transition, I lost the plot a little.
- 
+
 I say this because it explains, at least partially, why I reacted the way I did to a group of first-year students I had known for less than 48 hours.
- 
+
 They had the sparkle. The ambition, the optimism, the whole universe of ideas and dreams that comes with being at the beginning of something. And I, having lost that somewhere along the way, did not handle it gracefully. I saw their optimism and called it naivety. I saw their excitement and called it poor scope management. And I was not entirely wrong --- the technical concerns in this document are real --- but I was not entirely right either, because being technically correct is not the same as being a good collaborator.
- 
+
 Here is what I genuinely regret: I robbed myself of the opportunity to actually collaborate with them. To remember what it felt like to be excited about something for no reason other than the excitement itself. Instead, I got rigid, I got frustrated, and I got clinical about it --- which, in fairness, produced this document, so it was not entirely unproductive. But still.
- 
+
 They hurt my credibility by dismissing concerns I had earned the right to raise. I hurt their confidence by treating their beginning like a deficiency. The damage is done, on both sides, and I own my share of it.
- 
+
 What I can say is this: the arguments that follow are honest, and the engineering principles are sound, and the self-reflection is as genuine as I could make it. But they were also written by someone who is tired, and jaded, and still quietly grieving a version of herself that coded for fun --- and who took that grief out, at least partly, on a group of first-year students who just wanted to build something together.
- 
+
 They were not wrong to want that. I just forgot, briefly, that wanting to build something together was once enough of a reason.
 
 %=============================================================
 \chapter{Reflection}
 %=============================================================
- 
+
 \section{On Version Control in Collaborative Development}
- 
+
 Version control systems such as Git are not merely organizational tools --- they are the structural backbone of any collaborative software project. Without them, teams default to informal file-sharing workflows that introduce critical failure points: no single source of truth, no conflict resolution mechanism, and no traceability of changes. This is not a matter of technical preference. It is a matter of project viability.
- 
+
 The industry has long since settled this debate. Git is listed as a baseline requirement in the overwhelming majority of software engineering job listings --- not as a bonus skill, but as a prerequisite. A developer without Git literacy is, professionally speaking, an incomplete one.
- 
+
 \section{On the Challenges of Informal File-Sharing Workflows}
- 
+
 File-sharing via cloud drives or messaging platforms creates what practitioners call \emph{integration hell} --- a state where independently developed components cannot be cleanly merged. CSS conflicts cascade unpredictably. JavaScript logic written in isolation breaks when combined with another developer's structural assumptions. Without diff tracking, identifying the source of these conflicts becomes exponentially harder as the codebase grows.
- 
+
 Consider a concrete scenario: two developers edit the same stylesheet simultaneously via Google Drive. Neither knows the other is working. One changes the \texttt{.container} class to use CSS Grid. The other adds Flexbox properties to the same selector. When merged manually --- via copy-paste --- one set of changes is lost entirely, with no record of what was overwritten, by whom, or why. This is not a hypothetical. This is the default outcome of unstructured collaboration.
- 
+
 Messenger-based code sharing compounds this further. Code loses formatting. Context is lost. There is no version history. Rolling back a breaking change requires manually reconstructing previous states from chat logs --- if they have not already been deleted.
- 
+
 \section{On Scope Management and Realistic Assessment}
- 
+
 Scope discipline is not an advanced skill. It is a foundational one. The ability to match project ambitions to available time, skillset, and resources is not taught exclusively in senior-level courses or professional environments --- it is the first lesson of any serious creative or technical endeavor. To ignore it is not boldness. It is not ambition. It is the absence of self-awareness, disguised as ambition so that failure can be mistaken for effort rather than recognized as misjudgment.
- 
+
 The projects proposed by the original group included features characteristic of enterprise-level systems --- social media platforms with real-time messaging, e-commerce infrastructure, and large-scale inventory management. These are not beginner projects. They are the outputs of seasoned engineering teams operating over months, with dedicated backend infrastructure, database architecture, and --- critically --- version control. To propose them within a four-week timeframe, with a first-year team, without backend experience, and without structured collaboration tooling, is not ambitious. It is a failure of assessment.
- 
+
 This concern was not raised in isolation. An industry professional with full-stack expertise --- consulted specifically about the group's proposed scope --- was unambiguous in his assessment:
- 
+
 \begin{shadequote}{}
-Even in a group, in such a grand scale, won't be able to finish the project in 4 weeks. Especially since you are planning to spend the first week of it on brainstorming ideas.
+  Even in a group, in such a grand scale, won't be able to finish the project in 4 weeks. Especially since you are planning to spend the first week of it on brainstorming ideas.
 
 \end{shadequote}
- 
+
 This feedback was relayed to the team directly. It was not received.
- 
+
 What followed was perhaps more revealing than the scope itself. When confronted with the gap between their ambitions and their current skillset, the response was not recalibration. It was resignation reframed as philosophy: that being first years was sufficient justification for not engaging with the technical realities of the project. That uncertainty about continuing the course absolved them of the responsibility to learn within it.
- 
+
 This is where scope failure becomes something more fundamental than poor planning. Software development --- and computer science broadly --- is a discipline that demands learning beyond the four corners of the classroom. The tools, frameworks, and professional standards that define the field are not delivered exclusively through formal instruction. They are pursued. A team unwilling to pursue them is not limited by their first-year status. They are limited by their own ceiling --- one they have chosen to set remarkably low.
- 
+
 Grit is not a personality trait reserved for the exceptional. It is the baseline requirement of any discipline worth practicing. And it cannot be substituted by group cohesion, shared optimism, or the comfortable certainty that failure, if it comes, will at least be experienced together.
- 
+
 \section{On the Engineering Principles That Were Never Discussed}
- 
+
 Somewhere in the noise of escalating conflict, the actual engineering principles underlying this disagreement were entirely lost. This section retrieves them.
- 
+
 \subsection{Minimum Viable Product}
- 
+
 The most fundamental mistake in scope-setting was the conflation of \emph{ambition} with \emph{demonstrability}. In any software project, the first question is not ``What would be incredible to build?'' but ``What is the smallest thing that proves the concept?'' This is the Minimum Viable Product --- a term so universal in the discipline that it requires no defense.
- 
+
 A social media platform with real-time messaging, search, and a recommendation algorithm is not an MVP for a team of first-year students working across four weeks without backend infrastructure. It is the output of a funded engineering team operating across months. The MVP in this context was a static demonstration --- something that showed core functionality without requiring any of the infrastructure the group was unwilling to learn. The contributor advocated for exactly this. The group did not adopt it until after the contributor had already left, and after direct, unmediated contact with the complexity of the original ideas confirmed what had been said from the outset.
- 
+
 \subsection{Failing Fast Requires a Feedback Loop}
- 
+
 The philosophy of \emph{fail fast, learn faster} was implicitly invoked throughout the group's defense of their approach --- the idea that shared experience of difficulty would ultimately strengthen both the team and its output. This is a real principle. It is not, however, unconditional.
- 
+
 Failing fast works only when there exists a mechanism to capture \emph{why} a failure occurred. Without version control, diff tracking, change attribution, and rollback capability, a team fails repeatedly but learns nothing reproducible. It suffers the same mistake in slightly different forms, bonds over the suffering, and mistakes the bond for the lesson.
- 
+
 Messenger-based code sharing is the precise environment in which this dynamic unfolds. If two contributors edit the same stylesheet and one's changes silently overwrite the other's, the failure has no name, no author, and no recoverable history. The code breaks. Time is lost. The cause is guessed at. That is not failing fast. That is failing blind.
- 
+
 \subsection{Conway's Law}
- 
+
 A structurally important principle runs through all of this and deserves naming: Conway's Law states that organizations design systems that mirror their own communication structures. A team that communicates through disorganized fragments in a group chat --- where messages are lost, tone is hostile, and decisions are deferred through inertia --- will inevitably produce software that is itself disorganized, fragile, and resistant to integration.
- 
+
 The contributor's insistence on Git and structured scope management was, in this light, not merely a technical preference. It was an attempt to establish a communication structure that would produce coherent technical output. The group's resistance to that structure ensured that the communication environment remained precisely the kind that Conway's Law would predict as productive only of conflict and confusion.
- 
+
 The repository that now exists --- \texttt{Peak-ass-repository-ng-mga-maiitim-na-komsay} --- is a small monument to the principle. Its name reflects the communication culture from which it emerged. Its existence reflects the belated recognition that communication structure and software structure are, ultimately, the same thing.
- 
+
 \section{On the Cost of Refusing Structured Tooling}
- 
+
 The resistance to adopting version control in a collaborative project is not simply a workflow preference. It carries compounding costs:
- 
+
 \begin{itemize}
-    \item Conflicts become invisible until they break something.
-    \item There is no mechanism to attribute changes, making debugging exponentially harder.
-    \item Rollback is impossible without manual reconstruction.
-    \item Integration of independently written code becomes a manual, error-prone process.
-    \item And perhaps most critically --- the team never develops the professional habits that the industry will demand of them the moment they leave academia.
+  \item Conflicts become invisible until they break something.
+  \item There is no mechanism to attribute changes, making debugging exponentially harder.
+  \item Rollback is impossible without manual reconstruction.
+  \item Integration of independently written code becomes a manual, error-prone process.
+  \item And perhaps most critically --- the team never develops the professional habits that the industry will demand of them the moment they leave academia.
 \end{itemize}
- 
+
 As the same industry professional noted:
- 
+
 \begin{shadequote}{}
-You will be surprised when you go to a job without knowing Git: you might be disqualified immediately from job listings if you do not know how to use it. When would they learn? As far as I can see with your prospectus, there is no course that will teach them how to use Git.
+  You will be surprised when you go to a job without knowing Git: you might be disqualified immediately from job listings if you do not know how to use it. When would they learn? As far as I can see with your prospectus, there is no course that will teach them how to use Git.
 \end{shadequote}
- 
+
 This is not hyperbole. It is the observable reality of modern software hiring.
- 
+
 \section{On Prior Experience and Collaborative Mismatch}
- 
+
 Collaboration is not defined by proximity. It is not achieved merely by placing individuals in a group and assigning them a shared deliverable. True collaboration requires a common foundation --- shared standards, shared tooling, shared professional discipline. Without these, what results is not collaboration. It is parallel isolation with a single deadline.
- 
+
 The contributor entered the academic environment with approximately two years of independent programming experience prior to enrollment. This includes the successful completion and sale of four software projects, as well as practical experience in automation and systems integration. This background is not cited as a point of superiority. It is cited because it is the direct reason why the proposed workflow standards were not arbitrary --- they were earned.
- 
+
 Having operated in professional development environments prior to formal education, the contributor understood firsthand the compounding costs of unstructured collaboration: lost work, unattributable changes, irreconcilable merge conflicts, and catastrophic scope creep. A self-hosted Gitea instance was provisioned. Accounts were created for every team member. An onboarding plan was prepared. An industry professional with full-stack expertise was consulted. A realistic scope was proposed, argued for, and documented.
- 
+
 Every reasonable measure was taken to build the collaborative foundation that the assignment intended.
- 
+
 It was not enough. The team was unable to align on the proposed standards --- not out of malice, but out of a genuine mismatch in technical readiness and professional expectation. Continuing under those conditions would not have produced collaboration. It would have produced chaos with a shared filename.
- 
+
 The decision to work independently was therefore the most collaborative decision available. It preserved the integrity of the deliverable. It removed the friction that was preventing progress. And it allowed the contributor to apply the professional standards that the assignment's rubric rewards --- without compromise.
- 
+
 Collaboration, at its best, is a force multiplier. But a force multiplier applied to an unstable foundation does not produce more output. It produces faster failure. The solo workflow was not a retreat from collaboration. It was a refusal to call something collaboration that wasn't.
- 
+
 \section{On the Justification for an Individual Workflow}
- 
+
 There is a particular kind of exhaustion that comes not from overwork, but from sustained, unreceived effort. It is the exhaustion of someone who has built the bridge, explained the bridge, demonstrated the bridge, consulted experts about the bridge --- and watched, repeatedly, as the people the bridge was built for chose to wade through the river anyway.
- 
+
 Every reasonable measure was taken to establish a functional collaborative foundation. A self-hosted Gitea instance was provisioned and accounts were created for every team member. An onboarding plan was prepared, designed to bring complete beginners to functional Git literacy in a single session. An industry professional with full-stack expertise was consulted --- not to validate a preference, but to stress-test it. His assessment was unambiguous, and it was shared with the team in full. A realistic project scope was proposed, argued for, and documented. Warnings about integration complexity, scope creep, and the professional consequences of avoiding version control were communicated clearly and repeatedly.
- 
+
 None of it was enough.
- 
+
 Not because the arguments were weak. Not because the evidence was insufficient. But because understanding, ultimately, cannot be installed. It has to be earned --- usually through the precise experience of failure that the arguments were designed to prevent. As the consulted professional observed, it is genuinely difficult to convince people to adopt structured tooling when they have not yet felt the pain of working without it. The fire has to burn before people believe it is hot.
- 
+
 The fire was visible. The warnings were given. The infrastructure was built.
- 
+
 Some lessons can only be learned by getting burned.
- 
+
 %=============================================================
 \chapter{Postscript: The Fire}
 %=============================================================
- 
+
 \section{On Vindication and the Irrelevance of Credit}
- 
+
 There is a particular irony in being proven right by the very outcome you warned against. It does not feel triumphant. It feels quiet --- the specific quiet of having already left the room before the fire you predicted finally caught. Vindication, when it arrives without an audience, is indistinguishable from irrelevance. And yet the record exists. The timestamps are immutable. The sequence of events is not a matter of interpretation.
- 
+
 Within hours of the contributor's departure from the group, the events described in the preceding chapter resolved themselves in the most instructive manner possible: through direct, unmediated contact with consequence. No further argument was required. No additional evidence was needed. The group encountered, without the contributor's intervention, the precise difficulties that had been identified, documented, and communicated in advance.
- 
+
 A team member attempted to use Git independently that same evening. His own words, preserved in the group chat, are the only necessary evidence:
- 
+
 \begin{shadequote}{}
-I tried fuckin scribblingdabledidoo in GitHub last night and it fucked me harder than 1000 guys fucking bonnie blue.
+  I tried fuckin scribblingdabledidoo in GitHub last night and it fucked me harder than 1000 guys fucking bonnie blue.
 \end{shadequote}
- 
+
 What had been dismissed as an unnecessary technicality --- characterized, in the team's own words, as a ``bitchass skidledaddlediboo type thing'' not worth the time of first-year students --- became, upon actual encounter, something that demanded reckoning. The encounter was humbling. The humility, to his credit, was genuine.
- 
+
 The team's pivot toward Git adoption did not emerge from persuasion. It did not emerge from reflection on the arguments that had been made. It emerged from the specific experience of attempting to work without structured version control and discovering, firsthand, why structured version control exists. The arguments had not changed. The evidence had not changed. What changed was that the team finally encountered the evidence directly, without the buffer of someone else's warnings to dismiss.
- 
+
 This is precisely the dynamic the contributor had anticipated. The fire has to burn before people believe it is hot. The fire burned. The people believed. The repository was created. Its name --- \texttt{Peak-ass-repository-ng-mga-maiitim-na-komsay} --- is, perhaps, the most honest artifact produced by the entire collaboration. It captures, with accidental precision, exactly the register in which this project was conceived and the professional standards under which it was initially intended to be executed.
- 
+
 The contributor will not be part of that project. She will not receive credit for the Gitea infrastructure she provisioned, the onboarding plan she prepared, the industry consultation she arranged, or the professional standards she attempted, at considerable social cost, to introduce. That credit belongs now entirely to the team that remains.
- 
+
 This is fine. Credit was never the point. The point was always the work. The work will be better for the tools being used correctly, even if the person who insisted on those tools is no longer in the room.
- 
+
 Some bridges are built for others to cross.
- 
+
 \section{On Why Collaboration Was Already Irretrievable}
- 
+
 The contributor's stated reason for departure was, in her own words, as follows:
- 
+
 \begin{shadequote}{}
-No, once we fought, there's already distrust. I'm betting on malicious compliance on this one, even if not intended. It's hard to cooperate after a fight. I'm out. Just wishing y'all good luck.
+  No, once we fought, there's already distrust. I'm betting on malicious compliance on this one, even if not intended. It's hard to cooperate after a fight. I'm out. Just wishing y'all good luck.
 \end{shadequote}
- 
+
 This assessment was correct in its conclusion, though the full explanation runs deeper than distrust alone. Distrust is a symptom. The underlying conditions that made collaboration irretrievable were structural, and they predated the conflict by the entire duration of the group's existence.
- 
+
 \subsection{Incompatible Epistemologies}
- 
+
 The contributor updates her positions based on evidence, external consultation, and documented professional consensus. The team updated their positions based on direct, personal experience of pain. These are not inherently incompatible ways of learning --- but they are incompatible in real-time collaboration under a deadline.
- 
+
 The contributor was, at every stage, two steps ahead of where the team was willing to go. Every suggestion she made was a prediction of a difficulty they had not yet encountered. And a prediction of difficulty, to someone who has not yet felt that difficulty, does not read as expertise. It reads as pessimism, or condescension, or control. The team would only believe the fire was hot when they touched it. The contributor could see the fire from across the room. These are not compatible positions from which to build a shared codebase.
- 
+
 \subsection{The Power Dynamic That Could Not Be Unnamed}
- 
+
 At a critical moment in the exchange, a team member stated the following:
- 
+
 \begin{shadequote}{}
-Gaslighting yourself na mas magaling ka samen? Totoo naman mas magaling ka samin. Sorry kamo kung overly ambitious kame, kasi we're not like you.
+  Gaslighting yourself na mas magaling ka samen? Totoo naman mas magaling ka samin. Sorry kamo kung overly ambitious kame, kasi we're not like you.
 \end{shadequote}
- 
+
 Once this was said aloud, the dynamic was named. And named dynamics cannot be un-named. Every subsequent suggestion the contributor made would have been received not as collaborative input, but as the more skilled person directing the less skilled ones --- regardless of her tone, her framing, or her intent. The admission did not clear the air. It poisoned the well it was attempting to drain. Collaboration under those conditions would have been, at best, a performance of equality over an acknowledged hierarchy. That is not collaboration. That is managed inequality with a shared deadline.
- 
+
 \subsection{The Exhaustion of the Only Bridge}
- 
+
 A third structural failure is worth naming, and it belongs neither to the contributor nor to the most vocal team member. It belongs to \texttt{Q} (an alias) --- the individual who functioned, throughout the documented exchange, as the group's sole emotional regulator. He pushed for Git adoption. He de-escalated hostility. He advocated for the apology. He held the group together through its most acute phase of conflict.
- 
+
 This is admirable. It is also unsustainable. \texttt{Q} was simultaneously managing a resistant team member, absorbing the technical arguments the contributor had made, translating them into terms the group could receive, and attempting to maintain group cohesion --- all without any structural support. He was the bridge between two irreconcilable positions, and he was doing it alone, in a group chat, in real time.
- 
+
 A team that depends on a single individual's emotional labor to remain functional is not a team. It is a temporary arrangement held together by one person's willingness to absorb what the structure cannot. That willingness has a limit. The contributor, in departing, did not leave a team. She left \texttt{Q}.
- 
+
 \subsection{On the Selective Tolerance for Criticism}
- 
+
 Perhaps the most precise illustration of why continued collaboration was untenable is a contradiction embedded in the documented exchange itself. Early in the conflict, the team communicated the following sentiment to the contributor:
- 
+
 \begin{shadequote}{}
-The way I see this message is you're limiting what we can do or understand whether we learn it on the easy way or the hard way, we're learning. And we won't regret any choice we made the moment we formed this group.
+  The way I see this message is you're limiting what we can do or understand whether we learn it on the easy way or the hard way, we're learning. And we won't regret any choice we made the moment we formed this group.
 \end{shadequote}
- 
+
 The implicit message here is clear: do not criticize our choices. We will learn on our own terms. Your structured concerns are unwelcome.
- 
+
 And yet, within the same exchange, the team's most vocal member reacted to the contributor's calibrated, evidence-based arguments with escalating hostility --- accusing her of gaslighting, invoking masculinity as a behavioral standard, and expressing paranoia about external judgment. The pattern is consistent: criticism delivered through shared suffering is romantic. Criticism delivered through structured argument is an attack.
- 
+
 This is not a personality quirk. It is an epistemological position, and it is one that is fundamentally incompatible with the practice of software engineering, which is, at its core, a discipline of structured criticism --- of code, of architecture, of scope, of decisions. A team that cannot receive structured argument cannot function as an engineering team. It can only function as a social group that occasionally writes code.
- 
+
 The contributor was not trying to limit the team. She was trying to practice the discipline they had all ostensibly enrolled to study. That the practice felt like limitation is the most honest possible measure of the distance between them.
- 
+
 \section{On the Language of Conflict and What It Reveals}
- 
+
 A technical disagreement, at its core, is a disagreement about facts. It can be resolved by examining evidence, consulting expertise, and updating one's position in response to new information. This is the ordinary mechanism of intellectual progress, and it is neither complicated nor particularly painful when all parties are operating in good faith.
- 
+
 What occurred in the course of this collaboration was not, ultimately, a technical disagreement. It began as one. It did not remain one for long.
- 
+
 The transition from technical disagreement to personal conflict is always revealing. The specific shape of the hostility --- the precise words chosen when composure fails --- functions as a diagnostic. It tells the observer not merely that a person is angry, but what assumptions, hierarchies, and values sit beneath the anger, waiting to be exposed.
- 
+
 In this case, the diagnostic was unusually legible.
- 
+
 \subsection{On the Use of Racial Slurs}
- 
+
 Over the course of the exchanges documented in this submission, multiple team members employed racial slurs in casual, unreflective communication. These were not deployed in extremis, as the regrettable output of genuine emotional crisis. They were threaded through ordinary conversation --- used to address peers, to punctuate arguments, to fill the rhetorical space where more considered language might otherwise go.
- 
+
 This is worth stating plainly, because it is easy to allow such details to recede into the background of a larger conflict. They should not. The casual use of racial slurs in a collaborative academic environment is not a stylistic preference. It is not a generational quirk or a marker of in-group familiarity. It is a failure of the most basic professional register --- the register that any practitioner in any discipline is expected to maintain when engaging with colleagues, regardless of the perceived informality of the medium.
- 
+
 The irony is not subtle. The same individuals who objected to the contributor's consultation of external practitioners --- on the grounds that outsiders lacked the context to offer valid opinions --- demonstrated, in the same breath, a comfortable fluency in language that would disqualify them from professional consideration in any environment they might eventually seek to enter. The concern was not that their code would be judged. The concern, apparently, was that their group dynamics would be. The language they used in those group dynamics suggests the concern was not misplaced.
- 
+
 \subsection{On Being Instructed to Behave ``Like a Man''}
- 
+
 Perhaps the most structurally revealing moment in the entire exchange was a directive issued to the contributor during the height of the conflict. The instruction, rendered verbatim, was to ``fix this problem like a man.''
- 
+
 It is worth addressing this directive on two levels: what it assumes about the person it was directed at, and what it reveals about the person who issued it --- independent of the first.
- 
+
 On the first level, a brief clarification is warranted. The contributor is a transgender woman, currently in an early and private stage of her transition. Her gender presentation at the time of this exchange did not outwardly signal this. The directive was therefore not issued in knowingly bad faith with respect to her identity. The speaker made an assumption that, from the outside, was not unreasonable to make. He was, nonetheless, wrong. The contributor is a woman. She was a woman throughout every exchange documented in this submission. She will continue to be one. The instruction to behave like a man was issued to someone who has no particular interest in, or obligation to, do so.
- 
+
 This is noted not as an indictment of the speaker's perception --- he could not have known --- but as a footnote the record deserves, and which the reader may find quietly amusing.
- 
+
 On the second level, however, the speaker's ignorance of the contributor's identity is entirely beside the point. The problem with ``fix this problem like a man'' is not that it was misdirected. The problem is that it was issued at all.
- 
+
 The invocation of masculinity as a behavioral standard --- particularly in the context of conflict resolution --- is a textbook expression of toxic masculinity: the set of cultural norms that equates strength with emotional suppression, competence with dominance, and the resolution of disagreement with the performance of aggression. To instruct someone to handle a conflict ``like a man'' is to imply that the appropriate response to being challenged is not reflection, not dialogue, not the honest assessment of one's own position --- but the forceful reassertion of it. It is to mistake stubbornness for strength and volume for authority.
- 
+
 This framework does not produce good engineers. It does not produce good collaborators. It produces exactly the dynamic that characterized this conflict: a team that received structured, evidence-based feedback and responded with escalating defensiveness, Shakespearean deflection, and paranoia about home addresses --- before arriving, belatedly and independently, at the conclusions they had refused to accept when offered them directly.
- 
+
 The irony, then, is complete. The instruction to ``fix this problem like a man'' was issued by someone who, by the end of the documented exchange, had responded to the problem by writing a multi-paragraph apology in Early Modern English, on his honour and by God, to a woman he did not know was a woman.
- 
+
 None of the assumptions embedded in that directive survived contact with a Git repository.
- 
+
 \section{On Escalation, Paranoia, and the Self-Revealing Nature of Fear}
- 
+
 Among the more structurally interesting moments in the documented exchange is the following, reproduced here in the original:
- 
+
 \begin{shadequote}{}
-Of course magbibigay yan ng opinions ridiculing us kasi biased yan eh, sana kung kaklase naten mga nagsasabi nyan, eh hinde naman, hell baka bukas buong address namen na leak na dyan.
+  Of course magbibigay yan ng opinions ridiculing us kasi biased yan eh, sana kung kaklase naten mga nagsasabi nyan, eh hinde naman, hell baka bukas buong address namen na leak na dyan.
 \end{shadequote}
- 
+
 A careful reading of this statement is instructive. The concern expressed is not that the contributor would be harmed. The concern is that \emph{the team's} addresses might be leaked --- by the external server the contributor had consulted. The fear was not of the contributor's retaliation. It was of the contributor's \emph{audience.}
- 
+
 This is worth sitting with. The team had, in the preceding exchanges, characterized external opinions as invalid on the grounds that outsiders lacked sufficient context. They were not classmates. They did not know the full picture. Their perspectives were therefore dismissible. And yet, in the same breath, those same outsiders were imagined as a credible enough threat to warrant concern about personal safety.
- 
+
 The contradiction is not incidental. It reveals the precise shape of the anxiety underneath the argument. The external practitioners were not actually dismissed as irrelevant. They were recognized, implicitly, as an audience capable of forming damaging judgments --- judgments the team did not wish to be subjected to. The objection was never really about context. It was about exposure.
- 
+
 The leap from ``people on a Discord server are discussing our group project'' to ``our home addresses may be published tomorrow'' is not a proportionate response to the situation. It is the response of someone whose composure has failed and whose threat model has become untethered from the available evidence. It is also, as a matter of record, the response of someone who had spent the preceding exchanges insisting that the situation was entirely manageable and that the team's bonds would carry them through. The confidence and the paranoia existed simultaneously, in the same conversation, within minutes of each other. This is not a contradiction that requires extensive commentary. It speaks adequately for itself.
- 
+
 \section{On Self-Awareness and Who Gets to Define Competence}
- 
+
 The contributor has, at multiple points in this account, the opportunity to claim the high ground entirely. She has declined to do so, because the account would be incomplete without the following acknowledgment.
- 
+
 She has said, directly and without prompting:
- 
+
 \begin{shadequote}{}
-I came to consult them. I needed external validation whether I even did the right thing. Which admittedly, I did some things wrong. I crowdsourced a verdict instead of just talking to a trusted person. But then again, I still stand by the concerns I raised.
+  I came to consult them. I needed external validation whether I even did the right thing. Which admittedly, I did some things wrong. I crowdsourced a verdict instead of just talking to a trusted person. But then again, I still stand by the concerns I raised.
 \end{shadequote}
- 
+
 And further:
- 
+
 \begin{shadequote}{}
-The point is... wishful thinking bad. That's it. Admittedly, I like certainty over the uncertain waters. And I'm in the wrong for being controlling. And there's no fixing optimism over realism. I can't reason over someone optimistic.
+  The point is... wishful thinking bad. That's it. Admittedly, I like certainty over the uncertain waters. And I'm in the wrong for being controlling. And there's no fixing optimism over realism. I can't reason over someone optimistic.
 \end{shadequote}
- 
+
 This self-assessment is, notably, more rigorous than anything produced by the other parties in the exchange. The contributor identified her own errors --- the crowdsourced verdict, the controlling tendency, the preference for certainty that can read as inflexibility --- and named them without being asked to. She did not wait for the team to extract the concession. She offered it.
- 
+
 This is the difference between accountability and defensiveness. One of them produces growth. The other produces Shakespearean monologues about pride, delivered after the damage is done.
- 
+
 The contributor's self-criticism does not, however, invalidate her central argument. Being controlling in one's communication style is a real limitation. It does not make version control optional. Being overly certain in one's approach is a real limitation. It does not make a social media platform a realistic four-week deliverable for a team of first-year students without backend experience. The flaw in the delivery does not transfer to the flaw in the message. These are separable, and it is important to separate them.
- 
+
 Her girlfriend's observation is perhaps the cleanest summary available: it is not the contributor's job to be responsible for cleaning up after them. This is true. It is also, implicitly, a recognition that the contributor had been attempting exactly that --- and that the attempt, however well-intentioned, was neither sustainable nor within her remit to impose.
- 
+
 \section{On Leaving as an Act of Integrity}
- 
+
 It is necessary to address, directly, the characterization of the contributor's departure as a failure of commitment, a refusal to cooperate, or an assertion of superiority over her peers.
- 
+
 None of these characterizations is accurate.
- 
+
 The contributor left the group after exhausting, in documented sequence, every available avenue for establishing a functional collaborative foundation. She provisioned infrastructure. She prepared onboarding materials. She consulted industry expertise. She proposed a realistic scope. She communicated concerns clearly, repeatedly, and with specific reference to professional standards that are not matters of personal preference but of industry consensus. She offered, explicitly, to teach the required tooling one-on-one, at whatever pace the team required.
- 
+
 Each of these efforts was met with resistance. The resistance was not always hostile --- much of it was simply the inertia of people who had not yet encountered the consequences of the choices they were making. But inertia and hostility produce the same outcome in a project context: stasis. And stasis, in a four-week project with an ambitious scope, is not neutral. It is failure in slow motion.
- 
+
 It was also made from a position of self-awareness. The contributor recognized that continuing to operate within a team whose standards, tooling, and professional expectations were irreconcilably misaligned with her own would not produce better work. It would produce conflict, compromise, and a deliverable that satisfied no one. The solo workflow was not a retreat from collaboration. It was a refusal to apply the label of collaboration to something that did not meet its definition.
- 
+
 The departure was the correct decision. The subsequent trajectory of the group --- the humbling encounter with Git, the Shakespearean apology, the eventual repository creation --- does not retroactively make staying the correct decision. It confirms, instead, that the diagnosis was accurate, the prognosis was accurate, and the only variable that was not accurately predicted was the speed at which the team would arrive, independently, at the conclusions they had refused to accept when offered them.
- 
+
 They got there. It simply required the fire.
- 
+
 \section{Closing Remarks: An Honest Admission}
- 
+
 Let us be direct about what this document actually is.
- 
+
 It is, at its core, an exercise in airing out emotions through structured arguments. The clinical register, the shadequotes, the academic framing --- these are the shape that processing takes when the person doing the processing happens to think in structured arguments. The anger was real. The argument is also real. Both things are true simultaneously, and pretending otherwise would be the least honest thing in an otherwise reasonably honest document.
- 
+
 The group existed for less than 48 hours before this was written. That is worth sitting with.
- 
+
 And yet --- the arguments hold. The engineering principles are not invalidated by the speed at which they were deployed. Version control is still necessary. Scope discipline is still foundational. The fact that this document was written partly out of frustration does not make it wrong. It makes it human. What structured thinking offers, even when emotionally motivated, is the ability to separate what is felt from what is true --- and to find, in the process of writing, that some of what is felt is also true, and some of it is just noise.
- 
+
 There is also something this environment offered that no controlled, professional setting ever could: the full, unfiltered chaos of a group of people at genuinely different stages of formation, with genuinely different relationships to the discipline, colliding in real time. Curated collaborations --- with people who share the same experience level, the same tooling preferences, the same professional expectations --- are comfortable. They are also incomplete as a training ground. They do not prepare anyone for the most vocal team member who writes Shakespearean English under pressure, or the emotional regulator of the group who holds everything together through sheer emotional labor, or the first-year student who is not yet sure if he will even continue this course:
- 
+
 \begin{shadequote}{}
-We're just first years who don't even know if we'll continue this course or not.
+  We're just first years who don't even know if we'll continue this course or not.
 \end{shadequote}
- 
+
 That sentence, dismissed at the time as an excuse, is actually something more honest than most of what was said in the exchange. It is someone naming, plainly, that they do not yet know if this is their discipline. That uncertainty is not a character flaw. It is the ordinary condition of someone at the beginning. The contributor forgot, briefly, what it felt like to be at the beginning --- before the projects, before the sales, before the two years of independent work that made Git feel obvious rather than daunting. That forgetting was its own kind of failure.
- 
+
 Closure, it turns out, was never available from the outside. Not from the group, not from the Discord server, not from the people who read this document and agreed, not even from the structured argument itself. The writing did not produce closure. It produced clarity --- which is a different and arguably more useful thing. Clarity about what happened. Clarity about what to do differently. Clarity about the distance between being right and being heard, and the importance of not mistaking one for the other.
- 
+
 Next time: bring the tools. Deliver them more gently. Leave earlier if they are refused. And remember that the person who does not yet know if they will continue the course is not an obstacle. They are someone who has not yet been given a reason to stay.
- 
+
 The contributor leaves this project with her codebase intact, her professional standards uncompromised, and her understanding of collaboration --- including its failures, and her own contribution to them --- meaningfully expanded.
- 
+
 She also leaves as the only person in this account who knew, the entire time, that she was a woman --- a fact that, in retrospect, explains rather a lot. :3
- 
+
 The fire was visible. The warnings were given. The infrastructure was built.
- 
+
 Some lessons can only be learned by getting burned.
- 
+
 Some bridges are built for others to cross.
- 
+
 And some people, it turns out, will only pick up the tools after the person who offered them has already left the room.
 
 \chapter{Attributions}
@@ -816,5 +821,5 @@ Voos M. (2020). \textit{Manrope Italic} [Font]. Licensed under the SIL Open Font
 Miwa, S. (2018). \textit{Comic Mono} [Font]. Licensed under the MIT License. Retrieved June 5, 2025, from \url{https://github.com/dtinth/comic-mono-font}. Modified by dtinth (2019).
 
 \printbibliography
- 
+
 \end{document}

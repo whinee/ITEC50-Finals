@@ -111,6 +111,11 @@ lint-html:
 lint-jinja:
     @ uv run djlint ./src/templates --reformat --quiet; exit 0
 
+# Lint Jinja2 templates
+[private]
+lint-tex:
+    @ tex-fmt paper --recursive --nowrap
+
 # Lint codebase
 lint:
     # just nio_dev
@@ -122,6 +127,7 @@ lint:
     just lint-css
     # just lint-html
     just lint-jinja
+    just lint-tex
 
 # Run web app in a lightweight way
 dev:

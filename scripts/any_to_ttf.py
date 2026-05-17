@@ -62,8 +62,8 @@ def cff_to_tt_outlines(font: Any) -> None:  # noqa: C901
         glyphs[name] = tt_pen.glyph()
 
     glyf = newTable("glyf")
-    glyf.glyphs = glyphs # type: ignore[attr]
-    glyf.glyphOrder = glyph_order # type: ignore[attr]
+    glyf.glyphs = glyphs  # type: ignore[attr]
+    glyf.glyphOrder = glyph_order  # type: ignore[attr]
     font["glyf"] = glyf
 
     # ── Add loca (required; fontTools populates it during compile) ─────────────────────
@@ -128,7 +128,9 @@ def main() -> None:  # noqa: C901
     parser.add_argument("--src", required=True, help="Folder containing source fonts")
     parser.add_argument("--out", default=None, help="Output folder (default: --src)")
     parser.add_argument(
-        "--in-place", action="store_true", help="Write TTFs alongside source files",
+        "--in-place",
+        action="store_true",
+        help="Write TTFs alongside source files",
     )
     parser.add_argument(
         "--ext",

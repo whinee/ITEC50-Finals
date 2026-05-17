@@ -8,7 +8,8 @@ pgdata
 
 # User-ignored Files
 .env
-*/*.bbl-SAVE-ERROR
+**/*.bbl-SAVE-ERROR
+**/*.bcf-SAVE-ERROR
 
 # Created by 
 
