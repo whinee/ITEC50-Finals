@@ -79,7 +79,7 @@ a::after {
     content: "]";
 }
 
-/* RESPONIVE CSS: START */
+/* RESPONSIVE CSS: START */
 
 @media (max-width: 1680px) {
     html {

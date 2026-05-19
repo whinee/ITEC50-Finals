@@ -1,0 +1,37 @@
+% CSS Summary: code.css
+% Generated: 2026-05-19 19:01
+% Source: src/static/stylesheets/code.css
+
+\section*{CSS: code.css}
+\textit{Source: \texttt{src/static/stylesheets/code.css}} \\
+\textit{Generated: 2026-05-19 19:01} \\[0.5em]
+
+\subsection*{Lint Results}
+\textit{No lint issues found.} \\
+
+\subsection*{Section Tree}
+
+\noindent
+\begin{forest}
+  for tree={
+    font=\ttfamily\small,
+    grow'=0,
+    child anchor=west,
+    parent anchor=south,
+    anchor=west,
+    calign=first,
+    inner xsep=4pt,
+    edge path={
+      \noexpand\path [draw, \forestoption{edge}]
+      (!u.south west) +(7.5pt,0) |- (.child anchor)\forestoption{edge label};
+    },
+    before typesetting nodes={
+      if n=1{insert before={[,phantom]}}{}
+    },
+    fit=band,
+    before computing xy={l=15pt},
+  }
+  [{\textbf{(root)}}
+    [{RESPONSIVE CSS \textit{\scriptsize(line 82--124)}}]
+  ]
+\end{forest}

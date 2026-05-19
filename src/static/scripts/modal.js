@@ -1,10 +1,10 @@
 import { bodyScrollPrevent } from '/static/scripts/utils.js';
 
 // Constants
-const modals = ["stg", "info"]
+const modals = ["settings", "info"]
 
 // Document Selectors
-const closeModal = document.getElementById('closeModal');
+const closeModal = document.getElementById('close-modal');
 const modalArea = document.getElementById('modal-area');
 const modalBg = document.getElementById('modal-bg');
 

@@ -1,13 +1,69 @@
 {% extends 'base.j2.html' %}
 {% block head %}
-    <link href="/static/stylesheets/base.css" rel="stylesheet">
-    <link href="/static/stylesheets/responsive-base.css" rel="stylesheet">
     <link href="/static/stylesheets/forms.css" rel="stylesheet">
 {% endblock head %}
 {% block body %}
     <div id="wrapper">
         <main>
             <div class="inner">
+                <form action="#" method="POST">
+                    <label for="name">Name:</label>
+                    <br>
+                    <br>
+                    <div class="form-box">
+                        <input class="input"
+                               type="text"
+                               placeholder="Your Name (not the anime!)"
+                               class="form"
+                               required>
+                        <btn class="icon1" class="erase-input" style="visibility: hidden;">×</btn>
+                    </div>
+                    <br>
+                    <br>
+                    <label for="email">Email:</label>
+                    <br>
+                    <br>
+                    <div class="form-box">
+                        <input class="input"
+                               type="text"
+                               placeholder="you@example.com"
+                               class="form"
+                               pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
+                               required>
+                        <btn class="icon1" class="erase-input" style="visibility: hidden;">×</btn>
+                    </div>
+                    <br>
+                    <br>
+                    <label>Rating:</label>
+                    <br>
+                    <div class="star-rating">
+                        <input type="radio" id="star5" name="rating" value="5">
+                        <label for="star5"></label>
+                        <input type="radio" id="star4" name="rating" value="4">
+                        <label for="star4"></label>
+                        <input type="radio" id="star3" name="rating" value="3">
+                        <label for="star3"></label>
+                        <input type="radio" id="star2" name="rating" value="2">
+                        <label for="star2"></label>
+                        <input type="radio" id="star1" name="rating" value="1">
+                        <label for="star1"></label>
+                    </div>
+                    <br>
+                    <br>
+                    <label for="comments">Comments:</label>
+                    <br>
+                    <br>
+                    <textarea class="input"
+                              id="comments"
+                              name="comments"
+                              rows="5"
+                              placeholder="Your thoughts..."
+                              required></textarea>
+                    <btn class="icon1" class="erase-input" style="visibility: hidden;">×</btn>
+                    <br>
+                    <br>
+                    <button type="submit">Submit Feedback</button>
+                </form>
                 <form id="login-form" method="post">
                     <table>
                         <tr>

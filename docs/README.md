@@ -52,3 +52,7 @@ Add Captcha, TOTP/MFA, and rate limiting to the following endpoints:
 
 - `/auth/login`
 - `/auth/register`
+
+### Auth
+
+- Add SSO and OIDC authentication

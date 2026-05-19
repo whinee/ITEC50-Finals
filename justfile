@@ -131,7 +131,7 @@ lint:
 
 # Run web app in a lightweight way
 dev:
-    just stop-db
+    just stop-db; exit 0
     just start-db
     hypercorn main:app --reload --bind 0.0.0.0:8000 --workers 1
 

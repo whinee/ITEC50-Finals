@@ -58,7 +58,7 @@
 \fancyfoot[C]{\thepage} % Put page number in center footer
 
 \hypersetup{
-  colorlinks=true,
+  colorlinks=false,
   linkcolor=black,
   urlcolor=accentgray,
 }
@@ -550,6 +550,40 @@ The contributor's insistence on Git and structured scope management was, in this
 
 The repository that now exists --- \texttt{Peak-ass-repository-ng-mga-maiitim-na-komsay} --- is a small monument to the principle. Its name reflects the communication culture from which it emerged. Its existence reflects the belated recognition that communication structure and software structure are, ultimately, the same thing.
 
+\section{On the Use of Artificial Intelligence as a Workflow Tool}
+
+A note on the use of AI in this project, because it deserves honest treatment rather than either defensive dismissal or uncritical enthusiasm.
+
+The author used AI. Deliberately, selectively, and without apology.
+
+This is worth explaining, because the difference between AI as a crutch and AI as a force multiplier is not a difference in the tool --- it is a difference in the person using it. And that difference comes down to one thing: knowing what you do not know, and knowing what is and is not worth your time.
+
+Consider a concrete example from the author's own workflow. At one point in this project, FontAwesome needed to be integrated into the codebase. The author knew exactly what needed to happen:
+
+\begin{itemize}
+  \item Fetch the latest non-prerelease from the GitHub API
+  \item Extract the correct zip archive
+  \item Copy \texttt{css/all.css} to the project's stylesheet directory
+  \item Copy the contents of \texttt{webfonts/} to the static assets folder
+  \item Rewrite all \texttt{url("../webfonts/")} references in the CSS to \texttt{url("/static/assets/fonts/")} to match FastAPI's static file serving path
+\end{itemize}
+
+The author knew all of this. She knew the directory structure to expect, the path rewriting required, and exactly why it was necessary. She also knew that writing a shell script to automate it was not a problem worth her full attention --- it was a utility task, a cherry on top, a nice-to-have automation that sat firmly below the actual work on the priority list.
+
+So she described the task precisely and delegated it.
+
+This is not a reduction in intelligence. This is the correct application of it. The skill on display is not the ability to write a download script. It is the ability to specify, with enough precision that the task can be delegated without ambiguity, exactly what needs to happen and why. That specification --- knowing the API endpoint, the file structure, the serving path, the CSS rewrite --- is the intellectual work. The script is just the output.
+
+This is the bulk of how AI appears in this codebase: utilities, small snippets, automation for tasks whose shape is known and whose implementation is not the point. It does not appear in architectural decisions. It does not appear in the core logic. It does not appear anywhere that understanding matters more than output --- because in those places, delegating the thinking is precisely what makes the thinking worse.
+
+The distinction is one that takes time and experience to develop. It requires knowing, first, what you are trying to build and why. It requires understanding the system well enough to know which parts deserve your full attention and which parts are just plumbing. It requires, in short, knowing what you do not know --- and knowing what is beneath your pay grade to implement by hand.
+
+This is not a skill that arrives automatically. It is earned, usually by doing things the hard way first, until the shape of the problem is familiar enough that the implementation becomes obvious. A team that has not yet built that familiarity will not use AI to accelerate their workflow. They will use it to substitute for the understanding they have not yet developed --- which produces output without comprehension, and comprehension, ultimately, is the only thing that compounds.
+
+The author is not saying this to be unkind. She is saying it because she was there once. The hard way is how the shape of things becomes familiar. There are no shortcuts to that particular kind of knowing.
+
+AI is an excellent tool. It is most excellent in the hands of someone who already knows what they are doing.
+
 \section{On the Cost of Refusing Structured Tooling}
 
 The resistance to adopting version control in a collaborative project is not simply a workflow preference. It carries compounding costs:
@@ -814,7 +848,7 @@ The fonts used in this project are the following:
 
 Microsoft Corporation. (2007). \textit{Microsoft Core Fonts for the Web} (Arial) [Font]. Licensed under the Microsoft End-User License Agreement (personal, non-commercial use). Obtained on Fedora Linux via the \texttt{msttcore-fonts-installer} package, which downloads the official font files from a Microsoft-authorised mirror in compliance with the EULA. Retrieved June 5, 2025, from \url{https://sourceforge.net/projects/corefonts/}.
 
-Sharanda M. (2018). \textit{Manrope} [Font]. Licensed under the SIL Open Font License, Version 1.1. Retrieved June 5, 2025, from \url{https://fonts.google.com/specimen/Manrope}.
+Sharanda M. (2018). \textit{Manrope} [Font]. Licensed under the SIL Open Font License, Version 1.1. Retrieved May 16, 2026, from \url{https://fonts.google.com/specimen/Manrope}.
 
 Voos M. (2020). \textit{Manrope Italic} [Font]. Licensed under the SIL Open Font License, Version 1.1. Retrieved June 14, 2025, from \url{https://github.com/malte-v/manrope-italic}.
 
