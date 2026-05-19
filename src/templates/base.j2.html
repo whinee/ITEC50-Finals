@@ -40,9 +40,70 @@
               crossorigin>
         {% block head %}
         {% endblock head %}
+        <link href="/static/stylesheets/toast.css" rel="stylesheet">
+        <link href="/static/stylesheets/modal.css" rel="stylesheet">
     </head>
     <body>
+        <div id="header">
+            <button id="settings-modal-button" class="icons">
+                <img src="/static/assets/images/settings.svg" height="50" />
+            </button>
+            <button id="info-modal-button" class="icons">
+                <img src="/static/assets/images/info.svg" height="50" />
+            </button>
+        </div>
+        <div id="toast"></div>
         {% block body %}
         {% endblock body %}
+        <section id="modal-area" class="modal-area">
+            <div id="modal-bg"></div>
+            <div id="modal-wrapper">
+                <div id="modal-contents">
+                    <div class="mw" id="settings-modal">
+                        <h2>Settings</h2>
+                        <h3>Download</h3>
+                        <h4>Download Directory:</h4>
+                        <p id="ddir">Please wait...</p>
+                        <button id="cdir" class="btn smol">Change</button>
+                        <h4>Overwrite:</h4>
+                        <input type="checkbox" id="ow-tgl" />
+                        <label for="ow-tgl">Toggle</label>
+                    </div>
+                    <div class="mw" id="info-modal">
+                        <h2>Info</h2>
+                        <h3>Version</h3>
+                        <h4 id="version"></h4>
+                        <h3>Author</h3>
+                        <h4>whi_ne (whinyaan@protonmail.com)</h4>
+                        <a href=https://github.com/whinee target=_blank>Github</a>,
+                        <a href=https://twitter.com/whi_nyaan target=_blank>Twitter</a>
+                        <h3>Commissioned by</h3>
+                        <h4>Anonymous User</h4>
+                        Want something like this too? Inquire through Discord(<a target=_blank href=https://discord.com/users/848092597822160907>whinyaan</a>) or through
+                        e-mail (<a target=_blank href=mailto:whinyaan@protonmail.com>whinyaan@protonmail.com</a>). Price starts at 50 USD.
+                        For commissioning project, price starts at 30 USD.
+                        <h3>Copyright</h3>
+                        <h4 style="font-weight: bold">
+                            <a href=https://choosealicense.com/licenses/mit/ target=_blank>MIT LICENSE</a>
+                        </h4>
+                        <div id="cholder"></div>
+                        <h3>Debug</h3>
+                        <h4>Log Path:</h4>
+                        <p id="logPath">Please wait...</p>
+                    </div>
+                    <div id="closeModal" class="closeModal">×</div>
+                </div>
+            </div>
+        </section>
+        <script src="/static/scripts/toast.js" defer></script>
+        <script type="module" src="/static/scripts/modal.js"></script>
+        {% for message in fetch_flash(request) %}
+            <script>
+                toast({
+                    message: "{{ message.message }}",
+                    type: "{{ message.category }}"
+                });
+            </script>
+        {% endfor %}
     </body>
 </html>

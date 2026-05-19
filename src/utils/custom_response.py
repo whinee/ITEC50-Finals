@@ -28,7 +28,7 @@ class TemplateFlashInnerCallable(Protocol):
     def __call__(
         self,
         message: str,
-        category: Literal["primary", "success", "warning", "danger"] = "primary",
+        category: Literal["success", "info", "warning", "error"] = "info",
         context: dict[str, Any] | None = None,
         status_code: int = 200,
         headers: Mapping[str, str] | None = None,
@@ -67,8 +67,10 @@ class CustomResponse:
         message: str | None = None,
         error: bool | None = None,
         json: dict[str, Any] | None = None,
-        *args,
-        **kwargs,
+        headers: Mapping[str, str] | None = None,
+        media_type: str | None = None,
+        background: BackgroundTask | None = None,
+        cookie_params: dict[str, Any] | None = None,
     ) -> UJSONResponse:  # type: ignore
         if json is None:
             json = {}
@@ -80,15 +82,47 @@ class CustomResponse:
             error,
         )
 
-        return UJSONResponse(  # type: ignore[misc]
-            *args,
-            status_code=status_code,
+        response = UJSONResponse(  # type: ignore[misc]
             content={
                 **content,
                 **json,
                 "status": status,
             },
-            **kwargs,
+            status_code=status_code,
+            headers=headers,
+            media_type=media_type,
+            background=background,
+        )
+
+        if cookie_params:
+            for key, value in cookie_params.items():
+                response.set_cookie(key, value)
+
+        return response
+
+    @staticmethod
+    def json_flash(
+        status_code: int,
+        detail: str | None = None,
+        message: str | None = None,
+        category: Literal["success", "info", "warning", "error"] = "info",
+        error: bool | None = None,
+        json: dict[str, Any] | None = None,
+        headers: Mapping[str, str] | None = None,
+        media_type: str | None = None,
+        background: BackgroundTask | None = None,
+        cookie_params: dict[str, Any] | None = None,
+    ) -> UJSONResponse:  # type: ignore
+        return CustomResponse.json(
+            status_code=status_code,
+            detail=detail,
+            message=message,
+            json={**({} if json is None else json), "category": category},
+            error=error,
+            headers=headers,
+            media_type=media_type,
+            background=background,
+            cookie_params=cookie_params,
         )
 
     @staticmethod
@@ -149,7 +183,7 @@ class CustomResponse:
     ) -> TemplateFlashInnerCallable:
         def inner(
             message: str,
-            category: Literal["primary", "success", "warning", "danger"] = "primary",
+            category: Literal["success", "info", "warning", "error"] = "info",
             context: dict[str, Any] | None = None,
             status_code: int = 200,
             headers: Mapping[str, str] | None = None,

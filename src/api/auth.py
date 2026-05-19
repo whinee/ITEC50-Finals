@@ -92,7 +92,6 @@ async def login_user(
     data: Annotated[LoginData, Form()],
     is_logged_in: Annotated[bool, Depends(check_if_logged_in)],
 ):
-    flash = CustomResponse.template_flash(request, "login.j2.html")
     if is_logged_in:
         raise HTTPException(
             status_code=HTTP_406_NOT_ACCEPTABLE,
@@ -107,21 +106,21 @@ async def login_user(
         user = result.one()
         kdf.verify_phc_encoded(data.password.encode(), user.password)
     except InvalidKey:
-        return flash(
-            "Username or password is invalid",
-            "danger",
+        return CustomResponse.json_flash(
+            message="Username or password is invalid",
+            category="error",
             status_code=HTTP_401_UNAUTHORIZED,
         )
     except NoResultFound:
-        return flash(
-            "Username or password is invalid",
-            "danger",
+        return CustomResponse.json_flash(
+            message="Username or password is invalid",
+            category="error",
             status_code=HTTP_401_UNAUTHORIZED,
         )
     except BaseException:  # noqa: BLE001
-        return flash(
-            "Something went wrong",
-            "danger",
+        return CustomResponse.json_flash(
+            message="Something went wrong",
+            category="error",
             status_code=HTTP_500_INTERNAL_SERVER_ERROR,
         )
     issued_at = int(datetime.datetime.now(datetime.UTC).timestamp())
@@ -135,7 +134,7 @@ async def login_user(
     )
 
     response.set_cookie(**cookie_params)
-    return flash(
+    return CustomResponse.json_flash(
         message="Username or password is invalid",
         category="success",
         status_code=HTTP_301_MOVED_PERMANENTLY,
@@ -198,9 +197,8 @@ async def register_new_user(
     payload: Annotated[BaseUsers, Form()],
     is_logged_in: Annotated[bool, Depends(check_if_logged_in)],
 ):
-    flash = CustomResponse.template_flash(request, "login.j2.html")
     if is_logged_in:
-        return flash(
+        return CustomResponse.json_flash(
             message="You must logout first.",
             category="warning",
             status_code=HTTP_406_NOT_ACCEPTABLE,
@@ -210,7 +208,7 @@ async def register_new_user(
     email_results = await session.exec(email_statement)
     email_has_first = email_results.first()
     if email_has_first:
-        return flash(
+        return CustomResponse.json_flash(
             message="User with E-mail already exists.",
             category="warning",
             status_code=HTTP_409_CONFLICT,
@@ -221,7 +219,7 @@ async def register_new_user(
         username_results = await session.exec(username_statement)
         username_has_first = username_results.first()
         if username_has_first:
-            return flash(
+            return CustomResponse.json_flash(
                 message="User with this username already exists.",
                 category="warning",
                 status_code=HTTP_409_CONFLICT,
@@ -239,7 +237,7 @@ async def register_new_user(
     await session.commit()
     await session.refresh(user)
 
-    return flash(
+    return CustomResponse.json_flash(
         message="Logged in successfully!",
         category="success",
         status_code=HTTP_301_MOVED_PERMANENTLY,

@@ -5,15 +5,10 @@
     <link href="/static/stylesheets/forms.css" rel="stylesheet">
 {% endblock head %}
 {% block body %}
-    {# Flashing message start here #}
-    {% for message in fetch_flash(request) %}
-        <div class="{{ message.category }}">{{ message.message }}</div>
-    {% endfor %}
-    {# Flashing message ends here #}
     <div id="wrapper">
         <main>
             <div class="inner">
-                <form action="/auth/login" method="post">
+                <form id="login-form" method="post">
                     <table>
                         <tr>
                             <td>Username</td>
@@ -37,4 +32,26 @@
             </div>
         </main>
     </div>
+    <script>
+        document.getElementById("login-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+
+            const res = await fetch("/auth/login", {
+                method: "POST",
+                body: new URLSearchParams(formData), // sends as form-encoded
+            });
+
+            const data = await res.json();
+            toast({
+                title: data.error ? "Error" : "Success",
+                message: data.message,
+                type: data.error ? "error" : "success",
+            });
+
+            if (res.ok) {
+                setTimeout(() => window.location.href = "/", 1000);
+            }
+        });
+    </script>
 {% endblock body %}

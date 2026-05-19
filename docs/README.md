@@ -43,3 +43,12 @@ just alembic revision --autogenerate -m "init"
 ```sh
 just alembic upgrade head
 ```
+
+## Recommendations
+
+### Captcha, TOTP/MFA, and Rate Limiting
+
+Add Captcha, TOTP/MFA, and rate limiting to the following endpoints:
+
+- `/auth/login`
+- `/auth/register`

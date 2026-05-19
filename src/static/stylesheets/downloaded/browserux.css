@@ -1,0 +1,1539 @@
+/*! browserux.css 4.0.0 | 2026 MIT Licence | github.com/Effeilo/browserux.css */
+
+/**
+ * 🌐 browserux.css
+ *
+ * A modern, opinionated CSS foundation that normalizes browser inconsistencies
+ * and applies sensible defaults across all elements.
+ *
+ * Built around CSS custom properties (design tokens) for easy theming,
+ * with automatic dark mode support via `prefers-color-scheme`.
+ * Respects user accessibility preferences: reduced motion, high contrast,
+ * reduced transparency, and forced colors (Windows High Contrast Mode).
+ */
+
+/* ============================================================================
+ *
+ * ### 🎨 Design Tokens
+ *
+ * This section defines the core design tokens used across the application.
+ * These tokens act as the single source of truth for visual properties such
+ * as colors, typography, spacing, and UI behavior.
+ *
+ * By centralizing these values, we ensure consistency, maintainability,
+ * and scalability throughout the codebase while making future theming
+ * and customization easier.
+ *
+ * Tokens are organized by functional categories, including:
+ *
+ * - 🎨 Colors (base, semantic, and UI accents)
+ * - ✅ Form validation states (valid / invalid)
+ * - 📊 Progress indicators
+ * - 🖱️ Text selection
+ * - 🧭 Scrollbars
+ * - 🔤 Typography
+ *
+ * These variables are primarily defined at the `:root` level so they can be
+ * globally reused and overridden when needed (e.g. dark mode, accessibility
+ * preferences, or component-level variations).
+ *
+ * Additionally, browser-level capabilities such as `color-scheme` and
+ * `interpolate-size` are configured here to enhance native rendering
+ * and enable smoother layout transitions.
+ *
+ * ============================================================================ */
+
+:root {
+    /** 
+   * 🎨 Color tokens 
+   */
+
+    --bux-page-bg: #eaeaea; /* Page background color */
+    --bux-page-color: #121212; /* Page text color */
+    --bux-color-primary: #f05e0e; /* Primary accent color (buttons, focus rings, range thumb…) */
+    --bux-color-secondary: #0e93f0; /* Secondary accent color (scrollbar thumb…) */
+    --bux-transparent: transparent; /* Explicit transparent alias used for image selection overlay */
+
+    /** 
+   * ✅ Form validation tokens 
+   */
+
+    --bux-valid-border-color: #29b94c; /* Applied on `:user-valid` state */
+    --bux-valid-bg-color: #f0fff5; /* Applied on `:user-valid` state */
+    --bux-invalid-border-color: #dc303e; /* Applied on `:user-invalid` state */
+    --bux-invalid-bg-color: #fff0f0; /* Applied on `:user-invalid` state */
+    --bux-placeholder-color: #aaa; /* Default placeholder text color */
+    --bux-invalid-placeholder-color: #dc303e; /* Placeholder color inside invalid fields */
+
+    /** 
+   * 📊 Progress bar tokens  
+   */
+
+    --bux-progress-bar-bg: #efefef; /* Track background of `<progress>` */
+    --bux-progress-value-bg: #29b94c; /* Filled value color of `<progress>` */
+
+    /** 
+   * 🖱️ Text selection tokens 
+   */
+
+    --bux-selection-bg: var(--bux-page-color);
+    --bux-selection-color: var(--bux-page-bg);
+    --bux-selection-text-shadow: none;
+
+    /** 
+   * 🧭­ Scrollbar tokens 
+   */
+
+    --bux-scrollbar: var(--bux-page-bg); /* Scrollbar gutter/background */
+    --bux-scrollbar-track: #ddecf6; /* Track background */
+    --bux-scrollbar-thumb: var(--bux-color-secondary); /* Thumb colors */
+    --bux-scrollbar-thumb-hover: var(--bux-color-primary); /* Thumb colors */
+    --bux-scrollbar-vertical-width: 10px; /* Scrollbar dimensions */
+    --bux-scrollbar-horizontal-height: 10px; /* Scrollbar dimensions */
+
+    /** 
+   * 🔤 Typography tokens 
+   */
+
+    --bux-typo-font-family:
+        system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji"; /* System font stack for body text */
+    --bux-typo-font-family-mono:
+        ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo,
+        monospace; /* Monospace font stack for code elements */
+    --bux-typo-font-size: 1.6rem; /* Base font size applied to `<body>` (default `1.6rem` = 16px) */
+    --bux-typo-line-height: 1.6; /* Base line height applied to `<body>` */
+
+    /**
+   * Color scheme: tells the browser which themes are supported.
+   * Native UI elements (date pickers, file inputs, selects, scrollbars)
+   * will automatically adapt to the active color scheme. 
+   */
+
+    color-scheme: light dark;
+
+    /** 
+   * Enables smooth transitions to and from intrinsic size keywords
+   * (auto, min-content, max-content, fit-content) across the document.
+   * Without this, animating height: auto or similar is not possible in CSS.
+   * @see https://developer.mozilla.org/en-US/docs/Web/CSS/interpolate-size 
+   */
+
+    interpolate-size: allow-keywords;
+}
+
+/* ============================================================================
+ *
+ * ### ⚙️ Browser User Preferences
+ *
+ * This section centralizes the handling of user preferences exposed by the
+ * browser and operating system in order to improve accessibility, visual comfort,
+ * and overall user experience.
+ *
+ * It relies on standard media queries to automatically adapt the interface
+ * to user needs, including:
+ *
+ * - 🌑 Dark mode (`prefers-color-scheme`)
+ * - 🎬 Reduced motion (`prefers-reduced-motion`)
+ * - 👁️ High contrast (`prefers-contrast`)
+ * - 🪟 Reduced transparency (`prefers-reduced-transparency`)
+ * - 🖥️ Forced colors (Windows High Contrast Mode)
+ *
+ * The goal is to provide an inclusive interface that respects system-level
+ * user preferences without requiring manual configuration.
+ *
+ * Each rule defined here acts as an adaptive layer on top of the base styles
+ * (`:root`), avoiding unnecessary duplication.
+ *
+ * ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+ ## 🌑 Theme Preferences
+---------------------------------------------------------------------------- */
+
+/**
+ * Automatically swaps color tokens when the user's OS preference is dark.
+ * Only tokens that differ in dark mode are listed here; all others inherit
+ * their light-mode values from `:root`.
+ */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /** 
+     * Invert page background and text color for dark surfaces 
+     */
+
+        --bux-page-bg: #121212;
+        --bux-page-color: #eaeaea;
+        --bux-color-primary: #f05e0e;
+        --bux-color-secondary: #0e93f0;
+
+        /** 
+     * Darker tints of the validation backgrounds to remain readable on dark surfaces 
+     */
+
+        --bux-valid-bg-color: #0d2e18;
+        --bux-invalid-bg-color: #2e0d0d;
+
+        /** 
+     * Darker scrollbar track to match the dark page background 
+     */
+
+        --bux-scrollbar-track: #1a2535;
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 🎬 Animations Preferences
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * # Smooth Motion (no-preference)
+ *
+ * If the user has not requested the system to minimize the amount of animation or movement.
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
+ * 1. Defines a smooth scroll effect to the scrolling behavior for a scrolling box,
+ * when scrolling happens due to navigation or CSSOM scrolling APIs.
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior
+ * 2. Enables smooth transition between Light Mode and Dark Mode only for users
+ * who have not requested reduced motion.
+ */
+
+@media (prefers-reduced-motion: no-preference) {
+    :root {
+        scroll-behavior: smooth; /* 1 */
+    }
+
+    body {
+        transition:
+            background-color 0.3s,
+            color 0.3s; /* 2 */
+    }
+}
+
+/**
+ * # Reduced Motion Override
+ *
+ * Immediately cancels all animations and transitions for users who have
+ * enabled the "Reduce Motion" accessibility setting.
+ *
+ * Applied to every element and its pseudo-elements.
+ * Uses `!important` to override any component-level motion styles.
+ *
+ * Inline notes:
+ * 1. Zero-duration animations so they complete in a single frame
+ * 2. Single iteration to prevent infinite loops from stalling
+ * 3. Instant scroll-behavior to prevent motion sickness from smooth scrolling
+ * 4. Zero-duration transitions so state changes are immediate
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-motion
+ */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0s !important; /* 1 */
+        animation-iteration-count: 1 !important; /* 2 */
+        scroll-behavior: auto !important; /* 3 */
+        transition-duration: 0s !important; /* 4 */
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 👁️ Contrast Preferences
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * # High Contrast Mode (light)
+ *
+ * Improves readability for users who have enabled the "Increase Contrast"
+ * accessibility preference (e.g. macOS "Increase contrast" setting).
+ *
+ * Adjustments:
+ * - Placeholders and disabled elements use a near-opaque dark color instead
+ *   of the lighter default, meeting a higher contrast ratio
+ * - Text selection drops the text-shadow to avoid blurring on solid backgrounds
+ * - Italic, small, and emphasis elements receive bold weight to compensate
+ *   for reduced visual distinction in high-contrast environments
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-contrast
+ */
+
+@media (prefers-contrast: more) {
+    /**
+   * Improves visibility of placeholder text and disabled elements.
+   * These elements are often too faint in default browser styles.
+   */
+
+    ::placeholder {
+        color: rgba(16, 16, 16, 0.8);
+        opacity: 1;
+    }
+
+    /** 
+   * Ensure disabled text remains legible even at high contrast 
+   */
+
+    [disabled] {
+        color: rgba(16, 16, 16, 0.8);
+    }
+
+    /**
+   * Removes text shadow on selected text.
+   * Prevents visual artifacts that reduce contrast when selecting text.
+   */
+
+    ::selection {
+        text-shadow: none;
+    }
+
+    /**
+   * Reinforces visibility of typographically de-emphasized elements.
+   * Italic or small text can be hard to read in high-contrast environments.
+   */
+
+    em,
+    i,
+    small {
+        font-weight: bold;
+    }
+}
+
+/**
+ * # High Contrast + Dark Mode
+ *
+ * Combines high contrast with dark mode: swaps the near-opaque dark color
+ * to a near-opaque light color so placeholders and disabled text remain
+ * readable on dark surfaces.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-contrast
+ */
+
+@media (prefers-contrast: more) and (prefers-color-scheme: dark) {
+    /** 
+   * Light near-opaque color for sufficient contrast on dark backgrounds 
+   */
+
+    ::placeholder {
+        color: rgba(239, 239, 239, 0.9);
+        opacity: 1;
+    }
+
+    /** 
+   * Mirror the placeholder adjustment for disabled elements in dark + high contrast 
+   */
+
+    [disabled] {
+        color: rgba(239, 239, 239, 0.9);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 🪟 Transparency Preferences
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * # Reduced Transparency
+ *
+ * Strengthens semi-transparent surfaces for users who have enabled
+ * "Reduce Transparency" in their OS accessibility settings.
+ *
+ * - Dialog backdrop becomes near-opaque to maintain background blur replacement
+ * - WebKit scrollbar background is set explicitly to avoid translucency artifacts
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-reduced-transparency
+ */
+
+@media (prefers-reduced-transparency: reduce) {
+    /**
+   * Replaces the semi-transparent backdrop with a near-opaque overlay
+   * to ensure dialog content is clearly distinguishable from background.
+   */
+
+    dialog::backdrop {
+        background: rgba(0, 0, 0, 0.9);
+    }
+
+    /**
+   * Removes the semi-transparent scrollbar background
+   * by aligning it with the page background.
+   */
+
+    ::-webkit-scrollbar {
+        background: var(--bux-page-bg);
+    }
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 🖥️ Forced Colors (Windows High Contrast Mode)
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * # Forced Colors Mode
+ *
+ * Windows High Contrast Mode (and other forced-color environments) overrides
+ * most color and border declarations with system palette colors.
+ * These rules restore intentional visual cues that the browser would otherwise remove.
+ *
+ * - `:focus-visible` restores a visible focus ring using the system `Highlight` color
+ * - Form controls regain an explicit border (forced colors often remove box decorations)
+ * - Disabled and aria-disabled elements are visually dimmed via `opacity`
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/@media/forced-colors
+ */
+
+@media (forced-colors: active) {
+    /**
+   * Restore the focus ring using a system color so it remains visible
+   * regardless of the user's high-contrast color palette.
+   * `Highlight` is a CSS system color that maps to the selection/accent color.
+   */
+
+    :focus-visible {
+        outline: 3px solid Highlight;
+        outline-offset: 2px;
+    }
+
+    /**
+   * Restore a visible border on form elements that have had their border
+   * removed by our reset. In forced-colors mode, borders are the primary
+   * visual cue for interactive elements.
+   */
+
+    button,
+    input,
+    select,
+    textarea {
+        border: 1px solid ButtonText;
+    }
+
+    /**
+   * Ensure disabled elements remain visually distinguishable.
+   */
+
+    [disabled],
+    [aria-disabled="true"] {
+        opacity: 0.5;
+    }
+}
+
+/* ============================================================================
+ *
+ * ### 🎨 Browser UI Theme
+ *
+ * This section defines the visual customization of native browser UI elements
+ * to align them with the application's design system and branding.
+ *
+ * It enhances default browser rendering by applying consistent styles
+ * to interactive and system-level elements while preserving usability
+ * and accessibility.
+ *
+ * The goal is to create a cohesive user experience across browsers by
+ * bridging the gap between native UI components and custom design tokens.
+ *
+ * Covered areas include:
+ *
+ * - 🔵 Text selection styling
+ * - 📜 Scrollbar customization (Firefox + WebKit)
+ * - 📝 Form UX enhancements (placeholders, caret, accent-color)
+ * - ✅ Validation states (valid / invalid feedback)
+ * - 📊 Progress indicators
+ * - 🎯 Focus management (keyboard accessibility)
+ *
+ * All styles rely on design tokens defined in `:root`, ensuring consistency,
+ * easy theming, and maintainability across the entire application.
+ *
+ * Wherever possible, native browser features (e.g. `accent-color`,
+ * `:focus-visible`) are leveraged instead of fully custom components,
+ * allowing for better performance and accessibility.
+ *
+ * ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+ * ## 🔵 Text Selection
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * Applies branded text selection colors using the design tokens defined on `:root`.
+ * By default, selection inverts the page foreground/background for a clean contrast.
+ */
+
+::selection {
+    background: var(--bux-selection-bg);
+    color: var(--bux-selection-color);
+    text-shadow: var(--bux-selection-text-shadow);
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 📜 Scrollbar Styling
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * # Firefox Scrollbar (scrollbar-color)
+ *
+ * Applies standard scrollbar styling only in Firefox, allowing more advanced 
+ * customization with WebKit pseudo-elements in other modern browsers (Chrome, Safari, Edge). 
+ *
+ * Without this block, `::-webkit-scrollbar` rules will be ignored in 
+ * Chrome > 120, Edge > 120, and Safari > 18.1, because `scrollbar-color` 
+ * overrides them if present globally.
+ */
+
+@supports (-moz-appearance: none) {
+    html {
+        scrollbar-color: var(--bux-scrollbar-thumb) var(--bux-scrollbar-track);
+        scrollbar-width: auto;
+    }
+}
+
+/**
+ * # WebKit Scrollbar (::-webkit-scrollbar)
+ *
+ * Provides advanced scrollbar customization for all WebKit-based browsers
+ * and engines (Chrome, Safari, Edge, Opera).
+ *
+ * Unlike Firefox, which uses the standardized `scrollbar-color` property,
+ * WebKit browsers rely on a set of proprietary pseudo-elements to style
+ * each part of the scrollbar individually (track, thumb, buttons, corner).
+ *
+ * These rules are scoped to WebKit only and remain fully effective because
+ * `scrollbar-color` is explicitly limited to Firefox via `@supports`.
+ *
+ * This approach ensures:
+ * - Consistent visual theming across browsers
+ * - Fine-grained control over scrollbar appearance and interaction states
+ * - No conflicts between standard and proprietary implementations
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/::-webkit-scrollbar
+ */
+
+/**
+ * WebKit Scrollbar â€” Track Container
+ * WebKit scrollbar pseudo-elements used for advanced customization
+ * in all modern non-Firefox browsers. These styles are now fully active because 
+ * scrollbar-color is scoped to Firefox only.
+ */
+
+::-webkit-scrollbar {
+    background: var(--bux-scrollbar);
+    height: var(--bux-scrollbar-horizontal-height);
+    width: var(--bux-scrollbar-vertical-width);
+}
+
+/**
+ * WebKit Scrollbar â€” Increment/Decrement Buttons
+ * Hides the up/down arrow buttons on the scrollbar ends
+ * for a cleaner, minimal scrollbar appearance.
+ */
+
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+/**
+ * WebKit Scrollbar â€” Track
+ * Styles the track area (the groove the thumb moves along).
+ */
+
+::-webkit-scrollbar-track {
+    background-color: var(--bux-scrollbar-track);
+}
+
+/**
+ * WebKit Scrollbar â€” Thumb
+ * Styles the draggable thumb element.
+ * Border-radius is derived from the scrollbar width to create a pill shape.
+ */
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--bux-scrollbar-thumb);
+    border-radius: calc(var(--bux-scrollbar-vertical-width) / 2);
+}
+
+/**
+ * WebKit Scrollbar â€” Thumb Hover
+ * Switches to the primary accent color on hover for interactive feedback.
+ */
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--bux-scrollbar-thumb-hover);
+}
+
+/**
+ * WebKit Scrollbar â€” Corner
+ * Makes the corner where vertical and horizontal scrollbars meet transparent
+ * to avoid an awkward colored square.
+ */
+
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 📝 Form UX Enhancements
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * # Placeholder Color
+ *
+ * Sets a consistent placeholder text color across all input types,
+ * using the dedicated `--bux-placeholder-color` token.
+ */
+
+::placeholder {
+    color: var(--bux-placeholder-color);
+}
+
+/**
+ * # Caret Color
+ *
+ * Applies the primary accent color to the text cursor in editable fields,
+ * providing a branded feel without affecting text color.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/caret-color
+ */
+
+input,
+textarea,
+[contenteditable] {
+    caret-color: var(--bux-color-primary);
+}
+
+/**
+ * # Accent Color â€” Checkboxes, Radios, Ranges, Meters, Selects
+ *
+ * Uses `accent-color` to tint native browser UI controls
+ * (checkbox checkmark, radio dot, range thumb, meter fill, select highlight)
+ * with the primary brand color.
+ */
+
+input[type="checkbox"],
+input[type="radio"],
+input[type="range"],
+meter,
+select {
+    accent-color: var(--bux-color-primary);
+}
+
+/**
+ * # Progress Accent Color
+ *
+ * Sets `accent-color` on `<progress>` separately because its filled portion
+ * uses a distinct token (`--bux-progress-value-bg`) from the primary accent.
+ */
+
+progress {
+    accent-color: var(--bux-progress-value-bg);
+}
+
+/**
+ * # Range Thumb â€” WebKit & Firefox
+ *
+ * Overrides the default browser thumb style on `<input type="range">`.
+ * Both the WebKit and Firefox pseudo-elements are targeted for cross-browser coverage.
+ * 1. Remove the default border that some browsers add to the thumb
+ */
+
+input[type="range"]::-webkit-slider-thumb,
+input[type="range"]::-moz-range-thumb {
+    background: var(--bux-color-primary);
+    border: none; /* 1 */
+}
+
+/**
+ * # Form Validation States
+ *
+ * Visual feedback for valid and invalid field states using :user-valid / :user-invalid.
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/:user-valid
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/:user-invalid
+ */
+
+/**
+ * Valid Field State
+ * Applies a green tint to fields that have been interacted with and contain
+ * valid input. Uses `:user-valid` (triggered only after user interaction,
+ * unlike `:valid` which fires immediately on page load).
+ */
+
+input:user-valid,
+textarea:user-valid,
+select:user-valid {
+    background-color: var(--bux-valid-bg-color);
+    border-color: var(--bux-valid-border-color);
+}
+
+/**
+ * Invalid Field State
+ * Applies a red tint to fields that have been interacted with and contain
+ * invalid input. Uses `:user-invalid` for the same post-interaction reason.
+ */
+
+input:user-invalid,
+textarea:user-invalid,
+select:user-invalid {
+    background-color: var(--bux-invalid-bg-color);
+    border-color: var(--bux-invalid-border-color);
+}
+
+/**
+ * Invalid Placeholder Color
+ * Tints the placeholder text red inside invalid fields to reinforce
+ * the error state even before the user has typed anything.
+ */
+
+input:user-invalid::placeholder,
+textarea:user-invalid::placeholder {
+    color: var(--bux-invalid-placeholder-color);
+}
+
+/**
+ * # Progress Bar
+ *
+ * Cross-browser styling for the <progress> element track and filled value
+ */
+
+/**
+ * Progress Bar â€” WebKit Track
+ * Styles the unfilled background track of `<progress>` in WebKit browsers.
+ * Border-radius gives it a pill shape consistent with the filled portion.
+ */
+
+progress::-webkit-progress-bar {
+    background-color: var(--bux-progress-bar-bg);
+    border-radius: 8px;
+}
+
+/**
+ * Progress Bar â€” WebKit Value
+ * Styles the filled portion of `<progress>` in WebKit browsers.
+ */
+
+progress::-webkit-progress-value {
+    background-color: var(--bux-progress-value-bg);
+    border-radius: 8px;
+}
+
+/**
+ * Progress Bar â€” Firefox Value
+ * Styles the filled portion of `<progress>` in Firefox.
+ * Firefox uses a separate pseudo-element from WebKit.
+ */
+
+progress::-moz-progress-bar {
+    background-color: var(--bux-progress-value-bg);
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 🎯 Focus Management
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * # :focus â€” Focus Fallback
+ *
+ * Provides a visible focus outline by default as a safe fallback for
+ * browsers that do not support `:focus-visible`.
+ * This fallback is then refined below so mouse focus does not show an
+ * outline in browsers that support `:focus-visible`.
+ */
+
+:focus {
+    outline: 2px solid var(--bux-color-primary);
+    outline-offset: 2px;
+}
+
+/**
+ * Removes the fallback outline when the element is focused but the browser
+ * determines that a visible focus indicator is not necessary, typically
+ * after mouse interaction.
+ */
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/**
+ * # :focus-visible â€” Keyboard Focus Ring
+ *
+ * Applies a visible, branded focus indicator for keyboard and sequential
+ * navigation when the browser determines focus visibility is necessary.
+ */
+
+:focus-visible {
+    outline: 2px solid var(--bux-color-primary);
+    outline-offset: 2px;
+}
+
+/* ============================================================================
+ *
+ * ### 🧱 Browser Default Styles
+ *
+ * This section establishes a consistent baseline across browsers by
+ * normalizing and resetting default styles applied to HTML elements.
+ *
+ * It removes inconsistencies between user agents and provides a clean,
+ * predictable foundation for building UI components.
+ *
+ * The goal is not to fully strip browser behavior, but to standardize it
+ * while preserving accessibility, usability, and native capabilities.
+ *
+ * Structured overview:
+ *
+ * - ↔️ Margin & Padding Reset
+ * - 👁️‍🗨️ [hidden] Attribute
+ * - 📦 Box model
+ * - 🏠 The Root Element
+ * - 🧩 Sections
+ * - 🔤 Headings
+ * - 📚 Grouping content
+ * - 🔤 Text-level semantics
+ * - 🖼️ Embedded content
+ * - 📊 Tabular data
+ * - 🔘 Forms
+ * - 🧩 Interactive elements
+ * - 💬 Dialog
+ *
+ * This layer acts as the foundation of the styling architecture,
+ * ensuring all components start from a stable and consistent base.
+ *
+ * It is designed to work seamlessly with design tokens and higher-level
+ * UI theming, without introducing opinionated visual styles.
+ *
+ * ============================================================================ */
+
+/* ----------------------------------------------------------------------------
+ * ## ↔️ Margin & Padding Reset
+ * ---------------------------------------------------------------------------- */
+
+/*
+ * Removes all default margins and paddings from every element and its
+ * pseudo-elements, establishing a clean baseline for layout.
+ */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 👁️‍🗨️ [hidden] Attribute
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * Ensures elements in the hidden state remain invisible even if another
+ * stylesheet accidentally assigns them a display value.
+ *
+ * `hidden="until-found"` is intentionally excluded so the browser can keep
+ * its native "hidden until found" behavior for in-page search and fragment
+ * navigation. Only the classic hidden state is forced to `display: none`.
+ *
+ * @see https://html.spec.whatwg.org/multipage/rendering.html#hidden-elements
+ */
+
+[hidden]:where(:not([hidden="until-found"])) {
+    display: none !important;
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 📦 Box model
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * # Box-Sizing Inheritance
+ *
+ * Propagates `box-sizing` from `<html>` to all elements via inheritance.
+ * This pattern allows components to opt out by resetting `box-sizing` on
+ * their own root without needing to override the universal selector.
+ *
+ * @see https://www.paulirish.com/2012/box-sizing-border-box-ftw/
+ */
+
+*,
+::before,
+::after {
+    box-sizing: inherit;
+}
+
+/**
+ * # html — Border Box
+ *
+ * Sets `border-box` on the root element so all descendants inherit it
+ * (via the rule above). Ensures padding and borders are included within
+ * declared widths and heights.
+ */
+
+html {
+    box-sizing: border-box;
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 🏠 The Root Element
+ * ---------------------------------------------------------------------------- */
+
+/**
+ *  1. Improve consistency of default fonts in all browsers.
+       @see https://github.com/sindresorhus/modern-normalize/issues/3
+ *  2. Relative value unit refers to the size of the parent element.
+       Browsers' font size default is 16px. For a 1em/10px report,
+       we divide the size by the default size: 10/16 x 100 = 62.5%.
+ *  3. Ensure the root element covers the full viewport height for consistent layouts.
+ *  4. Fallback for browsers that do not support scrollbar-gutter: stable (see 9).
+       Forces the vertical scrollbar to always be visible to prevent layout
+       shifts between pages with and without enough content to scroll.
+       @see https://css-tricks.com/snippets/css/force-vertical-scrollbar/
+ *  5. Fonts on macOS will look more consistent with other systems that do not
+       render text using sub-pixel anti-aliasing.
+       @for macOS.
+ *  6. Remove the highlighting effect when "tapped" action on webkit browsers.
+       @for Androids.
+ *  7. Use a more readable tab size.
+ *  8. Prevent iOS text size adjust after orientation change, without disabling
+       user zoom.
+       @for iOS Safari 5.1+.
+ *  9. Modern replacement for overflow-y: scroll (see 4) to prevent layout shifts
+       caused by the scrollbar appearing or disappearing.
+       Reserves space for the scrollbar gutter even when no scrollbar is displayed,
+       without forcing a permanent visible scrollbar.
+       Both rules are kept for full cross-browser coverage:
+       scrollbar-gutter for modern browsers, overflow-y: scroll as fallback.
+       @see https://developer.mozilla.org/en-US/docs/Web/CSS/scrollbar-gutter
+ */
+
+html {
+    font-family: var(--bux-typo-font-family); /* 1 */
+    font-size: 62.5%; /* 2 */
+    min-height: 100%; /* 3 */
+    overflow-y: scroll; /* 4 */
+    -moz-osx-font-smoothing: grayscale; /* 5 */
+    -webkit-font-smoothing: antialiased; /* 5 */
+    -webkit-tap-highlight-color: transparent; /* 6 */
+    tab-size: 4; /* 7 */
+    -moz-tab-size: 4; /* 7 */
+    text-size-adjust: 100%; /* 8 */
+    -webkit-text-size-adjust: 100%; /* 8 */
+    scrollbar-gutter: stable; /* 9 */
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 🧩 Sections
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * Applies the base typographic scale and page colors from design tokens.
+ * 1. Initializes page background color.
+ * 2. Initializes page color, font size and line height using CSS variables.
+ * 3. Ensures the body element always fills at least the full viewport height,
+      providing better structure for layouts and preventing collapsing pages.
+ * 4. Prevents long words or URLs from overflowing their container,
+      especially on narrow viewports.
+ */
+
+body {
+    background: var(--bux-page-bg); /* 1 */
+    color: var(--bux-page-color); /* 2 */
+    font-size: var(--bux-typo-font-size); /* 2 */
+    line-height: var(--bux-typo-line-height); /* 2 */
+    min-height: 100%; /* 3 */
+    overflow-wrap: break-word; /* 4 */
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 🔤 Headings
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * Balances heading text across lines to avoid typographic widows
+ * (single short words alone on the last line).
+ * Gracefully ignored by browsers that don't support text-wrap: balance.
+ * 
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/text-wrap
+ */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-wrap: balance;
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 📚 Grouping content
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * Prevents overflow from blockquote, pre, and code blocks.
+ */
+
+blockquote,
+pre {
+    max-width: 100%;
+}
+
+/**
+ * Applies a consistent monospace font stack across browsers.
+ *
+ * @see https://github.com/sindresorhus/modern-normalize/issues/3
+ */
+
+pre {
+    font-family: var(--bux-typo-font-family-mono);
+}
+
+/**
+ * Normalizes the <hr> element across browsers.
+ * 1. Removes the default border in favor of a controlled border-top.
+ * 2. Sets height to 0 for consistent rendering across browsers.
+ * 3. Inherits the current text color for easy theming.
+ * 4. Ensures content is not clipped in overflow scenarios.
+ */
+
+hr {
+    border: none; /* 1 */
+    border-top: 1px solid currentColor; /* 1 */
+    color: inherit; /* 3 */
+    height: 0; /* 2 */
+    overflow: visible; /* 4 */
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 🔤 Text-level semantics
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * Resets anchor styles to a neutral baseline and applies UX-friendly defaults:
+ * 1. Removes text-decoration and outline on links.
+ * 2. Improves underline rendering by skipping descenders.
+ * 3. Moves the underline slightly below the text baseline for improved legibility.
+ *    @see https://developer.mozilla.org/en-US/docs/Web/CSS/text-underline-offset
+ * 4. Removes 300ms delay on clickable elements on mobile.
+ *    @see https://www.sitepoint.com/5-ways-prevent-300ms-click-delay-mobile-devices/
+ */
+
+a {
+    outline: 0; /* 1 */
+    text-decoration: none; /* 1 */
+    text-decoration-skip-ink: auto; /* 2 */
+    text-underline-offset: 0.2em; /* 3 */
+    touch-action: manipulation; /* 4 */
+}
+
+/**
+ * 1. Shows help cursor for elements providing additional info on hover.
+ * 2. Applies correct underline decoration for better readability.
+ */
+
+abbr[title],
+dfn[title] {
+    cursor: help; /* 1 */
+    text-decoration: underline dotted; /* 2 */
+}
+
+/**
+ * Ensures correct font weight on bold text across browsers.
+ */
+
+b,
+strong {
+    font-weight: bolder;
+}
+
+/**
+ * 1. Prevents overflow from blockquote, pre, and code blocks.
+ * 2. Displays code content with preserved white space and line breaks.
+ */
+
+code {
+    max-width: 100%; /* 1 */
+    white-space: pre-wrap; /* 2 */
+}
+
+/**
+ * Applies a consistent monospace font stack across browsers.
+ *
+ * @see https://github.com/sindresorhus/modern-normalize/issues/3
+ */
+
+code,
+kbd,
+samp {
+    font-family: var(--bux-typo-font-family-mono);
+}
+
+/**
+ * Ensures correct sizing for small text.
+ */
+
+small {
+    font-size: 80%;
+}
+
+/**
+ * Fixes sub and sup rendering to prevent line-height issues.
+ */
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+sup {
+    top: -0.5em;
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 🖼️ Embedded content
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * Removes 300ms delay on area elements on mobile.
+ *
+ * @see https://www.sitepoint.com/5-ways-prevent-300ms-click-delay-mobile-devices/
+ */
+
+area {
+    touch-action: manipulation;
+}
+
+/**
+ * Remove the gap between audio, canvas, iframes,
+ * images, videos and the bottom of their containers.
+ *
+ * @see https:////github.com/h5bp/html5-boilerplate/issues/440
+ */
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+    vertical-align: middle;
+}
+
+/**
+ * Prevents selection highlight when dragging images.
+ * Not all browsers apply ::selection on images consistently.
+ *
+ * @see https://stackoverflow.com/questions/6816080/how-to-disable-highlight-on-a-image
+ */
+
+img::selection {
+    background-color: var(--bux-transparent);
+}
+
+/**
+ * 1. Preserves aspect ratio for images.
+ * 2. Ensures media elements do not overflow their container.
+ */
+
+img,
+svg,
+video {
+    height: auto; /* 1 */
+    max-width: 100%; /* 2 */
+}
+
+/**
+ * Ensures SVG fills match the text color for easier theming.
+ */
+
+svg {
+    fill: currentColor;
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 📊 Tabular data
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * 1. Correct table border color inheritance in Chrome and Safari.
+ *    @see https://bugs.chromium.org/p/chromium/issues/detail?id=935729
+ *    @see https://bugs.webkit.org/show_bug.cgi?id=195016
+ * 2. Remove text indentation from table contents in Chrome and Safari.
+ *    @see https://bugs.chromium.org/p/chromium/issues/detail?id=999088
+ *    @see https://bugs.webkit.org/show_bug.cgi?id=201297
+ */
+
+table {
+    border-color: inherit; /* 1 */
+    text-indent: 0; /* 2 */
+}
+
+/**
+ * Prevent tables and table cells from overflowing their container,
+ * maintaining layout integrity on small screens.
+ */
+
+table,
+td {
+    max-width: 100%;
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 🔘 Forms
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * Resets the default border and padding of <fieldset> elements,
+ * which browsers render inconsistently.
+ */
+
+fieldset {
+    border: none;
+    padding: 0;
+}
+
+/**
+ * Resets the default padding of <legend> elements.
+ * Browsers add padding to <legend> by default, causing misalignment.
+ */
+
+legend {
+    padding: 0;
+}
+
+/**
+ * 1. Resets the default appearance of buttons.
+ * 2. Prevents accidental text selection on double-click.
+ */
+
+button {
+    appearance: none; /* 1 */
+    border: none; /* 1 */
+    background: none; /* 1 */
+    user-select: none; /* 2 */
+}
+
+/**
+ * Removes 300ms tap delay on clickable form elements on mobile.
+ * @see https://www.sitepoint.com/5-ways-prevent-300ms-click-delay-mobile-devices/
+ */
+
+button,
+input,
+label,
+select,
+textarea {
+    touch-action: manipulation;
+}
+
+/**
+ * Reset font styles to inherit in all form controls.
+ */
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: inherit;
+    font-size: 100%;
+}
+
+/**
+ * Remove the text-transform inheritance in Edge and Firefox.
+ */
+
+button,
+select {
+    text-transform: none;
+}
+
+/**
+ * Apply pointer cursor on clickable form elements.
+ */
+
+button:not(:disabled),
+[type="button"]:not(:disabled),
+[type="reset"]:not(:disabled),
+[type="submit"]:not(:disabled),
+label[for],
+select {
+    cursor: pointer;
+}
+
+/**
+ * Apply not-allowed cursor on disabled elements to clearly communicate
+ * that interaction is unavailable.
+ */
+
+[disabled],
+[aria-disabled="true"] {
+    cursor: not-allowed;
+}
+
+/**
+ * Correct clickable types styling on iOS and Safari.
+ */
+
+button,
+[type="button"],
+[type="reset"],
+[type="submit"] {
+    appearance: button;
+    -webkit-appearance: button;
+}
+
+/**
+ * Prevent inputs and textareas from overflowing their container.
+ */
+
+input,
+textarea {
+    max-width: 100%;
+}
+
+/**
+ * Ensure text can be selected in form inputs.
+ */
+
+input,
+select,
+textarea {
+    user-select: text;
+}
+
+/**
+ * 1. Correct the appearance of search fields in Chrome and Safari.
+ * 2. Correct the outline style in Safari.
+ */
+
+[type="search"] {
+    appearance: textfield; /* 1 */
+    -webkit-appearance: textfield; /* 1 */
+    outline-offset: -2px; /* 2 */
+}
+
+/**
+ * Remove the inner decoration of search fields on Webkit browsers.
+ */
+
+[type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+}
+
+/**
+ * Correct vertical alignment of progress elements.
+ */
+
+progress {
+    vertical-align: baseline;
+}
+
+/**
+ * 1. Automatically resizes the textarea to fit its content height,
+ *    eliminating the need for JavaScript auto-resize solutions.
+ *    Gracefully ignored by browsers that do not yet support field-sizing.
+ *    @see https://developer.mozilla.org/en-US/docs/Web/CSS/field-sizing
+ * 2. Allow only vertical resizing of textareas for better UX.
+ *    Kept as a fallback for browsers that do not support field-sizing.
+ *    @for Firefox 5+, Chrome 4+, Safari 4+, Opera 12.1+.
+ */
+
+textarea {
+    field-sizing: content; /* 1 */
+    resize: vertical; /* 2 */
+}
+
+/**
+ * Style the upload button on file inputs correctly on Safari/iOS.
+ */
+
+::-webkit-file-upload-button {
+    appearance: button;
+    -webkit-appearance: button;
+    font: inherit;
+}
+
+/**
+ * Corrects the vertical alignment of spin buttons in number inputs on Safari.
+ */
+
+::-webkit-inner-spin-button,
+::-webkit-outer-spin-button {
+    height: auto;
+}
+
+/**
+ * Remove inner border and padding on focus in Firefox.
+ */
+
+::-moz-focus-inner {
+    border-style: none;
+    padding: 0;
+}
+
+/**
+ * Remove additional invalid styles in Firefox.
+ *
+ * @see https://github.com/mozilla/gecko-dev/blob/2f9eacd9d3d995c937b4251a5557d95d494c9be1/layout/style/res/forms.css#L728-L737
+ */
+
+:-moz-ui-invalid {
+    box-shadow: none;
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 🧩 Interactive elements
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * Ensures the <summary> element is correctly rendered as a list item.
+ * This improves accessibility and ensures consistent behavior inside <details>.
+ */
+
+summary {
+    display: list-item;
+}
+
+/**
+ * Prevents text selection on interactive elements that behave like buttons,
+ * improving the user experience on touch devices and during rapid clicks.
+ */
+
+[role="button"],
+details[open] summary,
+summary {
+    user-select: none;
+}
+
+/* ----------------------------------------------------------------------------
+ * ## 💬 Dialog
+ * ---------------------------------------------------------------------------- */
+
+/**
+ * Normalizes the native <dialog> element across browsers.
+ * 1. Inherits page background and text color for theme consistency.
+ * 2. Removes the default browser border.
+ * 3. Prevents the dialog from overflowing narrow viewports.
+ * 4. Removes default padding to allow full layout control.
+ */
+
+dialog {
+    background: var(--bux-page-bg); /* 1 */
+    border: none; /* 2 */
+    color: var(--bux-page-color); /* 1 */
+    margin: auto;
+    max-width: 100%; /* 3 */
+    padding: 0; /* 4 */
+}
+
+/**
+ * Styles the native backdrop of the <dialog> element.
+ * Provides a semi-transparent overlay behind the dialog.
+ */
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+/**
+ * Entry animation for <dialog> when it opens.
+ * Only applied when the user has not requested reduced motion.
+ *
+ * `@starting-style` defines the state the element transitions FROM
+ * when it first becomes visible (i.e., just before the open animation starts).
+ * `display allow-discrete` and `overlay allow-discrete` keep the dialog
+ * and its backdrop visible throughout the transition so the animation
+ * can fully complete before the element is hidden.
+ *
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/@starting-style
+ * @see https://developer.mozilla.org/en-US/docs/Web/CSS/transition-behavior
+ */
+
+@media (prefers-reduced-motion: no-preference) {
+    dialog {
+        opacity: 1;
+        transform: translateY(0);
+        transition:
+            display 0.25s allow-discrete,
+            opacity 0.25s,
+            overlay 0.25s allow-discrete,
+            transform 0.25s;
+    }
+
+    /** 
+   * Defines the pre-open state: dialog starts invisible and shifted up 
+   */
+
+    @starting-style {
+        dialog[open] {
+            opacity: 0;
+            transform: translateY(-8px);
+        }
+    }
+
+    dialog::backdrop {
+        transition:
+            background-color 0.25s,
+            display 0.25s allow-discrete,
+            overlay 0.25s allow-discrete;
+    }
+
+    /** 
+   * Defines the pre-open state for the backdrop: starts fully transparent 
+   */
+
+    @starting-style {
+        dialog[open]::backdrop {
+            background-color: rgba(0, 0, 0, 0);
+        }
+    }
+}
+
+/* ============================================================================
+ *
+ * ### 🖨️ Print Styles
+ *
+ * This section defines optimized styles for print rendering.
+ *
+ * It ensures that content remains readable, accessible, and efficient
+ * when printed, while removing unnecessary visual effects that are
+ * only relevant for screen display.
+ *
+ * The goal is to improve legibility on paper, reduce ink usage,
+ * and preserve meaningful information such as links and media.
+ *
+ * These rules apply only in print context (`@media print`) and do not
+ * affect screen rendering.
+ *
+ * ============================================================================ */
+
+/**
+ * Basic print styles.
+ * 1. Remove backgrounds, shadows and text shadows to save ink.
+ * 2. Force black text for maximum legibility on paper.
+ * 3. Show full URLs after links so they remain useful when printed.
+ * 4. Prevent images and figures from being split across pages.
+ */
+
+@media print {
+    *,
+    *::before,
+    *::after {
+        background: transparent !important; /* 1 */
+        box-shadow: none !important; /* 1 */
+        color: #000 !important; /* 2 */
+        text-shadow: none !important; /* 1 */
+    }
+
+    a[href]::after {
+        content: " (" attr(href) ")"; /* 3 */
+    }
+
+    img,
+    figure {
+        page-break-inside: avoid; /* 4 */
+    }
+}

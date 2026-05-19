@@ -99,7 +99,7 @@ lint-js:
 # Lint CSS files
 [private]
 lint-css:
-    @ npx prettier "src/static/stylesheets/*.css" --write; exit 0
+    @ npx prettier "src/static/stylesheets/**/*.css" --tab-width 4 --write; exit 0
 
 # Lint HTML files
 [private]
@@ -131,6 +131,7 @@ lint:
 
 # Run web app in a lightweight way
 dev:
+    just stop-db
     just start-db
     hypercorn main:app --reload --bind 0.0.0.0:8000 --workers 1
 
