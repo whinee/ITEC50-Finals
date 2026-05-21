@@ -1,6 +1,6 @@
 # CSS Summary: `nuke.css`
 
-> Generated on 2026-05-19 19:01  
+> Generated on 2026-05-21 12:38  
 > Source: `src/static/stylesheets/nuke.css`
 
 ## Lint Results
@@ -10,5 +10,5 @@
 
 ```
 .
-└── NUCLEAR RESET  (line 1–180)
+└── NUCLEAR RESET  (line 1-180)
 ```

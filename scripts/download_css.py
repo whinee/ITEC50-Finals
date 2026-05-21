@@ -38,9 +38,9 @@ def download_file(url: str, dest_path: str) -> None:
     headers = {"User-Agent": "Mozilla/5.0 download_css.py/1.0"}
     req = urllib.request.Request(url, headers=headers)  # noqa: S310
     with (
-        urllib.request.urlopen(req) as response,
+        urllib.request.urlopen(req) as response,  # noqa: S310
         open(dest_path, "wb") as out,
-    ):  # noqa: S310
+    ):
         out.write(response.read())
     print(f"  ✓ Saved to:    {dest_path}")
 

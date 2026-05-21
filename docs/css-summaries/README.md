@@ -1,6 +1,6 @@
 # CSS Documentation Index
 
-> Generated on 2026-05-19 19:01
+> Generated on 2026-05-21 12:38
 
 ## Files
 
@@ -8,11 +8,10 @@
 - [base.css](./base.md)
 - [code.css](./code.md)
 - [colored-bg.css](./colored-bg.md)
-- [comic-mono.css](./comic-mono.md)
-- [inconsolata.css](./inconsolata.md)
-- [roboto.css](./roboto.md)
+- [fonts/comic-mono.css](./fonts/comic-mono.md)
+- [fonts/inconsolata.css](./fonts/inconsolata.md)
+- [fonts/roboto.css](./fonts/roboto.md)
 - [forms.css](./forms.md)
-- [index.css](./index.md)
 - [modal.css](./modal.md)
 - [nuke.css](./nuke.md)
 - [responsive-base.css](./responsive-base.md)

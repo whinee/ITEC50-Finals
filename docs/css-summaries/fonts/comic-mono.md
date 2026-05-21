@@ -1,6 +1,6 @@
-# CSS Summary: `comic-mono.css`
+# CSS Summary: `fonts/comic-mono.css`
 
-> Generated on 2026-05-19 19:01  
+> Generated on 2026-05-21 12:38  
 > Source: `src/static/stylesheets/fonts/comic-mono.css`
 
 ## Lint Results

@@ -100,6 +100,7 @@ lint-js:
 [private]
 lint-css:
     @ npx prettier "src/static/stylesheets/**/*.css" --tab-width 4 --write; exit 0
+    @ uv run scripts/summarize_css.py
 
 # Lint HTML files
 [private]

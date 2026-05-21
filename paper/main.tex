@@ -45,12 +45,11 @@
   eprint=true,
 ]{biblatex}
 \usepackage{setspace}
+\usepackage{verbatimbox}
 
-\setstretch{1.15}
+\setstretch{1.5}
 
 \definecolor{accentgray}{RGB}{80, 80, 80}
-
-\onehalfspacing
 
 \pagestyle{fancy}
 \fancyhf{}
@@ -62,8 +61,6 @@
   linkcolor=black,
   urlcolor=accentgray,
 }
-
-\newfontfamily{\LatinModernRoman}{Latin Modern Roman}
 
 \setmainfont[
   Path=fonts/,
@@ -77,6 +74,16 @@
   UprightFont = *-Regular,
   BoldFont    = *-Bold,
 ]{ComicMono}
+
+\newfontfamily{\LatinModernRoman}{Latin Modern Roman}
+
+\newfontfamily{\FiraCode}[
+  Path=fonts/,
+  Scale=0.9,
+  UprightFont = *-Regular,
+  BoldFont    = *-Bold,
+]{FiraCode}
+
 
 \hyphenpenalty=9999
 \exhyphenpenalty=10000
@@ -400,7 +407,7 @@ Table \ref{tab:competitor-matrix} summarizes the feature gaps across all three r
   \end{tabular}
 \end{table}
 
-\section{Our Project: DeciMark}
+\section{My Project: DeciMark}
 
 \subsection{Design Philosophy \& Differentiation}
 
@@ -466,6 +473,10 @@ The following features present in existing tools were intentionally omitted from
   \item \textbf{Full-text page archiving}---requires a server-side crawler with significant storage overhead. Out of scope for the current iteration.
   \item \textbf{Portable distribution}---\texttt{.exe}, \texttt{.msi}, and \texttt{.AppImage} packaging is planned for later development stages to support self-hosting without a full server environment.
 \end{itemize}
+
+\chapter{CSS File Strcture}
+
+\input{./css-summaries/index.tex}
 
 \chapter{Preface to the Reflection}
 
@@ -561,7 +572,7 @@ This is worth explaining, because the difference between AI as a crutch and AI a
 Consider a concrete example from the author's own workflow. At one point in this project, FontAwesome needed to be integrated into the codebase. The author knew exactly what needed to happen:
 
 \begin{itemize}
-  \item Fetch the latest non-prerelease from the GitHub API
+  \item Fetch the latest non-prerelease FontAwesome Webfonts and CSS release from the GitHub API
   \item Extract the correct zip archive
   \item Copy \texttt{css/all.css} to the project's stylesheet directory
   \item Copy the contents of \texttt{webfonts/} to the static assets folder
