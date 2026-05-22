@@ -1,13 +1,12 @@
 # CSS Documentation Index
 
-> Generated on 2026-05-21 12:38
+> Generated on 2026-05-23 00:21
 
 ## Files
 
 - [base.back.css](./base.back.md)
 - [base.css](./base.md)
 - [code.css](./code.md)
-- [colored-bg.css](./colored-bg.md)
 - [fonts/comic-mono.css](./fonts/comic-mono.md)
 - [fonts/inconsolata.css](./fonts/inconsolata.md)
 - [fonts/roboto.css](./fonts/roboto.md)

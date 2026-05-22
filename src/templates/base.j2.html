@@ -30,7 +30,7 @@
         {% endfor %}
         {% block head %}
         {% endblock head %}
-        <link href="/static/stylesheets/downloaded/browserux.css" rel="stylesheet">
+        <!-- <link href="/static/stylesheets/downloaded/browserux.css" rel="stylesheet"> -->
         <link href="/static/stylesheets/nuke.css" rel="stylesheet">
         <link href="/static/stylesheets/toast.css" rel="stylesheet">
         <link href="/static/stylesheets/modal.css" rel="stylesheet">
@@ -38,14 +38,14 @@
         <link href="/static/stylesheets/responsive-base.css" rel="stylesheet">
     </head>
     <body>
-        <div id="header">
+        <header>
             <button id="settings-modal-button" class="icons">
                 <img src="/static/assets/images/settings.svg" height="50" />
             </button>
             <button id="info-modal-button" class="icons">
                 <img src="/static/assets/images/info.svg" height="50" />
             </button>
-        </div>
+        </header>
         <div id="toast"></div>
         {% block body %}
         {% endblock body %}
@@ -55,35 +55,25 @@
                 <div id="modal-contents">
                     <div class="modal-inner-wrapper" id="settings-modal">
                         <h2>Settings</h2>
-                        <h3>Download</h3>
-                        <h4>Download Directory:</h4>
-                        <p id="ddir">Please wait...</p>
-                        <button id="cdir" class="btn smol">Change</button>
-                        <h4>Overwrite:</h4>
-                        <input type="checkbox" id="ow-tgl" />
-                        <label for="ow-tgl">Toggle</label>
                     </div>
                     <div class="modal-inner-wrapper" id="info-modal">
                         <h2>Info</h2>
                         <h3>Version</h3>
                         <h4 id="version"></h4>
                         <h3>Author</h3>
-                        <h4>whi_ne (whinyaan@protonmail.com)</h4>
-                        <a href=https://github.com/whinee target=_blank>Github</a>,
-                        <a href=https://twitter.com/whi_nyaan target=_blank>Twitter</a>
-                        <h3>Commissioned by</h3>
-                        <h4>Anonymous User</h4>
-                        Want something like this too? Inquire through Discord(<a target=_blank href=https://discord.com/users/848092597822160907>whinyaan</a>) or through
-                        e-mail (<a target=_blank href=mailto:whinyaan@protonmail.com>whinyaan@protonmail.com</a>). Price starts at 50 USD.
-                        For commissioning project, price starts at 30 USD.
+                        <h4>Lyra Phasma</h4>
+                        <ul>
+                            <li>
+                                E-mail: <a target=_blank href=mailto:lyraphasma@gmail.com>lyraphasma@gmail.com</a>
+                            </li>
+                            <li>
+                                Github: <a href=https://github.com/whinee target=_blank>@whinee</a>
+                            </li>
+                        </ul>
+                        Want something like this too? Inquire through E-mail (<a target=_blank href=mailto:lyraphasma@gmail.com>lyraphasma@gmail.com</a>).
+                        Price starts at 50 USD.
                         <h3>Copyright</h3>
-                        <h4 style="font-weight: bold">
-                            <a href=https://choosealicense.com/licenses/mit/ target=_blank>MIT LICENSE</a>
-                        </h4>
-                        <div id="cholder"></div>
-                        <h3>Debug</h3>
-                        <h4>Log Path:</h4>
-                        <p id="logPath">Please wait...</p>
+                        <a href=https://github.com/whinee/ITEC50-Finals/blob/main/docs/LICENSE.md target=_blank>Dual-Licensed</a>: <a href=https://github.com/whinee/ITEC50-Finals/blob/main/docs/LICENSES/LPASL-1.0.md target=_blank>LPASLv1.0</a> and <a href=https://choosealicense.com/licenses/mit/ target=_blank>MIT License</a>
                     </div>
                     <div id="close-modal" class="close-modal">×</div>
                 </div>

@@ -6,84 +6,36 @@
     <div id="wrapper">
         <main>
             <div class="inner">
-                <form action="#" method="POST">
-                    <label for="name">Name:</label>
-                    <br>
-                    <br>
-                    <div class="form-box">
-                        <input class="input"
-                               type="text"
-                               placeholder="Your Name (not the anime!)"
-                               class="form"
-                               required>
-                        <btn class="icon1" class="erase-input" style="visibility: hidden;">×</btn>
-                    </div>
-                    <br>
-                    <br>
-                    <label for="email">Email:</label>
-                    <br>
-                    <br>
-                    <div class="form-box">
-                        <input class="input"
-                               type="text"
-                               placeholder="you@example.com"
-                               class="form"
-                               pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
-                               required>
-                        <btn class="icon1" class="erase-input" style="visibility: hidden;">×</btn>
-                    </div>
-                    <br>
-                    <br>
-                    <label>Rating:</label>
-                    <br>
-                    <div class="star-rating">
-                        <input type="radio" id="star5" name="rating" value="5">
-                        <label for="star5"></label>
-                        <input type="radio" id="star4" name="rating" value="4">
-                        <label for="star4"></label>
-                        <input type="radio" id="star3" name="rating" value="3">
-                        <label for="star3"></label>
-                        <input type="radio" id="star2" name="rating" value="2">
-                        <label for="star2"></label>
-                        <input type="radio" id="star1" name="rating" value="1">
-                        <label for="star1"></label>
-                    </div>
-                    <br>
-                    <br>
-                    <label for="comments">Comments:</label>
-                    <br>
-                    <br>
-                    <textarea class="input"
-                              id="comments"
-                              name="comments"
-                              rows="5"
-                              placeholder="Your thoughts..."
-                              required></textarea>
-                    <btn class="icon1" class="erase-input" style="visibility: hidden;">×</btn>
-                    <br>
-                    <br>
-                    <button type="submit">Submit Feedback</button>
-                </form>
                 <form id="login-form" method="post">
-                    <table>
-                        <tr>
-                            <td>Username</td>
-                            <td>
-                                <input type="text" name="username" id="username">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Password</td>
-                            <td>
-                                <input type="password" name="password" id="password">
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <input type="submit" value="Login" type="button">
-                            </td>
-                        </tr>
-                    </table>
+                    <label for="identifier">Username/E-mail</label>
+                    <br>
+                    <br>
+                    <div class="form-box">
+                        <input class="input"
+                               name="identifier"
+                               type="text"
+                               placeholder=""
+                               class="form"
+                               required>
+                        <btn class="icon1" class="erase-input" style="visibility: hidden;">×</btn>
+                    </div>
+                    <br>
+                    <br>
+                    <label for="password">Password</label>
+                    <br>
+                    <br>
+                    <div class="form-box">
+                        <input class="input"
+                               name="password"
+                               type="password"
+                               placeholder=""
+                               class="form"
+                               required>
+                        <btn class="icon1" class="erase-input" style="visibility: hidden;">×</btn>
+                    </div>
+                    <br>
+                    <br>
+                    <input type="submit" value="Login" type="button" class="styled-button">
                 </form>
             </div>
         </main>
@@ -98,12 +50,20 @@
                 body: new URLSearchParams(formData), // sends as form-encoded
             });
 
-            const data = await res.json();
-            toast({
-                title: data.error ? "Error" : "Success",
-                message: data.message,
-                type: data.error ? "error" : "success",
-            });
+            if (res.status === 422) {
+                toast({
+                    title: "Error",
+                    message: "Something went wrong.",
+                    type: "error",
+                });
+            } else {
+                const data = await res.json();
+                toast({
+                    title: data.error ? "Error" : "Success",
+                    message: data.message,
+                    type: data.error ? "error" : "success",
+                });
+            }
 
             if (res.ok) {
                 setTimeout(() => window.location.href = "/", 1000);

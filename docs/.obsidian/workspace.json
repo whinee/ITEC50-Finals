@@ -185,6 +185,8 @@
   },
   "active": "636e412d292efcd8",
   "lastOpenFiles": [
+    "scc-report.md",
+    "css-summaries/base.back.md",
     "css-summaries/README.md",
     "css-summaries/toast.md",
     "css-summaries/style.md",
@@ -198,7 +200,6 @@
     "css-summaries/colored-bg.md",
     "css-summaries/code.md",
     "css-summaries/base.md",
-    "css-summaries/base.back.md",
     "css-summaries",
     "css-summaries/fonts/roboto.md",
     "css-summaries/fonts/inconsolata.md",
@@ -220,7 +221,6 @@
     "css-summaries/md/responsive-bg.md",
     "css-summaries/md/responsive-base.md",
     "css-summaries/md/nuke.md",
-    "css-summaries/md/modal.md",
     "LICENSES/relicense-consent.png"
   ]
 }

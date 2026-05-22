@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 build_fonts.py — Generalized multi-family variable font builder.
 

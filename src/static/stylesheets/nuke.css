@@ -122,7 +122,6 @@ body {
     overflow-x: hidden;
     overflow: auto !important;
     font-family: "Montserrat", sans-serif;
-    display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;

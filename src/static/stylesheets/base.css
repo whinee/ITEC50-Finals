@@ -187,18 +187,24 @@ h6 {
     height: 40px;
 }
 
+header {
+    display: flex;
+    justify-content: right;
+    padding: 10px
+}
+
 /* ICONS: END */
 
 /* BUTTONS: START */
 
-button {
+button .styled, .styled-button {
     padding: 1.3em 3em;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 2.5px;
     font-weight: 500;
     color: #000;
-    background-color: #fff;
+    background-color: var(--fg-1);
     border: none;
     border-radius: 45px;
     -webkit-box-shadow: 0px 8px 15px hsla(0, 0, 0, 0.1);
@@ -209,7 +215,7 @@ button {
     outline: none;
 }
 
-button:hover {
+button .styled:hover, .styled-button:hover {
     background-color: hsl(var(--neon));
     -webkit-box-shadow: 0px 15px 20px hsla(var(--neon), 0.4);
     box-shadow: 0px 15px 20px hsla(var(--neon), 0.4);
@@ -219,10 +225,26 @@ button:hover {
     transform: translateY(-7px);
 }
 
-button:active {
+button .styled:active, .styled-button:active {
+    background-color: var(--fg-1);
+    -webkit-box-shadow: 0px 15px 20px hsla(var(--rfg-1), 0.4);
+    box-shadow: 0px 15px 20px hsla(var(--rfg-1), 0.4);
     -webkit-transform: translateY(-1px);
     -ms-transform: translateY(-1px);
     transform: translateY(-1px);
+}
+
+button:disabled,
+button[disabled],
+.styled-button:disabled,
+.styled-button[disabled] {
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    -webkit-transform: none !important;
+    -ms-transform: none !important;
+    transform: none !important;
+    cursor: not-allowed !important;
+    background-color: hsla(var(--rfg-1), 0.5) !important;
 }
 
 /* BUTTONS: END */
@@ -316,7 +338,7 @@ p {
     margin: 1em;
 }
 
-.inner hr {
+hr .inner {
     margin: 0.5em 0 0.5em;
 }
 

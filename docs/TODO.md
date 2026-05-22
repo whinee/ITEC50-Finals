@@ -7,3 +7,7 @@
 ## Documentation
 
 - [ ] Automated Lighthouse Reports
+
+## Frontend
+
+- [ ] Add background color per foreground color

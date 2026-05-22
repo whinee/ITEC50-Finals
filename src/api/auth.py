@@ -6,9 +6,9 @@ from typing import Annotated
 from cryptography.exceptions import InvalidKey
 from cryptography.hazmat.primitives.kdf.argon2 import Argon2id
 from fastapi import APIRouter, Depends, Form, HTTPException, Request, Response
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, TypeAdapter, ValidationError
 from sqlalchemy.exc import NoResultFound
-from sqlmodel import or_, select
+from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 from starlette.status import (
     HTTP_200_OK,
@@ -29,6 +29,7 @@ from src.models.cookies import (
     set_default_cookie_params_with_encryption,
 )
 from src.schema import BaseUsers, User
+from src.security.constants import COOKIE_EXPIRES_AFTER
 from src.security.jwt_service import Claims, JwtService, get_jwt_service
 from src.security.kdf_pass import get_kdf
 from src.utils.custom_response import CustomResponse
@@ -54,9 +55,11 @@ random.shuffle(NOUNS)
 _adj_pool = list(ADJECTIVES)
 _noun_pool = list(NOUNS)
 
+email_adapter = TypeAdapter(EmailStr)
+
 
 class LoginData(BaseModel):
-    username: str
+    identifier: str
     password: str
 
 
@@ -83,7 +86,7 @@ async def generate_username(session: AsyncSession) -> str:  # noqa: C901
 
 
 @router.post(path="/login", status_code=HTTP_200_OK)
-async def login_user(
+async def login_user(  # noqa: C901
     request: Request,
     response: Response,
     session: Annotated[AsyncSession, Depends(get_session)],
@@ -98,22 +101,32 @@ async def login_user(
             detail="You must logout first.",
         )
 
-    statement = select(User).where(
-        or_(User.username == data.username, User.email == data.username),
-    )
+    identifier = data.identifier.strip().lower()
+
+    try:
+        email_adapter.validate_python(identifier)
+        is_email = True
+    except ValidationError:
+        is_email = False
+
+    if is_email:
+        statement = select(User).where(User.email == identifier)
+    else:
+        statement = select(User).where(User.username == identifier)
+
     result = await session.exec(statement)
     try:
         user = result.one()
         kdf.verify_phc_encoded(data.password.encode(), user.password)
     except InvalidKey:
         return CustomResponse.json_flash(
-            message="Username or password is invalid",
+            message="Username, E-mail, or password is invalid",
             category="error",
             status_code=HTTP_401_UNAUTHORIZED,
         )
     except NoResultFound:
         return CustomResponse.json_flash(
-            message="Username or password is invalid",
+            message="Username, E-mail, or password is invalid",
             category="error",
             status_code=HTTP_401_UNAUTHORIZED,
         )
@@ -124,7 +137,7 @@ async def login_user(
             status_code=HTTP_500_INTERNAL_SERVER_ERROR,
         )
     issued_at = int(datetime.datetime.now(datetime.UTC).timestamp())
-    expires_at = issued_at + (60 * 60 * 24)
+    expires_at = issued_at + COOKIE_EXPIRES_AFTER
     claims = Claims(exp=expires_at, sub=user.email, iat=issued_at)
     token = jwt_service.sign(claims=claims)
     cookie_params = set_default_cookie_params_with_encryption(
@@ -133,9 +146,8 @@ async def login_user(
         expires_at=datetime.datetime.fromtimestamp(expires_at, tz=datetime.UTC),
     )
 
-    response.set_cookie(**cookie_params)
     return CustomResponse.json_flash(
-        message="Username or password is invalid",
+        message="Login successful!",
         category="success",
         status_code=HTTP_301_MOVED_PERMANENTLY,
         headers={

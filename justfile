@@ -6,7 +6,7 @@ set shell := ["bash", "-cu"]
 
 # Choose recipes
 default:
-    @ just -lu
+    @ just -l
 
 optimize_images:
     bash optimize_images.sh 
@@ -99,8 +99,13 @@ lint-js:
 # Lint CSS files
 [private]
 lint-css:
-    @ npx prettier "src/static/stylesheets/**/*.css" --tab-width 4 --write; exit 0
     @ uv run scripts/summarize_css.py
+
+# Lint CSS files
+[private]
+format-css:
+    @ npx prettier "src/static/stylesheets/**/*.css" --tab-width 4 --write; exit 0
+    @ just lint-css
 
 # Lint HTML files
 [private]
@@ -129,6 +134,11 @@ lint:
     # just lint-html
     just lint-jinja
     just lint-tex
+
+# Generate reports
+gen-reports:
+    @ just lint-css
+    @ uv run scripts/generate_scc_report.py
 
 # Run web app in a lightweight way
 dev:

@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 to_ttf.py — Mass-convert non-TTF fonts to TTF.
 

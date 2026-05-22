@@ -1,0 +1,42 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-recess-order"
+  ],
+  "plugins": [
+    "stylelint-order"
+  ],
+  "rules": {
+    
+    "color-named": "never",
+    "color-no-invalid-hex": true,
+
+    "length-zero-no-unit": true,
+    "number-max-precision": 4,
+
+    "shorthand-property-no-redundant-values": true,
+    "declaration-no-important": true,
+    "declaration-block-no-duplicate-properties": true,
+    "declaration-block-no-shorthand-property-overrides": true,
+    "declaration-block-single-line-max-declarations": 1,
+
+    "selector-max-id": 0,
+    "selector-max-universal": 1,
+    "selector-no-qualifying-type": true,
+    "selector-class-pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
+
+    "max-nesting-depth": 3,
+    "no-duplicate-selectors": true,
+    "no-empty-source": true,
+    "no-descending-specificity": true,
+
+    "comment-no-empty": true,
+    "comment-whitespace-inside": "always",
+
+    "order/properties-order": [],
+    "order/order": [
+      "custom-properties",
+      "declarations"
+    ]
+  }
+}

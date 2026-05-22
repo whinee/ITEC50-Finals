@@ -1,1 +1,0 @@
-JWT_EXPIRES_AFTER = 60 * 60 * 7

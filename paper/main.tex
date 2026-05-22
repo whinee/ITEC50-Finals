@@ -84,7 +84,6 @@
   BoldFont    = *-Bold,
 ]{FiraCode}
 
-
 \hyphenpenalty=9999
 \exhyphenpenalty=10000
 \sloppy
@@ -110,6 +109,10 @@
 \definecolor{purple}{HTML}{a68cd9}
 
 \makeatletter
+
+% PATCH: PART
+\patchcmd{\part}{\cleardoublepage}{\clearpage}{}{}
+\patchcmd{\@endpart}{\if@openright\null\thispagestyle{empty}\newpage\fi}{}{}{}
 
 % PATCH: CHAPTER
 \patchcmd{\chapter}{\if@openright\cleardoublepage\else\clearpage\fi}{}{}{}
@@ -254,6 +257,8 @@
 
 \tableofcontents
 \newpage
+
+\part{Research}
 
 \chapter{Background Research \& Competitive Analysis}
 
@@ -474,9 +479,17 @@ The following features present in existing tools were intentionally omitted from
   \item \textbf{Portable distribution}---\texttt{.exe}, \texttt{.msi}, and \texttt{.AppImage} packaging is planned for later development stages to support self-hosting without a full server environment.
 \end{itemize}
 
+\part{Programmatically Generated Reports}
+
+\chapter{Source Lines of Code}
+
+\input{./scc-report.tex}
+
 \chapter{CSS File Strcture}
 
 \input{./css-summaries/index.tex}
+
+\part{Reflection}
 
 \chapter{Preface to the Reflection}
 
@@ -851,13 +864,15 @@ Some bridges are built for others to cross.
 
 And some people, it turns out, will only pick up the tools after the person who offered them has already left the room.
 
+\part{Back Matter}
+
 \chapter{Attributions}
 
 \section{Fonts}
 
 The fonts used in this project are the following:
 
-Microsoft Corporation. (2007). \textit{Microsoft Core Fonts for the Web} (Arial) [Font]. Licensed under the Microsoft End-User License Agreement (personal, non-commercial use). Obtained on Fedora Linux via the \texttt{msttcore-fonts-installer} package, which downloads the official font files from a Microsoft-authorised mirror in compliance with the EULA. Retrieved June 5, 2025, from \url{https://sourceforge.net/projects/corefonts/}.
+Microsoft Corporation. (2007). \textit{Microsoft Core Fonts for the Web} (Arial) [Font]. Licensed under the Microsoft End-User License Agreement (personal, non-commercial use). Obtained on Fedora Linux via the \texttt{msttcore-fonts-installer} package, which downloads the official font files from a Microsoft-authorised mirror in compliance with the EULA. Retrieved May 17, 2026, from \url{https://sourceforge.net/projects/corefonts/}.
 
 Sharanda M. (2018). \textit{Manrope} [Font]. Licensed under the SIL Open Font License, Version 1.1. Retrieved May 16, 2026, from \url{https://fonts.google.com/specimen/Manrope}.
 

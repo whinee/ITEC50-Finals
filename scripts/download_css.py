@@ -1,7 +1,7 @@
 """
 download_css.py: Downloads a hardcoded list of CSS files into a hardcoded output folder.
 
-DISCLAIMER: Generate by Claude.
+DISCLAIMER: Generate with Claude.
 
 Skips files that already exist (won't re-download unless you delete them).
 """

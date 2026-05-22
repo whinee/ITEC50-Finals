@@ -1,7 +1,10 @@
+@import "/static/stylesheets/downloaded/fontawesome.css";
+
 #toast {
     position: fixed;
     top: 32px;
     right: 32px;
+    z-index: 2147483647;
 }
 
 .toast {

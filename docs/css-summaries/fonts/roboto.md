@@ -1,10 +1,13 @@
 # CSS Summary: `fonts/roboto.css`
 
-> Generated on 2026-05-21 12:38  
+> Generated on 2026-05-23 00:21  
 > Source: `src/static/stylesheets/fonts/roboto.css`
 
 ## Lint Results
-> ✅ No lint issues found.
+> ⚠️ 2 issue(s) found
+
+- **Line 2**: [stylelint] font-family-name-quotes: Expected no quotes around "Roboto"
+- **Line 6**: [stylelint] at-rule-descriptor-value-no-unknown: Unknown value "normal italic" for descriptor "font-style"
 
 ## Section Tree
 
