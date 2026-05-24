@@ -20,7 +20,7 @@ function toast({ title = "", message = "", type = "info", duration = 3000 }) {
             success: "fas fa-check-circle",
             info: "fas fa-info-circle",
             warning: "fas fa-exclamation-circle",
-            error: "fas fa-exclamation-circle"
+            error: "fas fa-exclamation-circle",
         };
         const icon = icons[type];
         const delay = (duration / 2000).toFixed(2);

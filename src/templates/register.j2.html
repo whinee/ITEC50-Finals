@@ -1,48 +1,80 @@
 {% extends 'base.j2.html' %}
 {% block head %}
-    <link href="/static/stylesheets/base.css" rel="stylesheet">
-    <link href="/static/stylesheets/responsive-base.css" rel="stylesheet">
     <link href="/static/stylesheets/forms.css" rel="stylesheet">
 {% endblock head %}
 {% block body %}
-    {# Flashing message start here #}
-    {% for message in fetch_flash(request) %}
-        <div class="{{ message.category }}">{{ message.message }}</div>
-    {% endfor %}
-    {# Flashing message ends here #}
     <div id="wrapper">
         <main>
             <div class="inner">
-                <form action="/auth/register" method="POST">
-                    <label for="username">Username:</label>
-                    <br>
-                    <br>
-                    <div class="form-box">
-                        <input class="input"
-                               type="text"
-                               placeholder="@<username>"
-                               class="form"
-                               required>
-                        <btn class="icon1" class="erase-input" style="visibility: hidden;">×</btn>
+                <form id="register-form" method="post">
+                    <div class="field">
+                        <label for="email">E-mail</label>
+                        <br>
+                        <br>
+                        <div class="form-box">
+                            <input class="input"
+                                   name="email"
+                                   type="text"
+                                   placeholder=""
+                                   class="form"
+                                   required>
+                            <button class="icon1 erase-input" style="visibility: hidden;">×</button>
+                        </div>
+                        <div class="validation-msg"></div>
                     </div>
                     <br>
                     <br>
-                    <label for="email">Email:</label>
-                    <br>
-                    <br>
-                    <div class="form-box">
-                        <input class="input"
-                               type="text"
-                               placeholder="you@example.com"
-                               class="form"
-                               pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
-                               required>
-                        <btn class="icon1" class="erase-input" style="visibility: hidden;">×</btn>
+                    <div class="field">
+                        <label for="password">Password</label>
+                        <br>
+                        <br>
+                        <div class="form-box">
+                            <input class="input"
+                                   name="password"
+                                   type="password"
+                                   placeholder=""
+                                   class="form"
+                                   required>
+                            <button class="icon1 erase-input" style="visibility: hidden;">×</button>
+                        </div>
+                        <div class="validation-msg"></div>
                     </div>
                     <br>
                     <br>
+                    <input type="submit" value="Login" type="button" class="styled-button">
                 </form>
             </div>
         </main>
     </div>
+    <script src="/static/scripts/forms.js"></script>
+    <script>
+        document.getElementById("register-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+
+            const res = await fetch("/auth/login", {
+                method: "POST",
+                body: new URLSearchParams(formData), // sends as form-encoded
+            });
+
+            if (res.status === 422) {
+                toast({
+                    title: "Error",
+                    message: "Something went wrong.",
+                    type: "error",
+                });
+            } else {
+                const data = await res.json();
+                toast({
+                    title: data.error ? "Error" : "Success",
+                    message: data.message,
+                    type: data.error ? "error" : "success",
+                });
+            }
+
+            if (res.ok) {
+                setTimeout(() => window.location.href = "/", 1000);
+            }
+        });
+    </script>
 {% endblock body %}

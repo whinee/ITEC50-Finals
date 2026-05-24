@@ -1,10 +1,10 @@
 % CSS Summary: base.css
-% Generated: 2026-05-23 00:21
+% Generated: 2026-05-24 12:00
 % Source: src/static/stylesheets/base.css
 
 \section{base.css}
 \textit{Source: \texttt{src/static/stylesheets/base.css}} \\
-\textit{Generated: 2026-05-23 00:21} \\
+\textit{Generated: 2026-05-24 12:00} \\
 
 \subsection{Lint Results}
 \begin{itemize}
@@ -68,6 +68,7 @@
   \item \textbf{Line 163:} [stylelint] rule-empty-line-before: Expected empty line before rule
   \item \textbf{Line 167:} [stylelint] rule-empty-line-before: Expected empty line before rule
   \item \textbf{Line 171:} [stylelint] rule-empty-line-before: Expected empty line before rule
+  \item \textbf{Line 200:} [stylelint] selector-no-qualifying-type: Disallowed qualifying type selector "button" in "button.styled"
   \item \textbf{Line 210:} [stylelint] alpha-value-notation: Expected "0.1" to be "10\%"
   \item \textbf{Line 210:} [stylelint] color-function-alias-notation: Expected "hsla" to be "hsl"
   \item \textbf{Line 210:} [stylelint] color-function-notation: Expected modern color-function notation
@@ -82,6 +83,7 @@
   \item \textbf{Line 211:} [stylelint] hue-degree-notation: Expected "0" to be "0deg"
   \item \textbf{Line 211:} [stylelint] length-zero-no-unit: Disallowed unit
   \item \textbf{Line 212:} [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-webkit-transition"
+  \item \textbf{Line 218:} [stylelint] selector-no-qualifying-type: Disallowed qualifying type selector "button" in "button.styled"
   \item \textbf{Line 220:} [stylelint] color-function-alias-notation: Expected "hsla" to be "hsl"
   \item \textbf{Line 220:} [stylelint] length-zero-no-unit: Disallowed unit
   \item \textbf{Line 220:} [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-webkit-box-shadow"
@@ -89,6 +91,7 @@
   \item \textbf{Line 221:} [stylelint] length-zero-no-unit: Disallowed unit
   \item \textbf{Line 223:} [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-webkit-transform"
   \item \textbf{Line 224:} [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-ms-transform"
+  \item \textbf{Line 228:} [stylelint] selector-no-qualifying-type: Disallowed qualifying type selector "button" in "button.styled"
   \item \textbf{Line 230:} [stylelint] color-function-alias-notation: Expected "hsla" to be "hsl"
   \item \textbf{Line 230:} [stylelint] length-zero-no-unit: Disallowed unit
   \item \textbf{Line 230:} [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-webkit-box-shadow"
@@ -96,7 +99,8 @@
   \item \textbf{Line 231:} [stylelint] length-zero-no-unit: Disallowed unit
   \item \textbf{Line 232:} [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-webkit-transform"
   \item \textbf{Line 233:} [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-ms-transform"
-  \item \textbf{Line 238:} [stylelint] selector-no-qualifying-type: Disallowed qualifying type selector "button" in "button[disabled]"
+  \item \textbf{Line 237:} [stylelint] selector-no-qualifying-type: Disallowed qualifying type selector "button" in "button.styled"
+  \item \textbf{Line 238:} [stylelint] selector-no-qualifying-type: Disallowed qualifying type selector "button" in "button.styled[disabled]"
   \item \textbf{Line 241:} [stylelint] declaration-no-important: Disallowed !important
   \item \textbf{Line 241:} [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-webkit-box-shadow"
   \item \textbf{Line 242:} [stylelint] declaration-no-important: Disallowed !important
@@ -127,42 +131,42 @@
 \begingroup
 \linespread{0.9}\selectfont
 \begin{verbnobox}[\FiraCode]
-  .
-  ├── IMPORTS  (line 1-3)
-  ├── VARIABLES  (line 5-113)
-  │   ├── GENERAL  (line 8-14)
-  │   ├── COLORS  (line 16-79)
-  │   │   ├── BACKGROUND  (line 18-40)
-  │   │   │   ├── #1  (line 20-30)
-  │   │   │   └── #2  (line 32-38)
-  │   │   ├── FOREGOUND  (line 42-68)
-  │   │   │   ├── #1  (line 44-51)
-  │   │   │   ├── #2  (line 53-60)
-  │   │   │   └── #3  (line 62-66)
-  │   │   ├── STATUS  (line 70-73)
-  │   │   └── EFFECTS  (line 75-77)
-  │   └── SPACES  (line 81-110)
-  │       ├── STANDALONE  (line 83-93)
-  │       ├── ONE-UP PAIRS  (line 95-104)
-  │       └── CUSTOM PAIRS  (line 106-108)
-  ├── base: hsl(230, 25%, 10%)
-    ├── base: hsl(232, 22%, 40%);
-      ├── base: hsl(260, 50%, 70%);
-        ├── base: hsl(326, 70%, 70%);
-          ├── base: hsl(321, 100%, 81%)
-            ├── COLOR  (line 115-124)
-            ├── override `./downloaded/browserux.css`
-            ├── HEADERS  (line 126-176)
-            ├── ICONS  (line 178-196)
-            ├── BUTTONS  (line 198-250)
-            ├── STRUCTURE  (line 252-293)
-            ├── VISIBILITY  (line 295-303)
-            ├── SCROLLBAR  (line 305-328)
-            │   ├── MAIN
-            │   ├── HANDLE
-            │   ├── HANDLE ON HOVER
-            │   └── TRACK
-            └── OTHER  (line 330-345)
-            └── STRIKETHROUGH
-          \end{verbnobox}
-          \endgroup
+.
+├── IMPORTS  (line 1-3)
+├── VARIABLES  (line 5-113)
+│   ├── GENERAL  (line 8-14)
+│   ├── COLORS  (line 16-79)
+│   │   ├── BACKGROUND  (line 18-40)
+│   │   │   ├── #1  (line 20-30)
+│   │   │   └── #2  (line 32-38)
+│   │   ├── FOREGOUND  (line 42-68)
+│   │   │   ├── #1  (line 44-51)
+│   │   │   ├── #2  (line 53-60)
+│   │   │   └── #3  (line 62-66)
+│   │   ├── STATUS  (line 70-73)
+│   │   └── EFFECTS  (line 75-77)
+│   └── SPACES  (line 81-110)
+│       ├── STANDALONE  (line 83-93)
+│       ├── ONE-UP PAIRS  (line 95-104)
+│       └── CUSTOM PAIRS  (line 106-108)
+├── base: hsl(230, 25%, 10%)
+├── base: hsl(232, 22%, 40%);
+├── base: hsl(260, 50%, 70%);
+├── base: hsl(326, 70%, 70%);
+├── base: hsl(321, 100%, 81%)
+├── COLOR  (line 115-124)
+├── override `./downloaded/browserux.css`
+├── HEADERS  (line 126-176)
+├── ICONS  (line 178-196)
+├── BUTTONS  (line 198-250)
+├── STRUCTURE  (line 252-293)
+├── VISIBILITY  (line 295-303)
+├── SCROLLBAR  (line 305-328)
+│   ├── MAIN
+│   ├── HANDLE
+│   ├── HANDLE ON HOVER
+│   └── TRACK
+└── OTHER  (line 330-345)
+    └── STRIKETHROUGH
+\end{verbnobox}
+\endgroup

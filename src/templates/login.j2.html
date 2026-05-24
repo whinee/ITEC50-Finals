@@ -7,31 +7,37 @@
         <main>
             <div class="inner">
                 <form id="login-form" method="post">
-                    <label for="identifier">Username/E-mail</label>
-                    <br>
-                    <br>
-                    <div class="form-box">
-                        <input class="input"
-                               name="identifier"
-                               type="text"
-                               placeholder=""
-                               class="form"
-                               required>
-                        <btn class="icon1" class="erase-input" style="visibility: hidden;">×</btn>
+                    <div class="field">
+                        <label for="identifier">Username/E-mail</label>
+                        <br>
+                        <br>
+                        <div class="form-box">
+                            <input class="input"
+                                   name="identifier"
+                                   type="text"
+                                   placeholder=""
+                                   class="form"
+                                   required>
+                            <button class="icon1 erase-input" style="visibility: hidden;">×</button>
+                        </div>
+                        <!-- <div class="validation-msg"></div> -->
                     </div>
                     <br>
                     <br>
-                    <label for="password">Password</label>
-                    <br>
-                    <br>
-                    <div class="form-box">
-                        <input class="input"
-                               name="password"
-                               type="password"
-                               placeholder=""
-                               class="form"
-                               required>
-                        <btn class="icon1" class="erase-input" style="visibility: hidden;">×</btn>
+                    <div class="field">
+                        <label for="password">Password</label>
+                        <br>
+                        <br>
+                        <div class="form-box">
+                            <input class="input"
+                                   name="password"
+                                   type="password"
+                                   placeholder=""
+                                   class="form"
+                                   required>
+                            <button class="icon1 erase-input" style="visibility: hidden;">×</button>
+                        </div>
+                        <!-- <div class="validation-msg"></div> -->
                     </div>
                     <br>
                     <br>
@@ -40,6 +46,7 @@
             </div>
         </main>
     </div>
+    <script src="/static/scripts/forms.js"></script>
     <script>
         document.getElementById("login-form").addEventListener("submit", async (e) => {
             e.preventDefault();

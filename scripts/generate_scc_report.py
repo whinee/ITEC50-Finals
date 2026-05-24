@@ -162,7 +162,7 @@ def generate_tex(data: list[dict], cocomo: dict, totals: dict, date_str: str) ->
         for key in col_keys:
             val = row.get(key, 0)
             cells.append(
-                tex_escape(str(val)) if isinstance(val, str) else fmt_num(int(val))
+                tex_escape(str(val)) if isinstance(val, str) else fmt_num(int(val)),
             )
         lines.append("    " + " & ".join(cells) + r" \\\hline")
 
@@ -215,7 +215,7 @@ def generate_tex(data: list[dict], cocomo: dict, totals: dict, date_str: str) ->
     if any(v is not None for v in cocomo.values()):
         fmt = fmt_cocomo(cocomo)
         lines += [
-            r"\subsection{COCOMO Estimates}",
+            r"\section{COCOMO Estimates}",
             r"\begin{table}[H]",
             r"  \centering",
             r"  \caption{Organic COCOMO Estimates}",
@@ -261,7 +261,7 @@ def generate_md(data: list[dict], cocomo: dict, totals: dict, date_str: str) -> 
     lines.append(
         "| "
         + " | ".join(":---" if i == 0 else "---:" for i in range(len(col_labels)))
-        + " |"
+        + " |",
     )
 
     for row in data:
@@ -276,7 +276,7 @@ def generate_md(data: list[dict], cocomo: dict, totals: dict, date_str: str) -> 
     for key in col_keys:
         val = totals.get(key, 0)
         total_cells.append(
-            f"**{str(val) if isinstance(val, str) else fmt_num(int(val))}**"
+            f"**{str(val) if isinstance(val, str) else fmt_num(int(val))}**",
         )
     lines.append("| " + " | ".join(total_cells) + " |")
     lines.append("")
@@ -300,7 +300,7 @@ def generate_md(data: list[dict], cocomo: dict, totals: dict, date_str: str) -> 
     if any(v is not None for v in cocomo.values()):
         fmt = fmt_cocomo(cocomo)
         lines += [
-            "## COCOMO Estimates (Organic)",
+            "## Organic COCOMO Estimates",
             "",
             "| Metric | Estimate |",
             "| :--- | ---: |",

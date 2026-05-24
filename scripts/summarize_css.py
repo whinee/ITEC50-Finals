@@ -563,7 +563,7 @@ def run_stylelint(css_path: str) -> list[LintError]:  # noqa: C901
                 LintError(
                     line=warning["line"],
                     message=f"[stylelint] {rule}: {text}",
-                )
+                ),
             )
     return errors
 

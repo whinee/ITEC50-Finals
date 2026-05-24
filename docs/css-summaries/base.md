@@ -1,10 +1,10 @@
 # CSS Summary: `base.css`
 
-> Generated on 2026-05-23 00:21  
+> Generated on 2026-05-24 12:00  
 > Source: `src/static/stylesheets/base.css`
 
 ## Lint Results
-> ⚠️ 113 issue(s) found
+> ⚠️ 117 issue(s) found
 
 - **Line 2**: [stylelint] import-notation: Expected ""/static/stylesheets/fonts/roboto.css"" to be "url("/static/stylesheets/fonts/roboto.css")"
 - **Line 3**: [stylelint] comment-empty-line-before: Expected empty line before comment
@@ -66,6 +66,7 @@
 - **Line 163**: [stylelint] rule-empty-line-before: Expected empty line before rule
 - **Line 167**: [stylelint] rule-empty-line-before: Expected empty line before rule
 - **Line 171**: [stylelint] rule-empty-line-before: Expected empty line before rule
+- **Line 200**: [stylelint] selector-no-qualifying-type: Disallowed qualifying type selector "button" in "button.styled"
 - **Line 210**: [stylelint] alpha-value-notation: Expected "0.1" to be "10%"
 - **Line 210**: [stylelint] color-function-alias-notation: Expected "hsla" to be "hsl"
 - **Line 210**: [stylelint] color-function-notation: Expected modern color-function notation
@@ -80,6 +81,7 @@
 - **Line 211**: [stylelint] hue-degree-notation: Expected "0" to be "0deg"
 - **Line 211**: [stylelint] length-zero-no-unit: Disallowed unit
 - **Line 212**: [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-webkit-transition"
+- **Line 218**: [stylelint] selector-no-qualifying-type: Disallowed qualifying type selector "button" in "button.styled"
 - **Line 220**: [stylelint] color-function-alias-notation: Expected "hsla" to be "hsl"
 - **Line 220**: [stylelint] length-zero-no-unit: Disallowed unit
 - **Line 220**: [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-webkit-box-shadow"
@@ -87,6 +89,7 @@
 - **Line 221**: [stylelint] length-zero-no-unit: Disallowed unit
 - **Line 223**: [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-webkit-transform"
 - **Line 224**: [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-ms-transform"
+- **Line 228**: [stylelint] selector-no-qualifying-type: Disallowed qualifying type selector "button" in "button.styled"
 - **Line 230**: [stylelint] color-function-alias-notation: Expected "hsla" to be "hsl"
 - **Line 230**: [stylelint] length-zero-no-unit: Disallowed unit
 - **Line 230**: [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-webkit-box-shadow"
@@ -94,7 +97,8 @@
 - **Line 231**: [stylelint] length-zero-no-unit: Disallowed unit
 - **Line 232**: [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-webkit-transform"
 - **Line 233**: [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-ms-transform"
-- **Line 238**: [stylelint] selector-no-qualifying-type: Disallowed qualifying type selector "button" in "button[disabled]"
+- **Line 237**: [stylelint] selector-no-qualifying-type: Disallowed qualifying type selector "button" in "button.styled"
+- **Line 238**: [stylelint] selector-no-qualifying-type: Disallowed qualifying type selector "button" in "button.styled[disabled]"
 - **Line 241**: [stylelint] declaration-no-important: Disallowed !important
 - **Line 241**: [stylelint] property-no-vendor-prefix: Vendor-prefixed property "-webkit-box-shadow"
 - **Line 242**: [stylelint] declaration-no-important: Disallowed !important

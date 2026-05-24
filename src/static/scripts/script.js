@@ -8,7 +8,7 @@ function disableSubmit(parent) {
 
 function inputFn() {
     disableSubmit(this.parentNode);
-    if (this.value != '') {
+    if (this.value != "") {
         if (this.checkValidity()) {
             this.classList.add("valid");
             this.classList.remove("invalid");
@@ -22,9 +22,9 @@ function inputFn() {
     }
 }
 
-for (let i of document.querySelectorAll('.vi')) {
+for (let i of document.querySelectorAll(".vi")) {
     disableSubmit(i.parentNode);
-    i.addEventListener('input', inputFn);
+    i.addEventListener("input", inputFn);
 }
 
 function SetOpa(Opa) {
@@ -32,26 +32,26 @@ function SetOpa(Opa) {
     // Code for older browsers below
     element.style.MozOpacity = Opa;
     element.style.KhtmlOpacity = Opa;
-    element.style.filter = 'alpha(opacity=' + (Opa * 100) + ');';
+    element.style.filter = "alpha(opacity=" + Opa * 100 + ");";
 }
 
 function fadeOut() {
     for (i = 0; i <= 1; i += 0.01) {
         setTimeout("SetOpa(" + (1 - i) + ")", i * duration);
     }
-    setTimeout("fadeIn()", (duration + hidtime));
+    setTimeout("fadeIn()", duration + hidtime);
 }
 
 function fadeToggle() {
-    for (let j of document.getElementsByTagName('form')) {
-        if (window.getComputedStyle(j).display == 'none') {
-            j.style.display = 'block';
+    for (let j of document.getElementsByTagName("form")) {
+        if (window.getComputedStyle(j).display == "none") {
+            j.style.display = "block";
         } else {
-            j.style.display = 'none';
+            j.style.display = "none";
         }
     }
 }
 
-for (let i of document.querySelectorAll('.message a')) {
-    i.addEventListener('click', fadeToggle)
+for (let i of document.querySelectorAll(".message a")) {
+    i.addEventListener("click", fadeToggle);
 }

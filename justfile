@@ -80,21 +80,25 @@ drop-test-db:
         -c "DROP DATABASE IF EXISTS ${TEST_DBNAME};"
 
 [private]
-nio_dev:
-    @ uv run no_implicit_optional dev; exit 0
+nio_scripts:
+    @ uv run no_implicit_optional scripts; exit 0
 
 [private]
 nio_src:
     @ uv run no_implicit_optional src; exit 0
 
 [private]
-ruff:
+ruff_scripts:
+    @ uv run ruff check scripts --fix; exit 0
+
+[private]
+ruff_src:
     @ uv run ruff check src --fix; exit 0
 
 # Lint JS files
 [private]
 lint-js:
-    @ npx eslint "**/*.js" --fix; exit 0
+    @ npx prettier "src/static/scripts/**/*.js" --tab-width 4 --write; exit 0
 
 # Lint CSS files
 [private]
@@ -124,12 +128,14 @@ lint-tex:
 
 # Lint codebase
 lint:
-    # just nio_dev
+    just nio_scripts
     just nio_src
+    just ruff_scripts
+    just ruff_src
+    uv run black -q scripts
+    uv run black -q src
     uv run mdformat docs
-    uv run black -q .
-    just ruff
-    # just lint-js
+    just lint-js
     just lint-css
     # just lint-html
     just lint-jinja
