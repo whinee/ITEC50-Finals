@@ -1,10 +1,10 @@
-@media (max-width: 1920px) {
+@media (width <= 1920px) {
     #wrapper {
         padding-top: 60px;
     }
 }
 
-@media (max-width: 1680px) {
+@media (width <= 1680px) {
     html {
         font-size: 13pt;
     }
@@ -14,7 +14,7 @@
     }
 }
 
-@media (max-width: 1280px) {
+@media (width <= 1280px) {
     html {
         font-size: 13pt;
     }
@@ -24,13 +24,13 @@
     }
 }
 
-@media (max-width: 1024px) {
+@media (width <= 1024px) {
     #wrapper {
         padding-top: 90px;
     }
 }
 
-@media (max-width: 980px) {
+@media (width <= 980px) {
     html {
         font-size: 11pt;
     }
@@ -40,13 +40,13 @@
     }
 }
 
-@media (max-width: 736px) {
+@media (width <= 736px) {
     html {
         font-size: 11pt;
     }
 
     #h1 {
-        letter-spacing: 0rem;
+        letter-spacing: 0;
         width: 100%;
         font-size: 2.5em;
         line-height: 1.25;
@@ -72,7 +72,7 @@
     }
 }
 
-@media (max-width: 360px) {
+@media (width <= 360px) {
     #h1 {
         font-size: 2em;
     }

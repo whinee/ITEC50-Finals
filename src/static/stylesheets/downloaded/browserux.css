@@ -96,11 +96,13 @@
    */
 
     --bux-typo-font-family:
-        system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+        system-ui, "Segoe UI", roboto, helvetica, arial, sans-serif,
         "Apple Color Emoji", "Segoe UI Emoji"; /* System font stack for body text */
+
     --bux-typo-font-family-mono:
-        ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo,
+        ui-monospace, sfmono-regular, consolas, "Liberation Mono", menlo,
         monospace; /* Monospace font stack for code elements */
+
     --bux-typo-font-size: 1.6rem; /* Base font size applied to `<body>` (default `1.6rem` = 16px) */
     --bux-typo-line-height: 1.6; /* Base line height applied to `<body>` */
 
@@ -267,7 +269,7 @@
    */
 
     ::placeholder {
-        color: rgba(16, 16, 16, 0.8);
+        color: rgb(16 16 16 / 80%);
         opacity: 1;
     }
 
@@ -276,7 +278,7 @@
    */
 
     [disabled] {
-        color: rgba(16, 16, 16, 0.8);
+        color: rgb(16 16 16 / 80%);
     }
 
     /**
@@ -316,7 +318,7 @@
    */
 
     ::placeholder {
-        color: rgba(239, 239, 239, 0.9);
+        color: rgb(239 239 239 / 90%);
         opacity: 1;
     }
 
@@ -325,7 +327,7 @@
    */
 
     [disabled] {
-        color: rgba(239, 239, 239, 0.9);
+        color: rgb(239 239 239 / 90%);
     }
 }
 
@@ -352,7 +354,7 @@
    */
 
     dialog::backdrop {
-        background: rgba(0, 0, 0, 0.9);
+        background: rgb(0 0 0 / 90%);
     }
 
     /**
@@ -910,9 +912,9 @@ html {
     -webkit-font-smoothing: antialiased; /* 5 */
     -webkit-tap-highlight-color: transparent; /* 6 */
     tab-size: 4; /* 7 */
-    -moz-tab-size: 4; /* 7 */
+    tab-size: 4; /* 7 */
     text-size-adjust: 100%; /* 8 */
-    -webkit-text-size-adjust: 100%; /* 8 */
+    text-size-adjust: 100%; /* 8 */
     scrollbar-gutter: stable; /* 9 */
 }
 
@@ -993,7 +995,7 @@ pre {
 
 hr {
     border: none; /* 1 */
-    border-top: 1px solid currentColor; /* 1 */
+    border-top: 1px solid currentcolor; /* 1 */
     color: inherit; /* 3 */
     height: 0; /* 2 */
     overflow: visible; /* 4 */
@@ -1149,7 +1151,7 @@ video {
  */
 
 svg {
-    fill: currentColor;
+    fill: currentcolor;
 }
 
 /* ----------------------------------------------------------------------------
@@ -1282,7 +1284,7 @@ button,
 [type="reset"],
 [type="submit"] {
     appearance: button;
-    -webkit-appearance: button;
+    appearance: auto;
 }
 
 /**
@@ -1311,7 +1313,7 @@ textarea {
 
 [type="search"] {
     appearance: textfield; /* 1 */
-    -webkit-appearance: textfield; /* 1 */
+    appearance: textfield; /* 1 */
     outline-offset: -2px; /* 2 */
 }
 
@@ -1320,7 +1322,7 @@ textarea {
  */
 
 [type="search"]::-webkit-search-decoration {
-    -webkit-appearance: none;
+    appearance: none;
 }
 
 /**
@@ -1352,7 +1354,7 @@ textarea {
 
 ::-webkit-file-upload-button {
     appearance: button;
-    -webkit-appearance: button;
+    appearance: auto;
     font: inherit;
 }
 
@@ -1435,7 +1437,7 @@ dialog {
  */
 
 dialog::backdrop {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgb(0 0 0 / 50%);
 }
 
 /**
@@ -1487,7 +1489,7 @@ dialog::backdrop {
 
     @starting-style {
         dialog[open]::backdrop {
-            background-color: rgba(0, 0, 0, 0);
+            background-color: rgb(0 0 0 / 0%);
         }
     }
 }
@@ -1534,6 +1536,6 @@ dialog::backdrop {
 
     img,
     figure {
-        page-break-inside: avoid; /* 4 */
+        break-inside: avoid; /* 4 */
     }
 }

@@ -1,5 +1,5 @@
 @font-face {
-    font-family: "Inconsolata";
+    font-family: Inconsolata;
     src: url("/static/assets/fonts/Inconsolata.woff2") format("truetype");
     font-weight: 200 900;
     font-stretch: 50% 200%;

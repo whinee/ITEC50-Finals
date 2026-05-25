@@ -25,6 +25,7 @@ dependencies = [
     "psycopg[binary]>=3.3.4",
     "phonenumbers>=9.0.30",
     "wonderwords>=3.0.1",
+    "faker>=40.19.1",
 ]
 maintainers = [
     { name = "Lyra Phasma", email = "lyraphasma@gmail.com" },

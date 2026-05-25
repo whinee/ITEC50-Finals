@@ -25,6 +25,15 @@
         <meta property="og:image:height" content="800" />
         <link rel="icon" type="image/x-icon" href="{{ favicon_path }}">
         <link rel="apple-touch-icon" sizes="180x180" href="{{ icon_path }}" />
+        <script>
+            (() => {
+                const theme = document.cookie
+                    .split("; ")
+                    .find((row) => row.startsWith("theme="))
+                    ?.split("=")[1];
+                document.documentElement.dataset.theme = theme === "dark" ? "dark" : "light";
+            })();
+        </script>
         {% for stylesheet in stylesheets %}
             <link rel="stylesheet" href="{{ stylesheet }}">
         {% endfor %}
@@ -39,13 +48,47 @@
     </head>
     <body>
         <header>
-            <button id="settings-modal-button" class="icons">
-                <img src="/static/assets/images/settings.svg" height="50" />
-            </button>
-            <button id="info-modal-button" class="icons">
-                <img src="/static/assets/images/info.svg" height="50" />
-            </button>
+            <div class="hamburger-menu">
+                <button id="hamburger-button"
+                        class="icons"
+                        aria-label="Menu"
+                        aria-expanded="false"
+                        onclick="document.getElementById('hamburger-dropdown').classList.toggle('show')">
+                    <span class="svg-icon"
+                          style="-webkit-mask-image: url(/static/assets/images/menu.svg);
+                                 mask-image: url(/static/assets/images/menu.svg)"
+                          aria-label="Menu"></span>
+                </button>
+                <div id="hamburger-dropdown" class="hamburger-dropdown">
+                    <button id="settings-modal-button">
+                        <span class="svg-icon"
+                              style="-webkit-mask-image: url(/static/assets/images/settings.svg);
+                                     mask-image: url(/static/assets/images/settings.svg)"></span>
+                        Settings
+                    </button>
+                    <button id="info-modal-button">
+                        <span class="svg-icon"
+                              style="-webkit-mask-image: url(/static/assets/images/info.svg);
+                                     mask-image: url(/static/assets/images/info.svg)"></span>
+                        Info
+                    </button>
+                    <a href="/auth/logout">
+                        <span class="svg-icon"
+                              style="-webkit-mask-image: url(/static/assets/images/logout.svg);
+                                     mask-image: url(/static/assets/images/logout.svg)"></span>
+                        Logout
+                    </a>
+                </div>
+            </div>
         </header>
+        <script>
+            // Close dropdown if clicked outside
+            window.addEventListener('click', function(e) {
+                if (!document.getElementById('hamburger-button').contains(e.target)) {
+                    document.getElementById('hamburger-dropdown').classList.remove('show');
+                }
+            });
+        </script>
         <div id="toast"></div>
         {% block body %}
         {% endblock body %}
@@ -55,6 +98,19 @@
                 <div id="modal-contents">
                     <div class="modal-inner-wrapper" id="settings-modal">
                         <h2>Settings</h2>
+                        <section class="settings-group" aria-labelledby="theme-settings-title">
+                            <h3 id="theme-settings-title">Appearance</h3>
+                            <div class="theme-segmented" role="radiogroup" aria-label="Theme">
+                                <label>
+                                    <input type="radio" name="theme" value="light">
+                                    <span>Light</span>
+                                </label>
+                                <label>
+                                    <input type="radio" name="theme" value="dark">
+                                    <span>Dark</span>
+                                </label>
+                            </div>
+                        </section>
                     </div>
                     <div class="modal-inner-wrapper" id="info-modal">
                         <h2>Info</h2>
@@ -80,6 +136,7 @@
             </div>
         </section>
         <script src="/static/scripts/toast.js" defer></script>
+        <script src="/static/scripts/theme.js" defer></script>
         <script type="module" src="/static/scripts/modal.js"></script>
         {% for message in fetch_flash(request) %}
             <script>

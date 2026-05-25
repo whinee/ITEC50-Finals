@@ -486,9 +486,11 @@ def generate_tex(
     lines.append(r"\subsection{Section Tree}")
     lines.append(r"\begingroup")
     lines.append(r"\linespread{0.9}\selectfont")
+    lines.append(r"% tex-fmt: off")
     lines.append(r"\begin{verbnobox}[\FiraCode]")
     lines.append(render_ascii_tree(roots))
     lines.append(r"\end{verbnobox}")
+    lines.append(r"% tex-fmt: on")
     lines.append(r"\endgroup")
 
     return "\n".join(lines)

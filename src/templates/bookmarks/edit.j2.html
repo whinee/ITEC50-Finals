@@ -1,0 +1,53 @@
+{% extends 'base.j2.html' %}
+{% block head %}
+    <link href="/static/stylesheets/bookmarks.css" rel="stylesheet">
+{% endblock head %}
+{% block body %}
+    <main class="bookmarks-shell compact" data-bookmarks-page="edit">
+        <nav class="bookmark-nav" aria-label="Bookmark navigation">
+            <a href="/bookmarks/dashboard">Dashboard</a>
+            <a href="/bookmarks/add">Add</a>
+            <a href="/bookmarks/search">Search</a>
+        </nav>
+        <section class="bookmark-header">
+            <div>
+                <p class="eyebrow">Modify Link</p>
+                <h1>Edit bookmark</h1>
+            </div>
+        </section>
+        <form id="bookmark-form" class="bookmark-form">
+            <label>
+                Title
+                <input name="title" type="text" placeholder="FastAPI docs" required>
+            </label>
+            <label>
+                Link URL
+                <input name="url"
+                       type="url"
+                       placeholder="https://fastapi.tiangolo.com"
+                       required>
+            </label>
+            <label>
+                JD ID
+                <input name="jdId" type="text" placeholder="JD-001" required>
+            </label>
+            <label>
+                Tags
+                <input name="tags" type="text" placeholder="python, backend, reference">
+            </label>
+            <label>
+                Notes
+                <textarea name="notes" rows="5" placeholder="Optional notes for this bookmark"></textarea>
+            </label>
+            <div class="form-actions">
+                <button type="submit" class="bookmark-action">Update Bookmark</button>
+                <a href="/bookmarks/dashboard"
+                   class="secondary-action"
+                   style="text-decoration: none;
+                          text-align: center;
+                          display: inline-block">Cancel</a>
+            </div>
+        </form>
+    </main>
+    <script src="/static/scripts/bookmarks.js" defer></script>
+{% endblock body %}

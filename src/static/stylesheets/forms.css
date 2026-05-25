@@ -32,10 +32,6 @@ input {
         inset 5px -5px 10px var(--bg-1-1),
         inset -5px 5px 10px var(--bg-1-3);
     border-radius: 60px;
-    -webkit-transition: all 0.5s ease-out;
-    -moz-transition: all 0.5s ease-out;
-    -ms-transition: all 0.5s ease-out;
-    -o-transition: all 0.5s ease-out;
     transition: all 0.5s ease-out;
     color: var(--fg-2);
 }
@@ -45,30 +41,16 @@ input[type="submit"] {
 }
 
 input:focus {
-    outline-color: var(--fg-1);
-    outline-style: solid;
-    outline-width: 3px;
+    outline: var(--fg-1) solid 3px;
 }
 
 input.invalid {
-    outline-color: var(--error-1);
-    outline-style: solid;
-    outline-width: 3px;
-    -webkit-transition: all 0.5s;
-    -moz-transition: all 0.5s;
-    -ms-transition: all 0.5s;
-    -o-transition: all 0.5s;
+    outline: var(--error-1) solid 3px;
     transition: all 0.5s;
 }
 
 input.valid {
-    outline-color: var(--valid-1);
-    outline-style: solid;
-    outline-width: 3px;
-    -webkit-transition: all 0.5s;
-    -moz-transition: all 0.5s;
-    -ms-transition: all 0.5s;
-    -o-transition: all 0.5s;
+    outline: var(--valid-1) solid 3px;
     transition: all 0.5s;
 }
 
@@ -99,7 +81,7 @@ input:focus::placeholder {
     transition: color 0.2s;
 }
 
-.star-rating label:before {
+.star-rating label::before {
     content: "★";
 }
 

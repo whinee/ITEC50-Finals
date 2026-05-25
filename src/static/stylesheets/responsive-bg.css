@@ -1,4 +1,4 @@
-body:before {
+body::before {
     content: "";
     display: block;
     position: fixed;
@@ -14,7 +14,7 @@ body:before {
         center center;
     background-repeat: repeat, no-repeat;
     background-size: cover;
-    background-color: #ffffff;
+    background-color: #fff;
 }
 
 .bg-image {
@@ -38,5 +38,5 @@ body:before {
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgb(0 0 0 / 75%);
 }

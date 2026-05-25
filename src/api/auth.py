@@ -21,6 +21,7 @@ from starlette.status import (
 )
 from wonderwords import RandomWord
 
+from src.api.preferences import normalize_theme, theme_cookie_params
 from src.db.main import get_session
 from src.middlewares.auth import check_if_logged_in, get_session_cookie
 from src.models.cookies import (
@@ -153,7 +154,7 @@ async def login_user(  # noqa: C901
         headers={
             "Location": "/",
         },
-        cookie_params=cookie_params,
+        cookie_params=[cookie_params, theme_cookie_params(normalize_theme(user.theme))],
     )
 
 
@@ -241,7 +242,14 @@ async def register_new_user(
 
     created_at = datetime.datetime.now(tz=UTC)
     updated_at = created_at
-    user = User(created_at=created_at, updated_at=updated_at, **payload.model_dump())
+    theme = normalize_theme(request.cookies.get("theme"))
+    user = User(
+        created_at=created_at,
+        updated_at=updated_at,
+        role="normal",
+        theme=theme,
+        **payload.model_dump(),
+    )
     key = kdf.derive_phc_encoded(payload.password.encode())
     user.password = key
     user.disabled = False
@@ -256,4 +264,5 @@ async def register_new_user(
         headers={
             "Location": "/",
         },
+        cookie_params=theme_cookie_params(theme),
     )

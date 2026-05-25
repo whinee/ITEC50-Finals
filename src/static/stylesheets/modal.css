@@ -18,7 +18,7 @@
 #modal-bg {
     width: 100%;
     height: 100%;
-    background-color: hsla(0, 0%, 100%, 0.1);
+    background-color: hsl(0deg 0% 100% / 10%);
     position: absolute;
     top: 0;
     left: 0;
@@ -35,6 +35,7 @@
     padding: 20px;
     border-radius: 15px;
     background-color: var(--bg-1);
+    color: var(--text-1);
     overflow: auto;
 }
 
@@ -62,4 +63,44 @@
 
 .modal-inner-wrapper > h3 {
     margin-top: 16px;
+}
+
+.settings-group {
+    display: grid;
+    gap: 12px;
+}
+
+.theme-segmented {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.theme-segmented label {
+    min-width: 0;
+}
+
+.theme-segmented input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.theme-segmented span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    border: 1px solid hsl(var(--rfg-1), 0.28);
+    border-radius: 8px;
+    background: var(--bg-1-1);
+    color: var(--text-1);
+    cursor: pointer;
+}
+
+.theme-segmented input:checked + span {
+    border-color: transparent;
+    background: var(--fg-1);
+    color: var(--bg-1);
+    font-weight: 800;
 }

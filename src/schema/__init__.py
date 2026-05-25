@@ -15,14 +15,18 @@ class AllPhone(PhoneNumber):
 
 class BaseUsers(SQLModel, table=False):
     username: str = Field(max_length=32, unique=True)
-    email: EmailStr
-    contact_number: AllPhone
+    email: EmailStr = Field(unique=True)
+    contact_number: AllPhone | None = Field(default=None, unique=True)
     password: str
 
 
 class User(BaseUsers, table=True):
     __tablename__ = "users"  # type: ignore[assignment]
-    id: Annotated[int | None, Field(primary_key=True)] = None
+    id: Annotated[int, Field(primary_key=True)]
+    theme: Annotated[
+        Literal["light", "dark"],
+        Field(sa_column=Column(sa.TEXT, nullable=False, default="light")),
+    ] = "light"
     role: Annotated[
         Literal["superadmin", "admin", "normal"],
         Field(sa_column=Column(sa.TEXT, nullable=False)),

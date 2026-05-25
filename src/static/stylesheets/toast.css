@@ -1,4 +1,4 @@
-@import "/static/stylesheets/downloaded/fontawesome.css";
+@import url("/static/stylesheets/downloaded/fontawesome.css");
 
 #toast {
     position: fixed;
@@ -16,7 +16,7 @@
     min-width: 150px;
     max-width: 450px;
     border-left: 4px solid;
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 5px 8px rgb(0 0 0 / 8%);
     transition: all linear 0.3s;
     overflow-wrap: break-word;
 }
@@ -103,6 +103,6 @@
 
 .toast__close {
     font-size: 20px;
-    color: rgba(0, 0, 0, 0.3);
+    color: rgb(0 0 0 / 30%);
     cursor: pointer;
 }

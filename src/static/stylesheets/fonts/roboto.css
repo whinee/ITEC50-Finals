@@ -1,5 +1,5 @@
 @font-face {
-    font-family: "Roboto";
+    font-family: Roboto;
     src: url("/static/assets/fonts/Roboto-Variable.woff2") format("truetype");
     font-weight: 100 900;
     font-stretch: 75% 100%;

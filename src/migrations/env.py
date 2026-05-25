@@ -11,6 +11,7 @@ sys.path.insert(0, parent_dir_nth_times(__file__, 3))
 from src.config.settings import settings
 from src.schema import (  # noqa: F401
     Bookmark,  # type: ignore
+    BookmarkJDJunction,  # type: ignore
     BookmarkTagJunction,  # type: ignore
     JDNode,  # type: ignore
     Tag,  # type: ignore

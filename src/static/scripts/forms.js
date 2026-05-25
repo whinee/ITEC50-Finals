@@ -14,6 +14,23 @@ const validators = {
             };
         return { ok: true, msg: "Looks good!" };
     },
+    email: (val) => {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+            return {
+                ok: false,
+                msg: "Invalid E-mail.",
+            };
+        }
+        return { ok: true, msg: "Looks good!" };
+    },
+    username: (val) => {
+        if (val.length < 3)
+            return {
+                ok: false,
+                msg: "Username must be at least 3 characters.",
+            };
+        return { ok: true, msg: "Looks good!" };
+    },
     password: (val) => {
         if (!val) return { ok: false, msg: "This field is required." };
         if (val.length < 8)
@@ -44,7 +61,6 @@ document.querySelectorAll(".field").forEach((field) => {
         const result = validators[input.name]?.(val) ?? { ok: true, msg: "" };
         input.classList.toggle("valid", result.ok);
         input.classList.toggle("invalid", !result.ok);
-        
 
         validationMessage.textContent = result.msg;
         validationMessage.className =

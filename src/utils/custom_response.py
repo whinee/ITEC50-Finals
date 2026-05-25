@@ -23,6 +23,14 @@ def fetch_flash(request: Request):
 TEMPLATES = Jinja2Templates(directory="src/templates")
 TEMPLATES.env.globals["fetch_flash"] = fetch_flash
 
+CookieParams = dict[str, Any] | list[dict[str, Any]]
+
+
+def set_cookies(response, cookie_params: CookieParams) -> None:  # type: ignore[no-untyped-def]
+    cookies = cookie_params if isinstance(cookie_params, list) else [cookie_params]
+    for cookie in cookies:
+        response.set_cookie(**cookie)
+
 
 class TemplateFlashInnerCallable(Protocol):
     def __call__(
@@ -34,7 +42,7 @@ class TemplateFlashInnerCallable(Protocol):
         headers: Mapping[str, str] | None = None,
         media_type: str | None = None,
         background: BackgroundTask | None = None,
-        cookie_params: dict[str, Any] | None = None,
+        cookie_params: CookieParams | None = None,
     ) -> Jinja2Templates.TemplateResponse: ...
 
 
@@ -70,7 +78,7 @@ class CustomResponse:
         headers: Mapping[str, str] | None = None,
         media_type: str | None = None,
         background: BackgroundTask | None = None,
-        cookie_params: dict[str, Any] | None = None,
+        cookie_params: CookieParams | None = None,
     ) -> UJSONResponse:  # type: ignore
         if json is None:
             json = {}
@@ -95,8 +103,7 @@ class CustomResponse:
         )
 
         if cookie_params:
-            for key, value in cookie_params.items():
-                response.set_cookie(key, value)
+            set_cookies(response=response, cookie_params=cookie_params)
 
         return response
 
@@ -111,7 +118,7 @@ class CustomResponse:
         headers: Mapping[str, str] | None = None,
         media_type: str | None = None,
         background: BackgroundTask | None = None,
-        cookie_params: dict[str, Any] | None = None,
+        cookie_params: CookieParams | None = None,
     ) -> UJSONResponse:  # type: ignore
         return CustomResponse.json(
             status_code=status_code,
@@ -158,7 +165,7 @@ class CustomResponse:
         headers: Mapping[str, str] | None = None,
         media_type: str | None = None,
         background: BackgroundTask | None = None,
-        cookie_params: dict[str, Any] | None = None,
+        cookie_params: CookieParams | None = None,
     ) -> Jinja2Templates.TemplateResponse:
         response = TEMPLATES.TemplateResponse(
             request=request,
@@ -171,8 +178,7 @@ class CustomResponse:
         )
 
         if cookie_params:
-            for key, value in cookie_params.items():
-                response.set_cookie(key, value)
+            set_cookies(response=response, cookie_params=cookie_params)
 
         return response
 
@@ -189,7 +195,7 @@ class CustomResponse:
             headers: Mapping[str, str] | None = None,
             media_type: str | None = None,
             background: BackgroundTask | None = None,
-            cookie_params: dict[str, Any] | None = None,
+            cookie_params: CookieParams | None = None,
         ) -> Jinja2Templates.TemplateResponse:
             if "_messages" not in request.session:
                 request.session["_messages"] = []

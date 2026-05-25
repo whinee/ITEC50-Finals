@@ -18,7 +18,24 @@
                                    placeholder=""
                                    class="form"
                                    required>
-                            <button class="icon1 erase-input" style="visibility: hidden;">×</button>
+                            <button class="erase-input" style="visibility: hidden;">×</button>
+                        </div>
+                        <div class="validation-msg"></div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="field">
+                        <label for="username">Username</label>
+                        <br>
+                        <br>
+                        <div class="form-box">
+                            <input class="input"
+                                   name="username"
+                                   type="text"
+                                   placeholder=""
+                                   class="form"
+                                   required>
+                            <button class="erase-input" style="visibility: hidden;">×</button>
                         </div>
                         <div class="validation-msg"></div>
                     </div>
@@ -35,7 +52,7 @@
                                    placeholder=""
                                    class="form"
                                    required>
-                            <button class="icon1 erase-input" style="visibility: hidden;">×</button>
+                            <button class="erase-input" style="visibility: hidden;">×</button>
                         </div>
                         <div class="validation-msg"></div>
                     </div>
@@ -52,7 +69,7 @@
             e.preventDefault();
             const formData = new FormData(e.target);
 
-            const res = await fetch("/auth/login", {
+            const res = await fetch("/auth/register", {
                 method: "POST",
                 body: new URLSearchParams(formData), // sends as form-encoded
             });

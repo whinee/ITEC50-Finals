@@ -6,18 +6,20 @@ import time
 import traceback
 from collections.abc import Awaitable, Callable
 
-from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi import FastAPI, HTTPException, Request, Response, Depends
 from fastapi.openapi.docs import get_swagger_ui_html
-from fastapi.responses import UJSONResponse  # type: ignore
+from fastapi.responses import RedirectResponse, UJSONResponse  # type: ignore
 from fastapi.security import HTTPBasic
 from fastapi.staticfiles import StaticFiles
 from jinja2 import TemplateNotFound
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.templating import _TemplateResponse
+from typing import Annotated
 
-from src.api import auth
+from src.api import auth, bookmarks, preferences
 from src.config.settings import settings
+from src.middlewares.auth import check_page_auth
 from src.utils.custom_response import TEMPLATES, CustomResponse
 
 # Constants
@@ -79,6 +81,9 @@ async def add_process_time_header(
 
 app.mount("/static/", StaticFiles(directory="src/static"), name="static")
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
+app.include_router(bookmarks.router, prefix="/bookmarks", tags=["bookmarks"])
+app.include_router(bookmarks.api_router, prefix="/api", tags=["bookmarks-api"])
+app.include_router(preferences.router, prefix="/api", tags=["preferences"])
 
 
 @app.get("/docs", include_in_schema=False, status_code=200)
@@ -94,6 +99,61 @@ async def docs(response: Response):  # type: ignore[no-untyped-def]
 @app.get("/http_code/{status_code}")
 async def http_code_get(request: Request, status_code: int) -> _TemplateResponse:
     return CustomResponse.http_code(request=request, status_code=status_code)
+
+
+@app.get("/bookmarks_dashboard", include_in_schema=False)
+async def bookmarks_dashboard_redirect(
+    request: Request,
+    is_authenticated: Annotated[bool, Depends(check_page_auth)],
+) -> RedirectResponse:
+    if not is_authenticated:
+        return RedirectResponse(url="/login", status_code=303)
+    query = f"?{request.url.query}" if request.url.query else ""
+    return RedirectResponse(url=f"/bookmarks/dashboard{query}")
+
+
+@app.get("/bookmarks_add", include_in_schema=False)
+async def bookmarks_add_redirect(
+    request: Request,
+    is_authenticated: Annotated[bool, Depends(check_page_auth)],
+) -> RedirectResponse:
+    if not is_authenticated:
+        return RedirectResponse(url="/login", status_code=303)
+    query = f"?{request.url.query}" if request.url.query else ""
+    return RedirectResponse(url=f"/bookmarks/add{query}")
+
+
+@app.get("/bookmarks_jd", include_in_schema=False)
+async def bookmarks_jd_redirect(
+    request: Request,
+    is_authenticated: Annotated[bool, Depends(check_page_auth)],
+) -> RedirectResponse:
+    if not is_authenticated:
+        return RedirectResponse(url="/login", status_code=303)
+    query = f"?{request.url.query}" if request.url.query else ""
+    return RedirectResponse(url=f"/bookmarks/jd{query}")
+
+
+@app.get("/bookmarks_tag", include_in_schema=False)
+async def bookmarks_tag_redirect(
+    request: Request,
+    is_authenticated: Annotated[bool, Depends(check_page_auth)],
+) -> RedirectResponse:
+    if not is_authenticated:
+        return RedirectResponse(url="/login", status_code=303)
+    query = f"?{request.url.query}" if request.url.query else ""
+    return RedirectResponse(url=f"/bookmarks/tag{query}")
+
+
+@app.get("/bookmarks_search", include_in_schema=False)
+async def bookmarks_search_redirect(
+    request: Request,
+    is_authenticated: Annotated[bool, Depends(check_page_auth)],
+) -> RedirectResponse:
+    if not is_authenticated:
+        return RedirectResponse(url="/login", status_code=303)
+    query = f"?{request.url.query}" if request.url.query else ""
+    return RedirectResponse(url=f"/bookmarks/search{query}")
 
 
 @app.post("/http_code/{status_code}")
@@ -114,6 +174,19 @@ async def handle_webhook(request: Request):  # type: ignore[no-untyped-def]
         raise HTTPException(status_code=403, detail="Invalid signature")
     subprocess.Popen(f"kill -9 {os.getpid()}", shell=True)  # noqa: S602
     return {"message": "Webhook received successfully!"}
+
+
+@app.get("/login", include_in_schema=False)
+async def login_redirect(
+    request: Request,
+    is_authenticated: Annotated[bool, Depends(check_page_auth)],
+):
+    if is_authenticated:
+        return RedirectResponse(url="/bookmarks/dashboard", status_code=303)
+    try:
+        return TEMPLATES.TemplateResponse(request=request, name="login.j2.html")
+    except TemplateNotFound as e:
+        raise HTTPException(status_code=404) from e
 
 
 @app.get("/{page}")

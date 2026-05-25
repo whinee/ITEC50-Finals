@@ -15,6 +15,7 @@
         --fa-family,
         var(--fa-style-family, "Font Awesome 7 Free")
     );
+
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     display: var(--fa-display, inline-block);
@@ -57,6 +58,7 @@
         content: var(--fa);
     }
 }
+
 .fa-1x {
     font-size: 1em;
 }
@@ -101,9 +103,11 @@
     font-size: calc(
         10 / 16 * 1em
     ); /* converts a 10px size into an em-based value that's relative to the scale's 16px base */
+
     line-height: calc(
         1 / 10 * 1em
     ); /* sets the line-height of the icon back to that of it's parent */
+
     vertical-align: calc(
         (6 / 10 - 0.375) * 1em
     ); /* vertically centers the icon taking into account the surrounding text's descender */
@@ -113,9 +117,11 @@
     font-size: calc(
         12 / 16 * 1em
     ); /* converts a 12px size into an em-based value that's relative to the scale's 16px base */
+
     line-height: calc(
         1 / 12 * 1em
     ); /* sets the line-height of the icon back to that of it's parent */
+
     vertical-align: calc(
         (6 / 12 - 0.375) * 1em
     ); /* vertically centers the icon taking into account the surrounding text's descender */
@@ -125,9 +131,11 @@
     font-size: calc(
         14 / 16 * 1em
     ); /* converts a 14px size into an em-based value that's relative to the scale's 16px base */
+
     line-height: calc(
         1 / 14 * 1em
     ); /* sets the line-height of the icon back to that of it's parent */
+
     vertical-align: calc(
         (6 / 14 - 0.375) * 1em
     ); /* vertically centers the icon taking into account the surrounding text's descender */
@@ -137,9 +145,11 @@
     font-size: calc(
         20 / 16 * 1em
     ); /* converts a 20px size into an em-based value that's relative to the scale's 16px base */
+
     line-height: calc(
         1 / 20 * 1em
     ); /* sets the line-height of the icon back to that of it's parent */
+
     vertical-align: calc(
         (6 / 20 - 0.375) * 1em
     ); /* vertically centers the icon taking into account the surrounding text's descender */
@@ -149,9 +159,11 @@
     font-size: calc(
         24 / 16 * 1em
     ); /* converts a 24px size into an em-based value that's relative to the scale's 16px base */
+
     line-height: calc(
         1 / 24 * 1em
     ); /* sets the line-height of the icon back to that of it's parent */
+
     vertical-align: calc(
         (6 / 24 - 0.375) * 1em
     ); /* vertically centers the icon taking into account the surrounding text's descender */
@@ -161,9 +173,11 @@
     font-size: calc(
         32 / 16 * 1em
     ); /* converts a 32px size into an em-based value that's relative to the scale's 16px base */
+
     line-height: calc(
         1 / 32 * 1em
     ); /* sets the line-height of the icon back to that of it's parent */
+
     vertical-align: calc(
         (6 / 32 - 0.375) * 1em
     ); /* vertically centers the icon taking into account the surrounding text's descender */
@@ -183,6 +197,7 @@
     margin-inline-start: var(--fa-li-margin, 2.5em);
     padding-inline-start: 0;
 }
+
 .fa-ul > li {
     position: relative;
 }
@@ -199,6 +214,7 @@
   - This feature will be deprecated in the next major release of Font Awesome (v8)!
   - You may continue to use it in this version *v7), but it will not be supported in Font Awesome v8.
 */
+
 /* Notes:
 * --@{v.$css-prefix}-border-width = 1/16 by default (to render as ~1px based on a 16px default font-size)
 * --@{v.$css-prefix}-border-padding =
@@ -325,19 +341,23 @@
         transition: none !important;
     }
 }
+
 @keyframes fa-beat {
     0%,
     90% {
         transform: scale(1);
     }
+
     45% {
         transform: scale(var(--fa-beat-scale, 1.25));
     }
 }
+
 @keyframes fa-bounce {
     0% {
         transform: scale(1, 1) translateY(0);
     }
+
     10% {
         transform: scale(
                 var(--fa-bounce-start-scale-x, 1.1),
@@ -345,6 +365,7 @@
             )
             translateY(0);
     }
+
     30% {
         transform: scale(
                 var(--fa-bounce-jump-scale-x, 0.9),
@@ -352,6 +373,7 @@
             )
             translateY(var(--fa-bounce-height, -0.5em));
     }
+
     50% {
         transform: scale(
                 var(--fa-bounce-land-scale-x, 1.05),
@@ -359,32 +381,39 @@
             )
             translateY(0);
     }
+
     57% {
         transform: scale(1, 1) translateY(var(--fa-bounce-rebound, -0.125em));
     }
+
     64% {
         transform: scale(1, 1) translateY(0);
     }
+
     100% {
         transform: scale(1, 1) translateY(0);
     }
 }
+
 @keyframes fa-fade {
     50% {
         opacity: var(--fa-fade-opacity, 0.4);
     }
 }
+
 @keyframes fa-beat-fade {
     0%,
     100% {
         opacity: var(--fa-beat-fade-opacity, 0.4);
         transform: scale(1);
     }
+
     50% {
         opacity: 1;
         transform: scale(var(--fa-beat-fade-scale, 1.125));
     }
 }
+
 @keyframes fa-flip {
     50% {
         transform: rotate3d(
@@ -395,46 +424,58 @@
         );
     }
 }
+
 @keyframes fa-shake {
     0% {
         transform: rotate(-15deg);
     }
+
     4% {
         transform: rotate(15deg);
     }
+
     8%,
     24% {
         transform: rotate(-18deg);
     }
+
     12%,
     28% {
         transform: rotate(18deg);
     }
+
     16% {
         transform: rotate(-22deg);
     }
+
     20% {
         transform: rotate(22deg);
     }
+
     32% {
         transform: rotate(-12deg);
     }
+
     36% {
         transform: rotate(12deg);
     }
+
     40%,
     100% {
         transform: rotate(0deg);
     }
 }
+
 @keyframes fa-spin {
     0% {
         transform: rotate(0deg);
     }
+
     100% {
         transform: rotate(360deg);
     }
 }
+
 .fa-rotate-90 {
     transform: rotate(90deg);
 }
@@ -476,6 +517,7 @@
 .fa-stack-1x,
 .fa-stack-2x {
     --fa-width: 100%;
+
     inset: 0;
     position: absolute;
     text-align: center;
@@ -8497,6 +8539,7 @@
 .fa-caravan {
     --fa: "\f8ff";
 }
+
 :root,
 :host {
     --fa-family-brands: "Font Awesome 7 Brands";
@@ -8510,6 +8553,7 @@
     font-display: block;
     src: url("/static/assets/fonts/fa-brands-400.woff2");
 }
+
 .fab,
 .fa-brands,
 .fa-classic.fa-brands {
@@ -10864,10 +10908,12 @@
 .fa-umbraco {
     --fa: "\f8e8";
 }
+
 :root,
 :host {
     --fa-family-classic: "Font Awesome 7 Free";
     --fa-font-regular: normal 400 1em/1 var(--fa-family-classic);
+
     /* deprecated: this older custom property will be removed next major release */
     --fa-style-family-classic: var(--fa-family-classic);
 }
@@ -10879,6 +10925,7 @@
     font-display: block;
     src: url("/static/assets/fonts/fa-regular-400.woff2");
 }
+
 .far {
     --fa-family: var(--fa-family-classic);
     --fa-style: 400;
@@ -10891,10 +10938,12 @@
 .fa-regular {
     --fa-style: 400;
 }
+
 :root,
 :host {
     --fa-family-classic: "Font Awesome 7 Free";
     --fa-font-solid: normal 900 1em/1 var(--fa-family-classic);
+
     /* deprecated: this older custom property will be removed next major release */
     --fa-style-family-classic: var(--fa-family-classic);
 }
@@ -10906,6 +10955,7 @@
     font-display: block;
     src: url("/static/assets/fonts/fa-solid-900.woff2");
 }
+
 .fas {
     --fa-family: var(--fa-family-classic);
     --fa-style: 900;
@@ -10918,36 +10968,42 @@
 .fa-solid {
     --fa-style: 900;
 }
+
 @font-face {
     font-family: "Font Awesome 5 Brands";
     font-display: block;
     font-weight: 400;
     src: url("/static/assets/fonts/fa-brands-400.woff2") format("woff2");
 }
+
 @font-face {
     font-family: "Font Awesome 5 Free";
     font-display: block;
     font-weight: 900;
     src: url("/static/assets/fonts/fa-solid-900.woff2") format("woff2");
 }
+
 @font-face {
     font-family: "Font Awesome 5 Free";
     font-display: block;
     font-weight: 400;
     src: url("/static/assets/fonts/fa-regular-400.woff2") format("woff2");
 }
+
 @font-face {
-    font-family: "FontAwesome";
+    font-family: FontAwesome;
     font-display: block;
     src: url("/static/assets/fonts/fa-solid-900.woff2") format("woff2");
 }
+
 @font-face {
-    font-family: "FontAwesome";
+    font-family: FontAwesome;
     font-display: block;
     src: url("/static/assets/fonts/fa-brands-400.woff2") format("woff2");
 }
+
 @font-face {
-    font-family: "FontAwesome";
+    font-family: FontAwesome;
     font-display: block;
     src: url("/static/assets/fonts/fa-regular-400.woff2") format("woff2");
     unicode-range:
@@ -10962,8 +11018,9 @@
         U+F29C, U+F2B5, U+F2B7, U+F2BA, U+F2BC, U+F2BE, U+F2C0-F2C1, U+F2C3,
         U+F2D0, U+F2D2, U+F2D4, U+F2DC;
 }
+
 @font-face {
-    font-family: "FontAwesome";
+    font-family: FontAwesome;
     font-display: block;
     src: url("/static/assets/fonts/fa-v4compatibility.woff2") format("woff2");
     unicode-range:

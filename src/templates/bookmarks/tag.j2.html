@@ -1,0 +1,30 @@
+{% extends 'base.j2.html' %}
+{% block head %}
+    <link href="/static/stylesheets/bookmarks.css" rel="stylesheet">
+{% endblock head %}
+{% block body %}
+    <main class="bookmarks-shell" data-bookmarks-page="tag">
+        <nav class="bookmark-nav" aria-label="Bookmark navigation">
+            <a href="/bookmarks/dashboard">Dashboard</a>
+            <a href="/bookmarks/add">Add</a>
+            <a href="/bookmarks/search">Search</a>
+        </nav>
+        <section class="bookmark-header">
+            <div>
+                <p class="eyebrow">Tag View</p>
+                <h1 id="view-title">Bookmarks by tag</h1>
+            </div>
+        </section>
+        <form id="tag-filter-form" class="inline-search">
+            <input id="tag-filter-input"
+                   name="tag"
+                   type="text"
+                   placeholder="Enter tag"
+                   required>
+            <button type="submit" class="bookmark-action">Load</button>
+        </form>
+        <section id="tag-results" class="bookmark-list wide">
+        </section>
+    </main>
+    <script src="/static/scripts/bookmarks.js" defer></script>
+{% endblock body %}

@@ -34,5 +34,23 @@ async def check_encrypted_cookie_auth(
         jwt_token = decode_encrypted_cookie(session_cookie)
         return jwt_service.verify(jwt_token)
 
-    except BaseException as e:
+    except Exception as e:
         raise HTTPException(status_code=HTTP_401_UNAUTHORIZED) from e
+
+
+async def check_page_auth(
+    request: Request,
+    session: Annotated[AsyncSession, Depends(get_session)],
+    jwt_service: Annotated[JwtService, Depends(get_jwt_service)],
+    session_cookie: Annotated[str | None, Depends(get_session_cookie)] = None,
+) -> bool:
+    if session_cookie is None:
+        return False
+
+    try:
+        jwt_token = decode_encrypted_cookie(session_cookie)
+        claims = jwt_service.verify(jwt_token)
+        return claims is not None and claims.sub is not None
+
+    except Exception:  # noqa: BLE001
+        return False

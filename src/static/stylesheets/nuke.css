@@ -115,16 +115,15 @@ section {
 
 body {
     line-height: 1.5;
-    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
     min-width: 320px;
     min-height: var(--viewport-height);
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     overflow-x: hidden;
     overflow: auto !important;
-    font-family: "Montserrat", sans-serif;
+    font-family: Montserrat, sans-serif;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
 }
 
 ol,
@@ -137,11 +136,10 @@ q {
     quotes: none;
 }
 
-blockquote:before,
-blockquote:after,
-q:before,
-q:after {
-    content: "";
+blockquote::before,
+blockquote::after,
+q::before,
+q::after {
     content: none;
 }
 
@@ -164,15 +162,15 @@ input[type="text"],
 input[type="email"],
 select,
 textarea {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    -ms-appearance: none;
+    appearance: none;
+    appearance: none;
+    appearance: none;
     appearance: none;
 }
 
 *,
-*:before,
-*:after {
+*::before,
+*::after {
     box-sizing: border-box;
 }
 

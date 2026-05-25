@@ -1,5 +1,6 @@
 /* IMPORTS: START */
-@import "/static/stylesheets/fonts/roboto.css";
+@import url("/static/stylesheets/fonts/roboto.css");
+
 /* IMPORTS: END */
 
 /* VARIABLES: START */
@@ -11,6 +12,7 @@
     --site-language-flex-alignment: flex-start;
     --viewport-height: 100vh;
     --background-height: 100vh;
+
     /* VARIABLES - GENERAL: END */
 
     /* VARIABLES - COLORS: START */
@@ -18,23 +20,27 @@
     /* VARIABLES - COLORS - BACKGROUND: START */
 
     /* VARIABLES - COLORS - BACKGROUND - #1: START */
+
     /* base: hsl(230, 25%, 10%) */
     --rbg-1: 230, 25%, 10%;
     --bg-1: hsl(var(--rbg-1));
-    --bg-1-1: hsl(229, 24%, 15%);
-    --bg-1-2: hsl(228, 23%, 20%);
-    --bg-1-3: hsl(227, 22%, 25%);
-    --bg-1-4: hsl(226, 21%, 30%);
-    --bg-1-5: hsl(225, 20%, 35%);
-    --bg-1-6: hsl(224, 19%, 40%);
+    --bg-1-1: hsl(229deg 24% 15%);
+    --bg-1-2: hsl(228deg 23% 20%);
+    --bg-1-3: hsl(227deg 22% 25%);
+    --bg-1-4: hsl(226deg 21% 30%);
+    --bg-1-5: hsl(225deg 20% 35%);
+    --bg-1-6: hsl(224deg 19% 40%);
+
     /* VARIABLES - COLORS - BACKGROUND - #1: END */
 
     /* VARIABLES - COLORS - BACKGROUND - #2: START */
+
     /* base: hsl(232, 22%, 40%); */
     --rbg-2: 232, 22%, 40%;
     --bg-2: hsl(var(--rbg-2));
-    --bg-2-1: hsl(231, 21%, 47%);
-    --bg-2-2: hsl(230, 20%, 54%);
+    --bg-2-1: hsl(231deg 21% 47%);
+    --bg-2-2: hsl(230deg 20% 54%);
+
     /* VARIABLES - COLORS - BACKGROUND - #2: END */
 
     /* VARIABLES - COLORS - BACKGROUND: END */
@@ -42,38 +48,46 @@
     /* VARIABLES - COLORS - FOREGOUND: START */
 
     /* VARIABLES - COLORS - FOREGOUND - #1: START */
+
     /* base: hsl(260, 50%, 70%); */
     --rfg-1: 260, 50%, 70%;
     --fg-1: hsl(var(--rfg-1));
-    --fg-1-1: hsl(260, 51%, 65%);
-    --fg-1-2: hsl(260, 52%, 60%);
-    --fg-1-3: hsl(260, 53%, 55%);
+    --fg-1-1: hsl(260deg 51% 65%);
+    --fg-1-2: hsl(260deg 52% 60%);
+    --fg-1-3: hsl(260deg 53% 55%);
+
     /* VARIABLES - COLORS - FOREGOUND - #1: END */
 
     /* VARIABLES - COLORS - FOREGOUND - #2: START */
+
     /* base: hsl(326, 70%, 70%); */
     --rfg-2: 326, 70%, 70%;
     --fg-2: hsl(var(--rfg-2));
-    --fg-2-1: hsl(326, 75%, 65%);
-    --fg-2-2: hsl(326, 80%, 60%);
-    --fg-2-3: hsl(326, 85%, 55%);
+    --fg-2-1: hsl(326deg 75% 65%);
+    --fg-2-2: hsl(326deg 80% 60%);
+    --fg-2-3: hsl(326deg 85% 55%);
+
     /* VARIABLES - COLORS - FOREGOUND - #2: END */
 
     /* VARIABLES - COLORS - FOREGOUND - #3: START */
+
     /* base: hsl(321, 100%, 81%) */
     --rfg-3: 321, 100%, 81%;
     --fg-3: hsl(var(--rfg-3));
+
     /* VARIABLES - COLORS - FOREGOUND - #3: END */
 
     /* VARIABLES - COLORS - FOREGOUND: END */
 
     /* VARIABLES - COLORS - STATUS: START */
-    --error-1: hsl(0, 80%, 65%);
-    --valid-1: hsl(120, 60%, 65%);
+    --error-1: hsl(0deg 80% 65%);
+    --valid-1: hsl(120deg 60% 65%);
+
     /* VARIABLES - COLORS - STATUS: END */
 
     /* VARIABLES - COLORS - EFFECTS: START */
     --neon: 260, 90%, 74%;
+
     /* VARIABLES - COLORS - EFFECTS: END */
 
     /* VARIABLES - COLORS: END */
@@ -90,6 +104,7 @@
     --space-xl: clamp(3.94rem, calc(3.72rem + 1.1vw), 4.5rem);
     --space-2xl: clamp(5.25rem, calc(4.96rem + 1.46vw), 6rem);
     --space-3xl: clamp(7.88rem, calc(7.44rem + 2.2vw), 9rem);
+
     /* VARIABLES - SPACES - STANDALONE: END */
 
     /* VARIABLES - SPACES - ONE-UP PAIRS: START */
@@ -101,13 +116,79 @@
     --space-l-xl: clamp(2.63rem, calc(1.89rem + 3.66vw), 4.5rem);
     --space-xl-2xl: clamp(3.94rem, calc(3.13rem + 4.02vw), 6rem);
     --space-2xl-3xl: clamp(5.25rem, calc(3.79rem + 7.32vw), 9rem);
+
     /* VARIABLES - SPACES - ONE-UP PAIRS: END */
 
     /* VARIABLES - SPACES - CUSTOM PAIRS: START */
     --space-s-l: clamp(1.31rem, calc(0.65rem + 3.29vw), 3rem);
+
     /* VARIABLES - SPACES - CUSTOM PAIRS: END */
 
     /* VARIABLES - SPACES: END */
+}
+
+:root {
+    --rbg-1: 240, 30%, 98%;
+    --bg-1: hsl(var(--rbg-1));
+    --bg-1-1: hsl(240deg 28% 96%);
+    --bg-1-2: hsl(238deg 25% 92%);
+    --bg-1-3: hsl(236deg 22% 86%);
+    --bg-1-4: hsl(234deg 18% 78%);
+    --bg-1-5: hsl(232deg 16% 68%);
+    --bg-1-6: hsl(230deg 14% 56%);
+    --rbg-2: 232, 18%, 74%;
+    --bg-2: hsl(var(--rbg-2));
+    --bg-2-1: hsl(232deg 20% 65%);
+    --bg-2-2: hsl(232deg 22% 56%);
+    --rfg-1: 262, 62%, 42%;
+    --fg-1: hsl(var(--rfg-1));
+    --fg-1-1: hsl(262deg 62% 36%);
+    --fg-1-2: hsl(262deg 64% 30%);
+    --fg-1-3: hsl(262deg 66% 24%);
+    --rfg-2: 326, 68%, 46%;
+    --fg-2: hsl(var(--rfg-2));
+    --fg-2-1: hsl(326deg 70% 40%);
+    --fg-2-2: hsl(326deg 72% 34%);
+    --fg-2-3: hsl(326deg 74% 28%);
+    --rfg-3: 321, 75%, 46%;
+    --fg-3: hsl(var(--rfg-3));
+    --text-1: hsl(235deg 20% 16%);
+    --text-2: hsl(235deg 12% 32%);
+    --text-strong: hsl(235deg 24% 10%);
+
+    color-scheme: light;
+}
+
+html[data-theme="dark"] {
+    --rbg-1: 230, 25%, 10%;
+    --bg-1: hsl(var(--rbg-1));
+    --bg-1-1: hsl(229deg 24% 15%);
+    --bg-1-2: hsl(228deg 23% 20%);
+    --bg-1-3: hsl(227deg 22% 25%);
+    --bg-1-4: hsl(226deg 21% 30%);
+    --bg-1-5: hsl(225deg 20% 35%);
+    --bg-1-6: hsl(224deg 19% 40%);
+    --rbg-2: 232, 22%, 40%;
+    --bg-2: hsl(var(--rbg-2));
+    --bg-2-1: hsl(231deg 21% 47%);
+    --bg-2-2: hsl(230deg 20% 54%);
+    --rfg-1: 260, 50%, 70%;
+    --fg-1: hsl(var(--rfg-1));
+    --fg-1-1: hsl(260deg 51% 65%);
+    --fg-1-2: hsl(260deg 52% 60%);
+    --fg-1-3: hsl(260deg 53% 55%);
+    --rfg-2: 326, 70%, 70%;
+    --fg-2: hsl(var(--rfg-2));
+    --fg-2-1: hsl(326deg 75% 65%);
+    --fg-2-2: hsl(326deg 80% 60%);
+    --fg-2-3: hsl(326deg 85% 55%);
+    --rfg-3: 321, 100%, 81%;
+    --fg-3: hsl(var(--rfg-3));
+    --text-1: hsl(250deg 25% 88%);
+    --text-2: hsl(250deg 18% 74%);
+    --text-strong: #fff;
+
+    color-scheme: dark;
 }
 
 /* VARIABLES: END */
@@ -118,7 +199,8 @@ body {
     background-color: var(
         --bg-1
     ) !important; /* override `./downloaded/browserux.css` */
-    color: var(--fg-1) !important; /* override `./downloaded/browserux.css` */
+
+    color: var(--text-1) !important; /* override `./downloaded/browserux.css` */
 }
 
 /* COLOR: END */
@@ -135,10 +217,9 @@ h6 {
 }
 
 h1 {
-    font-size: 40px;
     margin: 0.5em 0;
-    color: #ffffff;
-    font-family: "Roboto", sans-serif;
+    color: var(--text-strong);
+    font-family: Roboto, sans-serif;
     font-size: 2.5em;
     line-height: 1.25;
     font-weight: 900;
@@ -156,18 +237,22 @@ h2 {
     font-size: 32px;
     margin: 0.45em 0;
 }
+
 h3 {
     font-size: 26px;
     margin: 0.4em 0;
 }
+
 h4 {
     font-size: 20px;
     margin: 0.35em 0;
 }
+
 h5 {
     font-size: 16px;
     margin: 0.3em 0;
 }
+
 h6 {
     font-size: 14px;
     margin: 0.25em 0;
@@ -195,6 +280,27 @@ header {
 
 /* ICONS: END */
 
+/* SVG ICONS: START */
+.svg-icon {
+    display: inline-block;
+    background-color: var(--text-1);
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
+.icons .svg-icon {
+    width: 40px;
+    height: 40px;
+}
+.hamburger-dropdown .svg-icon {
+    width: 20px;
+    height: 20px;
+}
+/* SVG ICONS: END */
+
 /* BUTTONS: START */
 
 button.styled, .styled-button {
@@ -203,13 +309,11 @@ button.styled, .styled-button {
     text-transform: uppercase;
     letter-spacing: 2.5px;
     font-weight: 500;
-    color: #000;
+    color: var(--bg-1);
     background-color: var(--fg-1);
     border: none;
     border-radius: 45px;
-    -webkit-box-shadow: 0px 8px 15px hsla(0, 0, 0, 0.1);
-    box-shadow: 0px 8px 15px hsla(0, 0, 0, 0.1);
-    -webkit-transition: all 0.3s ease 0s;
+    box-shadow: 0 8px 15px hsl(0deg 0 0 / 10%);
     transition: all 0.3s ease 0s;
     cursor: pointer;
     outline: none;
@@ -217,20 +321,14 @@ button.styled, .styled-button {
 
 button.styled:hover, .styled-button:hover {
     background-color: hsl(var(--neon));
-    -webkit-box-shadow: 0px 15px 20px hsla(var(--neon), 0.4);
-    box-shadow: 0px 15px 20px hsla(var(--neon), 0.4);
-    color: #fff;
-    -webkit-transform: translateY(-7px);
-    -ms-transform: translateY(-7px);
+    box-shadow: 0 15px 20px hsl(var(--neon), 0.4);
+    color: var(--bg-1);
     transform: translateY(-7px);
 }
 
 button.styled:active, .styled-button:active {
     background-color: var(--fg-1);
-    -webkit-box-shadow: 0px 15px 20px hsla(var(--rfg-1), 0.4);
-    box-shadow: 0px 15px 20px hsla(var(--rfg-1), 0.4);
-    -webkit-transform: translateY(-1px);
-    -ms-transform: translateY(-1px);
+    box-shadow: 0 15px 20px hsl(var(--rfg-1), 0.4);
     transform: translateY(-1px);
 }
 
@@ -238,13 +336,13 @@ button.styled:disabled,
 button.styled[disabled],
 .styled-button:disabled,
 .styled-button[disabled] {
-    -webkit-box-shadow: none !important;
     box-shadow: none !important;
-    -webkit-transform: none !important;
-    -ms-transform: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    transform: none !important;
     transform: none !important;
     cursor: not-allowed !important;
-    background-color: hsla(var(--rfg-1), 0.5) !important;
+    background-color: hsl(var(--rfg-1), 0.5) !important;
 }
 
 /* BUTTONS: END */
@@ -266,6 +364,12 @@ button.styled[disabled],
 }
 
 #main {
+    --alignment: center;
+    --flex-alignment: center;
+    --width: 55rem;
+    --padding-vertical: 3.5rem;
+    --padding-horizontal: 3.5rem;
+
     display: flex;
     max-width: 100%;
     position: relative;
@@ -274,15 +378,6 @@ button.styled[disabled],
     justify-content: center;
     flex-grow: 0;
     flex-shrink: 0;
-    --alignment: center;
-    --flex-alignment: center;
-    --width: 55rem;
-    --padding-vertical: 3.5rem;
-    --padding-horizontal: 3.5rem;
-    transition:
-        opacity 1.125s ease 0s,
-        transform 1.125s ease 0s;
-    transform: perspective(1000px) rotateY(0deg);
     transform-origin: 50% 50%;
     opacity: 1 !important;
     transform: none !important;
@@ -339,7 +434,51 @@ p {
 }
 
 hr .inner {
-    margin: 0.5em 0 0.5em;
+    margin: 0.5em 0;
 }
 
 /* OTHER: END */
+
+/* HAMBURGER MENU: START */
+.hamburger-menu {
+    position: relative;
+    display: inline-block;
+}
+.hamburger-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: var(--bg-1-2);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    z-index: 1000;
+    min-width: 150px;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+}
+.hamburger-dropdown.show {
+    display: flex;
+}
+.hamburger-dropdown > button, .hamburger-dropdown > a {
+    background: none;
+    border: none;
+    color: var(--text-1);
+    padding: 12px 16px;
+    text-align: left;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+.hamburger-dropdown > button:hover, .hamburger-dropdown > a:hover {
+    background-color: var(--bg-1-4);
+}
+.hamburger-dropdown > button > img, .hamburger-dropdown > a > img {
+    height: 20px;
+    width: 20px;
+}
+/* HAMBURGER MENU: END */
