@@ -1,4 +1,8 @@
+/* IMPORTS: START */
 @import url("/static/stylesheets/downloaded/fontawesome.css");
+/* IMPORTS: END */
+
+/* TOAST CONTAINER: START */
 
 #toast {
     position: fixed;
@@ -39,6 +43,10 @@
     }
 }
 
+/* TOAST CONTAINER: END */
+
+/* TOAST VARIANTS: START */
+
 .toast--success {
     border-color: #47d864;
 }
@@ -75,6 +83,10 @@
     margin-top: 24px;
 }
 
+/* TOAST VARIANTS: END */
+
+/* TOAST CONTENT: START */
+
 .toast__icon {
     font-size: 24px;
 }
@@ -106,3 +118,5 @@
     color: rgb(0 0 0 / 30%);
     cursor: pointer;
 }
+
+/* TOAST CONTENT: END */

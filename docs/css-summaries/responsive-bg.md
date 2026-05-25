@@ -1,6 +1,6 @@
 # CSS Summary: `responsive-bg.css`
 
-> Generated on 2026-05-26 00:02  
+> Generated on 2026-05-26 01:36  
 > Source: `src/static/stylesheets/responsive-bg.css`
 
 ## Lint Results
@@ -9,5 +9,6 @@
 ## Section Tree
 
 ```
-(no sections)
+.
+└── RESPONSIVE BACKGROUND  (line 1-46)
 ```

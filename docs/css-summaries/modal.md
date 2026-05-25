@@ -1,6 +1,6 @@
 # CSS Summary: `modal.css`
 
-> Generated on 2026-05-26 00:02  
+> Generated on 2026-05-26 01:36  
 > Source: `src/static/stylesheets/modal.css`
 
 ## Lint Results
@@ -9,5 +9,7 @@
 ## Section Tree
 
 ```
-(no sections)
+.
+├── MODAL CONTAINER  (line 1-70)
+└── MODAL CONTENT  (line 72-114)
 ```

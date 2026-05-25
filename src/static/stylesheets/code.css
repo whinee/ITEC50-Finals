@@ -1,4 +1,8 @@
+/* IMPORTS: START */
 @import url("/static/stylesheets/fonts/inconsolata.css");
+/* IMPORTS: END */
+
+/* LAYOUT AND TYPOGRAPHY: START */
 
 #wrapper {
     padding: 0 !important;
@@ -67,6 +71,10 @@ h1 {
     margin-left: 2em !important;
 }
 
+/* LAYOUT AND TYPOGRAPHY: END */
+
+/* LINKS: START */
+
 a {
     color: var(--text-strong);
     text-decoration: none;
@@ -79,6 +87,8 @@ a::before {
 a::after {
     content: "]";
 }
+
+/* LINKS: END */
 
 /* RESPONSIVE CSS: START */
 

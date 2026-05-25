@@ -1,6 +1,6 @@
 # CSS Summary: `responsive-base.css`
 
-> Generated on 2026-05-26 00:02  
+> Generated on 2026-05-26 01:36  
 > Source: `src/static/stylesheets/responsive-base.css`
 
 ## Lint Results
@@ -9,5 +9,6 @@
 ## Section Tree
 
 ```
-(no sections)
+.
+└── RESPONSIVE BASE  (line 1-96)
 ```

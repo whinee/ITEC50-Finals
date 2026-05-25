@@ -1,3 +1,5 @@
+/* MODAL CONTAINER: START */
+
 #openModal {
     background: transparent;
     border: none;
@@ -65,6 +67,10 @@
     margin-top: 16px;
 }
 
+/* MODAL CONTAINER: END */
+
+/* MODAL CONTENT: START */
+
 .settings-group {
     display: grid;
     gap: 12px;
@@ -104,3 +110,5 @@
     color: var(--bg-1);
     font-weight: 800;
 }
+
+/* MODAL CONTENT: END */

@@ -1,3 +1,5 @@
+/* RESPONSIVE BASE: START */
+
 @media (width <= 1920px) {
     #wrapper {
         padding-top: 60px;
@@ -90,3 +92,5 @@
         padding-top: 120px;
     }
 }
+
+/* RESPONSIVE BASE: END */

@@ -11,7 +11,7 @@
                     The ultra-fast, systematically organized bookmark manager tailored for professionals who need order in the chaos of the web.
                 </p>
                 <div class="landing-stats">
-                    Currently anchoring <span>{{ total_bookmarks }}</span> bookmarks globally.
+                    Currently anchoring <span>{{ '{:,}'.format(total_bookmarks) }}</span> bookmarks for <span>{{ '{:,}'.format(total_users) }}</span> users globally.
                 </div>
                 <div class="landing-actions">
                     <a href="/login" class="landing-btn landing-btn-primary">Get Started</a>

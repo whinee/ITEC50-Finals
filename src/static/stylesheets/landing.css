@@ -1,3 +1,5 @@
+/* OVERRIDES AND GLOBALS: START */
+
 #wrapper {
     max-width: unset !important;
     padding-top: unset !important;
@@ -12,6 +14,9 @@ header {
     z-index: 1000;
 }
 
+/* OVERRIDES AND GLOBALS: END */
+
+/* HERO SECTION: START */
 /* LANDING PAGE STYLES */
 .landing-hero {
     display: flex;
@@ -62,6 +67,9 @@ header {
     100% { transform: translate(-10%, -5%) scale(0.9); }
 }
 
+/* HERO SECTION: END */
+
+/* TYPOGRAPHY AND CONTENT: START */
 .landing-title {
     font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 800;
@@ -109,6 +117,9 @@ header {
     font-size: 1.8rem;
 }
 
+/* TYPOGRAPHY AND CONTENT: END */
+
+/* BUTTONS AND ACTIONS: START */
 .landing-actions {
     display: flex;
     gap: 1.5rem;
@@ -150,6 +161,9 @@ header {
     transform: translateY(-3px);
 }
 
+/* BUTTONS AND ACTIONS: END */
+
+/* FEATURES: START */
 .landing-features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -192,6 +206,9 @@ header {
     line-height: 1.6;
 }
 
+/* FEATURES: END */
+
+/* ANIMATIONS: START */
 /* Animations */
 @keyframes fadeInDown {
     from {
@@ -226,6 +243,9 @@ header {
     }
 }
 
+/* ANIMATIONS: END */
+
+/* MEDIA QUERIES: START */
 /* MOBILE RESPONSIVENESS */
 @media (width <= 480px) {
     .landing-actions {
@@ -251,3 +271,5 @@ header {
         padding: 1.5rem;
     }
 }
+
+/* MEDIA QUERIES: END */

@@ -1,9 +1,11 @@
 import asyncio
 import json
 import os
+import random
 import secrets
 import sys
-from datetime import UTC, datetime
+import time
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 # Ensure the root directory is on the path so we can import 'src'
@@ -11,14 +13,15 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from cryptography.hazmat.primitives.kdf.argon2 import Argon2id
 from faker import Faker
+from sqlalchemy import text
+from sqlmodel import insert
 
 from src.db.main import async_session
-from src.schema import (
-    Bookmark,
-    JDNode,
-    Tag,
-    User,
-)
+from src.schema import Bookmark, JDNode, Tag, User
+
+# Junction tables
+bookmark_tag_junction = Tag.bookmarks.property.secondary  # type: ignore
+bookmark_jd_junction = JDNode.bookmarks.property.secondary  # type: ignore
 
 fake = Faker()
 
@@ -42,8 +45,6 @@ def hash_password(password: str) -> str:
 
 async def clear_data(session) -> None:
     print("Clearing existing data...")
-    from sqlalchemy import text
-
     await session.execute(
         text(
             "TRUNCATE TABLE bookmark_jd_junction, bookmark_tag_junction, bookmarks, jd_nodes, tags, users CASCADE",
@@ -52,9 +53,205 @@ async def clear_data(session) -> None:
     await session.commit()
 
 
-async def create_users(session, count: int = 1000) -> list[User]:
-    print(f"Creating {count} demo users...")
+def generate_jd_code() -> str:
+    part1 = "".join(
+        str(random.randint(0, 9)) for _ in range(random.randint(2, 5))  # noqa: S311
+    )
+    part2 = "".join(
+        str(random.randint(0, 9)) for _ in range(random.randint(2, 5))  # noqa: S311
+    )
+    code = f"{part1}.{part2}"
+    if random.random() > 0.5:  # noqa: S311
+        # Pre-generated list of words for speed
+        words = [
+            "tech",
+            "news",
+            "code",
+            "design",
+            "work",
+            "lyra",
+            "school",
+            "project",
+            "dev",
+        ]
+        code += f"+{random.choice(words)}"  # noqa: S311
+    return code
+
+
+def random_date(start: datetime, end: datetime) -> datetime:
+    delta = end - start
+    int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
+    if int_delta <= 0:
+        return start
+    random_second = random.randrange(int_delta)  # noqa: S311
+    return start + timedelta(seconds=random_second)
+
+
+async def process_user(  # noqa: C901
+    session,
+    user_data: dict,
+    index: int,
+    user_password_hash: str,
+    next_tag_id: int,
+    next_jd_id: int,
+    next_bookmark_id: int,
+) -> tuple[int, int, int]:
     now = datetime.now(UTC)
+    epoch = datetime(1970, 1, 1, tzinfo=UTC)
+
+    # 1. Create User
+    user_created = random_date(epoch, now)
+    user_updated = (
+        random_date(user_created, now)
+        if random.random() > 0.5  # noqa: S311
+        else user_created
+    )
+
+    # Insert User
+    user_id = index + 1
+    await session.execute(
+        insert(User).values(
+            id=user_id,
+            username=user_data["username"],
+            email=user_data["email"],
+            password=user_password_hash,
+            role=user_data["role"],
+            created_at=user_created,
+            updated_at=user_updated,
+            disabled=False,
+        ),
+    )
+
+    # 2. Determine counts
+    bookmark_count = random.randint(3000, 10000)  # noqa: S311
+    # The user asked for tag counts to be 10-20% of bookmark count
+    tag_count = max(
+        1,
+        random.randint(  # noqa: S311
+            int(bookmark_count * 0.1),
+            int(bookmark_count * 0.2),
+        ),
+    )
+    jd_count = random.randint(5, 10)  # noqa: S311
+
+    print(
+        f"User {user_id}: Generating {tag_count} Tags, {jd_count} JDs, {bookmark_count} Bookmarks",
+    )
+
+    # 3. Create Tags (Chunked Insert)
+    tag_ids = []
+    tag_batch = []
+    for _ in range(tag_count):
+        t_id = next_tag_id
+        next_tag_id += 1
+        tag_ids.append(t_id)
+        t_created = random_date(user_created, now)
+        tag_batch.append(
+            {
+                "id": t_id,
+                "user_id": user_id,
+                "title": f"tag_{t_id}_{random.randint(1,1000)}",  # noqa: S311
+                "color": f"#{random.randint(0, 0xFFFFFF):06x}",  # noqa: S311
+                "note": "Bulk generated tag",
+                "created_at": t_created,
+                "updated_at": t_created,
+            },
+        )
+        if len(tag_batch) >= 5000:
+            await session.execute(insert(Tag).values(tag_batch))
+            tag_batch = []
+    if tag_batch:
+        await session.execute(insert(Tag).values(tag_batch))
+
+    # 4. Create JDs
+    jd_ids = []
+    jd_batch = []
+    for _ in range(jd_count):
+        j_id = next_jd_id
+        next_jd_id += 1
+        jd_ids.append(j_id)
+        jd_batch.append(
+            {
+                "id": j_id,
+                "user_id": user_id,
+                "code": generate_jd_code(),
+            },
+        )
+    if jd_batch:
+        await session.execute(insert(JDNode).values(jd_batch))
+
+    # 5. Create Bookmarks & Junctions (Chunked Insert)
+    b_batch = []
+    b_tag_batch = []
+    b_jd_batch = []
+
+    # Pre-generate some fast random strings to avoid Faker overhead in the massive loop
+    titles = [f"Amazing resource {i}" for i in range(100)]
+    urls = [f"https://example.com/{random.randint(1, 100000)}" for _ in range(100)]
+
+    for b_idx in range(bookmark_count):
+        b_id = next_bookmark_id
+        next_bookmark_id += 1
+        b_created = random_date(user_created, now)
+        b_updated = random_date(b_created, now) if random.random() > 0.5 else b_created
+
+        b_batch.append(
+            {
+                "id": b_id,
+                "user_id": user_id,
+                "title": random.choice(titles) + f" {b_idx}",  # noqa: S311
+                "url": random.choice(urls),  # noqa: S311
+                "note": None,
+                "created_at": b_created,
+                "updated_at": b_updated,
+            },
+        )
+
+        # Attach 1-3 random tags
+        if tag_ids:
+            num_tags = random.randint(1, min(3, len(tag_ids)))  # noqa: S311
+            sampled_tags = random.sample(tag_ids, num_tags)
+            for t_id in sampled_tags:
+                b_tag_batch.append({"bookmark_id": b_id, "tag_id": t_id})
+
+        # Attach 1-3 random JDs
+        if jd_ids:
+            num_jds = random.randint(1, min(3, len(jd_ids)))  # noqa: S311
+            sampled_jds = random.sample(jd_ids, num_jds)
+            for j_id in sampled_jds:
+                b_jd_batch.append({"bookmark_id": b_id, "jd_node_id": j_id})
+
+        if len(b_batch) >= 5000:
+            await session.execute(insert(Bookmark).values(b_batch))
+            if b_tag_batch:
+                await session.execute(insert(bookmark_tag_junction).values(b_tag_batch))
+            if b_jd_batch:
+                await session.execute(insert(bookmark_jd_junction).values(b_jd_batch))
+            b_batch = []
+            b_tag_batch = []
+            b_jd_batch = []
+            # Commit mid-user to keep RAM extremely low
+            await session.commit()
+            print(f"  Inserted {b_idx + 1} / {bookmark_count} bookmarks...", end="\r")
+
+    if b_batch:
+        await session.execute(insert(Bookmark).values(b_batch))
+        if b_tag_batch:
+            await session.execute(insert(bookmark_tag_junction).values(b_tag_batch))
+        if b_jd_batch:
+            await session.execute(insert(bookmark_jd_junction).values(b_jd_batch))
+
+    await session.commit()
+    print(f"\nUser {user_id} complete.")
+
+    return next_tag_id, next_jd_id, next_bookmark_id
+
+
+async def main() -> None:
+    # 1. Prepare User Data
+    count = 100
+    print(f"Preparing to seed {count} users and millions of bookmarks...")
+
     users_data = [
         {
             "username": "admin",
@@ -71,210 +268,88 @@ async def create_users(session, count: int = 1000) -> list[User]:
     ]
 
     preexisting_users_count = len(users_data)
-
-    # Generate additional users up to 'count'
     for n in range(max(0, count - preexisting_users_count)):
-        print("User #", preexisting_users_count + n, sep="")
         users_data.append(
             {
-                "username": fake.unique.user_name()[:32],
-                "email": fake.unique.email(),
-                "password": fake.password(
-                    length=12,
-                    special_chars=True,
-                    digits=True,
-                    upper_case=True,
-                    lower_case=True,
-                ),
-                "role": secrets.SystemRandom().choice(["admin", "normal"]),
+                "username": f"user_{n}_{secrets.token_hex(4)}",
+                "email": f"user_{n}_{secrets.token_hex(4)}@example.com",
+                "password": "password123!",
+                "role": random.choice(["admin", "normal"]),  # noqa: S311
             },
         )
 
-    created_users = []
-    credentials = []
+    # Cache password hash for speed (salting identically for fake users to save 10,000 Argon2 hashes which takes forever)
+    print("Hashing passwords...")
+    admin_hash = hash_password(users_data[0]["password"])
+    demo_hash = hash_password(users_data[1]["password"])
+    fake_hash = hash_password("password123!")
 
-    for data in users_data:
-        user = User(
-            username=data["username"],
-            email=data["email"],
-            password=hash_password(data["password"]),
-            role=data["role"],
-            created_at=now,
-            updated_at=now,
-            disabled=False,
-        )  # type: ignore
-        session.add(user)
-        created_users.append(user)
-        credentials.append(
-            {
-                "username": data["username"],
-                "email": data["email"],
-                "password": data["password"],
-                "role": data["role"],
-            },
-        )
-
-    await session.commit()
-
-    creds_path = Path(__file__).parent.parent / "seed_credentials.json"
-    with open(creds_path, "w") as f:
-        json.dump(credentials, f, indent=2)
-    print(f"Saved {len(credentials)} user credentials to {creds_path}")
-
-    return created_users
-
-
-async def create_tags(
-    session,
-    users: list[User],
-    user_tag_counts: dict[int, int],
-) -> dict[int, list[Tag]]:
-    print("Creating tags...")
-    user_tags = {}
-
-    for user in users:
-        tags = []
-        for _ in range(user_tag_counts.get(user.id, 5)):
-            name = fake.unique.word()
-            created = fake.date_time_between(
-                start_date=user.created_at,
-                end_date="now",
-                tzinfo=UTC,
-            )
-            updated = (
-                fake.date_time_between(start_date=created, end_date="now", tzinfo=UTC)
-                if secrets.SystemRandom().random() > 0.5
-                else created
-            )
-            tag = Tag(
-                user_id=user.id,
-                title=name[:32],  # max length constraint
-                color=fake.hex_color(),
-                note=fake.sentence(),
-                created_at=created,
-                updated_at=updated,
-            )
-            session.add(tag)
-            tags.append(tag)
-        fake.unique.clear()
-        user_tags[user.id] = tags
-
-    await session.commit()
-    return user_tags
-
-
-def generate_jd_code() -> str:
-    part1 = "".join(
-        str(secrets.SystemRandom().randint(0, 9))
-        for _ in range(secrets.SystemRandom().randint(2, 5))
-    )
-    part2 = "".join(
-        str(secrets.SystemRandom().randint(0, 9))
-        for _ in range(secrets.SystemRandom().randint(2, 5))
-    )
-    code = f"{part1}.{part2}"
-    if secrets.SystemRandom().random() > 0.5:
-        code += f"+{fake.word()}"
-    return code
-
-
-async def create_jd_nodes(session, users: list[User]) -> dict[int, list[JDNode]]:
-    print("Creating JD nodes...")
-    user_nodes = {}
-
-    for user in users:
-        nodes = []
-        for _ in range(secrets.SystemRandom().randint(5, 10)):
-            node = JDNode(
-                user_id=user.id,
-                code=generate_jd_code(),
-            )
-            session.add(node)
-            nodes.append(node)
-        user_nodes[user.id] = nodes
-
-    await session.commit()
-    return user_nodes
-
-
-async def create_bookmarks(
-    session,
-    users: list[User],
-    user_tags: dict[int, list[Tag]],
-    user_nodes: dict[int, list[JDNode]],
-    user_bookmark_counts: dict[int, int],
-) -> None:
-    print("Creating bookmarks...")
-    for user in users:
-        tags_for_user = user_tags[user.id]
-        nodes_for_user = user_nodes[user.id]
-
-        for _ in range(user_bookmark_counts.get(user.id, 30)):
-            created = fake.date_time_between(
-                start_date=user.created_at,
-                end_date="now",
-                tzinfo=UTC,
-            )
-            updated = (
-                fake.date_time_between(start_date=created, end_date="now", tzinfo=UTC)
-                if secrets.SystemRandom().random() > 0.5
-                else created
-            )
-            bookmark = Bookmark(
-                user_id=user.id,
-                title=fake.sentence(nb_words=6),
-                url=fake.url(),
-                note=(
-                    fake.paragraph(nb_sentences=3)
-                    if secrets.SystemRandom().random() > 0.5
-                    else None
-                ),
-                created_at=created,
-                updated_at=updated,
-            )
-
-            if tags_for_user:
-                k_tags = secrets.SystemRandom().randint(1, min(3, len(tags_for_user)))
-                bookmark.tags = secrets.SystemRandom().sample(tags_for_user, k=k_tags)
-
-            if nodes_for_user:
-                k_nodes = secrets.SystemRandom().randint(1, min(3, len(nodes_for_user)))
-                bookmark.jd_nodes = secrets.SystemRandom().sample(
-                    nodes_for_user,
-                    k=k_nodes,
-                )
-
-            session.add(bookmark)
-
-    await session.commit()
-
-
-async def main() -> None:
+    # 2. Execution
     async with async_session() as session:
         await clear_data(session)
-        users = await create_users(session, count=10000)
 
-        user_bookmark_counts = {
-            user.id: secrets.SystemRandom().randint(30000, 100000) for user in users
-        }
-        user_tag_counts = {
-            user_id: max(
-                1,
-                secrets.SystemRandom().randint(int(bc * 0.1), int(bc * 0.2)),
+        # Save credentials
+        creds_path = Path(__file__).parent.parent / "seed_credentials.json"
+        with open(creds_path, "w") as f:
+            json.dump(
+                [
+                    {
+                        "username": d["username"],
+                        "email": d["email"],
+                        "password": d["password"],
+                        "role": d["role"],
+                    }
+                    for d in users_data
+                ],
+                f,
+                indent=2,
             )
-            for user_id, bc in user_bookmark_counts.items()
-        }
 
-        user_tags = await create_tags(session, users, user_tag_counts)
-        user_nodes = await create_jd_nodes(session, users)
-        await create_bookmarks(
-            session,
-            users,
-            user_tags,
-            user_nodes,
-            user_bookmark_counts,
+        print("Starting bulk generation loop...")
+        start_time = time.time()
+
+        next_tag_id = 1
+        next_jd_id = 1
+        next_bookmark_id = 1
+
+        for idx, u_data in enumerate(users_data):
+            pw_hash = admin_hash if idx == 0 else demo_hash if idx == 1 else fake_hash
+            next_tag_id, next_jd_id, next_bookmark_id = await process_user(
+                session,
+                u_data,
+                idx,
+                pw_hash,
+                next_tag_id,
+                next_jd_id,
+                next_bookmark_id,
+            )
+
+        # Reset sequences since we manually inserted IDs
+        print("Resetting sequences...")
+        await session.execute(  # pyright: ignore[reportDeprecated]
+            text(
+                "SELECT setval(pg_get_serial_sequence('users', 'id'), coalesce(max(id), 1)) FROM users;",
+            ),
         )
-        print("Seeding completed successfully!")
+        await session.execute(  # pyright: ignore[reportDeprecated]
+            text(
+                "SELECT setval(pg_get_serial_sequence('tags', 'id'), coalesce(max(id), 1)) FROM tags;",
+            ),
+        )
+        await session.execute(  # pyright: ignore[reportDeprecated]
+            text(
+                "SELECT setval(pg_get_serial_sequence('jd_nodes', 'id'), coalesce(max(id), 1)) FROM jd_nodes;",
+            ),
+        )
+        await session.execute(  # pyright: ignore[reportDeprecated]
+            text(
+                "SELECT setval(pg_get_serial_sequence('bookmarks', 'id'), coalesce(max(id), 1)) FROM bookmarks;",
+            ),
+        )
+        await session.commit()
+
+        duration = time.time() - start_time
+        print(f"\nSeeding completed successfully in {duration:.2f} seconds!")
 
 
 if __name__ == "__main__":

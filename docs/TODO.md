@@ -14,15 +14,18 @@
 
 ## Backend
 
-- [ ] Convert HTTP Exceptions to flash messages where necessary
+- [ ] Fix authorized pages so that they shall be inacessible when a lingering token is used for a user that no longer exist in the database
+- [ ] Fix HTTP Exceptions to be flash messages where necessary
 - [ ] Add SMTP server for 2FA and E-mail verification
 - [ ] Add Captcha, TOTP/MFA, and rate limiting to the following endpoints:
   - [ ] `/auth/login`
   - [ ] `/auth/register`
 - [ ] Add SSO and OIDC authentication
+- [ ] Add zero-trust encryption
 
 ## Frontend
 
+- [ ] Fix frontend to show a skeleton instead of a zero or blank screen when the data is still loading
 - [ ] Fix time to be converted from UTC to local time when displayed in the frontend
 - [ ] Fix y-overflow issue, presumably due to the ever-so-present hamburger menu
 - [ ] Add comprehensive sectioning/comment to the stylesheets
@@ -31,3 +34,7 @@
 - [ ] Add functionality to generate usernames in the frontend by hitting the backend endpoint
 - [ ] Fix `.erase-input` appearing as a white button
 - [ ] Add functionality to view passwords as clear text in input
+
+## Deployment
+
+- [ ] Run `scripts/seed.py` every hour to clear the database of user inputs.

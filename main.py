@@ -24,7 +24,7 @@ from src.api import auth, bookmarks, preferences
 from src.config.settings import settings
 from src.db.main import get_session
 from src.middlewares.auth import check_page_auth
-from src.schema import Bookmark
+from src.schema import Bookmark, User
 from src.utils.custom_response import TEMPLATES, CustomResponse
 
 # Constants
@@ -111,12 +111,16 @@ async def landing_page(
     request: Request,
     session: Annotated[AsyncSession, Depends(get_session)],
 ):
-    result = await session.exec(select(func.count(Bookmark.id))) # type: ignore
-    total_bookmarks = result.one()
+    bookmark_result = await session.execute(select(func.count(Bookmark.id)))
+    total_bookmarks = bookmark_result.scalar_one()
+    
+    user_result = await session.execute(select(func.count(User.id)))
+    total_users = user_result.scalar_one()
+
     return TEMPLATES.TemplateResponse(
         request=request, 
         name="index.j2.html", 
-        context={"total_bookmarks": total_bookmarks},
+        context={"total_bookmarks": total_bookmarks, "total_users": total_users},
     )
 
 

@@ -1,20 +1,25 @@
 # CSS Summary: `landing.css`
 
-> Generated on 2026-05-26 00:02  
+> Generated on 2026-05-26 01:36  
 > Source: `src/static/stylesheets/landing.css`
 
 ## Lint Results
-> ⚠️ 1 issue(s) found
-
-- **Line 230**: [stylelint] media-feature-range-notation: Expected "context" media feature range notation
+> ✅ No lint issues found.
 
 ## Section Tree
 
 ```
 .
+├── OVERRIDES AND GLOBALS  (line 1-17)
 ├── OVERRIDE HEADER
+├── HERO SECTION  (line 19-70)
 ├── LANDING PAGE STYLES
 ├── Dynamic glowing background elements
+├── TYPOGRAPHY AND CONTENT  (line 72-120)
+├── BUTTONS AND ACTIONS  (line 122-164)
+├── FEATURES  (line 166-209)
+├── ANIMATIONS  (line 211-246)
 ├── Animations
+├── MEDIA QUERIES  (line 248-275)
 └── MOBILE RESPONSIVENESS
 ```

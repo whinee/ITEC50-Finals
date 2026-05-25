@@ -1,6 +1,6 @@
 # CSS Summary: `code.css`
 
-> Generated on 2026-05-26 00:01  
+> Generated on 2026-05-26 01:36  
 > Source: `src/static/stylesheets/code.css`
 
 ## Lint Results
@@ -10,5 +10,8 @@
 
 ```
 .
-└── RESPONSIVE CSS  (line 83-125)
+├── IMPORTS  (line 1-3)
+├── LAYOUT AND TYPOGRAPHY  (line 5-74)
+├── LINKS  (line 76-91)
+└── RESPONSIVE CSS  (line 93-135)
 ```

@@ -1,6 +1,6 @@
 # CSS Summary: `forms.css`
 
-> Generated on 2026-05-26 00:02  
+> Generated on 2026-05-26 01:36  
 > Source: `src/static/stylesheets/forms.css`
 
 ## Lint Results
@@ -10,7 +10,8 @@
 
 ```
 .
+├── FORMS  (line 1-16)
 ├── FORM
 ├── FORM BOX
-└── INPUTS  (line 14-94)
+└── INPUTS  (line 18-98)
 ```

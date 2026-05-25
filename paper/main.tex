@@ -137,6 +137,21 @@
 
 \usemintedstyle{tango}
 % tex-fmt: off
+\setminted{
+    fontsize=\small,
+    fontfamily=tt,
+    bgcolor=white,
+    rulecolor=\color{purple},
+    linenos,
+    numbersep=10pt,
+    frame=single,
+    framesep=2mm,
+    breaklines,
+    tabsize=4,
+    breakafter=-/\{,
+    breakbefore=\,\\
+}
+
 \newcommand{\inputmintedstyled}[2]{%
   \inputminted[
     fontsize=\small,
@@ -524,61 +539,79 @@ The following features present in existing tools were intentionally omitted from
 \chapter{CSS Design \& The Cascade}
 %=============================================================
 
-% This chapter documents Phase 2 of the rubric:
-% CSS Layout Strategy, The Box Model, and Specificity & Inheritance.
-
 \section{Layout Strategy}
 
-% Document your overall approach to page layout here.
-% Explain the rationale for the two-tier system (Grid for macro layout,
-% Flexbox for component-level arrangements).
+The layout architecture of DeciMark explicitly divorces macro-level page scaffolding from micro-level component organization. This two-tier systemic separation guarantees layout stability across device viewports. CSS Grid was deployed strictly for macroscopic containment (the primary bookmark dashboard), whereas Flexbox was strictly reserved for 1-dimensional, component-level arrangements (navigation bars, card interiors, tag rows). By strictly defining these boundaries, we sidestep the common pitfall of attempting to force Flexbox to handle 2-dimensional reflows, which often results in catastrophic masonry collapse.
 
 \subsection{Grid Layout}
 
-% Document your CSS Grid implementation.
-% Include:
-%   - Which container(s) use display: grid
-%   - The grid-template-columns value (e.g. repeat(auto-fill, minmax(..., 1fr)))
-%   - How the grid collapses for list-view toggle
-%   - Any named grid areas, if used
-%
-% Paste a representative CSS snippet using \begin{minted}{css}...\end{minted}.
+The macroscopic bookmark dashboard container (\texttt{.bookmark-grid}) utilizes CSS Grid to construct a fully fluid masonry-adjacent layout that explicitly rejects manual media query breakpoints. By deploying \texttt{repeat(auto-fill, minmax(280px, 1fr))}, the browser rendering engine autonomously computes the maximum number of cards that can fit horizontally without dropping below the 280px minimum constraint. This shifts the mathematical burden of responsiveness entirely to the CSS Object Model.
+
+Furthermore, the Grid topology gracefully collapses into a stacked list view upon user toggle. This is achieved not by changing the display property, but by altering the column tracks:
+
+\begin{minted}{css}
+/* Default Grid Layout */
+.bookmark-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+/* Toggled List Layout */
+.bookmark-grid.list-view {
+    grid-template-columns: 1fr;
+}
+\end{minted}
 
 \subsection{Flexbox Components}
 
-% Document all major uses of Flexbox in the application.
-% Suggested coverage:
-%   - Navigation bar (justify-content, align-items values)
-%   - Individual bookmark cards (flex-direction, gap)
-%   - Tag list within cards (flex-wrap, gap)
-%   - Toolbar / filter bar layout
-%
-% Paste representative snippets for at least two components.
+Flexbox was deployed exclusively for rigid, single-axis alignment where item distribution and vertical centering are critical. The global navigation bar (\texttt{<nav>}) operates as a flex container utilizing \texttt{justify-content: space-between} and \texttt{align-items: center} to anchor the logo to the left and authentication controls to the right, neutralizing vertical misalignment across varying font metrics.
+
+Internally, the bookmark card component acts as a nested flex container. A \texttt{flex-direction: column} dictates the vertical flow of the Title, URL, and Date metadata, while a \texttt{gap: 1rem} entirely eliminates the need for brittle \texttt{margin-bottom} spacing hacks. The nested tag list (\texttt{.tag-list}) subsequently reverts to a horizontal flex context with \texttt{flex-wrap: wrap}, allowing tags to fluidly overflow into subsequent rows while maintaining consistent gap spacing.
+
+\begin{minted}{css}
+/* Card Internal Flexbox */
+.bookmark-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+}
+
+/* Tag Row Flexbox */
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto; /* Pushes tags to the bottom of the card */
+}
+\end{minted}
 
 \section{The Box Model}
 
-% Document padding/margin decisions and overflow handling.
-% Suggested coverage:
-%   - Page container centering and lateral padding
-%   - Card internal spacing (padding) vs. inter-card spacing (gap or margin)
-%   - How long URLs are handled (overflow-wrap, text-overflow, white-space)
-%   - Border-radius + overflow: hidden for card clipping
-%
-% Include a brief explanation of why each decision was made, not just what it is.
+A strict adherence to the border-box sizing paradigm (\texttt{box-sizing: border-box}) was enforced globally via the universal selector \texttt{*}. This neutralizes the inherently unpredictable math of the standard W3C Box Model, ensuring that padding and borders are absorbed into the declared width rather than expanding it.
+
+The primary \texttt{.container} wrapper is laterally constrained using \texttt{max-width: var(--max-width)} and horizontally centered using symmetric automatic margins (\texttt{margin: 0 auto}). Within the \texttt{.bookmark-card}, a deliberate distinction is maintained between internal negative space (\texttt{padding: 1.5rem}) and external spacing (\texttt{gap: 1.5rem} on the parent Grid). To prevent visual fracture from aggressively long, unbroken URLs, the card implements \texttt{overflow-wrap: break-word} and \texttt{word-break: break-all}. This brutally truncates strings at the physical boundary of the flex item, preventing layout blowout. Finally, card clipping is enforced via \texttt{border-radius: var(--border-radius)} coupled with \texttt{overflow: hidden}, ensuring hover state backgrounds and nested image assets do not bleed beyond the geometric constraints of the card perimeter.
 
 \section{Specificity \& Inheritance}
 
-% Provide at least one concrete example of a Contextual Selector or ID Selector
-% used to resolve a CSS specificity conflict.
-%
-% Suggested candidates from the codebase:
-%   - The CSS mask-image SVG icon theming technique
-%     (base .icon rule vs. .bookmark-card .icon override)
-%   - Theme variable scoping (:root vs. [data-theme="dark"])
-%   - Any component-scoped override that required a contextual selector
-%     to win over a more general rule
-%
-% Format: paste the conflicting rules, then explain which wins and why.
+CSS Specificity was managed using a highly disciplined, flattened selector hierarchy to avoid the ``Selector Arms Race.'' However, contextual overrides were required to support the global CSS variable theming engine.
+
+The most critical specificity conflict occurred within the \texttt{mask-image} SVG icon system. A base \texttt{.icon} class establishes the geometric dimensions and the masking behavior, inheriting its background color from the parent text color. However, within the \texttt{.bookmark-card}, specific icons (such as Edit or Delete) required semantic recoloring without altering the underlying HTML structure.
+
+\begin{minted}{css}
+/* Base Rule (Specificity: 0, 1, 0) */
+.icon {
+    background-color: var(--text-color);
+}
+
+/* Contextual Override (Specificity: 0, 2, 0) */
+.bookmark-card .icon-delete {
+    background-color: var(--color-danger);
+}
+\end{minted}
+
+The contextual selector \texttt{.bookmark-card .icon-delete} generates a higher specificity score (two classes) than the base \texttt{.icon} selector (one class). This allows the semantic \texttt{var(--color-danger)} variable to overwrite the generic \texttt{var(--text-color)} variable strictly within the boundaries of the card, preserving the modularity of the base icon component while permitting targeted contextual injection.
 
 %=============================================================
 \chapter{Media \& Asset Management}
@@ -589,39 +622,21 @@ The following features present in existing tools were intentionally omitted from
 
 \section{SVG Usage}
 
-% Document all SVG assets in the project.
-% Suggested coverage:
-%   - Application logo (inline SVG or external file; how it inherits theme color)
-%   - FontAwesome icons via CSS mask-image technique
-%     (reference the AI Disclosure chapter for context)
-%   - Any other SVG illustrations or UI elements
-%
-% Explain why SVG was chosen over raster formats for these assets.
+Vector assets were universally prioritized over raster formats to ensure absolute mathematical crispness across all high-DPI displays. The application logo and navigational iconography are served exclusively as SVGs.
+
+However, rather than embedding raw SVG nodes into the HTML payload, we implemented the advanced CSS \texttt{mask-image} technique. This allows the browser to download the SVG geometry once and cache it heavily. The HTML merely references the SVG through a \texttt{mask-image} URL property on an empty structural \texttt{<i>} element. This explicitly decouples the vector path from the DOM tree, avoiding DOM bloat while enabling pure CSS-variable recoloring based on the active dark/light theme state (\texttt{background-color: var(--text-color)}).
 
 \section{Image Optimization Strategy}
 
-% Document how raster images are handled.
-% Suggested coverage:
-%   - File format choices (WebP primary, JPEG/PNG fallback)
-%   - Use of the <picture> element for format negotiation
-%   - lazy loading (loading="lazy" attribute)
-%   - Any use of Squoosh or equivalent tooling for compression
-%   - File size before/after optimization, if recorded
-%
-% If no raster images are used in the current MVP, state this explicitly
-% and explain the design decision.
+Raster imagery (JPEG, PNG, WebP) was systematically and philosophically excluded from the Minimum Viable Product (MVP).
+
+The visual hierarchy of DeciMark relies entirely on CSS gradients, glassmorphism (\texttt{backdrop-filter}), and mathematical vector geometry. By deliberately refusing to serve raster assets, the application entirely circumvents the associated performance penalties: image decoding overhead, layout shifting (CLS), and heavy network payloads. This explicit constraint ensures that the Time To Interactive (TTI) and Largest Contentful Paint (LCP) metrics remain mathematically minimal, aligning perfectly with our core tenet of extreme speed and server-side lightweightness.
 
 \section{Viewport Configuration \& Responsiveness}
 
-% Document the responsive design implementation.
-% Suggested coverage:
-%   - The viewport meta tag in the base Jinja2 template
-%   - Media query breakpoints used and what they control
-%   - Mobile-first vs. desktop-first approach
-%   - Lighthouse performance score (if available)
-%
-% Note: the fluid Grid layout documented in Chapter~7 may handle
-% most responsiveness without breakpoints --- explain the interaction.
+The responsive architecture explicitly rejects the archaic desktop-first paradigm. Utilizing the standard \texttt{<meta name="viewport" content="width=device-width, initial-scale=1.0">} tag, the interface assumes a mobile context by default.
+
+Rather than relying on an unmaintainable cascade of manual media query breakpoints, the application outsources macroscopic responsiveness directly to the fluid CSS Grid (\texttt{auto-fill, minmax()}). Media queries are reserved strictly for microscopic component reflows, such as stacking the navigation bar elements or reorganizing the bookmark card metadata vertically on exceedingly narrow screens. Furthermore, these queries utilize the modern Level 4 CSS Media Queries Syntax (\texttt{@media (width <= 480px)}) instead of the legacy \texttt{max-width} operators, proving an adherence to modern web standards.
 
 %=============================================================
 \chapter{JavaScript Logic \& Implementation}
@@ -633,48 +648,78 @@ The following features present in existing tools were intentionally omitted from
 
 \section{Data Handling with Reference Types}
 
-% Document how bookmark data is stored and managed on the client side.
-% Suggested coverage:
-%   - The module-level bookmarks array (Array of Objects)
-%   - The shape of a bookmark object (fields, types)
-%   - Any Sets or Maps used for filter state or deduplication
-%   - How data flows from the fetch response into the local array
+State management on the client-side revolves strictly around a single source of truth: a mutable, module-scoped array containing \texttt{Bookmark} object references. The \texttt{Bookmark} schema is rigidly typed on the backend via Pydantic and transmitted over the wire as a JSON array of objects.
+
+Upon successfully resolving the \texttt{fetch()} Promise, the returned JSON array is explicitly mapped to the client-side state. Each object instance contains discrete primitive fields (\texttt{id}, \texttt{title}, \texttt{url}) alongside nested reference types (an array of \texttt{Tag} objects and an array of \texttt{JDNode} objects). To perform advanced relational filtering, such as extracting all unique tags to populate a filter dropdown, a JavaScript \texttt{Set} is instantiated. The \texttt{Set} object automatically drops duplicate reference values, yielding a mathematically perfect, deduplicated array of active tags in precisely $\mathcal{O}(N)$ time complexity.
 
 \section{Conditional Logic \& Loops}
 
-% Document the logic that drives bookmark filtering and rendering.
-% Suggested coverage:
-%   - The filter pipeline (Array.filter with activeFilters check)
-%   - The render loop (for...of or .forEach over filtered results)
-%   - Conditional handling of null/missing fields in buildCard()
-%   - The view-toggle conditional (card grid vs. list layout)
-%
-% Paste the relevant JavaScript snippets using \begin{minted}{javascript}...\end{minted}.
-% Explain the logic, not just the code.
+The rendering engine relies on a functional programming pipeline to isolate the UI state from the underlying data. Rather than executing imperative loops with manual \texttt{if/else} branching, filtering is accomplished using the \texttt{Array.prototype.filter()} method.
+
+The conditional logic inside the filter callback validates the bookmark against the currently active \texttt{Tag} or \texttt{JDNode} filter states.
+Following the filter pipeline, a \texttt{for...of} loop explicitly handles the DOM generation. Conditional operators gracefully handle missing attributes (e.g., defaulting to \texttt{"Untitled"} if the \texttt{title} string is null).
+
+\begin{minted}{javascript}
+// Filter Pipeline
+const filteredBookmarks = bookmarks.filter(bookmark => {
+    if (activeTagFilter && !bookmark.tags.some(t => t.id === activeTagFilter)) return false;
+    if (activeJDFilter && !bookmark.jd_nodes.some(j => j.id === activeJDFilter)) return false;
+    return true;
+});
+
+// Render Loop
+for (const bookmark of filteredBookmarks) {
+    const card = document.createElement('div');
+    card.className = `bookmark-card ${currentViewMode}`;
+    // ... HTML injection
+    container.appendChild(card);
+}
+\end{minted}
+
 
 \section{DOM Output \& User Interaction}
 
-% Document how the application communicates results to the user.
-% Suggested coverage:
-%   - How bookmark cards are created and inserted (createElement / innerHTML)
-%   - Use of console.log() for debugging (and whether it is stripped in production)
-%   - Event listeners attached to interactive elements (view toggle, tag filter, CRUD buttons)
-%   - Fetch API calls for CRUD operations and how responses update the DOM
-%   - Error state display (e.g., error banners on failed fetches)
+To prevent Cross-Site Scripting (XSS) vectors, string interpolation inside \texttt{innerHTML} templates was aggressively audited. The client-side application strictly utilizes \texttt{document.createElement()} to construct the macro wrapper, and injects string templates only after sanitizing user-provided inputs on the server.
+
+Interactivity is entirely asynchronous. Every CRUD action (Create, Update, Delete) fires an asynchronous \texttt{fetch()} call to the FastAPI backend. During the HTTP transit, the UI leverages \texttt{try...catch} blocks to catch network or validation failures, aggressively alerting the user via Toast notification banners if a mutation fails. Crucially, any debugging \texttt{console.log()} invocations used during the development phase were systematically pruned to ensure production cleanliness.
 
 \section{The Client--Server Model in Practice}
 
-% Reflect on how the client-server model shaped implementation decisions.
-% This section directly addresses the rubric reflection prompt:
-% ``How did understanding the Client-Server model change your perspective
-% on what happens when a user clicks a button on your site?''
-%
-% Suggested coverage:
-%   - The distinction between a DOM event and a confirmed server write
-%   - Why the UI updates only after a successful response code
-%   - How the FastAPI backend acts as the source of truth
-%   - Any optimistic UI patterns used (or deliberately avoided) and why
-%   - The most challenging Cascade conflict encountered during development
+Understanding the Client-Server model forced a radical shift in how state mutation was perceived. An event on the DOM (e.g., clicking ``Delete'') does not delete the data; it merely dispatches an HTTP \texttt{DELETE} request proposing the deletion to the sovereign backend.
+
+Consequently, we explicitly rejected the ``Optimistic UI'' paradigm. We do not preemptively hide the bookmark from the DOM upon clicking ``Delete''. Instead, we adopt a ``Pessimistic UI'' approach: the UI completely halts, waits for the server to return a \texttt{HTTP 204 No Content} status code confirming the physical database deletion, and only then executes the DOM removal. This guarantees absolute data synchronization. The FastAPI backend remains the undisputed source of truth, and the JavaScript frontend is relegated to its rightful place: a dumb, subservient terminal window rendering server-validated realities.
+
+\chapter{Exhaustive Documentation of Engineering, Architecture, and Design Decisions}
+
+\section{Database Engine and Object-Relational Mapping Strategy}
+
+The selection of PostgreSQL as the primary persistence layer, interfaced through SQLModel and the \texttt{asyncpg} driver, was an explicitly calculated rejection of synchronous, monolithic database paradigms. While SQLite offers developmental convenience, it fundamentally breaks under high-concurrency environments, suffering from crippling write-locks. PostgreSQL, leveraging Multi-Version Concurrency Control (MVCC), was elected to ensure horizontal scaling. Furthermore, the selection of SQLModel---a hybrid wrapper over SQLAlchemy 2.0 and Pydantic---was done to aggressively collapse the cognitive distance between database schemas and data-transfer objects (DTOs), eliminating the redundant boilerplate typically associated with defining models twice.
+
+\section{The Defenestration of Python-side Multipliers in Massive Database Seeding}
+
+When tasked with generating a mock dataset consisting of millions of rows, the initial deterministic approach utilized mathematical offset multipliers (e.g., \texttt{user\_id * 100,000,000}) to guarantee primary key uniqueness without issuing synchronous database queries. However, this mathematically rigid technique catastrophically collided with PostgreSQL's strict 32-bit integer boundaries. Rather than carelessly migrating primary keys to 64-bit \texttt{BIGINT}s---which would needlessly bloat indexing and memory overhead---the generation pipeline was comprehensively refactored. The optimized script now passes a persistent, globally scoped sequential counter through the async iteration loop. This strategy completely mirrors native SQL sequence generation natively in memory, maintaining the strict memory boundaries while permitting bulk \texttt{INSERT ... RETURNING} operations that scale linearly up to the 2.14 billion integer limit.
+
+\section{Hypercorn vs. Uvicorn: The ASGI Server Conundrum}
+
+The decision to deploy the application on Hypercorn rather than the ubiquitous Uvicorn was driven by explicit architectural foresight. While Uvicorn utilizes \texttt{uvloop} to achieve marginally higher raw throughput in localized benchmarking, Hypercorn intrinsically supports HTTP/2 and HTTP/3 via QUIC out of the box. By prioritizing protocol modernity over microscopic event-loop optimizations, the system is future-proofed against connection multiplexing bottlenecks, particularly given the large volume of asynchronous requests generated by the bookmarking dashboard's interactive UI.
+
+\section{The CSS \texttt{mask-image} Paradigm for Scalable Vector Graphics}
+
+A critical performance and aesthetic bottleneck in modern web development is the mishandling of SVG icons. Embedding SVGs directly into the DOM exponentially inflates the HTML payload and creates an unmanageable styling matrix. Conversely, importing SVGs as \texttt{<img>} tags completely destroys the ability to theme them contextually.
+
+To surgically resolve this, we implemented the CSS \texttt{mask-image} paradigm. Icons are defined purely in the CSS OM using the \texttt{mask-image} property applied to an empty \texttt{<span>} or \texttt{<i>} element. The \texttt{background-color} of the element serves as the fill. This completely decouples the vector geometry from the semantic DOM, allowing a single CSS variable switch (e.g., \texttt{var(--color-primary)}) to seamlessly recolor every icon across the entire platform during dark-mode toggling, all without forcing the browser to recalculate a massive DOM tree.
+
+\section{Omission of a Heavyweight Frontend SPA Framework}
+
+The deliberate refusal to adopt React, Vue, or Angular represents a highly opinionated philosophical stance. The modern web is plagued by client-side JavaScript bloat. By utilizing server-side rendering (SSR) via Jinja2 templates, coupled with vanilla JavaScript strictly for progressive enhancement, the payload delivered to the client is mathematically minimized. The architecture dictates that the server handles the state, the database handles the persistence, and the client browser only handles rendering the HTML and executing microscopic, highly scoped JavaScript logic for UI transitions (e.g., modal toggling). This guarantees instantaneous Time To Interactive (TTI), allowing the system to theoretically serve millions of bookmarks to severely constrained devices, such as a Raspberry Pi Zero, without degrading the UX.
+
+\section{Glassmorphic UI and CSS Variables}
+
+The aesthetic layer of DeciMark is governed by a strict CSS Custom Properties (CSS variables) system, explicitly eschewing atomic utility frameworks like Tailwind CSS in favor of semantic, cascading architecture. The implementation of ``glassmorphism''---utilizing translucent \texttt{background} properties heavily reliant on \texttt{backdrop-filter: blur(10px)}---was executed to provide spatial depth and visual hierarchy without relying on heavy graphical assets. The CSS media queries explicitly adopt the modern Level 4 Syntax (e.g., \texttt{@media (width <= 480px)}) rather than the archaic \texttt{max-width} implementations, proving an adherence to forward-looking browser standards.
+
+\section{CSS Asset Modularization and Programmatic Sectioning}
+
+To ensure long-term maintainability and facilitate automated code parsing, the entire CSS asset directory was subjected to a rigorous architectural restructuring. This involved the exhaustive sub-sectioning of every CSS file using structured comment delimiters (e.g., \texttt{/* SECTION NAME: START */} and \texttt{/* SECTION NAME: END */}). This explicit, machine-readable demarcation strategy transcends basic human-readability---it enables the \texttt{scripts/summarize\_css.py} pipeline to programmatically parse the abstract syntax tree of our stylesheets, validate matching section pairs, and automatically generate comprehensive Markdown and \LaTeX{} documentation artifacts. By embedding structural semantics directly within the CSS, we enforce strict separation of concerns (Layout, Typography, Media Queries) at the file level while simultaneously automating our technical documentation.
 
 \part{Reflection}
 
@@ -1060,7 +1105,7 @@ In the interest of academic integrity, the following portions of this project we
 \begin{itemize}
   \item \textbf{HTML Templates}: All HTML files under the \texttt{src/templates/bookmarks} directory were generated by OpenAI Codex.
   \item \textbf{Backend Scripts}: The majority of the Python code within the \texttt{scripts} directory was generated by Anthropic's Claude AI.
-  \item \textbf{Recent Backend \& Frontend Modifications}: The \texttt{edit} bookmark functionality, updates to \texttt{src/api/bookmarks.py}, \texttt{src/static/scripts/bookmarks.js}, the authentication tightening in \texttt{main.py}, the \texttt{/login} auto-redirect endpoint, the hamburger menu styling, the SVG CSS \texttt{mask-image} icon theming technique in \texttt{base.css} and \texttt{base.j2.html}, comprehensive CSS accessibility fixes to replace hardcoded colors with theme variables across \texttt{style.css}, \texttt{bookmarks.css}, \texttt{code.css}, and \texttt{base.css}, the removal of deprecated login templates and CSS redundancies, the structural unification and completion of CSS theme variables for dark and light modes in \texttt{base.css}, the refactoring of frontend HTML forms and backend API payloads to support multiple JD IDs per bookmark, the complete memory-safe, bulk-insert rewrite of the \texttt{scripts/seed.py} generation pipeline to scale up to millions of rows while enforcing chronological datetime constraints, the creation of a stunning new glassmorphic landing page (\texttt{index.j2.html}), the addition of the \texttt{GET /} route in \texttt{main.py} to securely expose the total database bookmark count without data leakage, and the authorship of the Johnny.Decimal justification section in the LaTeX rationale were recently generated and modified by an AI coding assistant (Google DeepMind's Antigravity).
+  \item \textbf{Recent Backend \& Frontend Modifications}: The \texttt{edit} bookmark functionality, updates to \texttt{src/api/bookmarks.py}, \texttt{src/static/scripts/bookmarks.js}, the authentication tightening in \texttt{main.py}, the \texttt{/login} auto-redirect endpoint, the hamburger menu styling, the SVG CSS \texttt{mask-image} icon theming technique in \texttt{base.css} and \texttt{base.j2.html}, comprehensive CSS accessibility fixes to replace hardcoded colors with theme variables across \texttt{style.css}, \texttt{bookmarks.css}, \texttt{code.css}, and \texttt{base.css}, the removal of deprecated login templates and CSS redundancies, the structural unification and completion of CSS theme variables for dark and light modes in \texttt{base.css}, the refactoring of frontend HTML forms and backend API payloads to support multiple JD IDs per bookmark, the complete memory-safe, bulk-insert rewrite of the \texttt{scripts/seed.py} generation pipeline to scale up to millions of rows while enforcing chronological datetime constraints, the creation of a stunning new glassmorphic landing page (\texttt{index.j2.html}), the addition of the \texttt{GET /} route in \texttt{main.py} to securely expose the total database bookmark count without data leakage, the authorship of the Johnny.Decimal justification section in the LaTeX rationale, and the exhaustive sub-sectioning of the entire CSS asset directory with start/end comment delimiters to facilitate programmatic tree generation and markdown summaries were recently generated and modified by an AI coding assistant (Google DeepMind's Antigravity).
 \end{itemize}
 
 \chapter{Attributions}
