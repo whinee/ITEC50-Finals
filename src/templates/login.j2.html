@@ -64,6 +64,7 @@
                     type: "error",
                 });
             } else {
+                console.log(res);
                 const data = await res.json();
                 toast({
                     title: data.error ? "Error" : "Success",
@@ -73,7 +74,8 @@
             }
 
             if (res.ok) {
-                setTimeout(() => window.location.href = "/", 1000);
+                console.log("FUCKING HELL!");
+                setTimeout(() => window.location.href = "/bookmarks", 1000);
             }
         });
     </script>

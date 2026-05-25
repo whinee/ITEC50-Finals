@@ -11,13 +11,10 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from cryptography.hazmat.primitives.kdf.argon2 import Argon2id
 from faker import Faker
-from sqlmodel import delete
 
 from src.db.main import async_session
 from src.schema import (
     Bookmark,
-    BookmarkJDJunction,
-    BookmarkTagJunction,
     JDNode,
     Tag,
     User,
@@ -45,12 +42,13 @@ def hash_password(password: str) -> str:
 
 async def clear_data(session) -> None:
     print("Clearing existing data...")
-    await session.exec(delete(BookmarkJDJunction))
-    await session.exec(delete(BookmarkTagJunction))
-    await session.exec(delete(Bookmark))
-    await session.exec(delete(JDNode))
-    await session.exec(delete(Tag))
-    await session.exec(delete(User))
+    from sqlalchemy import text
+
+    await session.execute(
+        text(
+            "TRUNCATE TABLE bookmark_jd_junction, bookmark_tag_junction, bookmarks, jd_nodes, tags, users CASCADE",
+        ),
+    )
     await session.commit()
 
 
@@ -72,8 +70,11 @@ async def create_users(session, count: int = 1000) -> list[User]:
         },
     ]
 
+    preexisting_users_count = len(users_data)
+
     # Generate additional users up to 'count'
-    for _ in range(max(0, count - len(users_data))):
+    for n in range(max(0, count - preexisting_users_count)):
+        print("User #", preexisting_users_count + n, sep="")
         users_data.append(
             {
                 "username": fake.unique.user_name()[:32],
@@ -101,7 +102,7 @@ async def create_users(session, count: int = 1000) -> list[User]:
             created_at=now,
             updated_at=now,
             disabled=False,
-        )
+        )  # type: ignore
         session.add(user)
         created_users.append(user)
         credentials.append(
@@ -123,47 +124,70 @@ async def create_users(session, count: int = 1000) -> list[User]:
     return created_users
 
 
-async def create_tags(session, users: list[User]) -> dict[int, list[Tag]]:
+async def create_tags(
+    session,
+    users: list[User],
+    user_tag_counts: dict[int, int],
+) -> dict[int, list[Tag]]:
     print("Creating tags...")
-    tag_names = [
-        "#tech",
-        "#news",
-        "#recipes",
-        "#programming",
-        "#funny",
-        "#books",
-        "#todo",
-    ]
     user_tags = {}
 
     for user in users:
         tags = []
-        for name in tag_names:
+        for _ in range(user_tag_counts.get(user.id, 5)):
+            name = fake.unique.word()
+            created = fake.date_time_between(
+                start_date=user.created_at,
+                end_date="now",
+                tzinfo=UTC,
+            )
+            updated = (
+                fake.date_time_between(start_date=created, end_date="now", tzinfo=UTC)
+                if secrets.SystemRandom().random() > 0.5
+                else created
+            )
             tag = Tag(
                 user_id=user.id,
-                title=name,
+                title=name[:32],  # max length constraint
                 color=fake.hex_color(),
                 note=fake.sentence(),
+                created_at=created,
+                updated_at=updated,
             )
             session.add(tag)
             tags.append(tag)
+        fake.unique.clear()
         user_tags[user.id] = tags
 
     await session.commit()
     return user_tags
 
 
+def generate_jd_code() -> str:
+    part1 = "".join(
+        str(secrets.SystemRandom().randint(0, 9))
+        for _ in range(secrets.SystemRandom().randint(2, 5))
+    )
+    part2 = "".join(
+        str(secrets.SystemRandom().randint(0, 9))
+        for _ in range(secrets.SystemRandom().randint(2, 5))
+    )
+    code = f"{part1}.{part2}"
+    if secrets.SystemRandom().random() > 0.5:
+        code += f"+{fake.word()}"
+    return code
+
+
 async def create_jd_nodes(session, users: list[User]) -> dict[int, list[JDNode]]:
     print("Creating JD nodes...")
-    jd_codes = ["10-19 Technology", "11.01 Web Dev", "20-29 Personal", "21.05 Recipes"]
     user_nodes = {}
 
     for user in users:
         nodes = []
-        for code in jd_codes:
+        for _ in range(secrets.SystemRandom().randint(5, 10)):
             node = JDNode(
                 user_id=user.id,
-                code=code,
+                code=generate_jd_code(),
             )
             session.add(node)
             nodes.append(node)
@@ -178,14 +202,24 @@ async def create_bookmarks(
     users: list[User],
     user_tags: dict[int, list[Tag]],
     user_nodes: dict[int, list[JDNode]],
-    count_per_user: int = 30,
+    user_bookmark_counts: dict[int, int],
 ) -> None:
     print("Creating bookmarks...")
     for user in users:
         tags_for_user = user_tags[user.id]
         nodes_for_user = user_nodes[user.id]
 
-        for _ in range(count_per_user):
+        for _ in range(user_bookmark_counts.get(user.id, 30)):
+            created = fake.date_time_between(
+                start_date=user.created_at,
+                end_date="now",
+                tzinfo=UTC,
+            )
+            updated = (
+                fake.date_time_between(start_date=created, end_date="now", tzinfo=UTC)
+                if secrets.SystemRandom().random() > 0.5
+                else created
+            )
             bookmark = Bookmark(
                 user_id=user.id,
                 title=fake.sentence(nb_words=6),
@@ -195,18 +229,20 @@ async def create_bookmarks(
                     if secrets.SystemRandom().random() > 0.5
                     else None
                 ),
+                created_at=created,
+                updated_at=updated,
             )
 
-            # Select 1-3 random tags
-            selected_tags = secrets.SystemRandom().sample(
-                tags_for_user,
-                k=secrets.SystemRandom().randint(1, 3),
-            )
-            bookmark.tags = selected_tags
+            if tags_for_user:
+                k_tags = secrets.SystemRandom().randint(1, min(3, len(tags_for_user)))
+                bookmark.tags = secrets.SystemRandom().sample(tags_for_user, k=k_tags)
 
-            # Select 1 random JD node sometimes
-            if secrets.SystemRandom().random() > 0.3:
-                bookmark.jd_nodes = [secrets.SystemRandom().choice(nodes_for_user)]
+            if nodes_for_user:
+                k_nodes = secrets.SystemRandom().randint(1, min(3, len(nodes_for_user)))
+                bookmark.jd_nodes = secrets.SystemRandom().sample(
+                    nodes_for_user,
+                    k=k_nodes,
+                )
 
             session.add(bookmark)
 
@@ -216,15 +252,27 @@ async def create_bookmarks(
 async def main() -> None:
     async with async_session() as session:
         await clear_data(session)
-        users = await create_users(session, count=1000)
-        user_tags = await create_tags(session, users)
+        users = await create_users(session, count=10000)
+
+        user_bookmark_counts = {
+            user.id: secrets.SystemRandom().randint(30000, 100000) for user in users
+        }
+        user_tag_counts = {
+            user_id: max(
+                1,
+                secrets.SystemRandom().randint(int(bc * 0.1), int(bc * 0.2)),
+            )
+            for user_id, bc in user_bookmark_counts.items()
+        }
+
+        user_tags = await create_tags(session, users, user_tag_counts)
         user_nodes = await create_jd_nodes(session, users)
         await create_bookmarks(
             session,
             users,
             user_tags,
             user_nodes,
-            count_per_user=100,
+            user_bookmark_counts,
         )
         print("Seeding completed successfully!")
 

@@ -15,83 +15,6 @@
 
     /* VARIABLES - GENERAL: END */
 
-    /* VARIABLES - COLORS: START */
-
-    /* VARIABLES - COLORS - BACKGROUND: START */
-
-    /* VARIABLES - COLORS - BACKGROUND - #1: START */
-
-    /* base: hsl(230, 25%, 10%) */
-    --rbg-1: 230, 25%, 10%;
-    --bg-1: hsl(var(--rbg-1));
-    --bg-1-1: hsl(229deg 24% 15%);
-    --bg-1-2: hsl(228deg 23% 20%);
-    --bg-1-3: hsl(227deg 22% 25%);
-    --bg-1-4: hsl(226deg 21% 30%);
-    --bg-1-5: hsl(225deg 20% 35%);
-    --bg-1-6: hsl(224deg 19% 40%);
-
-    /* VARIABLES - COLORS - BACKGROUND - #1: END */
-
-    /* VARIABLES - COLORS - BACKGROUND - #2: START */
-
-    /* base: hsl(232, 22%, 40%); */
-    --rbg-2: 232, 22%, 40%;
-    --bg-2: hsl(var(--rbg-2));
-    --bg-2-1: hsl(231deg 21% 47%);
-    --bg-2-2: hsl(230deg 20% 54%);
-
-    /* VARIABLES - COLORS - BACKGROUND - #2: END */
-
-    /* VARIABLES - COLORS - BACKGROUND: END */
-
-    /* VARIABLES - COLORS - FOREGOUND: START */
-
-    /* VARIABLES - COLORS - FOREGOUND - #1: START */
-
-    /* base: hsl(260, 50%, 70%); */
-    --rfg-1: 260, 50%, 70%;
-    --fg-1: hsl(var(--rfg-1));
-    --fg-1-1: hsl(260deg 51% 65%);
-    --fg-1-2: hsl(260deg 52% 60%);
-    --fg-1-3: hsl(260deg 53% 55%);
-
-    /* VARIABLES - COLORS - FOREGOUND - #1: END */
-
-    /* VARIABLES - COLORS - FOREGOUND - #2: START */
-
-    /* base: hsl(326, 70%, 70%); */
-    --rfg-2: 326, 70%, 70%;
-    --fg-2: hsl(var(--rfg-2));
-    --fg-2-1: hsl(326deg 75% 65%);
-    --fg-2-2: hsl(326deg 80% 60%);
-    --fg-2-3: hsl(326deg 85% 55%);
-
-    /* VARIABLES - COLORS - FOREGOUND - #2: END */
-
-    /* VARIABLES - COLORS - FOREGOUND - #3: START */
-
-    /* base: hsl(321, 100%, 81%) */
-    --rfg-3: 321, 100%, 81%;
-    --fg-3: hsl(var(--rfg-3));
-
-    /* VARIABLES - COLORS - FOREGOUND - #3: END */
-
-    /* VARIABLES - COLORS - FOREGOUND: END */
-
-    /* VARIABLES - COLORS - STATUS: START */
-    --error-1: hsl(0deg 80% 65%);
-    --valid-1: hsl(120deg 60% 65%);
-
-    /* VARIABLES - COLORS - STATUS: END */
-
-    /* VARIABLES - COLORS - EFFECTS: START */
-    --neon: 260, 90%, 74%;
-
-    /* VARIABLES - COLORS - EFFECTS: END */
-
-    /* VARIABLES - COLORS: END */
-
     /* VARIABLES - SPACES: START */
 
     /* VARIABLES - SPACES - STANDALONE: START */
@@ -127,7 +50,15 @@
     /* VARIABLES - SPACES: END */
 }
 
-:root {
+/* VARIABLES - COLORS: START */
+
+html {
+    /* VARIABLES - COLORS - LIGHT THEME: START */
+
+    /* VARIABLES - COLORS - LIGHT THEME - BACKGROUND: START */
+
+    /* VARIABLES - COLORS - LIGHT THEME - BACKGROUND - #1: START */
+    /* base: hsl(240, 30%, 98%) */
     --rbg-1: 240, 30%, 98%;
     --bg-1: hsl(var(--rbg-1));
     --bg-1-1: hsl(240deg 28% 96%);
@@ -136,30 +67,72 @@
     --bg-1-4: hsl(234deg 18% 78%);
     --bg-1-5: hsl(232deg 16% 68%);
     --bg-1-6: hsl(230deg 14% 56%);
+    /* VARIABLES - COLORS - LIGHT THEME - BACKGROUND - #1: END */
+
+    /* VARIABLES - COLORS - LIGHT THEME - BACKGROUND - #2: START */
+    /* base: hsl(232, 18%, 74%) */
     --rbg-2: 232, 18%, 74%;
     --bg-2: hsl(var(--rbg-2));
     --bg-2-1: hsl(232deg 20% 65%);
     --bg-2-2: hsl(232deg 22% 56%);
+    /* VARIABLES - COLORS - LIGHT THEME - BACKGROUND - #2: END */
+
+    /* VARIABLES - COLORS - LIGHT THEME - BACKGROUND: END */
+
+    /* VARIABLES - COLORS - LIGHT THEME - FOREGOUND: START */
+
+    /* VARIABLES - COLORS - LIGHT THEME - FOREGOUND - #1: START */
+    /* base: hsl(262, 62%, 42%) */
     --rfg-1: 262, 62%, 42%;
     --fg-1: hsl(var(--rfg-1));
     --fg-1-1: hsl(262deg 62% 36%);
     --fg-1-2: hsl(262deg 64% 30%);
     --fg-1-3: hsl(262deg 66% 24%);
+    /* VARIABLES - COLORS - LIGHT THEME - FOREGOUND - #1: END */
+
+    /* VARIABLES - COLORS - LIGHT THEME - FOREGOUND - #2: START */
+    /* base: hsl(326, 68%, 46%) */
     --rfg-2: 326, 68%, 46%;
     --fg-2: hsl(var(--rfg-2));
     --fg-2-1: hsl(326deg 70% 40%);
     --fg-2-2: hsl(326deg 72% 34%);
     --fg-2-3: hsl(326deg 74% 28%);
+    /* VARIABLES - COLORS - LIGHT THEME - FOREGOUND - #2: END */
+
+    /* VARIABLES - COLORS - LIGHT THEME - FOREGOUND - #3: START */
+    /* base: hsl(321, 75%, 46%) */
     --rfg-3: 321, 75%, 46%;
     --fg-3: hsl(var(--rfg-3));
+    /* VARIABLES - COLORS - LIGHT THEME - FOREGOUND - #3: END */
+
+    /* VARIABLES - COLORS - LIGHT THEME - TEXT: START */
     --text-1: hsl(235deg 20% 16%);
     --text-2: hsl(235deg 12% 32%);
     --text-strong: hsl(235deg 24% 10%);
+    /* VARIABLES - COLORS - LIGHT THEME - TEXT: END */
+
+    /* VARIABLES - COLORS - LIGHT THEME - FOREGOUND: END */
+
+    /* VARIABLES - COLORS - LIGHT THEME - STATUS: START */
+    --error-1: hsl(0deg 80% 45%);
+    --valid-1: hsl(120deg 60% 40%);
+    /* VARIABLES - COLORS - LIGHT THEME - STATUS: END */
+
+    /* VARIABLES - COLORS - LIGHT THEME - EFFECTS: START */
+    --neon: 260, 90%, 74%;
+    /* VARIABLES - COLORS - LIGHT THEME - EFFECTS: END */
 
     color-scheme: light;
+    /* VARIABLES - COLORS - LIGHT THEME: END */
 }
 
 html[data-theme="dark"] {
+    /* VARIABLES - COLORS - DARK THEME: START */
+
+    /* VARIABLES - COLORS - DARK THEME - BACKGROUND: START */
+
+    /* VARIABLES - COLORS - DARK THEME - BACKGROUND - #1: START */
+    /* base: hsl(230, 25%, 10%) */
     --rbg-1: 230, 25%, 10%;
     --bg-1: hsl(var(--rbg-1));
     --bg-1-1: hsl(229deg 24% 15%);
@@ -168,28 +141,66 @@ html[data-theme="dark"] {
     --bg-1-4: hsl(226deg 21% 30%);
     --bg-1-5: hsl(225deg 20% 35%);
     --bg-1-6: hsl(224deg 19% 40%);
+    /* VARIABLES - COLORS - DARK THEME - BACKGROUND - #1: END */
+
+    /* VARIABLES - COLORS - DARK THEME - BACKGROUND - #2: START */
+    /* base: hsl(232, 22%, 40%) */
     --rbg-2: 232, 22%, 40%;
     --bg-2: hsl(var(--rbg-2));
     --bg-2-1: hsl(231deg 21% 47%);
     --bg-2-2: hsl(230deg 20% 54%);
+    /* VARIABLES - COLORS - DARK THEME - BACKGROUND - #2: END */
+
+    /* VARIABLES - COLORS - DARK THEME - BACKGROUND: END */
+
+    /* VARIABLES - COLORS - DARK THEME - FOREGOUND: START */
+
+    /* VARIABLES - COLORS - DARK THEME - FOREGOUND - #1: START */
+    /* base: hsl(260, 50%, 70%) */
     --rfg-1: 260, 50%, 70%;
     --fg-1: hsl(var(--rfg-1));
     --fg-1-1: hsl(260deg 51% 65%);
     --fg-1-2: hsl(260deg 52% 60%);
     --fg-1-3: hsl(260deg 53% 55%);
+    /* VARIABLES - COLORS - DARK THEME - FOREGOUND - #1: END */
+
+    /* VARIABLES - COLORS - DARK THEME - FOREGOUND - #2: START */
+    /* base: hsl(326, 70%, 70%) */
     --rfg-2: 326, 70%, 70%;
     --fg-2: hsl(var(--rfg-2));
     --fg-2-1: hsl(326deg 75% 65%);
     --fg-2-2: hsl(326deg 80% 60%);
     --fg-2-3: hsl(326deg 85% 55%);
+    /* VARIABLES - COLORS - DARK THEME - FOREGOUND - #2: END */
+
+    /* VARIABLES - COLORS - DARK THEME - FOREGOUND - #3: START */
+    /* base: hsl(321, 100%, 81%) */
     --rfg-3: 321, 100%, 81%;
     --fg-3: hsl(var(--rfg-3));
+    /* VARIABLES - COLORS - DARK THEME - FOREGOUND - #3: END */
+
+    /* VARIABLES - COLORS - DARK THEME - TEXT: START */
     --text-1: hsl(250deg 25% 88%);
     --text-2: hsl(250deg 18% 74%);
     --text-strong: #fff;
+    /* VARIABLES - COLORS - DARK THEME - TEXT: END */
+
+    /* VARIABLES - COLORS - DARK THEME - FOREGOUND: END */
+
+    /* VARIABLES - COLORS - DARK THEME - STATUS: START */
+    --error-1: hsl(0deg 80% 65%);
+    --valid-1: hsl(120deg 60% 65%);
+    /* VARIABLES - COLORS - DARK THEME - STATUS: END */
+
+    /* VARIABLES - COLORS - DARK THEME - EFFECTS: START */
+    --neon: 260, 90%, 74%;
+    /* VARIABLES - COLORS - DARK THEME - EFFECTS: END */
 
     color-scheme: dark;
+    /* VARIABLES - COLORS - DARK THEME: END */
 }
+
+/* VARIABLES - COLORS: END */
 
 /* VARIABLES: END */
 

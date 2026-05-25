@@ -63,9 +63,9 @@ EXCLUDE = {
     ],
 }
 
-MD_OUTPUT_DIR = "docs/css-summaries"
-TEX_OUTPUT_DIR = "paper/css-summaries"
-TEX_MAIN_PAPER_DIR = "paper/"
+MD_OUTPUT_DIR = Path("docs/css-summaries").absolute()
+TEX_OUTPUT_DIR = Path("paper/css-summaries").absolute()
+TEX_MAIN_PAPER_DIR = Path("paper/").absolute()
 
 TEX_OUTPUT_DIR_REL_MAIN_PAPER = (
     f"./{Path(TEX_OUTPUT_DIR).relative_to(TEX_MAIN_PAPER_DIR)}"
@@ -492,6 +492,16 @@ def generate_tex(
     lines.append(r"\end{verbnobox}")
     lines.append(r"% tex-fmt: on")
     lines.append(r"\endgroup")
+
+    lines.append(r"")
+
+    lines.append(r"\subsection{File Contents}")
+    lines.append(
+        r"\inputmintedstyledtwocolumns{css}{"
+        + str(Path(css_path).absolute().relative_to(TEX_MAIN_PAPER_DIR, walk_up=True))
+        + r"}",
+    )
+    lines.append(r"\newpage")
 
     return "\n".join(lines)
 

@@ -5,27 +5,32 @@ import subprocess
 import time
 import traceback
 from collections.abc import Awaitable, Callable
+from typing import Annotated
 
-from fastapi import FastAPI, HTTPException, Request, Response, Depends
+from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import RedirectResponse, UJSONResponse  # type: ignore
 from fastapi.security import HTTPBasic
 from fastapi.staticfiles import StaticFiles
 from jinja2 import TemplateNotFound
+from sqlalchemy import func
+from sqlmodel import select
+from sqlmodel.ext.asyncio.session import AsyncSession
 from starlette.middleware import Middleware
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.templating import _TemplateResponse
-from typing import Annotated
 
 from src.api import auth, bookmarks, preferences
 from src.config.settings import settings
+from src.db.main import get_session
 from src.middlewares.auth import check_page_auth
+from src.schema import Bookmark
 from src.utils.custom_response import TEMPLATES, CustomResponse
 
 # Constants
 DEFAULT_ERROR_HTTP_CODE = 500
 DESCRIPTION = """
-Lyra Phasma's Website and Blog :3
+DeciMArk: A Johnny.Decimal Bookmark Link Manager!
 """
 
 security = HTTPBasic()
@@ -99,6 +104,20 @@ async def docs(response: Response):  # type: ignore[no-untyped-def]
 @app.get("/http_code/{status_code}")
 async def http_code_get(request: Request, status_code: int) -> _TemplateResponse:
     return CustomResponse.http_code(request=request, status_code=status_code)
+
+
+@app.get("/", include_in_schema=False)
+async def landing_page(
+    request: Request,
+    session: Annotated[AsyncSession, Depends(get_session)],
+):
+    result = await session.exec(select(func.count(Bookmark.id))) # type: ignore
+    total_bookmarks = result.one()
+    return TEMPLATES.TemplateResponse(
+        request=request, 
+        name="index.j2.html", 
+        context={"total_bookmarks": total_bookmarks},
+    )
 
 
 @app.get("/bookmarks_dashboard", include_in_schema=False)

@@ -40,9 +40,23 @@ function normalizeBookmark(bookmark) {
               .map((tag) => tag.trim())
               .filter(Boolean);
 
+    const jdIds = Array.isArray(bookmark.jdIds)
+        ? bookmark.jdIds
+        : String(
+              bookmark.jdIds ||
+                  bookmark.jd_ids ||
+                  bookmark.jdId ||
+                  bookmark.jd_id ||
+                  bookmark.jd ||
+                  "",
+          )
+              .split(",")
+              .map((jd) => jd.trim())
+              .filter(Boolean);
+
     return {
         ...bookmark,
-        jdId: bookmark.jdId || bookmark.jd_id || bookmark.jd || "",
+        jdIds,
         tags,
     };
 }
@@ -70,11 +84,13 @@ function renderBookmarkCard(bookmark) {
     editLink.style.marginLeft = "auto";
     meta.append(editLink);
 
-    const jdLink = document.createElement("a");
-    jdLink.className = "pill";
-    jdLink.href = `/bookmarks/jd?jdId=${encodeURIComponent(item.jdId)}`;
-    jdLink.textContent = item.jdId;
-    meta.append(jdLink);
+    item.jdIds.forEach((jd) => {
+        const jdLink = document.createElement("a");
+        jdLink.className = "pill";
+        jdLink.href = `/bookmarks/jd?jdId=${encodeURIComponent(jd)}`;
+        jdLink.textContent = jd;
+        meta.append(jdLink);
+    });
 
     const date = document.createElement("span");
     date.textContent = item.createdAt || item.created_at || "";
@@ -86,7 +102,7 @@ function renderBookmarkCard(bookmark) {
         const tagLink = document.createElement("a");
         tagLink.className = "tag-pill";
         tagLink.href = `/bookmarks/tag?tag=${encodeURIComponent(tag)}`;
-        tagLink.textContent = tag;
+        tagLink.textContent = "#" + tag;
         tagRow.append(tagLink);
     });
 
@@ -121,8 +137,8 @@ function renderList(container, bookmarks) {
 function countValues(bookmarks, key) {
     const values = new Set();
     bookmarks.map(normalizeBookmark).forEach((bookmark) => {
-        if (key === "tags") {
-            bookmark.tags.forEach((tag) => values.add(tag));
+        if (key === "tags" || key === "jdIds") {
+            (bookmark[key] || []).forEach((item) => values.add(item));
         } else if (bookmark[key]) {
             values.add(bookmark[key]);
         }
@@ -144,7 +160,7 @@ function renderFilterLinks(container, values, baseUrl, queryKey) {
 
 async function initDashboard() {
     const bookmarks = (await getBookmarks()).map(normalizeBookmark);
-    const jdIds = countValues(bookmarks, "jdId");
+    const jdIds = countValues(bookmarks, "jdIds");
     const tags = countValues(bookmarks, "tags");
 
     document.querySelector("#stat-total").textContent = bookmarks.length;
@@ -179,7 +195,10 @@ async function initAddForm() {
             const payload = {
                 title: formData.get("title"),
                 url: formData.get("url"),
-                jdId: formData.get("jdId"),
+                jdIds: String(formData.get("jdIds") || "")
+                    .split(",")
+                    .map((jd) => jd.trim())
+                    .filter(Boolean),
                 tags: String(formData.get("tags") || "")
                     .split(",")
                     .map((tag) => tag.trim())
@@ -228,7 +247,7 @@ async function initEditForm() {
     const item = normalizeBookmark(bookmark);
     form.elements.title.value = item.title;
     form.elements.url.value = item.url;
-    form.elements.jdId.value = item.jdId;
+    form.elements.jdIds.value = item.jdIds.join(", ");
     form.elements.tags.value = item.tags.join(", ");
     form.elements.notes.value = item.notes || "";
 
@@ -238,7 +257,10 @@ async function initEditForm() {
         const payload = {
             title: formData.get("title"),
             url: formData.get("url"),
-            jdId: formData.get("jdId"),
+            jdIds: String(formData.get("jdIds") || "")
+                .split(",")
+                .map((jd) => jd.trim())
+                .filter(Boolean),
             tags: String(formData.get("tags") || "")
                 .split(",")
                 .map((tag) => tag.trim())
@@ -285,7 +307,10 @@ function filterBookmarks(bookmarks, filters, matchAll = true) {
                 );
             if (key === "title")
                 return item.title.toLowerCase().includes(needle);
-            if (key === "jdId") return item.jdId.toLowerCase().includes(needle);
+            if (key === "jdId")
+                return item.jdIds.some((jd) =>
+                    jd.toLowerCase().includes(needle),
+                );
             return false;
         });
         return matchAll ? checks.every(Boolean) : checks.some(Boolean);

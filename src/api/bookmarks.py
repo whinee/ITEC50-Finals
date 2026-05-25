@@ -24,7 +24,7 @@ class BookmarkPayload(BaseModel):
 
     title: str
     url: HttpUrl
-    jd_id: str = Field(alias="jdId")
+    jd_ids: list[str] = Field(default_factory=list, alias="jdIds")
     tags: list[str] = []
     notes: str | None = None
 
@@ -34,7 +34,7 @@ class BookmarkEditPayload(BaseModel):
 
     title: str | None = None
     url: HttpUrl | None = None
-    jd_id: str | None = Field(default=None, alias="jdId")
+    jd_ids: list[str] | None = Field(default=None, alias="jdIds")
     tags: list[str] | None = None
     notes: str | None = None
 
@@ -59,6 +59,8 @@ def clean_values(values: list[str]) -> list[str]:
     seen = set()
     for value in values:
         item = value.strip()
+        if item.startswith("#"):
+            item = item[1:]
         key = item.lower()
         if item and key not in seen:
             seen.add(key)
@@ -109,7 +111,6 @@ def serialize_bookmark(bookmark: Bookmark) -> dict:
         "id": bookmark.id,
         "title": bookmark.title or bookmark.url,
         "url": bookmark.url,
-        "jdId": jd_ids[0] if jd_ids else "",
         "jdIds": jd_ids,
         "tags": [tag.title for tag in bookmark.tags],
         "notes": bookmark.note,
@@ -244,8 +245,10 @@ async def create_bookmark(
     session: Annotated[AsyncSession, Depends(get_session)],
     user: Annotated[User, Depends(get_current_user)],
 ):
-    jd_code = payload.jd_id.strip()
-    jd_node = await get_or_create_jd_node(session=session, user=user, code=jd_code)
+    jd_nodes = [
+        await get_or_create_jd_node(session=session, user=user, code=code)
+        for code in clean_values(payload.jd_ids)
+    ]
     tags = [
         await get_or_create_tag(session=session, user=user, title=title)
         for title in clean_values(payload.tags)
@@ -259,7 +262,7 @@ async def create_bookmark(
         note=payload.notes,
         created_at=now,
         updated_at=now,
-        jd_nodes=[jd_node],
+        jd_nodes=jd_nodes,
         tags=tags,
     )
     session.add(bookmark)
@@ -294,10 +297,12 @@ async def update_bookmark(  # noqa: C901
         bookmark.url = str(payload.url)
     if payload.notes is not None:
         bookmark.note = payload.notes
-    if payload.jd_id is not None:
-        jd_code = payload.jd_id.strip()
-        jd_node = await get_or_create_jd_node(session=session, user=user, code=jd_code)
-        bookmark.jd_nodes = [jd_node]
+    if payload.jd_ids is not None:
+        jd_nodes = [
+            await get_or_create_jd_node(session=session, user=user, code=code)
+            for code in clean_values(payload.jd_ids)
+        ]
+        bookmark.jd_nodes = jd_nodes
     if payload.tags is not None:
         tags = [
             await get_or_create_tag(session=session, user=user, title=title)

@@ -1,0 +1,43 @@
+{% extends 'base.j2.html' %}
+{% block head %}
+    <link href="/static/stylesheets/landing.css" rel="stylesheet">
+{% endblock head %}
+{% block body %}
+    <div id="wrapper">
+        <main>
+            <section class="landing-hero">
+                <h1 class="landing-title">DeciMark</h1>
+                <p class="landing-subtitle">
+                    The ultra-fast, systematically organized bookmark manager tailored for professionals who need order in the chaos of the web.
+                </p>
+                <div class="landing-stats">
+                    Currently anchoring <span>{{ total_bookmarks }}</span> bookmarks globally.
+                </div>
+                <div class="landing-actions">
+                    <a href="/login" class="landing-btn landing-btn-primary">Get Started</a>
+                    <a href="#about" class="landing-btn landing-btn-secondary">Learn More</a>
+                </div>
+            </section>
+            <section id="about" class="landing-features">
+                <div class="feature-card">
+                    <h3>The Johnny.Decimal Anchor</h3>
+                    <p>
+                        DeciMark is uniquely built around the <strong>Johnny.Decimal</strong> system. By restricting organization to a strict two-level flat hierarchy and numerical categorization, it prevents the cognitive overhead of infinitely nested folders, making search and retrieval incredibly fast and predictable.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <h3>Absolute Privacy</h3>
+                    <p>
+                        Your data belongs to you. DeciMark ensures a secure environment where your links, notes, and tags are accessible solely by you. No tracking, no data selling, just you and your resources.
+                    </p>
+                </div>
+                <div class="feature-card">
+                    <h3>Blazing Fast</h3>
+                    <p>
+                        Engineered for speed, DeciMark boasts a lightweight footprint with minimal client-side bloat. Whether you have ten bookmarks or ten thousand, your dashboard remains instantly responsive.
+                    </p>
+                </div>
+            </section>
+        </main>
+    </div>
+{% endblock body %}

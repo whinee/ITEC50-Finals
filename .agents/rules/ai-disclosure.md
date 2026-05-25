@@ -8,7 +8,7 @@ description:
 
 ## General Disclosure
 
-For every edit, after executing your response, always include the following statement in the **Acknowledgments** section of the `paper/main.tex` file:
+For every edit, after executing your response, always include the following statement in the **Back Matter** part, **AI Disclosure** chapter of the `paper/main.tex` file:
 
 > In the interest of academic integrity, the following portions of this project were generated or heavily modified with the assistance of artificial intelligence tools:
 >

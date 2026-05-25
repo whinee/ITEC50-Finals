@@ -97,9 +97,10 @@ async def login_user(  # noqa: C901
     is_logged_in: Annotated[bool, Depends(check_if_logged_in)],
 ):
     if is_logged_in:
-        raise HTTPException(
+        return CustomResponse.json_flash(
+            message="You must logout first.",
+            category="error",
             status_code=HTTP_406_NOT_ACCEPTABLE,
-            detail="You must logout first.",
         )
 
     identifier = data.identifier.strip().lower()
@@ -150,10 +151,7 @@ async def login_user(  # noqa: C901
     return CustomResponse.json_flash(
         message="Login successful!",
         category="success",
-        status_code=HTTP_301_MOVED_PERMANENTLY,
-        headers={
-            "Location": "/",
-        },
+        status_code=HTTP_200_OK,
         cookie_params=[cookie_params, theme_cookie_params(normalize_theme(user.theme))],
     )
 
@@ -190,7 +188,7 @@ async def logout_user(
         del cookie_params["value"]
         del cookie_params["expires"]
         response.delete_cookie(**cookie_params)
-        response.headers["Location"] = "/"
+        response.headers["Location"] = "/login"
         response.status_code = HTTP_301_MOVED_PERMANENTLY
         return response
     return CustomResponse.http_code(

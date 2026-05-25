@@ -182,11 +182,14 @@ body {
     min-height: 28px;
     padding: 0 10px;
     border-radius: 999px;
-    color: var(--bg-1);
     font-size: 0.82rem;
     font-weight: 800;
     background: var(--fg-2);
     text-decoration: none;
+}
+
+.pill {
+    color: var(--fg-1);
 }
 
 .tag-pill {
