@@ -5,15 +5,6 @@
     padding-top: unset !important;
 }
 
-/* OVERRIDE HEADER */
-header {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    z-index: 1000;
-}
-
 /* OVERRIDES AND GLOBALS: END */
 
 /* HERO SECTION: START */
@@ -75,6 +66,7 @@ header {
     font-weight: 800;
     margin-bottom: 1rem;
     background: linear-gradient(135deg, var(--text-1) 0%, var(--fg-1) 100%);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: fadeInDown 1s cubic-bezier(0.1, 0.9, 0.2, 1);

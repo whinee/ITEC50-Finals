@@ -3,41 +3,43 @@
     <link href="/static/stylesheets/bookmarks.css" rel="stylesheet">
 {% endblock head %}
 {% block body %}
-    <main class="bookmarks-shell" data-bookmarks-page="search">
-        <nav class="bookmark-nav" aria-label="Bookmark navigation">
-            <a href="/bookmarks/dashboard">Dashboard</a>
-            <a href="/bookmarks/add">Add</a>
-            <a href="/bookmarks/search" aria-current="page">Search</a>
-        </nav>
-        <section class="bookmark-header">
-            <div>
-                <p class="eyebrow">Find Links</p>
-                <h1>Search bookmarks</h1>
-            </div>
-        </section>
-        <form id="bookmark-search-form" class="search-panel">
-            <label>
-                JD ID
-                <input name="jdId" type="text" placeholder="11.11">
-            </label>
-            <label>
-                Tag
-                <input name="tag" type="text" placeholder="backend">
-            </label>
-            <label>
-                Title
-                <input name="title" type="text" placeholder="docs">
-            </label>
-            <div class="search-controls">
-                <label class="checkbox-line">
-                    <input name="matchAll" type="checkbox" checked>
-                    Match all filled filters
+    <div id="wrapper">
+        <main class="bookmarks-shell" data-bookmarks-page="search">
+            <nav class="bookmark-nav" aria-label="Bookmark navigation">
+                <a href="/bookmarks/dashboard">Dashboard</a>
+                <a href="/bookmarks/add">Add</a>
+                <a href="/bookmarks/search" aria-current="page">Search</a>
+            </nav>
+            <section class="bookmark-header">
+                <div>
+                    <p class="eyebrow">Find Links</p>
+                    <h1>Search bookmarks</h1>
+                </div>
+            </section>
+            <form id="bookmark-search-form" class="search-panel">
+                <label>
+                    JD ID
+                    <input name="jdId" type="text" placeholder="11.11">
                 </label>
-                <button type="submit" class="bookmark-action">Search</button>
-            </div>
-        </form>
-        <section id="search-results" class="bookmark-list wide">
-        </section>
-    </main>
+                <label>
+                    Tag
+                    <input name="tag" type="text" placeholder="backend">
+                </label>
+                <label>
+                    Title
+                    <input name="title" type="text" placeholder="docs">
+                </label>
+                <div class="search-controls">
+                    <label class="checkbox-line">
+                        <input name="matchAll" type="checkbox" checked>
+                        Match all filled filters
+                    </label>
+                    <button type="submit" class="bookmark-action">Search</button>
+                </div>
+            </form>
+            <section id="search-results" class="bookmark-list wide">
+            </section>
+        </main>
+    </div>
     <script src="/static/scripts/bookmarks.js" defer></script>
 {% endblock body %}

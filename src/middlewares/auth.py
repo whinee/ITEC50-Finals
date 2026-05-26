@@ -1,11 +1,13 @@
 from typing import Annotated
 
 from fastapi import Depends, HTTPException, Request
+from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 from starlette.status import HTTP_401_UNAUTHORIZED
 
 from src.db.main import get_session
 from src.models.cookies import decode_encrypted_cookie
+from src.schema import User
 from src.security.jwt_service import JwtService, get_jwt_service
 
 
@@ -50,7 +52,13 @@ async def check_page_auth(
     try:
         jwt_token = decode_encrypted_cookie(session_cookie)
         claims = jwt_service.verify(jwt_token)
-        return claims is not None and claims.sub is not None
+        if claims is None or claims.sub is None:
+            return False
+
+        result = await session.exec(select(User).where(User.email == claims.sub))
+        user = result.first()
+
+        return user is not None
 
     except Exception:  # noqa: BLE001
         return False

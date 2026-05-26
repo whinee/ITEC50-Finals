@@ -5,6 +5,7 @@ pyenv/
 .mypy_cache/
 pgdata
 .codex
+.refact
 **/__pycache__/
 **/_minted/
 

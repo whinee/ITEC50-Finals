@@ -18,7 +18,10 @@
             {% for k, v in status.items() %}<p class="op">{{ k }}: {{ v }}</p>{% endfor %}
             {% if spec +%}
                 <p class="op">
-                    spec: <a href="{{ spec_link }}" target="_blank" rel="noopener">{{ spec }}</a>
+                    spec: <a class="spec-link"
+    href="{{ spec_link }}"
+    target="_blank"
+    rel="noopener">{{ spec }}</a>
                 </p>
             {% endif %}
         </section>
@@ -32,7 +35,10 @@
                 {% endfor %}
                 {% if spec +%}
                     <p class="op pds">
-                        spec: <a href="{{ spec_link }}" target="_blank" rel="noopener">{{ spec }}</a>
+                        spec: <a class="spec-link"
+    href="{{ spec_link }}"
+    target="_blank"
+    rel="noopener">{{ spec }}</a>
                     </p>
                 {% endif %}
             {% endif %}

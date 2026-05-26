@@ -3,44 +3,46 @@
     <link href="/static/stylesheets/bookmarks.css" rel="stylesheet">
 {% endblock head %}
 {% block body %}
-    <main class="bookmarks-shell compact" data-bookmarks-page="add">
-        <nav class="bookmark-nav" aria-label="Bookmark navigation">
-            <a href="/bookmarks/dashboard">Dashboard</a>
-            <a href="/bookmarks/add" aria-current="page">Add</a>
-            <a href="/bookmarks/search">Search</a>
-        </nav>
-        <section class="bookmark-header">
-            <div>
-                <p class="eyebrow">New Link</p>
-                <h1>Add bookmark</h1>
-            </div>
-        </section>
-        <form id="bookmark-form" class="bookmark-form">
-            <label>
-                Title
-                <input name="title" type="text" placeholder="Example Website" required>
-            </label>
-            <label>
-                Link URL
-                <input name="url" type="url" placeholder="https://example.com" required>
-            </label>
-            <label>
-                JD IDs
-                <input name="jdIds" type="text" placeholder="11.11, 42.01+Lyra" required>
-            </label>
-            <label>
-                Tags
-                <input name="tags" type="text" placeholder="todo, fun, shopping">
-            </label>
-            <label>
-                Notes
-                <textarea name="notes" rows="5" placeholder="Optional notes for this bookmark"></textarea>
-            </label>
-            <div class="form-actions">
-                <button type="submit" class="bookmark-action">Save Bookmark</button>
-                <button type="reset" class="secondary-action">Clear</button>
-            </div>
-        </form>
-    </main>
+    <div id="wrapper">
+        <main class="bookmarks-shell compact" data-bookmarks-page="add">
+            <nav class="bookmark-nav" aria-label="Bookmark navigation">
+                <a href="/bookmarks/dashboard">Dashboard</a>
+                <a href="/bookmarks/add" aria-current="page">Add</a>
+                <a href="/bookmarks/search">Search</a>
+            </nav>
+            <section class="bookmark-header">
+                <div>
+                    <p class="eyebrow">New Link</p>
+                    <h1>Add bookmark</h1>
+                </div>
+            </section>
+            <form id="bookmark-form" class="bookmark-form">
+                <label>
+                    Title
+                    <input name="title" type="text" placeholder="Example Website" required>
+                </label>
+                <label>
+                    Link URL
+                    <input name="url" type="url" placeholder="https://example.com" required>
+                </label>
+                <label>
+                    JD IDs
+                    <input name="jdIds" type="text" placeholder="11.11, 69.42+Universe" required>
+                </label>
+                <label>
+                    Tags
+                    <input name="tags" type="text" placeholder="todo, fun, shopping">
+                </label>
+                <label>
+                    Notes
+                    <textarea name="notes" rows="5" placeholder="Optional notes for this bookmark"></textarea>
+                </label>
+                <div class="form-actions">
+                    <button type="submit" class="bookmark-action">Save Bookmark</button>
+                    <button type="reset" class="secondary-action">Clear</button>
+                </div>
+            </form>
+        </main>
+    </div>
     <script src="/static/scripts/bookmarks.js" defer></script>
 {% endblock body %}

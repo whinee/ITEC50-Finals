@@ -1,6 +1,5 @@
 /* IMPORTS: START */
-@import url("/static/stylesheets/fonts/roboto.css");
-
+@import url("/static/stylesheets/fonts/manrope.css");
 /* IMPORTS: END */
 
 /* VARIABLES: START */
@@ -204,6 +203,15 @@ html[data-theme="dark"] {
 
 /* VARIABLES: END */
 
+/* OVERRIDE HEADER */
+header {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
 /* COLOR: START */
 
 body {
@@ -230,7 +238,7 @@ h6 {
 h1 {
     margin: 0.5em 0;
     color: var(--text-strong);
-    font-family: Roboto, sans-serif;
+    font-family: Manrope, Montserrat, sans-serif;
     font-size: 2.5em;
     line-height: 1.25;
     font-weight: 900;
@@ -362,7 +370,6 @@ button.styled[disabled],
 
 #wrapper {
     -webkit-overflow-scrolling: touch;
-    max-width: 736px;
     padding-top: 50px;
     display: flex;
     flex-direction: column;
@@ -484,6 +491,7 @@ hr .inner {
     align-items: center;
     gap: 10px;
     width: 100%;
+    font-family: Manrope, Montserrat, sans-serif;
 }
 .hamburger-dropdown > button:hover, .hamburger-dropdown > a:hover {
     background-color: var(--bg-1-4);

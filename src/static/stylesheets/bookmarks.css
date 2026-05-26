@@ -5,6 +5,7 @@ body {
     background:
         radial-gradient(circle at top left, hsl(326deg 70% 70% / 14%), transparent 34rem),
         linear-gradient(135deg, var(--bg-1), var(--bg-1-2));
+    background-attachment: fixed;
 }
 
 .bookmarks-shell {
@@ -111,10 +112,34 @@ body {
 }
 
 .bookmark-stats span {
-    display: block;
+    display: inline-block;
     color: var(--text-strong);
     font-size: 2rem;
     font-weight: 900;
+}
+
+.bookmark-stats span.skeleton {
+    min-width: 3rem;
+    min-height: 2.5rem;
+    border-radius: 6px;
+    color: transparent !important;
+    background: linear-gradient(
+        90deg,
+        hsl(var(--rfg-1), 0.05) 25%,
+        hsl(var(--rfg-1), 0.15) 50%,
+        hsl(var(--rfg-1), 0.05) 75%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
 }
 
 .bookmark-stats p {

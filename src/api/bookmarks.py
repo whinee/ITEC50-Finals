@@ -114,7 +114,7 @@ def serialize_bookmark(bookmark: Bookmark) -> dict:
         "jdIds": jd_ids,
         "tags": [tag.title for tag in bookmark.tags],
         "notes": bookmark.note,
-        "createdAt": bookmark.created_at.date().isoformat(),
+        "createdAt": bookmark.created_at.isoformat(),
         "updatedAt": bookmark.updated_at.isoformat(),
     }
 

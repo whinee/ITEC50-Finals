@@ -93,7 +93,17 @@ function renderBookmarkCard(bookmark) {
     });
 
     const date = document.createElement("span");
-    date.textContent = item.createdAt || item.created_at || "";
+    const rawDate = item.createdAt || item.created_at;
+    if (rawDate) {
+        const d = new Date(
+            rawDate.endsWith("Z") || rawDate.includes("+")
+                ? rawDate
+                : rawDate + "Z",
+        );
+        date.textContent = d.toLocaleString();
+    } else {
+        date.textContent = "";
+    }
     meta.append(date);
 
     const tagRow = document.createElement("div");
@@ -124,7 +134,7 @@ function renderList(container, bookmarks) {
     if (!bookmarks.length) {
         const empty = document.createElement("div");
         empty.className = "empty-state";
-        empty.textContent = "No bookmarks found.";
+        empty.textContent = "nothing here. sowwyyy :C ";
         container.append(empty);
         return;
     }
@@ -132,6 +142,36 @@ function renderList(container, bookmarks) {
     bookmarks.forEach((bookmark) =>
         container.append(renderBookmarkCard(bookmark)),
     );
+}
+
+function renderSkeletonList(container, count = 3) {
+    if (!container) return;
+    container.replaceChildren();
+
+    for (let i = 0; i < count; i++) {
+        const card = document.createElement("article");
+        card.className = "bookmark-card glass-panel";
+
+        const title = document.createElement("h3");
+        title.className = "skeleton";
+        title.style.height = "1.5rem";
+        title.style.width = "60%";
+        title.style.marginBottom = "var(--space-2xs)";
+
+        const meta = document.createElement("div");
+        meta.className = "bookmark-meta skeleton";
+        meta.style.height = "1rem";
+        meta.style.width = "40%";
+        meta.style.marginBottom = "var(--space-xs)";
+
+        const tags = document.createElement("div");
+        tags.className = "bookmark-tags skeleton";
+        tags.style.height = "1.5rem";
+        tags.style.width = "80%";
+
+        card.append(title, meta, tags);
+        container.append(card);
+    }
 }
 
 function countValues(bookmarks, key) {
@@ -163,9 +203,17 @@ async function initDashboard() {
     const jdIds = countValues(bookmarks, "jdIds");
     const tags = countValues(bookmarks, "tags");
 
-    document.querySelector("#stat-total").textContent = bookmarks.length;
-    document.querySelector("#stat-jds").textContent = jdIds.size;
-    document.querySelector("#stat-tags").textContent = tags.size;
+    const statTotal = document.querySelector("#stat-total");
+    const statJds = document.querySelector("#stat-jds");
+    const statTags = document.querySelector("#stat-tags");
+
+    statTotal.textContent = bookmarks.length;
+    statJds.textContent = jdIds.size;
+    statTags.textContent = tags.size;
+
+    statTotal.classList.remove("skeleton");
+    statJds.classList.remove("skeleton");
+    statTags.classList.remove("skeleton");
 
     renderList(
         document.querySelector("#recent-bookmarks"),
@@ -320,6 +368,8 @@ function filterBookmarks(bookmarks, filters, matchAll = true) {
 async function initSearch() {
     const form = document.querySelector("#bookmark-search-form");
     const results = document.querySelector("#search-results");
+
+    renderSkeletonList(results);
     const bookmarks = (await getBookmarks()).map(normalizeBookmark);
     renderList(results, bookmarks);
 
@@ -334,6 +384,7 @@ async function initSearch() {
         const params = new URLSearchParams(filters);
         params.set("matchAll", formData.get("matchAll") ? "true" : "false");
 
+        renderSkeletonList(results);
         const remote = await requestJson(`${API.search}?${params.toString()}`);
         const source = Array.isArray(remote) ? remote : bookmarks;
         renderList(
@@ -351,6 +402,8 @@ async function initFilteredView(type) {
     const form = document.querySelector(`#${type}-filter-form`);
     const results = document.querySelector(`#${type}-results`);
     const title = document.querySelector("#view-title");
+
+    renderSkeletonList(results);
     const bookmarks = (await getBookmarks()).map(normalizeBookmark);
 
     if (input) input.value = value;

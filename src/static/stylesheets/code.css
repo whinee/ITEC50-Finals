@@ -22,12 +22,6 @@ body {
     display: block !important;
     box-sizing: border-box;
     height: 100%;
-    font-family: Inconsolata !important;
-    font-size: 1.5rem;
-    color: var(--fg-3);
-    text-shadow:
-        0 0 1ex hsl(var(--rfg-3), 0.8),
-        0 0 2px rgb(255 255 255 / 80%);
 }
 
 h1 {
@@ -43,12 +37,18 @@ h1 {
 }
 
 .terminal {
+    font-family: Inconsolata !important;
+    font-size: 1.5rem;
     box-sizing: inherit;
     position: relative;
     height: 100%;
     width: 100%;
     padding: 4rem;
     text-transform: uppercase;
+    color: var(--fg-3);
+    text-shadow:
+        0 0 1ex hsl(var(--rfg-3), 0.8),
+        0 0 2px rgb(255 255 255 / 80%);
 }
 
 .terminal > p {
@@ -75,16 +75,16 @@ h1 {
 
 /* LINKS: START */
 
-a {
+a.spec-link {
     color: var(--text-strong);
     text-decoration: none;
 }
 
-a::before {
+a.spec-link::before {
     content: "[";
 }
 
-a::after {
+a.spec-link::after {
     content: "]";
 }
 

@@ -3,54 +3,56 @@
     <link href="/static/stylesheets/bookmarks.css" rel="stylesheet">
 {% endblock head %}
 {% block body %}
-    <main class="bookmarks-shell" data-bookmarks-page="dashboard">
-        <nav class="bookmark-nav" aria-label="Bookmark navigation">
-            <a href="/bookmarks/dashboard" aria-current="page">Dashboard</a>
-            <a href="/bookmarks/add">Add</a>
-            <a href="/bookmarks/search">Search</a>
-        </nav>
-        <section class="bookmark-header">
-            <div>
-                <p class="eyebrow">Bookmark Manager</p>
-                <h1>Saved link dashboard</h1>
-            </div>
-            <a class="bookmark-action" href="/bookmarks/add">Add Bookmark</a>
-        </section>
-        <section class="bookmark-stats" aria-label="Bookmark totals">
-            <article>
-                <span id="stat-total">0</span>
-                <p>Total bookmarks</p>
-            </article>
-            <article>
-                <span id="stat-jds">0</span>
-                <p>JD IDs</p>
-            </article>
-            <article>
-                <span id="stat-tags">0</span>
-                <p>Tags</p>
-            </article>
-        </section>
-        <section class="bookmark-grid">
-            <div class="bookmark-panel">
-                <div class="panel-heading">
-                    <h2>Recent bookmarks</h2>
-                    <a href="/bookmarks/search">View all</a>
+    <div id="wrapper">
+        <main class="bookmarks-shell" data-bookmarks-page="dashboard">
+            <nav class="bookmark-nav" aria-label="Bookmark navigation">
+                <a href="/bookmarks/dashboard" aria-current="page">Dashboard</a>
+                <a href="/bookmarks/add">Add</a>
+                <a href="/bookmarks/search">Search</a>
+            </nav>
+            <section class="bookmark-header">
+                <div>
+                    <p class="eyebrow">Bookmark Manager</p>
+                    <h1>Saved link dashboard</h1>
                 </div>
-                <div id="recent-bookmarks" class="bookmark-list"></div>
-            </div>
-            <div class="bookmark-panel">
-                <div class="panel-heading">
-                    <h2>Browse by JD ID</h2>
+                <a class="bookmark-action" href="/bookmarks/add">Add Bookmark</a>
+            </section>
+            <section class="bookmark-stats" aria-label="Bookmark totals">
+                <article>
+                    <span id="stat-total" class="skeleton"></span>
+                    <p>Total bookmarks</p>
+                </article>
+                <article>
+                    <span id="stat-jds" class="skeleton"></span>
+                    <p>JD IDs</p>
+                </article>
+                <article>
+                    <span id="stat-tags" class="skeleton"></span>
+                    <p>Tags</p>
+                </article>
+            </section>
+            <section class="bookmark-grid">
+                <div class="bookmark-panel">
+                    <div class="panel-heading">
+                        <h2>Recent bookmarks</h2>
+                        <a href="/bookmarks/search">View all</a>
+                    </div>
+                    <div id="recent-bookmarks" class="bookmark-list"></div>
                 </div>
-                <div id="jd-list" class="filter-list"></div>
-            </div>
-            <div class="bookmark-panel">
-                <div class="panel-heading">
-                    <h2>Browse by tag</h2>
+                <div class="bookmark-panel">
+                    <div class="panel-heading">
+                        <h2>Browse by JD ID</h2>
+                    </div>
+                    <div id="jd-list" class="filter-list"></div>
                 </div>
-                <div id="tag-list" class="filter-list"></div>
-            </div>
-        </section>
+                <div class="bookmark-panel">
+                    <div class="panel-heading">
+                        <h2>Browse by tag</h2>
+                    </div>
+                    <div id="tag-list" class="filter-list"></div>
+                </div>
+            </section>
+        </div>
     </main>
     <script src="/static/scripts/bookmarks.js" defer></script>
 {% endblock body %}

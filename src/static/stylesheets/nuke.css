@@ -1,3 +1,7 @@
+/* IMPORTS: START */
+@import url("/static/stylesheets/fonts/manrope.css");
+/* IMPORTS: END */
+
 /* NUCLEAR RESET: START */
 
 html {
@@ -121,7 +125,7 @@ body {
     overflow-wrap: break-word;
     overflow-x: hidden;
     overflow: auto !important;
-    font-family: Montserrat, sans-serif;
+    font-family: Manrope, Montserrat, sans-serif;
     justify-content: center;
     align-items: center;
 }

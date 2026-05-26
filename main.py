@@ -111,10 +111,10 @@ async def landing_page(
     request: Request,
     session: Annotated[AsyncSession, Depends(get_session)],
 ):
-    bookmark_result = await session.execute(select(func.count(Bookmark.id)))
+    bookmark_result = await session.execute(select(func.count(Bookmark.id)))  # type: ignore[arg-type]
     total_bookmarks = bookmark_result.scalar_one()
     
-    user_result = await session.execute(select(func.count(User.id)))
+    user_result = await session.execute(select(func.count(User.id)))  # type: ignore[arg-type]
     total_users = user_result.scalar_one()
 
     return TEMPLATES.TemplateResponse(

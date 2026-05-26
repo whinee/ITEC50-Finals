@@ -64,7 +64,6 @@ WOFF2_WHITELIST: list[str] = [
     "Arial-Variable.ttf",
     "ComicMono-Variable.ttf",
     "Inconsolata.ttf",
-    "Manrope-Variable.ttf",
     "Roboto-Variable.ttf",
 ]
 

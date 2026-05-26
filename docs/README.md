@@ -15,6 +15,10 @@ cat .direnv.uv >> ~/.config/direnv/direnvrc
 direnv allow
 ```
 
+```sh
+pipx install latexminted
+```
+
 ## What I Had to Run
 
 ```sh

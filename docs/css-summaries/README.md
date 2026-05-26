@@ -1,6 +1,6 @@
 # CSS Documentation Index
 
-> Generated on 2026-05-26 01:36
+> Generated on 2026-05-26 15:06
 
 ## Files
 
@@ -9,6 +9,7 @@
 - [code.css](./code.md)
 - [fonts/comic-mono.css](./fonts/comic-mono.md)
 - [fonts/inconsolata.css](./fonts/inconsolata.md)
+- [fonts/manrope.css](./fonts/manrope.md)
 - [fonts/roboto.css](./fonts/roboto.md)
 - [forms.css](./forms.md)
 - [landing.css](./landing.md)

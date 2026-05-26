@@ -1,5 +1,5 @@
 @font-face {
     font-family: "Comic Mono";
     font-weight: normal bold;
-    src: url("/static/assets/fonts/ComicMono-Variable.woff2");
+    src: url("/static/assets/fonts/ComicMono-Variable.woff2") format("woff2");
 }
