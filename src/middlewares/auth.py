@@ -1,3 +1,9 @@
+"""
+Authentication Middlewares.
+
+Intercepts raw HTTP requests to extract session cookies, acting as the absolute first line of defense for the authentication pipeline.
+"""
+
 from typing import Annotated
 
 from fastapi import Depends, HTTPException, Request
@@ -14,12 +20,26 @@ from src.security.jwt_service import JwtService, get_jwt_service
 def get_session_cookie(
     request: Request,
 ):
+    """
+    Rapidly extracts the raw session cookie string from incoming HTTP requests. This acts as the very first line of dependency injection for the authentication pipeline.
+
+    Args: request (Request): The incoming FastAPI request.
+
+    Returns: str | None: The raw, encrypted cookie string, if it exists.
+    """
     return request.cookies.get("session")
 
 
 def check_if_logged_in(
     request: Request,
 ):
+    """
+    Performs a lightweight, boolean check for the existence of a session cookie. Used for UI-level conditional rendering before aggressive cryptographic validation occurs.
+
+    Args: request (Request): The incoming FastAPI request.
+
+    Returns: bool: True if the cookie header is present, False otherwise.
+    """
     return request.cookies.get("session") is not None
 
 
@@ -29,6 +49,17 @@ async def check_encrypted_cookie_auth(
     jwt_service: Annotated[JwtService, Depends(get_jwt_service)],
     session_cookie: Annotated[str, Depends(get_session_cookie)],
 ):
+    """
+    The impenetrable shield guarding protected API routes.
+
+    This asynchronous dependency ruthlessly intercepts the incoming request, decrypts the symmetric Fernet payload, and aggressively verifies the JWT signature. Any anomaly (tampering, expiration, or missing tokens) results in an instant, hard 401 Unauthorized exception, guaranteeing absolute zero-trust execution.
+
+    Args: request: The FastAPI request object. session: The injected async database session. jwt_service: The high-performance JWT cryptography service. session_cookie: The raw, encrypted cookie string.
+
+    Returns: Claims: The perfectly verified JWT claims object.
+
+    Raises: HTTPException: Immediately halts the request with a 401 status on failure.
+    """
     if session_cookie is None:
         raise HTTPException(status_code=HTTP_401_UNAUTHORIZED)
 
@@ -46,6 +77,13 @@ async def check_page_auth(
     jwt_service: Annotated[JwtService, Depends(get_jwt_service)],
     session_cookie: Annotated[str | None, Depends(get_session_cookie)] = None,
 ) -> bool:
+    """
+    A specialized authentication dependency designed for frontend Jinja2 routes.
+
+    Unlike API routes which crash hard on failure, this function gracefully handles tampered or expired cookies, safely defaulting to a `False` boolean state. It performs a deep database verification (querying the `users` table via `sub` claims) to ensure the user has not been deleted or disabled since the token was minted.
+
+    Returns: bool: True if the user is unequivocally authenticated and exists in the DB, False otherwise.
+    """
     if session_cookie is None:
         return False
 

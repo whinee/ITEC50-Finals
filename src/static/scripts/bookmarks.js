@@ -95,12 +95,22 @@ function renderBookmarkCard(bookmark) {
     const date = document.createElement("span");
     const rawDate = item.createdAt || item.created_at;
     if (rawDate) {
-        const d = new Date(
-            rawDate.endsWith("Z") || rawDate.includes("+")
-                ? rawDate
-                : rawDate + "Z",
-        );
-        date.textContent = d.toLocaleString();
+        let safeDate = rawDate.replace(" ", "T");
+        if (
+            !safeDate.endsWith("Z") &&
+            !safeDate.includes("+") &&
+            safeDate.indexOf("-", 11) === -1
+        ) {
+            safeDate += "Z";
+        }
+        const d = new Date(safeDate);
+        date.textContent = d.toLocaleString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+        });
     } else {
         date.textContent = "";
     }
@@ -408,13 +418,20 @@ async function initFilteredView(type) {
 
     if (input) input.value = value;
 
-    const load = (nextValue) => {
+    const load = async (nextValue) => {
         const filters =
             type === "jd" ? { jdId: nextValue } : { tag: nextValue };
         title.textContent = nextValue
             ? `Bookmarks for ${nextValue}`
             : title.textContent;
-        renderList(results, filterBookmarks(bookmarks, filters, true));
+
+        renderSkeletonList(results);
+        const remote = await requestJson(API.list);
+        const source = Array.isArray(remote)
+            ? remote.map(normalizeBookmark)
+            : bookmarks;
+
+        renderList(results, filterBookmarks(source, filters, true));
     };
 
     load(value);

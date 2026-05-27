@@ -6,6 +6,8 @@ body {
         radial-gradient(circle at top left, hsl(326deg 70% 70% / 14%), transparent 34rem),
         linear-gradient(135deg, var(--bg-1), var(--bg-1-2));
     background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .bookmarks-shell {
@@ -118,9 +120,7 @@ body {
     font-weight: 900;
 }
 
-.bookmark-stats span.skeleton {
-    min-width: 3rem;
-    min-height: 2.5rem;
+.skeleton {
     border-radius: 6px;
     color: transparent !important;
     background: linear-gradient(
@@ -131,6 +131,11 @@ body {
     );
     background-size: 200% 100%;
     animation: skeleton-loading 1.5s infinite;
+}
+
+.bookmark-stats span.skeleton {
+    min-width: 3rem;
+    min-height: 2.5rem;
 }
 
 @keyframes skeleton-loading {
@@ -149,12 +154,27 @@ body {
 
 .bookmark-panel {
     min-width: 0;
+    min-height: 0;
     padding: 18px;
+    display: flex;
+    flex-direction: column;
 }
 
-.bookmark-panel:first-child {
-    grid-column: span 2 /span 2;
-    grid-row: span 2 / span 2;
+.bookmark-grid > .bookmark-panel:first-child {
+    grid-column: span 2 / span 2;
+}
+
+.bookmark-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+    min-height: 0;
+    contain: size;
+}
+
+.bookmark-sidebar > .bookmark-panel {
+    flex: 1 0 0%;
 }
 
 .panel-heading {
@@ -163,6 +183,7 @@ body {
     justify-content: space-between;
     gap: 12px;
     margin-bottom: 14px;
+    flex-shrink: 0;
 }
 
 .panel-heading h2 {
@@ -233,7 +254,7 @@ body {
 }
 
 .pill {
-    color: var(--text-1) !important;
+    color: var(--bg-1) !important;
 }
 
 .tag-pill {
@@ -244,7 +265,10 @@ body {
 .filter-list {
     display: flex;
     flex-wrap: wrap;
+    align-content: flex-start;
     gap: 10px;
+    overflow-y: auto;
+    min-height: 0;
 }
 
 /* TAGS AND PILLS: END */
@@ -347,7 +371,11 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .bookmark-panel:first-child {
+    .bookmark-sidebar {
+        display: contents;
+    }
+
+    .bookmark-grid > .bookmark-panel:first-child {
         grid-column: auto;
     }
 

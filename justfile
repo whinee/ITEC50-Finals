@@ -70,14 +70,14 @@ drop-db:
 
 create-test-db:
     psql -h ${PG__HOST} -p ${PG__PORT} -U ${PG__USER} \
-        -tc "SELECT 1 FROM pg_database WHERE datname='${TEST_DBNAME}'" | \
+        -tc "SELECT 1 FROM pg_database WHERE datname='${TEST__DBNAME}'" | \
         grep -q 1 || \
     psql -h ${PG__HOST} -p ${PG__PORT} -U ${PG__USER} \
-        -c "CREATE DATABASE ${TEST_DBNAME};"
+        -c "CREATE DATABASE ${TEST__DBNAME};"
 
 drop-test-db:
     psql -h ${PG__HOST} -p ${PG__PORT} -U ${PG__USER} \
-        -c "DROP DATABASE IF EXISTS ${TEST_DBNAME};"
+        -c "DROP DATABASE IF EXISTS ${TEST__DBNAME};"
 
 [private]
 nio_scripts:
@@ -121,6 +121,11 @@ lint-html:
 lint-jinja:
     @ uv run djlint ./src/templates --reformat --quiet; exit 0
 
+# Lint Markdown files
+[private]
+lint-md:
+    @ uv run mdformat docs
+
 # Lint Jinja2 templates
 [private]
 lint-tex:
@@ -134,17 +139,20 @@ lint:
     just ruff_src
     uv run black -q scripts
     uv run black -q src
-    uv run mdformat docs
     just lint-js
     just lint-css
     # just lint-html
     just lint-jinja
+    just lint-md
     just lint-tex
 
 # Generate reports
 gen-reports:
     @ just lint-css
     @ uv run scripts/generate_scc_report.py
+    @ uv run scripts/run_visual_tests.py
+    @ just lint-tex
+    @ just lint-md
 
 # Run web app in a lightweight way
 dev:

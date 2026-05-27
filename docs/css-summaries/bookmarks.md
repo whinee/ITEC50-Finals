@@ -1,20 +1,21 @@
 # CSS Summary: `bookmarks.css`
 
-> Generated on 2026-05-26 15:06  
+> Generated on 2026-05-27 23:53\
 > Source: `src/static/stylesheets/bookmarks.css`
 
 ## Lint Results
+
 > ✅ No lint issues found.
 
 ## Section Tree
 
 ```
 .
-├── LAYOUT  (line 1-21)
-├── NAVIGATION  (line 23-62)
-├── HEADER AND STATS  (line 64-179)
-├── GRID AND CARDS  (line 181-210)
-├── TAGS AND PILLS  (line 212-250)
-├── FORMS AND SEARCH  (line 252-333)
-└── MEDIA QUERIES  (line 335-360)
+├── LAYOUT  (line 1-23)
+├── NAVIGATION  (line 25-64)
+├── HEADER AND STATS  (line 66-200)
+├── GRID AND CARDS  (line 202-231)
+├── TAGS AND PILLS  (line 233-274)
+├── FORMS AND SEARCH  (line 276-357)
+└── MEDIA QUERIES  (line 359-388)
 ```

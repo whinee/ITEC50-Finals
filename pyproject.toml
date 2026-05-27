@@ -67,6 +67,9 @@ dev = [
     "mdformat>=1.0.0",
     "fonttools>=4.63.0",
     "brotli>=1.2.0",
+    "pytest-playwright>=0.8.0",
+    "playwright>=1.60.0",
+    "pytest-asyncio>=1.4.0",
 ]
 
 [build-system]

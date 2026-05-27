@@ -1,5 +1,7 @@
 """
-download_css.py: Downloads a hardcoded list of CSS files into a hardcoded output folder.
+High-Speed CSS Asset Synchronizer.
+
+An automated, asynchronous dependency downloader that ruthlessly fetches strictly pinned CSS assets from CDNs. By caching static files locally, it guarantees that DeciMark can operate perfectly in air-gapped or offline development environments while insulating the frontend from transient network failures.
 
 DISCLAIMER: Generate with Claude.
 
@@ -22,12 +24,24 @@ CSS_FILES = [
 
 
 def filename_from_url(url: str) -> str:
-    """Derives a filename from the last path segment of the URL."""
+    """
+    Extracts the precise filename from an arbitrary URL, effortlessly circumventing URL parameters and fragments.
+
+    Args: url (str): Target URL.
+
+    Returns: str: The pristine filename.
+    """
     return os.path.basename(urlparse(url).path)
 
 
 def download_file(url: str, dest_path: str) -> None:
-    """Downloads a single file from url and saves it to dest_path."""
+    """
+    Executes a high-speed HTTP GET request, forcefully ripping a remote file from the network and streaming it safely into local disk storage.
+
+    Args: url (str): URL. dest_dir (str): Output folder.
+
+    Returns: bool: Network execution result.
+    """
     parsed = urlparse(url)
     if parsed.scheme not in ("http", "https"):
         raise ValueError(
@@ -49,6 +63,7 @@ def download_file(url: str, dest_path: str) -> None:
 
 
 def main() -> None:
+    """The core loop that parses a predefined list of remote stylesheets and violently ingests them into the local frontend cache."""
     os.makedirs(OUTPUT_FOLDER, exist_ok=True)
     print(f"Output folder: {os.path.abspath(OUTPUT_FOLDER)}\n")
 

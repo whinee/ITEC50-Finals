@@ -1,3 +1,9 @@
+"""
+User Preferences Endpoints.
+
+Handles real-time, asynchronous theme toggling by persisting preferences to PostgreSQL and reflecting them via secure cookies.
+"""
+
 from typing import Annotated, Literal
 
 from cryptography.fernet import InvalidToken
@@ -20,18 +26,43 @@ THEME_COOKIE_MAX_AGE = 60 * 60 * 24 * 180
 
 
 class ThemePayload(BaseModel):
+    """
+    Strictly typed JSON validation schema for user theme mutation requests.
+
+    Args: BaseModel (type): Core Pydantic inheritance.
+    """
+
     theme: Theme
 
 
 def normalize_theme(value: str | None) -> Theme:
+    """
+    Sanitizes theme strings to rigidly enforce `light` or `dark`.
+
+    Args: value (str | None): The unsafe input theme state.
+
+    Returns: Theme: The safely resolved Literal value.
+    """
     return "dark" if value == "dark" else "light"
 
 
 def set_theme_cookie(response: Response, theme: Theme) -> None:
+    """
+    Dynamically mutates an outbound FastAPI response object to inject a rock-solid, six-month theme preference cookie.
+
+    Args: response (Response): The mutable outbound response. theme (Theme): The normalized theme constant.
+    """
     response.set_cookie(**theme_cookie_params(theme))
 
 
 def theme_cookie_params(theme: Theme) -> dict:
+    """
+    Constructs the highly secure, unencrypted but strictly bounded configuration dictionary for the frontend theme cookie.
+
+    Args: theme (Theme): The validated visual style string.
+
+    Returns: dict: The perfectly formatted cookie injection schema.
+    """
     return {
         "key": THEME_COOKIE,
         "value": theme,
@@ -48,6 +79,15 @@ async def get_optional_user(
     session: AsyncSession,
     jwt_service: JwtService,
 ) -> User | None:
+    """
+    A highly resilient dependency that optionally fetches the authenticated User.
+
+    This gracefully absorbs token tampering, missing cookies, or database faults by returning `None` instead of throwing HTTP exceptions, perfect for routes that need to serve both logged-in and anonymous states (like theme togglers).
+
+    Args: request (Request): Raw HTTP request. session (AsyncSession): Database channel. jwt_service (JwtService): The cryptographic processor.
+
+    Returns: User | None: The perfectly validated User object, or None if anonymous.
+    """
     session_cookie = request.cookies.get("session")
     if session_cookie is None:
         return None
@@ -71,6 +111,15 @@ async def get_theme(
     session: Annotated[AsyncSession, Depends(get_session)],
     jwt_service: Annotated[JwtService, Depends(get_jwt_service)],
 ):
+    """
+    Resolves the current theme for the client in real-time.
+
+    It intelligently queries the database for persisted preferences if the user is authenticated, falling back to an unencrypted browser cookie if they are anonymous. It guarantees that the browser is always issued an updated `theme` cookie in response.
+
+    Args: request (Request): The incoming request payload. response (Response): The mutable outbound response payload. session (AsyncSession): High-speed database pipe. jwt_service (JwtService): JWT validation factory.
+
+    Returns: UJSONResponse: The fully synthesized theme JSON dictionary.
+    """
     user = await get_optional_user(
         request=request,
         session=session,
@@ -89,6 +138,15 @@ async def update_theme(
     session: Annotated[AsyncSession, Depends(get_session)],
     jwt_service: Annotated[JwtService, Depends(get_jwt_service)],
 ):
+    """
+    Asynchronously mutates the application theme for the active user.
+
+    This immediately cascades the updated theme into the PostgreSQL database and simultaneously injects a fresh, 180-day `theme` cookie back into the client for instantaneous UI reactivity.
+
+    Args: payload (ThemePayload): The validated theme switch target. request (Request): The HTTP request object. response (Response): The mutable HTTP response. session (AsyncSession): PostgreSQL engine. jwt_service (JwtService): The cryptographic orchestrator.
+
+    Returns: UJSONResponse: The meticulously updated theme echo dictionary.
+    """
     theme = normalize_theme(payload.theme)
     user = await get_optional_user(
         request=request,

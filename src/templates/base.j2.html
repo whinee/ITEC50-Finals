@@ -72,12 +72,14 @@
                                      mask-image: url(/static/assets/images/info.svg)"></span>
                         Info
                     </button>
-                    <a href="/auth/logout">
-                        <span class="svg-icon"
-                              style="-webkit-mask-image: url(/static/assets/images/logout.svg);
-                                     mask-image: url(/static/assets/images/logout.svg)"></span>
-                        Logout
-                    </a>
+                    {% if not hide_logout %}
+                        <a href="/auth/logout">
+                            <span class="svg-icon"
+                                  style="-webkit-mask-image: url(/static/assets/images/logout.svg);
+                                         mask-image: url(/static/assets/images/logout.svg)"></span>
+                            Logout
+                        </a>
+                    {% endif %}
                 </div>
             </div>
         </header>

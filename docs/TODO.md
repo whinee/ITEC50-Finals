@@ -3,6 +3,7 @@
 ## Documentation
 
 - [ ] Automated Lighthouse Reports
+- [ ] Automated Python Docs generator for MD and LaTeX
 
 ## Paper
 
@@ -27,9 +28,11 @@
   - [ ] `/auth/register`
 - [ ] Add SSO and OIDC authentication
 - [ ] Add zero-trust encryption
+- [ ] Add API token authentication
 
 ## Frontend
 
+- [ ] Add functionality to let users pick tags' color
 - [ ] Add background color per foreground color
 - [ ] Add the ability for users to pick from preset color schemes or make their own and be able to share it with other users, either thru a marketplace, or thru sharing a code
 - [ ] Add functionality to generate usernames in the frontend by hitting the backend endpoint

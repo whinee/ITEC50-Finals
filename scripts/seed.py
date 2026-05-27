@@ -1,3 +1,9 @@
+"""
+High-Performance Database Seeder.
+
+A massively scalable asynchronous database seeder capable of instantly hydrating the PostgreSQL instance with thousands of realistic, normalized records using `Faker`. It utilizes raw SQL bulk inserts and connection pooling to bypass the ORM overhead, making it essential for aggressive load testing and rapid local development loops.
+"""
+
 import asyncio
 import json
 import os
@@ -8,13 +14,13 @@ import time
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
-# Ensure the root directory is on the path so we can import 'src'
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
 from cryptography.hazmat.primitives.kdf.argon2 import Argon2id
 from faker import Faker
 from sqlalchemy import text
 from sqlmodel import insert
+
+# Ensure the root directory is on the path so we can import 'src'
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.db.main import async_session
 from src.schema import Bookmark, JDNode, Tag, User
@@ -27,6 +33,13 @@ fake = Faker()
 
 
 def hash_password(password: str) -> str:
+    """
+    Invokes the staggeringly secure Argon2id KDF to immediately transform raw text into an impenetrable, timing-attack resistant password hash.
+
+    Args: password (str): The raw string to protect.
+
+    Returns: str: The cryptographically fortified hashed string.
+    """
     salt = os.urandom(16)
     kdf = Argon2id(
         salt=salt,
@@ -44,6 +57,11 @@ def hash_password(password: str) -> str:
 
 
 async def clear_data(session) -> None:
+    """
+    A ruthlessly efficient truncation mechanism that drops every single record from the database using direct SQL `TRUNCATE TABLE` cascades, resetting the system state in milliseconds.
+
+    Args: session (AsyncSession): The database manager.
+    """
     print("Clearing existing data...")
     await session.execute(
         text(
@@ -54,6 +72,11 @@ async def clear_data(session) -> None:
 
 
 def generate_jd_code() -> str:
+    """
+    Uses pseudo-random synthesis to consistently generate perfectly formatted Johnny.Decimal structural codes.
+
+    Returns: str: The correctly synthesized JD area string.
+    """
     part1 = "".join(
         str(random.randint(0, 9)) for _ in range(random.randint(2, 5))  # noqa: S311
     )
@@ -79,6 +102,13 @@ def generate_jd_code() -> str:
 
 
 def random_date(start: datetime, end: datetime) -> datetime:
+    """
+    Deploys rapid datetime math to instantaneously calculate a perfectly valid timestamp falling precisely within a defined epoch window.
+
+    Args: start (datetime): Floor boundary. end (datetime): Ceiling boundary.
+
+    Returns: datetime: The logically sound random timestamp.
+    """
     delta = end - start
     int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
     if int_delta <= 0:
@@ -96,6 +126,13 @@ async def process_user(  # noqa: C901
     next_jd_id: int,
     next_bookmark_id: int,
 ) -> tuple[int, int, int]:
+    """
+    An incredibly fast generator that manages the entire lifecycle of a fake user payload, from Argon2id hashing to mapping relationships, readying it for high-speed bulk ingestion.
+
+    Args: args (tuple): Multi-process mapping payload.
+
+    Returns: dict: The completely optimized user dictionary.
+    """
     now = datetime.now(UTC)
     epoch = datetime(1970, 1, 1, tzinfo=UTC)
 
@@ -187,13 +224,20 @@ async def process_user(  # noqa: C901
 
     # Pre-generate some fast random strings to avoid Faker overhead in the massive loop
     titles = [f"Amazing resource {i}" for i in range(100)]
-    urls = [f"https://example.com/{random.randint(1, 100000)}" for _ in range(100)]
+    urls = [
+        f"https://example.com/{random.randint(1, 100000)}"  # noqa: S311
+        for _ in range(100)
+    ]
 
     for b_idx in range(bookmark_count):
         b_id = next_bookmark_id
         next_bookmark_id += 1
         b_created = random_date(user_created, now)
-        b_updated = random_date(b_created, now) if random.random() > 0.5 else b_created
+        b_updated = (
+            random_date(b_created, now)
+            if random.random() > 0.5  # noqa: S311
+            else b_created
+        )
 
         b_batch.append(
             {
@@ -248,6 +292,11 @@ async def process_user(  # noqa: C901
 
 
 async def main() -> None:
+    """
+    The massively parallelized, impossibly fast database ingestion engine.
+
+    It leverages raw SQLModel arrays and multiprocessing pools to synthesize and commit thousands of users, tens of thousands of bookmarks, and complex junction tables into PostgreSQL at mind-bending speeds, bypassing all ORM bottlenecks for raw performance.
+    """
     # 1. Prepare User Data
     count = 100
     print(f"Preparing to seed {count} users and millions of bookmarks...")

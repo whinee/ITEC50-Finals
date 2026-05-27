@@ -1,3 +1,9 @@
+---
+trigger: always_on
+glob:
+description:
+---
+
 # Documentation of Engineering Decisions
 
 For every technical, architectural, or design decision made during this project, you MUST document the rationale comprehensively in `paper/main.tex`.

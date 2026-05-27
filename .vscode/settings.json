@@ -10,6 +10,7 @@
                 "-file-line-error",
                 "-bibtex",
                 "-shell-escape",
+                "-output-directory=.",
                 "%DOC%"
             ]
         }

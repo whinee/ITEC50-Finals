@@ -1,9 +1,10 @@
 # CSS Summary: `base.css`
 
-> Generated on 2026-05-26 15:06  
+> Generated on 2026-05-27 23:53\
 > Source: `src/static/stylesheets/base.css`
 
 ## Lint Results
+
 > ✅ No lint issues found.
 
 ## Section Tree
@@ -11,14 +12,14 @@
 ```
 .
 ├── IMPORTS  (line 1-3)
-├── VARIABLES  (line 5-204)
+├── VARIABLES  (line 5-206)
 │   ├── GENERAL  (line 8-15)
 │   ├── SPACES  (line 17-49)
 │   │   ├── STANDALONE  (line 19-30)
 │   │   ├── ONE-UP PAIRS  (line 32-42)
 │   │   └── CUSTOM PAIRS  (line 44-47)
-│   └── COLORS  (line 52-202)
-│       ├── LIGHT THEME  (line 55-125)
+│   └── COLORS  (line 52-204)
+│       ├── LIGHT THEME  (line 55-126)
 │       │   ├── BACKGROUND  (line 57-79)
 │       │   │   ├── #1  (line 59-69)
 │       │   │   └── #2  (line 71-77)
@@ -28,18 +29,18 @@
 │       │   │   └── #3  (line 101-105)
 │       │   ├── TEXT  (line 107-111)
 │       │   ├── STATUS  (line 115-118)
-│       │   └── EFFECTS  (line 120-122)
-│       └── DARK THEME  (line 129-199)
-│           ├── BACKGROUND  (line 131-153)
-│           │   ├── #1  (line 133-143)
-│           │   └── #2  (line 145-151)
-│           ├── FOREGOUND  (line 155-187)
-│           │   ├── #1  (line 157-164)
-│           │   ├── #2  (line 166-173)
-│           │   └── #3  (line 175-179)
-│           ├── TEXT  (line 181-185)
-│           ├── STATUS  (line 189-192)
-│           └── EFFECTS  (line 194-196)
+│       │   └── EFFECTS  (line 120-123)
+│       └── DARK THEME  (line 130-201)
+│           ├── BACKGROUND  (line 132-154)
+│           │   ├── #1  (line 134-144)
+│           │   └── #2  (line 146-152)
+│           ├── FOREGOUND  (line 156-188)
+│           │   ├── #1  (line 158-165)
+│           │   ├── #2  (line 167-174)
+│           │   └── #3  (line 176-180)
+│           ├── TEXT  (line 182-186)
+│           ├── STATUS  (line 190-193)
+│           └── EFFECTS  (line 195-198)
 ├── base: hsl(240, 30%, 98%)
 ├── base: hsl(232, 18%, 74%)
 ├── base: hsl(262, 62%, 42%)
@@ -51,20 +52,20 @@
 ├── base: hsl(326, 70%, 70%)
 ├── base: hsl(321, 100%, 81%)
 ├── OVERRIDE HEADER
-├── COLOR  (line 215-225)
+├── COLOR  (line 217-227)
 ├── override `./downloaded/browserux.css`
-├── HEADERS  (line 227-280)
-├── ICONS  (line 282-300)
-├── SVG ICONS  (line 302-321)
-├── BUTTONS  (line 323-367)
-├── STRUCTURE  (line 369-406)
-├── VISIBILITY  (line 408-416)
-├── SCROLLBAR  (line 418-441)
+├── HEADERS  (line 229-282)
+├── ICONS  (line 284-302)
+├── SVG ICONS  (line 304-323)
+├── BUTTONS  (line 325-369)
+├── STRUCTURE  (line 371-408)
+├── VISIBILITY  (line 410-418)
+├── SCROLLBAR  (line 420-443)
 │   ├── MAIN
 │   ├── HANDLE
 │   ├── HANDLE ON HOVER
 │   └── TRACK
-├── OTHER  (line 443-458)
+├── OTHER  (line 445-460)
 │   └── STRIKETHROUGH
-└── HAMBURGER MENU  (line 460-503)
+└── HAMBURGER MENU  (line 462-505)
 ```

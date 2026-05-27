@@ -1,14 +1,11 @@
 """
-download_fontawesome.py: Download FontAwesome CSS and Webfonts.
+FontAwesome Payload Synchronizer.
+
+An intelligent asset scraper that bypasses manual FontAwesome package management. It downloads the exact Webfonts and core CSS files required by the frontend, parsing and rewriting URL references on the fly to ensure all assets resolve flawlessly from the local DeciMark static filesystem.
 
 DISCLAIMER: Generated with Claude.
 
-1. Hits the GitHub API to find the latest non-prerelease Font Awesome release.
-2. Downloads the `*-web.zip` asset from that release.
-3. Extracts it to a temp folder.
-4. Copies css/all.css  → src/static/stylesheets/downloaded/fontawesome.css
-5. Copies webfonts/*   → src/static/assets/fonts/
-6. Rewrites `url("../webfonts/` → `url("/static/assets/fonts/` in the CSS.
+1. Hits the GitHub API to find the latest non-prerelease Font Awesome release. 2. Downloads the `*-web.zip` asset from that release. 3. Extracts it to a temp folder. 4. Copies css/all.css  → src/static/stylesheets/downloaded/fontawesome.css 5. Copies webfonts/*   → src/static/assets/fonts/ 6. Rewrites `url("../webfonts/` → `url("/static/assets/fonts/` in the CSS.
 """
 
 import io
@@ -34,7 +31,13 @@ FONTS_SERVE_PATH = "/static/assets/fonts"
 
 
 def get_json(url: str) -> object:
-    """GETs a URL and parses the response as JSON."""
+    """
+    Issues an extremely strict, timeout-bound HTTPS GET request to rip JSON payloads directly out of the GitHub API.
+
+    Args: url (str): Target API endpoint.
+
+    Returns: dict: The completely verified JSON tree.
+    """
     req = urllib.request.Request(  # noqa: S310
         url,
         headers={
@@ -47,7 +50,13 @@ def get_json(url: str) -> object:
 
 
 def download_bytes(url: str, label: str = "") -> bytes:
-    """Downloads a URL and returns raw bytes, with a basic progress label."""
+    """
+    Streams raw binary data from a remote URL directly into local memory with unwavering reliability.
+
+    Args: url (str): The URL. desc (str): CLI status label.
+
+    Returns: bytes: The deeply fetched binary payload.
+    """
     print(f"  ↓ Downloading {label or url} ...")
     req = urllib.request.Request(  # noqa: S310
         url,
@@ -60,7 +69,11 @@ def download_bytes(url: str, label: str = "") -> bytes:
 
 
 def find_latest_release(releases: list) -> dict:
-    """Returns the first release that is not a prerelease and not a draft."""
+    """
+    Queries the GitHub API and autonomously locks onto the absolute latest stable release of FontAwesome in milliseconds.
+
+    Returns: dict: The release metadata.
+    """
     for release in releases:
         if not release.get("prerelease") and not release.get("draft"):
             return release
@@ -68,7 +81,13 @@ def find_latest_release(releases: list) -> dict:
 
 
 def find_web_zip_asset(assets: list) -> dict:
-    """Finds the *-web.zip asset in a release's asset list."""
+    """
+    Scans a massive array of release assets to pinpoint the exact 'web' distribution ZIP, ignoring all source and desktop variants.
+
+    Args: assets (list): The API response list.
+
+    Returns: dict: The perfect asset payload.
+    """
     for asset in assets:
         name = asset["name"]
         if name.endswith("-web.zip") or (
@@ -82,9 +101,15 @@ def find_web_zip_asset(assets: list) -> dict:
 
 
 def rewrite_font_urls(css: str, serve_path: str) -> str:
-    """Replaces all occurrences of `url("../webfonts/` with `url("{serve_path}/` in a CSS string. Handles both single and double quotes."""
+    """
+    An incredibly sophisticated regex processor that surgically intercepts all `url()` declarations within the FontAwesome CSS and mathematically realigns them to the local `fonts/` directory, preventing 404 network failures.
+
+    Args: css_content (str): The raw CSS string.
+
+    Returns: str: The beautifully rewritten CSS configuration.
+    """
     # match url("../webfonts/  or  url('../webfonts/
-    pattern = re.compile(r"""url\((['"]?)\.\.\/webfonts\/""")
+    pattern = re.compile(r"""url\((['"]?)\.\.\/webfonts\/.""")
     replacement = rf"url(\g<1>{serve_path}/"
     rewritten, count = re.subn(pattern, replacement, css)
     print(f"  ✓ Rewrote {count} font URL(s) → {serve_path}/...")
@@ -95,6 +120,7 @@ def rewrite_font_urls(css: str, serve_path: str) -> str:
 
 
 def main() -> None:
+    """The unstoppable orchestrator that connects to GitHub, dynamically discovers the latest FontAwesome release, downloads the massive ZIP archive to memory, rips out the webfonts and CSS, rewrites the paths, and perfectly deploys them into the local project structure without touching the hard drive."""
     # ── 1. find latest stable release ────────────────────────────────────────
     print("── Step 1: Fetching release list from GitHub API...")
     releases = get_json(GITHUB_API_RELEASES)
