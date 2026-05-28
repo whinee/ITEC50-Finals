@@ -1,5 +1,4 @@
-"""
-Primary Schema Definitions.
+"""Primary Schema Definitions.
 
 This module houses the absolute core of the DeciMark database structure. Utilizing the power of SQLModel, it aggressively unifies the data persistence layer and Pydantic validation into a single, high-performance source of truth. These models are engineered for extreme performance, utilizing precise types and junction tables to ensure instantaneous querying even with millions of rows of bookmarks and tags.
 """
@@ -14,12 +13,13 @@ from sqlmodel import Column, Field, Relationship, SQLModel
 
 
 class AllPhone(PhoneNumber):
-    """
-    Extremely strict international phone number validator using Pydantic Extra Types.
+    """Extremely strict international phone number validator using Pydantic Extra Types.
 
     Guarantees that any stored phone number conforms flawlessly to international standards, defaulting to the Philippines (PH) region for localized efficiency.
 
-    Args: PhoneNumber (type): Core Pydantic type.
+    Args:
+        PhoneNumber (type): Core Pydantic type.
+
     """
 
     default_region_code = "PH"
@@ -28,12 +28,13 @@ class AllPhone(PhoneNumber):
 
 
 class BaseUsers(SQLModel, table=False):
-    """
-    The foundational, non-table schema for user entities.
+    """The foundational, non-table schema for user entities.
 
     This abstracts out the core user attributes to prevent duplication across DTOs. It guarantees database-level uniqueness and precise length constraints right out of the box, creating an impregnable barrier against bad data injection.
 
-    Args: SQLModel (type): Core SQLModel type.
+    Args:
+        SQLModel (type): Core SQLModel type.
+
     """
 
     username: str = Field(max_length=32, unique=True)
@@ -43,12 +44,13 @@ class BaseUsers(SQLModel, table=False):
 
 
 class User(BaseUsers, table=True):
-    """
-    The absolute source of truth for an authenticated user.
+    """The absolute source of truth for an authenticated user.
 
     This brilliantly structured SQLModel table perfectly encapsulates user persistence, leveraging asynchronous eager-loading and strictly typed relations to ensure the entire bookmark library can be accessed in constant time.
 
-    Args: BaseUsers (type): Inheritance schema.
+    Args:
+        BaseUsers (type): Inheritance schema.
+
     """
 
     __tablename__ = "users"  # type: ignore[assignment]
@@ -88,12 +90,13 @@ class User(BaseUsers, table=True):
 
 
 class BookmarkJDJunction(SQLModel, table=True):
-    """
-    A hyper-optimized many-to-many junction table bridging Bookmarks and Johnny.Decimal nodes.
+    """A hyper-optimized many-to-many junction table bridging Bookmarks and Johnny.Decimal nodes.
 
     It enforces cascading primary keys and relies heavily on PostgreSQL indexing to resolve highly complex, deeply nested user tagging networks in under a millisecond.
 
-    Args: SQLModel (type): Core DB table definition.
+    Args:
+        SQLModel (type): Core DB table definition.
+
     """
 
     __tablename__ = "bookmark_jd_junction"  # type: ignore[assignment]
@@ -102,12 +105,13 @@ class BookmarkJDJunction(SQLModel, table=True):
 
 
 class JDNode(SQLModel, table=True):
-    """
-    The persistence layer for the incredibly structured Johnny.Decimal methodology.
+    """The persistence layer for the incredibly structured Johnny.Decimal methodology.
 
     This model validates that all decimal codes conform to a strict 2-digit, dot, 2-digit layout, while serving as a fundamental anchor point for massive relational datasets.
 
-    Args: SQLModel (type): Core DB table definition.
+    Args:
+        SQLModel (type): Core DB table definition.
+
     """
 
     __tablename__ = "jd_nodes"  # type: ignore[assignment]
@@ -123,12 +127,13 @@ class JDNode(SQLModel, table=True):
 
 
 class BookmarkTagJunction(SQLModel, table=True):
-    """
-    An ultra-lean many-to-many junction table exclusively mapping Bookmarks to custom user Tags.
+    """An ultra-lean many-to-many junction table exclusively mapping Bookmarks to custom user Tags.
 
     By leveraging cascading deletions on strict foreign keys, it guarantees absolute database integrity, permanently eradicating orphan rows across millions of potential permutations.
 
-    Args: SQLModel (type): Core DB table definition.
+    Args:
+        SQLModel (type): Core DB table definition.
+
     """
 
     __tablename__ = "bookmark_tag_junction"  # type: ignore[assignment]
@@ -137,12 +142,13 @@ class BookmarkTagJunction(SQLModel, table=True):
 
 
 class Bookmark(SQLModel, table=True):
-    """
-    The colossal, beautifully engineered core database entity of DeciMark.
+    """The colossal, beautifully engineered core database entity of DeciMark.
 
     Serving as the primary focal point of the application, this table unifies URLs, titles, dates, and hyper-complex `tag` and `jd_node` many-to-many relations into a single, unbelievably fast PostgreSQL construct mapped perfectly to Python primitives.
 
-    Args: SQLModel (type): Core DB table definition.
+    Args:
+        SQLModel (type): Core DB table definition.
+
     """
 
     __tablename__ = "bookmarks"  # type: ignore[assignment]
@@ -170,12 +176,13 @@ class Bookmark(SQLModel, table=True):
 
 
 class Tag(SQLModel, table=True):
-    """
-    The core tagging infrastructure mapped dynamically to users.
+    """The core tagging infrastructure mapped dynamically to users.
 
     By ensuring that every tag contains a mathematically deterministic hex color string based on its unique title, it completely removes frontend color generation overhead and perfectly normalizes the UX across devices.
 
-    Args: SQLModel (type): Core DB table definition.
+    Args:
+        SQLModel (type): Core DB table definition.
+
     """
 
     __tablename__ = "tags"  # type: ignore[assignment]

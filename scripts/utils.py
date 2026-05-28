@@ -1,10 +1,14 @@
+"""Utility functions for CLI scripts."""
+
 def tex_escape(text: str) -> str:
-    """
-    A critical safety net that completely neutralizes any LaTeX-breaking characters found within file paths or code structures, preventing compilation crashes.
+    """Neutralize any LaTeX-breaking characters found within file paths or code structures, preventing compilation crashes.
 
-    Args: text (str): The unsafe string.
+    Args:
+        text (str): The unsafe string.
 
-    Returns: str: The utterly neutralized string.
+    Returns:
+        str: The utterly neutralized string.
+
     """
     replacements = [
         ("\\", r"\textbackslash{}"),

@@ -1,3 +1,5 @@
+"""End-to-end tests for main UI interactions."""
+
 import pytest
 from playwright.async_api import Page, expect
 

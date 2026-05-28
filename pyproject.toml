@@ -70,6 +70,8 @@ dev = [
     "pytest-playwright>=0.8.0",
     "playwright>=1.60.0",
     "pytest-asyncio>=1.4.0",
+    "cairosvg>=2.9.0",
+    "pypandoc-binary>=1.17",
 ]
 
 [build-system]

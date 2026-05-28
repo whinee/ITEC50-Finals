@@ -1,3 +1,5 @@
+"""Global pytest configuration and fixtures."""
+
 import os
 import subprocess
 import time
@@ -47,7 +49,7 @@ def test_server():
 
 @pytest_asyncio.fixture(scope="function")
 async def browser():
-    """Provides a Playwright browser instance."""
+    """Provide a Playwright browser instance."""
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
         yield browser
@@ -56,7 +58,7 @@ async def browser():
 
 @pytest_asyncio.fixture(scope="function")
 async def context(browser: Browser):
-    """Provides a fresh browser context for each test."""
+    """Provide a fresh browser context for each test."""
     context = await browser.new_context(base_url=BASE_URL)
     yield context
     await context.close()
@@ -64,7 +66,7 @@ async def context(browser: Browser):
 
 @pytest_asyncio.fixture(scope="function")
 async def page(context: BrowserContext):
-    """Provides a fresh page for each test."""
+    """Provide a fresh page for each test."""
     page = await context.new_page()
     yield page
     await page.close()
@@ -72,7 +74,7 @@ async def page(context: BrowserContext):
 
 @pytest_asyncio.fixture(scope="function")
 async def auth_context(browser: Browser):
-    """Provides a browser context that is already logged in using a valid seed credential."""
+    """Provide a browser context that is already logged in using a valid seed credential."""
     import json
     
     context = await browser.new_context(base_url=BASE_URL)
@@ -99,7 +101,7 @@ async def auth_context(browser: Browser):
 
 @pytest_asyncio.fixture(scope="function")
 async def auth_page(auth_context: BrowserContext):
-    """Provides a page from an authenticated context."""
+    """Provide a page from an authenticated context."""
     page = await auth_context.new_page()
     yield page
     await page.close()

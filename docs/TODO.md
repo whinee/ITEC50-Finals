@@ -32,6 +32,7 @@
 
 ## Frontend
 
+- [ ] Fix goofy favicons to have squashed/flattened transforms
 - [ ] Add functionality to let users pick tags' color
 - [ ] Add background color per foreground color
 - [ ] Add the ability for users to pick from preset color schemes or make their own and be able to share it with other users, either thru a marketplace, or thru sharing a code
@@ -44,6 +45,8 @@
 - [x] Fix frontend to show a skeleton instead of a zero or blank screen when the data is still loading
 
 ## E2E Testing
+
+- [ ] Test modals
 
 ## Deployment
 

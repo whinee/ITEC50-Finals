@@ -1,5 +1,4 @@
-r"""
-Advanced CSS Abstract Syntax Tree Parser.
+r"""Advanced CSS Abstract Syntax Tree Parser.
 
 An intelligent CSS linter and structural summarizer that harnesses `tinycss2`. It deeply analyzes complex stylesheets, effortlessly extracting component maps, color variables, and structural hierarchies, serving as the backbone for automated frontend documentation generation.
 
@@ -67,10 +66,11 @@ TEX_OUTPUT_DIR_REL_MAIN_PAPER = f"./{TEX_OUTPUT_DIR.relative_to(TEX_MAIN_PAPER_D
 
 
 def resolve_files() -> list[str]:  # noqa: C901
-    """
-    Intelligently crawls the entire filesystem, resolving incredibly complex include/exclude glob configurations to generate the ultimate, deduplicated list of target CSS files in milliseconds.
+    """Intelligently crawls the entire filesystem, resolving incredibly complex include/exclude glob configurations to generate the ultimate, deduplicated list of target CSS files in milliseconds.
 
-    Returns: list[str]: The perfectly curated list of absolute paths.
+    Returns:
+        list[str]: The perfectly curated list of absolute paths.
+
     """
     candidates: set[Path] = set()
 
@@ -132,12 +132,13 @@ def resolve_files() -> list[str]:  # noqa: C901
 
 @dataclass
 class CSSNode:
-    """
-    The absolute foundational structure of our custom CSS Abstract Syntax Tree (AST).
+    """The absolute foundational structure of our custom CSS Abstract Syntax Tree (AST).
 
     This heavily typed class recursively houses selectors, properties, and deeply nested sub-nodes, serving as the in-memory representation of our frontend architecture.
 
-    Args: BaseModel (type): Class inheritance.
+    Args:
+        BaseModel (type): Class inheritance.
+
     """
 
     name: str  # e.g. "COLORS" or "BACKGROUND - #1"
@@ -151,10 +152,11 @@ class CSSNode:
 
 @dataclass
 class LintError:
-    """
-    An immutable class capturing structural inconsistencies during AST generation, enabling strict adherence to our documentation standards.
+    """An immutable class capturing structural inconsistencies during AST generation, enabling strict adherence to our documentation standards.
 
-    Args: BaseModel (type): Class inheritance.
+    Args:
+        BaseModel (type): Class inheritance.
+
     """
 
     line: int
@@ -169,23 +171,28 @@ SELECTOR_RE = re.compile(r"^\s*([^{]+)\{")
 
 
 def split_path(label: str) -> list[str]:
-    """
-    Instantly tokenizes a structured comment path (e.g., `SECTION - SUBSECTION`) into a strictly ordered array.
+    """Instantly tokenizes a structured comment path (e.g., `SECTION - SUBSECTION`) into a strictly ordered array.
 
-    Args: label (str): The raw path label.
+    Args:
+        label (str): The raw path label.
 
-    Returns: list[str]: The broken down path array.
+    Returns:
+        list[str]: The broken down path array.
+
     """
     return [p.strip() for p in label.split(" - ")]
 
 
 def next_non_blank_selector(lines: list[str], after: int) -> str | None:
-    """
-    Blazes forward through a massive array of lines to definitively lock onto the very next CSS selector or block initializer, completely ignoring comments and whitespace.
+    """Blazes forward through a massive array of lines to definitively lock onto the very next CSS selector or block initializer, completely ignoring comments and whitespace.
 
-    Args: lines (list[str]): The file dump. after (int): Line pointer.
+    Args:
+        lines (list[str]): The file dump.
+        after (int): Line pointer.
 
-    Returns: str | None: The sharply identified selector.
+    Returns:
+        str | None: The sharply identified selector.
+
     """
     for i in range(after + 1, min(after + 6, len(lines))):
         line = lines[i].strip()
@@ -200,12 +207,14 @@ def next_non_blank_selector(lines: list[str], after: int) -> str | None:
 
 
 def parse_css(path: str) -> tuple[list[CSSNode], list[LintError]]:  # noqa: C901
-    """
-    The master parser: heavily dissects raw CSS strings into our majestic, deeply nested custom CSSNode AST by identifying semantic START/END blocks and inferring relationships.
+    """Dissect raw CSS strings into our majestic, deeply nested custom CSSNode AST by identifying semantic START/END blocks and inferring relationships.
 
-    Args: path (str): CSS file location.
+    Args:
+        path (str): CSS file location.
 
-    Returns: tuple[list, list]: The full AST and array of detected LintErrors.
+    Returns:
+        tuple[list, list]: The full AST and array of detected LintErrors.
+
     """
     text = Path(path).read_text(encoding="utf-8")
     lines = text.splitlines()
@@ -215,10 +224,11 @@ def parse_css(path: str) -> tuple[list[CSSNode], list[LintError]]:  # noqa: C901
     # ── pass 1: collect all comments with their line numbers ─────────────────
     @dataclass
     class RawComment:
-        """
-        A transient DTO storing unparsed comment blocks exactly as they were ripped from the source code.
+        """A transient DTO storing unparsed comment blocks exactly as they were ripped from the source code.
 
-        Args: object (type): Internal class.
+        Args:
+            object (type): Internal class.
+
         """
 
         line: int
@@ -233,10 +243,11 @@ def parse_css(path: str) -> tuple[list[CSSNode], list[LintError]]:  # noqa: C901
     # ── pass 2: identify start/end pairs vs inline comments ──────────────────
     @dataclass
     class Event:
-        """
-        A strongly typed event class mapping exactly when and where a structural START, END, or INLINE comment occurred during the initial parser scan.
+        """A strongly typed event class mapping exactly when and where a structural START, END, or INLINE comment occurred during the initial parser scan.
 
-        Args: object (type): Internal class.
+        Args:
+            object (type): Internal class.
+
         """
 
         line: int
@@ -304,12 +315,14 @@ def parse_css(path: str) -> tuple[list[CSSNode], list[LintError]]:  # noqa: C901
     stack: list[CSSNode] = []  # currently open block nodes
 
     def current_path_str(extra_parts: list[str]) -> str:
-        """
-        Assembles the definitive string representation of the current AST traversal path.
+        """Assembles the definitive string representation of the current AST traversal path.
 
-        Args: extra_parts (list): Modifiers.
+        Args:
+            extra_parts (list): Modifiers.
 
-        Returns: str: The combined path.
+        Returns:
+            str: The combined path.
+
         """
         base = [s.name for s in stack]
         return " > ".join(base + extra_parts)
@@ -320,12 +333,17 @@ def parse_css(path: str) -> tuple[list[CSSNode], list[LintError]]:  # noqa: C901
         full_path: str,
         depth: int,
     ) -> CSSNode:
-        """
-        An incredibly intelligent tree-walking function that seamlessly creates or navigates deeply nested AST branches based on string inputs.
+        """Create or navigates deeply nested AST branches based on string inputs.
 
-        Args: parent_list (list): Parent array. name (str): Node name. full_path (str): Path context. depth (int): Level.
+        Args:
+            parent_list (list): Parent array.
+            name (str): Node name.
+            full_path (str): Path context.
+            depth (int): Level.
 
-        Returns: CSSNode: The strictly managed node reference.
+        Returns:
+            CSSNode: The strictly managed node reference.
+
         """
         for c in parent_list:
             if c.name == name and not c.is_inline:
@@ -337,12 +355,17 @@ def parse_css(path: str) -> tuple[list[CSSNode], list[LintError]]:  # noqa: C901
     def insert_node(
         parts: list[str],
     ) -> CSSNode | None:
-        """
-        The heavy lifter of the AST generation phase. It takes raw, parsed strings and forces them into their correct structural node locations within the overall file architecture.
+        """Take raw, parsed strings and forces them into their correct structural node locations within the overall file architecture.
 
-        Args: parts (list): Array. line (int): Code line. kind (str): Designation. line_no (int): Line num.
+        Args:
+            parts (list): Array.
+            line (int): Code line.
+            kind (str): Designation.
+            line_no (int): Line num.
 
-        Returns: CSSNode: The newly positioned node.
+        Returns:
+            CSSNode: The newly positioned node.
+
         """
         # The parts represent the FULL path from root.
         # We reconcile with the current stack to find the right insertion point.
@@ -415,7 +438,7 @@ def _ascii_tree_lines(nodes: list, prefix: str = "") -> list[str]:
 
 
 def render_ascii_tree(roots: list) -> str:  # noqa: C901
-    """Returns a full ASCII tree string for a list of root CSSNodes."""
+    """Return a full ASCII tree string for a list of root CSSNodes."""
     if not roots:
         return "(no sections)"
     lines: list[str] = ["."]
@@ -446,15 +469,19 @@ def generate_md(
     roots: list[CSSNode],
     lint_errors: list[LintError],
 ) -> str:
-    """
-    Synthesizes the complete, artifact-ready Markdown file for a parsed CSS document, flawlessly injecting lint errors, statistics, and the recursively generated markdown tree.
+    """Synthesizes the complete, artifact-ready Markdown file for a parsed CSS document, flawlessly injecting lint errors, statistics, and the recursively generated markdown tree.
 
-    Args: css_path (str): File origin. roots (list): The AST roots. lint_errors (list): Validated errors.
+    Args:
+        css_path (str): File origin.
+        roots (list): The AST roots.
+        lint_errors (list): Validated errors.
 
-    Returns: str: The complete Markdown document.
+    Returns:
+        str: The complete Markdown document.
+
     """
     lines: list[str] = [
-        f"# CSS Summary: `{Path(css_path).relative_to(ROOT_FOLDER)!s}`",
+        f"# `{Path(css_path).relative_to(ROOT_FOLDER)!s}`",
         "",
         f"> Generated on {datetime.now().strftime('%Y-%m-%d %H:%M')}  ",
         f"> Source: `{css_path}`",
@@ -490,12 +517,16 @@ def generate_tex(
     roots: list[CSSNode],
     lint_errors: list[LintError],
 ) -> str:
-    """
-    Assembles the final, pristine LaTeX fragment representing an entire CSS architecture, ready to be immediately included in the main academic paper.
+    """Assembles the final, pristine LaTeX fragment representing an entire CSS architecture, ready to be immediately included in the main academic paper.
 
-    Args: css_path (str): Source path. roots (list): AST roots. lint_errors (list): Discovered errors.
+    Args:
+        css_path (str): Source path.
+        roots (list): AST roots.
+        lint_errors (list): Discovered errors.
 
-    Returns: str: The full LaTeX source.
+    Returns:
+        str: The full LaTeX source.
+
     """
     filename_escaped = tex_escape(str(Path(css_path).relative_to(ROOT_FOLDER)))
     path_escaped = tex_escape(css_path)
@@ -506,7 +537,7 @@ def generate_tex(
         f"% Generated: {date_str}",
         f"% Source: {path_escaped}",
         r"",
-        r"\section{" + f"{filename_escaped}" + r"}",
+        r"\section{\texttt{" + f"{filename_escaped}" + r"}}",
         r"\textit{Source: \texttt{" + path_escaped + r"}} \\",
         r"\textit{Generated: " + tex_escape(date_str) + r"} \\",
         r"",
@@ -540,14 +571,6 @@ def generate_tex(
 
     lines.append(r"")
 
-    # lines.append(r"\subsection{File Contents}")
-    # lines.append(
-    #     r"\inputmintedstyledtwocolumns{css}{"
-    #     + str(Path(css_path).absolute().relative_to(TEX_MAIN_PAPER_DIR, walk_up=True))
-    #     + r"}",
-    # )
-    # lines.append(r"\newpage")
-
     return "\n".join(lines)
 
 
@@ -555,12 +578,15 @@ def generate_tex(
 
 
 def generate_md_index(css_files: list[str], md_dir: str) -> str:
-    """
-    Constructs the master Markdown index, dynamically hyperlinking every single generated CSS summary into a cohesive, easily navigable frontend architecture hub.
+    """Construct the master Markdown index, dynamically hyperlinking every single generated CSS summary into a cohesive, easily navigable frontend architecture hub.
 
-    Args: css_files (list): Extracted files. md_dir (str): Output target.
+    Args:
+        css_files (list): Extracted files.
+        md_dir (str): Output target.
 
-    Returns: str: The fully formed Markdown index.
+    Returns:
+        str: The fully formed Markdown index.
+
     """
     date_str = datetime.now().strftime("%Y-%m-%d %H:%M")
     lines = [
@@ -574,18 +600,22 @@ def generate_md_index(css_files: list[str], md_dir: str) -> str:
     for css_path in css_files:
         rel = Path(css_path).relative_to(ROOT_FOLDER)
         md_name = rel.with_suffix(".md")
-        lines.append(f"- [{rel}](./{md_name})")
+        lines.append(f"- [`{rel}`](./{md_name})")
     lines.append("")
     return "\n".join(lines)
 
 
 def generate_tex_index(css_files: list[str], tex_dir: str) -> str:
     r"""
-    Generates the absolute central LaTeX input manifest, allowing the massive academic paper to include all CSS reports perfectly via a single `\input` command.
+    Generate the absolute central LaTeX input manifest, allowing the massive academic paper to include all CSS reports perfectly via a single `\input` command.
 
-    Args: css_files (list): Analyzed files. tex_dir (str): Target output.
+    Args:
+        css_files (list): Analyzed files.
+        tex_dir (str): Target output.
 
-    Returns: str: The `index.tex` content.
+    Returns:
+        str: The `index.tex` content.
+
     """
     date_str = datetime.now().strftime("%Y-%m-%d %H:%M")
     lines = [
@@ -601,13 +631,36 @@ def generate_tex_index(css_files: list[str], tex_dir: str) -> str:
     return "\n".join(lines)
 
 
+def generate_tex_code_index(css_files: list[str]) -> str:
+    """Generate the absolute central LaTeX input manifest for all the raw CSS file contents."""
+    date_str = datetime.now().strftime("%Y-%m-%d %H:%M")
+    lines = [
+        "% CSS Source Code Index",
+        f"% Generated: {date_str}",
+        r"",
+    ]
+    for css_path in css_files:
+        filename_escaped = tex_escape(str(Path(css_path).relative_to(ROOT_FOLDER)))
+        lines.append(r"\section{\texttt{" + filename_escaped + r"}}")
+        lines.append(
+            r"\inputmintedstyledtwocolumns{css}{"
+            + str(Path(css_path).absolute().relative_to(TEX_MAIN_PAPER_DIR, walk_up=True))
+            + "}",
+        )
+        lines.append(r"\newpage")
+    lines.append(r"")
+    return "\n".join(lines)
+
 def run_stylelint(css_path: str) -> list[LintError]:  # noqa: C901
-    """
-    Spawns an asynchronous subprocess to relentlessly unleash `stylelint` upon a CSS file, immediately fetching its JSON payload to integrate industry-standard linting straight into our custom reports.
+    """Spawns an asynchronous subprocess to relentlessly unleash `stylelint` upon a CSS file, immediately fetching its JSON payload to integrate industry-standard linting straight into our custom reports.
 
-    Args: path (str): Target file.
+    Args:
+        css_path (Any): Undocumented argument.
+        path (str): Target file.
 
-    Returns: list: The heavily detailed array of standard stylelint offenses.
+    Returns:
+        list: The heavily detailed array of standard stylelint offenses.
+
     """
     try:
         result = subprocess.run(  # noqa: S603
@@ -649,7 +702,7 @@ def run_stylelint(css_path: str) -> list[LintError]:  # noqa: C901
 
 
 def main() -> None:  # noqa: C901
-    """The supreme commander of the CSS processing workflow. It initializes the directories, completely annihilates old files, parses all CSS dynamically, and flushes beautifully constructed Markdown and LaTeX reports directly to disk."""
+    """Initialize the directories, completely annihilates old files, parses all CSS dynamically, and flushes beautifully constructed Markdown and LaTeX reports directly to disk."""
     os.makedirs(MD_OUTPUT_DIR, exist_ok=True)
     os.makedirs(TEX_OUTPUT_DIR, exist_ok=True)
 
@@ -718,6 +771,13 @@ def main() -> None:  # noqa: C901
         encoding="utf-8",
     )
     print(f"  ✓ TEX index → {tex_index_path}")
+
+    tex_code_index_path = os.path.join(TEX_OUTPUT_DIR, "index-code.tex")
+    Path(tex_code_index_path).write_text(
+        generate_tex_code_index(processed),
+        encoding="utf-8",
+    )
+    print(f"  ✓ TEX code index → {tex_code_index_path}")
 
     print(f"\n── Done! Processed {len(processed)} file(s).")
 

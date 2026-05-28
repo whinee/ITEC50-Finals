@@ -1,5 +1,4 @@
-"""
-Application Entrypoint.
+"""Application Entrypoint.
 
 The primary FastAPI ASGI gateway. This file meticulously orchestrates the entire lifecycle of the DeciMark backend, aggressively mounting routers, static files, and security middlewares into a cohesive, zero-trust web application capable of servicing thousands of concurrent asynchronous connections.
 """
@@ -67,8 +66,7 @@ async def add_process_time_header(
     request: Request,
     call_next: Callable[[Request], Awaitable[Response]],
 ) -> Response | UJSONResponse | _TemplateResponse:  # type: ignore
-    """
-    High-performance HTTP middleware that brutally intercepts every request to compute and inject ultra-precise `X-Process-Time` headers, while autonomously catching unhandled exceptions and mapping them to standardized JSON payloads.
+    """High-performance HTTP middleware that brutally intercepts every request to compute and inject ultra-precise `X-Process-Time` headers, while autonomously catching unhandled exceptions and mapping them to standardized JSON payloads.
 
     Args:
         request (Request): The incoming FastAPI request.
@@ -107,6 +105,7 @@ app.include_router(preferences.router, prefix="/api", tags=["preferences"])
 
 @app.get("/docs", include_in_schema=False, status_code=200)
 async def docs(response: Response):  # type: ignore[no-untyped-def]
+    """Missing docstring."""
     response.status_code = 200
     return get_swagger_ui_html(
         openapi_url=app.openapi_url,  # type: ignore[arg-type]
@@ -117,8 +116,7 @@ async def docs(response: Response):  # type: ignore[no-untyped-def]
 
 @app.get("/http_code/{status_code}")
 async def http_code_get(request: Request, status_code: int) -> _TemplateResponse:
-    """
-    Dynamically resolves and renders a deeply comprehensive HTTP status code documentation page.
+    """Dynamically resolves and renders a deeply comprehensive HTTP status code documentation page.
 
     Args:
         request (Request): The raw HTTP request.
@@ -136,8 +134,7 @@ async def landing_page(
     request: Request,
     session: Annotated[AsyncSession, Depends(get_session)],
 ):
-    """
-    Serves the primary landing page while concurrently aggregating live system statistics (total bookmarks, total users) via aggressive `asyncpg` COUNT aggregations to ensure O(1) dashboard responsiveness.
+    """Serve the primary landing page while concurrently aggregating live system statistics (total bookmarks, total users) via aggressive `asyncpg` COUNT aggregations to ensure O(1) dashboard responsiveness.
 
     Args:
         request (Request): The raw HTTP request.
@@ -167,9 +164,14 @@ async def bookmarks_dashboard_redirect(
 ) -> RedirectResponse:
     """Instantly redirects an authenticated user straight to the bookmarks dashboard.
 
-    Args: request (Request): The incoming HTTP request. is_authenticated (bool): Absolute cryptographic verification boolean.
+    Args:
+        request (Request): The incoming HTTP request.
+        is_authenticated (bool): Absolute cryptographic verification boolean.
 
-    Returns: RedirectResponse: A blazing-fast 307 Temporary Redirect."""
+    Returns:
+        RedirectResponse: A blazing-fast 307 Temporary Redirect.
+
+    """
     if not is_authenticated:
         return RedirectResponse(url="/login", status_code=303)
     query = f"?{request.url.query}" if request.url.query else ""
@@ -183,9 +185,14 @@ async def bookmarks_add_redirect(
 ) -> RedirectResponse:
     """Aggressively routes the user to the bookmark creation interface.
 
-    Args: request (Request): The incoming HTTP request. is_authenticated (bool): Absolute cryptographic verification boolean.
+    Args:
+        request (Request): The incoming HTTP request.
+        is_authenticated (bool): Absolute cryptographic verification boolean.
 
-    Returns: RedirectResponse: A blazing-fast 307 Temporary Redirect."""
+    Returns:
+        RedirectResponse: A blazing-fast 307 Temporary Redirect.
+
+    """
     if not is_authenticated:
         return RedirectResponse(url="/login", status_code=303)
     query = f"?{request.url.query}" if request.url.query else ""
@@ -199,9 +206,14 @@ async def bookmarks_jd_redirect(
 ) -> RedirectResponse:
     """Directs the user to the precise Johnny.Decimal bookmark management portal.
 
-    Args: request (Request): The incoming HTTP request. is_authenticated (bool): Absolute cryptographic verification boolean.
+    Args:
+        request (Request): The incoming HTTP request.
+        is_authenticated (bool): Absolute cryptographic verification boolean.
 
-    Returns: RedirectResponse: A blazing-fast 307 Temporary Redirect."""
+    Returns:
+        RedirectResponse: A blazing-fast 307 Temporary Redirect.
+
+    """
     if not is_authenticated:
         return RedirectResponse(url="/login", status_code=303)
     query = f"?{request.url.query}" if request.url.query else ""
@@ -215,9 +227,14 @@ async def bookmarks_tag_redirect(
 ) -> RedirectResponse:
     """Navigates the user instantly into the tag-based bookmark filtering system.
 
-    Args: request (Request): The incoming HTTP request. is_authenticated (bool): Absolute cryptographic verification boolean.
+    Args:
+        request (Request): The incoming HTTP request.
+        is_authenticated (bool): Absolute cryptographic verification boolean.
 
-    Returns: RedirectResponse: A blazing-fast 307 Temporary Redirect."""
+    Returns:
+        RedirectResponse: A blazing-fast 307 Temporary Redirect.
+
+    """
     if not is_authenticated:
         return RedirectResponse(url="/login", status_code=303)
     query = f"?{request.url.query}" if request.url.query else ""
@@ -231,9 +248,14 @@ async def bookmarks_search_redirect(
 ) -> RedirectResponse:
     """Propels the user directly into the high-performance search interface.
 
-    Args: request (Request): The incoming HTTP request. is_authenticated (bool): Absolute cryptographic verification boolean.
+    Args:
+        request (Request): The incoming HTTP request.
+        is_authenticated (bool): Absolute cryptographic verification boolean.
 
-    Returns: RedirectResponse: A blazing-fast 307 Temporary Redirect."""
+    Returns:
+        RedirectResponse: A blazing-fast 307 Temporary Redirect.
+
+    """
     if not is_authenticated:
         return RedirectResponse(url="/login", status_code=303)
     query = f"?{request.url.query}" if request.url.query else ""
@@ -242,6 +264,15 @@ async def bookmarks_search_redirect(
 
 @app.post("/http_code/{status_code}")
 async def http_code_post(status_code: int):  # type: ignore[no-untyped-def]
+    """Instantly bounce a POST request to the equivalent HTTP status code documentation endpoint.
+
+    Args:
+        status_code (int): The target HTTP status code to brutally redirect towards.
+
+    Returns:
+        RedirectResponse: A hyper-fast 302 redirection envelope.
+
+    """
     return CustomResponse.json(status_code=status_code)
 
 
@@ -251,9 +282,13 @@ async def handle_webhook(request: Request):  # type: ignore[no-untyped-def]
 
     Relentlessly verifies the incoming `X-Hub-Signature-256` payload against the environment webhook secret using constant-time HMAC comparison to prevent timing attacks, automatically deploying updates upon validation.
 
-    Args: request (Request): The raw GitHub webhook payload.
+    Args:
+        request (Request): The raw GitHub webhook payload.
 
-    Returns: dict: An incredibly fast acknowledgement payload."""
+    Returns:
+        dict: An incredibly fast acknowledgement payload.
+
+    """
     payload = await request.body()
     secret = settings.AUTH.WEBHOOK_SECRET
     signature = request.headers.get("X-Hub-Signature-256")
@@ -272,16 +307,16 @@ async def login_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
 ):
-    """Instantly bounces a POST request to the equivalent HTTP status code documentation endpoint.
+    """Intelligently divert already-authenticated users away from the login portal back to the core dashboard.
 
-    Args: status_code (int): The target HTTP status code to brutally redirect towards.
+    Args:
+        request (Request): The HTTP request.
+        is_authenticated (bool): Absolute cryptographic verification boolean.
 
-    Returns: RedirectResponse: A hyper-fast 302 redirection envelope."""
-    """Intelligently diverts already-authenticated users away from the login portal back to the core dashboard.
+    Returns:
+        RedirectResponse: A 307 redirect to the dashboard, or the login page if unauthenticated.
 
-    Args: request (Request): The HTTP request. is_authenticated (bool): Absolute cryptographic verification boolean.
-
-    Returns: RedirectResponse: A 307 redirect to the dashboard, or the login page if unauthenticated."""
+    """
     if is_authenticated:
         return RedirectResponse(url="/bookmarks/dashboard", status_code=303)
     try:
@@ -292,11 +327,16 @@ async def login_redirect(
 
 @app.get("/{page}")
 async def serve_page(request: Request, page: str):
-    """A deeply optimized wildcard router that statically resolves and renders root-level Markdown pages.
+    """Resolve and renders root-level Markdown pages.
 
-    Args: request (Request): The HTTP request. page (str): The requested path string.
+    Args:
+        request (Request): The HTTP request.
+        page (str): The requested path string.
 
-    Returns: _TemplateResponse: The dynamically synthesized HTML page."""
+    Returns:
+        _TemplateResponse: The dynamically synthesized HTML page.
+
+    """
     try:
         return TEMPLATES.TemplateResponse(request=request, name=f"{page}.j2.html", context={"hide_logout": True})
     except TemplateNotFound as e:

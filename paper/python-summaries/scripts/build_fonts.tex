@@ -1,0 +1,42 @@
+% Python module: scripts.build_fonts
+% Generated: 2026-05-28 10:16
+
+\section{\texttt{scripts/build\_fonts.py}}
+\textit{Module: \texttt{scripts.build\_fonts}} \\
+\textit{Generated: 2026-05-28 10:16} \\
+
+Variable Font Build Pipeline.
+
+A highly sophisticated font compiler script that seamlessly aggregates
+static TTF masters into robust, fluid Variable Fonts using fontmake. By
+automating the generation of DesignSpaces and managing instance
+interpolations, this engine massively shrinks network payloads and
+empowers DeciMark's dynamic UI typography without manual
+font-engineering intervention.
+
+DISCLAIMER: Generated with Claude.
+
+Pipeline per font family found in --src: 1. Auto-detect TTF/OTF masters
+(OTF → TTF converted automatically) 2. Group masters by family
+(everything before the first `-' in the filename) 3. Build one variable
+TTF per family: - wght axis if 2+ weights exist - ital axis if both
+upright + italic masters exist - Single-master families are passed
+through as-is (no variable build) 4. Convert a whitelist of filenames →
+woff2
+
+Usage: python build\_fonts.py --src /path/to/font/masters --out
+/path/to/output
+
+Optional flags: --ttf-extras /path Extra folder of TTFs to include in
+woff2 whitelist search --skip-variable Skip variable font building
+--skip-woff2 Skip woff2 conversion
+
+Filename conventions expected: \{Family\}-\{Weight\}.ttf
+e.g.~Manrope-Bold.ttf \{Family\}-\{Weight\}Italic.ttf
+e.g.~Manrope-BoldItalic.ttf \{Family\}-\{Weight\}.otf (auto-converted to
+TTF) \{Family\}.ttf Single-file family (no weight suffix)
+
+Recognised weight fragments (case-sensitive): Thin=100, ExtraLight=200,
+Light=300, Regular=400, Medium=500, SemiBold=600, Bold=700,
+ExtraBold=800, Black=900
+

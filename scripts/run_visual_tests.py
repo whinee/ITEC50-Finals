@@ -1,3 +1,5 @@
+"""Automated visual regression testing script."""
+
 import asyncio
 import json
 import multiprocessing
@@ -51,7 +53,7 @@ VIEWPORTS = [
 
 
 def run_lighthouse(url: str, file_label: str) -> dict:
-    """Runs Lighthouse CLI against the URL and returns the parsed JSON scores."""
+    """Run Lighthouse CLI against the URL and returns the parsed JSON scores."""
     print(f"Running Lighthouse for {url}...")
     tmp = tempfile.NamedTemporaryFile(
         prefix=f"lighthouse_{file_label}_",
@@ -96,16 +98,19 @@ def run_lighthouse(url: str, file_label: str) -> dict:
             "seo": round((lhr["categories"]["seo"]["score"] or 0) * 100),
             "metrics": {
                 "FCP": lhr["audits"]["first-contentful-paint"].get(
-                    "displayValue", "N/A"
+                    "displayValue",
+                    "N/A",
                 ),
                 "LCP": lhr["audits"]["largest-contentful-paint"].get(
-                    "displayValue", "N/A"
+                    "displayValue",
+                    "N/A",
                 ),
                 "SpeedIndex": lhr["audits"]["speed-index"].get("displayValue", "N/A"),
                 "TTI": lhr["audits"]["interactive"].get("displayValue", "N/A"),
                 "TBT": lhr["audits"]["total-blocking-time"].get("displayValue", "N/A"),
                 "CLS": lhr["audits"]["cumulative-layout-shift"].get(
-                    "displayValue", "N/A"
+                    "displayValue",
+                    "N/A",
                 ),
             },
         }
@@ -133,7 +138,7 @@ def run_lighthouse(url: str, file_label: str) -> dict:
 
 
 async def capture_viewport(context, url, theme, vp, output_dir, label):
-    """Captures a single viewport using its own page instance concurrently."""
+    """Capture a single viewport using its own page instance concurrently."""
     async with sem:
         page = await context.new_page()
         page.set_default_timeout(90000)
@@ -155,7 +160,7 @@ async def capture_viewport(context, url, theme, vp, output_dir, label):
 
 
 def make_theme_route_handler(theme_val):
-    """Mocks the backend API so it returns the requested theme without hitting the DB."""
+    """Mock the backend API so it returns the requested theme without hitting the DB."""
 
     async def route_handler(route):
         if route.request.method == "GET":
@@ -167,9 +172,12 @@ def make_theme_route_handler(theme_val):
 
 
 async def process_pages(
-    contexts, pages_subset, pages_tex_content, lighthouse_tex_content
+    contexts,
+    pages_subset,
+    pages_tex_content,
+    lighthouse_tex_content,
 ):
-    """Processes a subset of pages using the provided contexts."""
+    """Process a subset of pages using the provided contexts."""
     for label, path, _requires_auth in pages_subset:
         page_start_time = time.time()
         url = f"{BASE_URL}{path}"
@@ -185,7 +193,7 @@ async def process_pages(
                 [
                     capture_viewport(ctx, url, theme, vp, SCREENSHOTS_OUTPUT_DIR, label)
                     for vp in VIEWPORTS
-                ]
+                ],
             )
 
         # Run screenshots and Lighthouse concurrently
@@ -199,7 +207,7 @@ async def process_pages(
         for theme in ["light", "dark"]:
             theme_results = [r for r in results if r[1].startswith(f"{label}-{theme}")]
             for vp, _filename, output_path in theme_results:
-                pages_tex_content += f"\\begin{{figure}}[H]\n    \\includegraphics[width=\\linewidth, height=0.8\\paperheight, keepaspectratio]{{{Path(output_path).relative_to(TEX_MAIN_PAPER_DIR, walk_up=True)}}}\n    \\caption{{{escaped_path} ({theme}) {vp['width']}x{vp['height']}px}}\n    \\label{{fig:{label}-{theme}-{vp['width']}x{vp['height']}}}\n\\end{{figure}}\n"
+                pages_tex_content += f"\\begin{{figure}}[H]\n    \\centering\n    \\includegraphics[width=\\linewidth, height=0.8\\paperheight, keepaspectratio]{{{Path(output_path).relative_to(TEX_MAIN_PAPER_DIR, walk_up=True)}}}\n    \\caption{{{escaped_path} ({theme}) {vp['width']}x{vp['height']}px}}\n    \\label{{fig:{label}-{theme}-{vp['width']}x{vp['height']}}}\n\\end{{figure}}\n"
 
         lighthouse_tex_content += f"\\begin{{table}}[H]\n\\centering\n\\caption{{Lighthouse Scores for {escaped_path}}}\n\\begin{{tabular}}{{|l|c|}}\n\\hline\nCategory & Score \\\\ \\hline\nPerformance & {metrics['performance']} \\\\ \\hline\nAccessibility & {metrics['accessibility']} \\\\ \\hline\nBest Practices & {metrics['bestPractices']} \\\\ \\hline\nSEO & {metrics['seo']} \\\\ \\hline\n\\end{{tabular}}\n\\end{{table}}\n\n\\begin{{table}}[H]\n\\centering\n\\caption{{Lighthouse Metrics for {escaped_path}}}\n\\begin{{tabular}}{{|l|c|}}\n\\hline\nMetric & Value \\\\ \\hline\nFCP & {metrics['metrics']['FCP']} \\\\ \\hline\nLCP & {metrics['metrics']['LCP']} \\\\ \\hline\nSpeedIndex & {metrics['metrics']['SpeedIndex']} \\\\ \\hline\nTTI & {metrics['metrics']['TTI']} \\\\ \\hline\nTBT & {metrics['metrics']['TBT']} \\\\ \\hline\nCLS & {metrics['metrics']['CLS']} \\\\ \\hline\n\\end{{tabular}}\n\\end{{table}}\n"
 
@@ -210,6 +218,7 @@ async def process_pages(
 
 
 async def run_tests():  # noqa: C901
+    """Missing docstring."""
     os.environ["TEST__LIGHTHOUSE"] = "true"
 
     # Using 4 workers to ensure Hypercorn doesn't choke under Playwright concurrency
@@ -248,10 +257,11 @@ async def run_tests():  # noqa: C901
             for theme in ["light", "dark"]:
                 ctx = await browser.new_context(base_url=BASE_URL)
                 await ctx.add_cookies(
-                    [{"name": "theme", "value": theme, "url": BASE_URL}]
+                    [{"name": "theme", "value": theme, "url": BASE_URL}],
                 )
                 await ctx.route(
-                    "**/api/settings/theme*", make_theme_route_handler(theme)
+                    "**/api/settings/theme*",
+                    make_theme_route_handler(theme),
                 )
                 contexts[theme] = ctx
 
@@ -262,7 +272,7 @@ async def run_tests():  # noqa: C901
             total_test_start = time.time()
 
             print(
-                f"Executing with hardware-optimized concurrency: {concurrency_limit} viewports max."
+                f"Executing with hardware-optimized concurrency: {concurrency_limit} viewports max.",
             )
 
             # 1. Unauthenticated Pages

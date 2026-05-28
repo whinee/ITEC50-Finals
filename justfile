@@ -149,6 +149,7 @@ lint:
 # Generate reports
 gen-reports:
     @ just lint-css
+    @ uv run scripts/summarize_python.py
     @ uv run scripts/generate_scc_report.py
     @ uv run scripts/run_visual_tests.py
     @ just lint-tex

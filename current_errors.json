@@ -1,0 +1,900 @@
+[
+  {
+    "cell": null,
+    "code": "D103",
+    "end_location": {
+      "column": 15,
+      "row": 107
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/main.py",
+    "fix": null,
+    "location": {
+      "column": 11,
+      "row": 107
+    },
+    "message": "Missing docstring in public function",
+    "noqa_row": 107,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/undocumented-public-function"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 145
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/main.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 136
+    },
+    "message": "First line of docstring should be in imperative mood: \"Serves the primary landing page while concurrently aggregating live system statistics (total bookmarks, total users) via aggressive `asyncpg` COUNT aggregations to ensure O(1) dashboard responsiveness.\"",
+    "noqa_row": 145,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D103",
+    "end_location": {
+      "column": 25,
+      "row": 245
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/main.py",
+    "fix": null,
+    "location": {
+      "column": 11,
+      "row": 245
+    },
+    "message": "Missing docstring in public function",
+    "noqa_row": 245,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/undocumented-public-function"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 303
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/main.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 298
+    },
+    "message": "First line of docstring should be in imperative mood: \"A deeply optimized wildcard router that statically resolves and renders root-level Markdown pages.\"",
+    "noqa_row": 303,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 36
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/any_to_ttf.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 33
+    },
+    "message": "First line of docstring should be in imperative mood: \"Renders a massive CLI section header with absolute visual dominance.\"",
+    "noqa_row": 36,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 164,
+      "row": 125
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/any_to_ttf.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 125
+    },
+    "message": "First line of docstring should be in imperative mood: \"The unstoppable execution loop that crawls the provided directory, identifying non-TTF fonts and relentlessly transmuting them into perfect TTF binaries.\"",
+    "noqa_row": 125,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 76
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/build_fonts.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 73
+    },
+    "message": "First line of docstring should be in imperative mood: \"Renders a visually striking, massive header block in the terminal to cleanly delineate script execution phases.\"",
+    "noqa_row": 76,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 90
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/build_fonts.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 87
+    },
+    "message": "First line of docstring should be in imperative mood: \"A brutally fast mathematical transformation that completely obliterates CFF (PostScript) cubic bezier curves and meticulously rebuilds them into perfectly optimized TrueType quadratic outlines.\"",
+    "noqa_row": 90,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 179
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/build_fonts.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 174
+    },
+    "message": "First line of docstring should be in imperative mood: \"Executes a surgical regex pattern matching operation to extract exact font weight hierarchies and italic designations from raw file names.\"",
+    "noqa_row": 179,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 252
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/build_fonts.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 247
+    },
+    "message": "First line of docstring should be in imperative mood: \"The absolute pinnacle of font engineering: dynamically synthesizes a singular, infinitely scalable Variable TrueType font by perfectly interpolating massive arrays of static font instances across the `wght` design axis.\"",
+    "noqa_row": 252,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 12,
+      "row": 387
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/build_fonts.py",
+    "fix": null,
+    "location": {
+      "column": 9,
+      "row": 382
+    },
+    "message": "First line of docstring should be in imperative mood: \"Performs a deep-level binary inspection to load a font, coercing its axes to match exact definitions and eradicating mismatched metrics to prevent variable font corruption.\"",
+    "noqa_row": 387,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 443
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/build_fonts.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 438
+    },
+    "message": "First line of docstring should be in imperative mood: \"Invokes Google's legendary brotli-based WOFF2 compression algorithm, instantaneously crushing a massive TTF binary down to the smallest possible byte footprint for ultra-fast network delivery.\"",
+    "noqa_row": 443,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 12,
+      "row": 451
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/build_fonts.py",
+    "fix": null,
+    "location": {
+      "column": 9,
+      "row": 446
+    },
+    "message": "First line of docstring should be in imperative mood: \"The highly parallelizable inner closure responsible for managing individual font loading and mathematical alignment during variable font synthesis.\"",
+    "noqa_row": 451,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 186,
+      "row": 471
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/build_fonts.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 471
+    },
+    "message": "First line of docstring should be in imperative mood: \"The master orchestrator of the entire typography pipeline, seamlessly handling conversion, interpolation, compression, and CSS generation in one devastatingly efficient sweep.\"",
+    "noqa_row": 471,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 31
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/download_css.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 26
+    },
+    "message": "First line of docstring should be in imperative mood: \"Extracts the precise filename from an arbitrary URL, effortlessly circumventing URL parameters and fragments.\"",
+    "noqa_row": 31,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 41
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/download_css.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 36
+    },
+    "message": "First line of docstring should be in imperative mood: \"Executes a high-speed HTTP GET request, forcefully ripping a remote file from the network and streaming it safely into local disk storage.\"",
+    "noqa_row": 41,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 134,
+      "row": 63
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/download_css.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 63
+    },
+    "message": "First line of docstring should be in imperative mood: \"The core loop that parses a predefined list of remote stylesheets and violently ingests them into the local frontend cache.\"",
+    "noqa_row": 63,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 72
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/download_fontawesome.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 69
+    },
+    "message": "First line of docstring should be in imperative mood: \"Queries the GitHub API and autonomously locks onto the absolute latest stable release of FontAwesome in milliseconds.\"",
+    "noqa_row": 72,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 85
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/download_fontawesome.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 80
+    },
+    "message": "First line of docstring should be in imperative mood: \"Scans a massive array of release assets to pinpoint the exact 'web' distribution ZIP, ignoring all source and desktop variants.\"",
+    "noqa_row": 85,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 104
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/download_fontawesome.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 99
+    },
+    "message": "First line of docstring should be in imperative mood: \"An incredibly sophisticated regex processor that surgically intercepts all `url()` declarations within the FontAwesome CSS and mathematically realigns them to the local `fonts/` directory, preventing 404 network failures.\"",
+    "noqa_row": 104,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 307,
+      "row": 117
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/download_fontawesome.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 117
+    },
+    "message": "First line of docstring should be in imperative mood: \"The unstoppable orchestrator that connects to GitHub, dynamically discovers the latest FontAwesome release, downloads the massive ZIP archive to memory, rips out the webfonts and CSS, rewrites the paths, and perfectly deploys them into the local project structure without touching the hard drive.\"",
+    "noqa_row": 117,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 53
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/generate_scc_report.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 48
+    },
+    "message": "First line of docstring should be in imperative mood: \"Fires up the blindingly fast `scc` tool via subprocess, intercepting the raw metrics directly from the CLI and instantaneously deserializing the JSON payload.\"",
+    "noqa_row": 53,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 87
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/generate_scc_report.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 82
+    },
+    "message": "First line of docstring should be in imperative mood: \"Implements the highly advanced COCOMO estimation model to predict development costs and effort with surgical precision.\"",
+    "noqa_row": 87,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 108
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/generate_scc_report.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 103
+    },
+    "message": "First line of docstring should be in imperative mood: \"Executes a massive, high-speed aggregation loop across all file metrics, calculating absolute codebase totals for SLOC, Blank, Comments, and Complexity.\"",
+    "noqa_row": 108,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 201,
+      "row": 337
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/generate_scc_report.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 337
+    },
+    "message": "First line of docstring should be in imperative mood: \"The unstoppable orchestrator that runs SCC, aggregates the massive metrics, and flushes perfect LaTeX and Markdown artifacts directly into the output directories in a matter of milliseconds.\"",
+    "noqa_row": 337,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 82,
+      "row": 56
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/run_visual_tests.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 56
+    },
+    "message": "First line of docstring should be in imperative mood: \"Runs Lighthouse CLI against the URL and returns the parsed JSON scores.\"",
+    "noqa_row": 56,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 79,
+      "row": 141
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/run_visual_tests.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 141
+    },
+    "message": "First line of docstring should be in imperative mood: \"Captures a single viewport using its own page instance concurrently.\"",
+    "noqa_row": 141,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 90,
+      "row": 163
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/run_visual_tests.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 163
+    },
+    "message": "First line of docstring should be in imperative mood: \"Mocks the backend API so it returns the requested theme without hitting the DB.\"",
+    "noqa_row": 163,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 67,
+      "row": 180
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/run_visual_tests.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 180
+    },
+    "message": "First line of docstring should be in imperative mood: \"Processes a subset of pages using the provided contexts.\"",
+    "noqa_row": 180,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D103",
+    "end_location": {
+      "column": 20,
+      "row": 220
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/run_visual_tests.py",
+    "fix": null,
+    "location": {
+      "column": 11,
+      "row": 220
+    },
+    "message": "Missing docstring in public function",
+    "noqa_row": 220,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/undocumented-public-function"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 40
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/seed.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 35
+    },
+    "message": "First line of docstring should be in imperative mood: \"Invokes the staggeringly secure Argon2id KDF to immediately transform raw text into an impenetrable, timing-attack resistant password hash.\"",
+    "noqa_row": 40,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 61
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/seed.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 58
+    },
+    "message": "First line of docstring should be in imperative mood: \"A ruthlessly efficient truncation mechanism that drops every single record from the database using direct SQL `TRUNCATE TABLE` cascades, resetting the system state in milliseconds.\"",
+    "noqa_row": 61,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 75
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/seed.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 72
+    },
+    "message": "First line of docstring should be in imperative mood: \"Uses pseudo-random synthesis to consistently generate perfectly formatted Johnny.Decimal structural codes.\"",
+    "noqa_row": 75,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 129
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/seed.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 124
+    },
+    "message": "First line of docstring should be in imperative mood: \"An incredibly fast generator that manages the entire lifecycle of a fake user payload, from Argon2id hashing to mapping relationships, readying it for high-speed bulk ingestion.\"",
+    "noqa_row": 129,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 292
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/seed.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 289
+    },
+    "message": "First line of docstring should be in imperative mood: \"The massively parallelized, impossibly fast database ingestion engine.\"",
+    "noqa_row": 292,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 202
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/summarize_css.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 197
+    },
+    "message": "First line of docstring should be in imperative mood: \"The master parser: heavily dissects raw CSS strings into our majestic, deeply nested custom CSSNode AST by identifying semantic START/END blocks and inferring relationships.\"",
+    "noqa_row": 202,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 12,
+      "row": 318
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/summarize_css.py",
+    "fix": null,
+    "location": {
+      "column": 9,
+      "row": 313
+    },
+    "message": "First line of docstring should be in imperative mood: \"An incredibly intelligent tree-walking function that seamlessly creates or navigates deeply nested AST branches based on string inputs.\"",
+    "noqa_row": 318,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 12,
+      "row": 334
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/summarize_css.py",
+    "fix": null,
+    "location": {
+      "column": 9,
+      "row": 329
+    },
+    "message": "First line of docstring should be in imperative mood: \"The heavy lifter of the AST generation phase. It takes raw, parsed strings and forces them into their correct structural node locations within the overall file architecture.\"",
+    "noqa_row": 334,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 72,
+      "row": 406
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/summarize_css.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 406
+    },
+    "message": "First line of docstring should be in imperative mood: \"Returns a full ASCII tree string for a list of root CSSNodes.\"",
+    "noqa_row": 406,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 541
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/summarize_css.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 536
+    },
+    "message": "First line of docstring should be in imperative mood: \"Constructs the master Markdown index, dynamically hyperlinking every single generated CSS summary into a cohesive, easily navigable frontend architecture hub.\"",
+    "noqa_row": 541,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 565
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/summarize_css.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 560
+    },
+    "message": "First line of docstring should be in imperative mood: \"Generates the absolute central LaTeX input manifest, allowing the massive academic paper to include all CSS reports perfectly via a single `\\input` command.\"",
+    "noqa_row": 565,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 97,
+      "row": 581
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/summarize_css.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 581
+    },
+    "message": "First line of docstring should be in imperative mood: \"Generates the absolute central LaTeX input manifest for all the raw CSS file contents.\"",
+    "noqa_row": 581,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 239,
+      "row": 647
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/summarize_css.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 647
+    },
+    "message": "First line of docstring should be in imperative mood: \"The supreme commander of the CSS processing workflow. It initializes the directories, completely annihilates old files, parses all CSS dynamically, and flushes beautifully constructed Markdown and LaTeX reports directly to disk.\"",
+    "noqa_row": 647,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  },
+  {
+    "cell": null,
+    "code": "D205",
+    "end_location": {
+      "column": 8,
+      "row": 152
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/summarize_python.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 140
+    },
+    "message": "1 blank line required between summary line and description",
+    "noqa_row": 152,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/missing-blank-line-after-summary"
+  },
+  {
+    "cell": null,
+    "code": "D205",
+    "end_location": {
+      "column": 8,
+      "row": 183
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/summarize_python.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 173
+    },
+    "message": "1 blank line required between summary line and description",
+    "noqa_row": 183,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/missing-blank-line-after-summary"
+  },
+  {
+    "cell": null,
+    "code": "D301",
+    "end_location": {
+      "column": 8,
+      "row": 247
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/summarize_python.py",
+    "fix": {
+      "applicability": "unsafe",
+      "edits": [
+        {
+          "content": "r",
+          "end_location": {
+            "column": 5,
+            "row": 234
+          },
+          "location": {
+            "column": 5,
+            "row": 234
+          }
+        }
+      ],
+      "message": "Add `r` prefix"
+    },
+    "location": {
+      "column": 5,
+      "row": 234
+    },
+    "message": "Use `r\"\"\"` if any backslashes in a docstring",
+    "noqa_row": 247,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/escape-sequence-in-docstring"
+  },
+  {
+    "cell": null,
+    "code": "D205",
+    "end_location": {
+      "column": 8,
+      "row": 283
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/summarize_python.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 274
+    },
+    "message": "1 blank line required between summary line and description",
+    "noqa_row": 283,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/missing-blank-line-after-summary"
+  },
+  {
+    "cell": null,
+    "code": "D205",
+    "end_location": {
+      "column": 8,
+      "row": 307
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/summarize_python.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 298
+    },
+    "message": "1 blank line required between summary line and description",
+    "noqa_row": 307,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/missing-blank-line-after-summary"
+  },
+  {
+    "cell": null,
+    "code": "D401",
+    "end_location": {
+      "column": 8,
+      "row": 9
+    },
+    "filename": "/home/lyra/systems/P01 Lyra Personal/30-39 Education, Knowledge, and Learning/31 Formal Education/31.11 Cavite State University/32 3rd year 2nd semester 2025-26/+ITEC50 Web Systems and Technologies/60 Finals/61 Practical/scripts/utils.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 4
+    },
+    "message": "First line of docstring should be in imperative mood: \"A critical safety net that completely neutralizes any LaTeX-breaking characters found within file paths or code structures, preventing compilation crashes.\"",
+    "noqa_row": 9,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/non-imperative-mood"
+  }
+]

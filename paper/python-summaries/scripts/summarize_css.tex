@@ -1,0 +1,37 @@
+% Python module: scripts.summarize_css
+% Generated: 2026-05-28 10:16
+
+\section{\texttt{scripts/summarize\_css.py}}
+\textit{Module: \texttt{scripts.summarize\_css}} \\
+\textit{Generated: 2026-05-28 10:16} \\
+
+Advanced CSS Abstract Syntax Tree Parser.
+
+An intelligent CSS linter and structural summarizer that harnesses
+tinycss2. It deeply analyzes complex stylesheets, effortlessly
+extracting component maps, color variables, and structural hierarchies,
+serving as the backbone for automated frontend documentation generation.
+
+DISCLAIMER: Generated with Claude, duly modified.
+
+For each CSS file resolved by the include/exclude config: 1. Parses /*
+SECTION - SUBSECTION: START/END */ comment blocks into a tree 2. Handles
+inline (non-START/END) comments as leaf nodes owning the next selector
+3. Lints for mismatched START/END pairs 4. Generates a Markdown summary
+→ MD\_OUTPUT\_DIR/.md 5. Generates a LaTeX summary →
+TEX\_OUTPUT\_DIR/.tex (no preamble)
+
+Then generates index files: - MD\_OUTPUT\_DIR/index.md (links to all
+per-file .md docs) - TEX\_OUTPUT\_DIR/index.tex (\input{} for all
+per-file .tex docs)
+
+── Include/exclude resolution order
+─────────────────────────────────────────--- 1. Collect all candidates
+from INCLUDE (folders, files, globs). 2. Remove anything matched by
+EXCLUDE (folders, files, globs). 3. Deduplicate, sort. The result is the
+final file list.
+
+Folders are searched recursively for *.css files. Globs are evaluated
+relative to the current working directory. Exclusion by folder removes
+any file whose path is inside that folder.
+

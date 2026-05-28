@@ -1,5 +1,4 @@
-"""
-Authentication Endpoints.
+"""Authentication Endpoints.
 
 Exposes lightning-fast endpoints for user registration, login, session termination, and identity verification, secured by Argon2id.
 """
@@ -66,10 +65,11 @@ email_adapter = TypeAdapter(EmailStr)
 
 
 class LoginData(BaseModel):
-    """
-    Strictly typed payload for incoming authentication requests.
+    """Strictly typed payload for incoming authentication requests.
 
-    Args: BaseModel (type): Pydantic inheritance.
+    Args:
+        BaseModel (type): Pydantic inheritance.
+
     """
 
     identifier: str
@@ -77,14 +77,16 @@ class LoginData(BaseModel):
 
 
 async def generate_username(session: AsyncSession) -> str:  # noqa: C901
-    """
-    Dynamically generates a globally unique, human-readable username.
+    """Dynamically generates a globally unique, human-readable username.
 
     Leverages `wonderwords` to stitch together randomized adjective-noun combinations (e.g., 'fast_cheetah_42'). It aggressively polls the database in a loop to guarantee absolute collision avoidance before returning the minted username.
 
-    Args: session (AsyncSession): The ultra-fast async database session.
+    Args:
+        session (AsyncSession): The ultra-fast async database session.
 
-    Returns: str: A mathematically unique human-readable username.
+    Returns:
+        str: A mathematically unique human-readable username.
+    
     """
     while True:
         if not _adj_pool:
@@ -117,14 +119,22 @@ async def login_user(  # noqa: C901
     data: Annotated[LoginData, Form()],
     is_logged_in: Annotated[bool, Depends(check_if_logged_in)],
 ):
-    """
-    The main authentication gateway for users logging into DeciMark.
+    """Authenticate users logging into DeciMark.
 
     This route performs a hyper-secure authentication sequence. It accepts either an E-mail or Username, dynamically routing the query based on Pydantic validation. It then defers to the Argon2id Key Derivation Function to rigorously verify the password hash against timing attacks. Upon success, it mints a symmetrically encrypted JWT and injects it securely into an HTTPOnly cookie.
 
-    Args: request (Request): The raw HTTP request. response (Response): The FastAPI response endpoint. session (AsyncSession): Database session. jwt_service (JwtService): The cryptographic token engine. kdf (Argon2id): The state-of-the-art password hasher. data (LoginData): The strictly typed form data. is_logged_in (bool): Boolean context.
+    Args:
+        request (Request): The raw HTTP request.
+        response (Response): The FastAPI response endpoint.
+        session (AsyncSession): Database session.
+        jwt_service (JwtService): The cryptographic token engine.
+        kdf (Argon2id): The state-of-the-art password hasher.
+        data (LoginData): The strictly typed form data.
+        is_logged_in (bool): Boolean context.
 
-    Returns: UJSONResponse: The brilliantly formatted custom response.
+    Returns:
+        UJSONResponse: The brilliantly formatted custom response.
+
     """
     if is_logged_in:
         return CustomResponse.json_flash(
@@ -193,14 +203,19 @@ async def decrypt_cookie(
     is_logged_in: Annotated[bool, Depends(check_if_logged_in)],
     session_cookie: Annotated[str, Depends(get_session_cookie)],
 ):
-    """
-    A utility endpoint designed to introspect the client's current session token.
+    """Introspect the client's current session token.
 
     Primarily used for debugging or deep frontend state synchronization, this route safely unwraps the Fernet-encrypted cookie and returns the verified JWT claims without exposing any sensitive cryptographic secrets.
 
-    Args: request (Request): The incoming request. jwt_service (JwtService): The cryptographic engine. is_logged_in (bool): Login state. session_cookie (str): The raw encrypted token.
+    Args:
+        request (Request): The incoming request.
+        jwt_service (JwtService): The cryptographic engine.
+        is_logged_in (bool): Login state.
+        session_cookie (str): The raw encrypted token.
 
-    Returns: UJSONResponse: The decoded token payload claims.
+    Returns:
+        UJSONResponse: The decoded token payload claims.
+
     """
     if not is_logged_in:
         raise HTTPException(status_code=HTTP_401_UNAUTHORIZED)
@@ -216,14 +231,20 @@ async def logout_user(
     is_logged_in: Annotated[bool, Depends(check_if_logged_in)],
     session_cookie: Annotated[str, Depends(get_session_cookie)],
 ):
-    """
-    Securely terminates a user session.
+    """Securely terminates a user session.
 
     Intercepts the request, validates the existing JWT signature, and commands the browser to aggressively purge the HTTPOnly session cookie. It then forcefully redirects the client back to the login perimeter.
 
-    Args: request (Request): Incoming request. response (Response): The HTTP response to modify. jwt_service (JwtService): Token engine. is_logged_in (bool): Boolean state. session_cookie (str): The actual cookie payload to annihilate.
+    Args:
+        request (Request): Incoming request.
+        response (Response): The HTTP response to modify.
+        jwt_service (JwtService): Token engine.
+        is_logged_in (bool): Boolean state.
+        session_cookie (str): The actual cookie payload to annihilate.
 
-    Returns: RedirectResponse: The fast redirect back to `/login`.
+    Returns:
+        RedirectResponse: The fast redirect back to `/login`.
+
     """
     if not is_logged_in:
         raise HTTPException(status_code=HTTP_401_UNAUTHORIZED)
@@ -256,14 +277,20 @@ async def register_new_user(
     payload: Annotated[BaseUsers, Form()],
     is_logged_in: Annotated[bool, Depends(check_if_logged_in)],
 ):
-    """
-    Registers a brand new user into the DeciMark ecosystem.
+    """Register a brand new user into the DeciMark ecosystem.
 
     This route aggressively validates incoming form data against strictly typed Pydantic models. It executes high-speed `asyncpg` queries to ensure absolute uniqueness of the Email and Username before invoking the heavy Argon2id hashing mechanism on the password. If no username is provided, it autonomously falls back to the dynamic username generator.
 
-    Args: request (Request): Incoming request. session (AsyncSession): High-speed database channel. kdf (Argon2id): Password derivation module. payload (BaseUsers): The strictly mapped new user schema. is_logged_in (bool): Login context state.
+    Args:
+        request (Request): Incoming request.
+        session (AsyncSession): High-speed database channel.
+        kdf (Argon2id): Password derivation module.
+        payload (BaseUsers): The strictly mapped new user schema.
+        is_logged_in (bool): Login context state.
 
-    Returns: UJSONResponse: The successfully formatted onboarding response.
+    Returns:
+        UJSONResponse: The successfully formatted onboarding response.
+
     """
     if is_logged_in:
         return CustomResponse.json_flash(

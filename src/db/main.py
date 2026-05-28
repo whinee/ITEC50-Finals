@@ -1,5 +1,4 @@
-"""
-Database Engine Configuration.
+"""Database Engine Configuration.
 
 Initializes the incredibly fast asynchronous `asyncpg` engine and synchronous engine, orchestrating the zero-trust persistence layer.
 """
@@ -29,12 +28,13 @@ async_session = async_sessionmaker(
 
 
 async def get_session() -> AsyncGenerator[AsyncSession]:
-    """
-    Asynchronous dependency injection generator for PostgreSQL sessions.
+    """Asynchronous dependency injection generator for PostgreSQL sessions.
 
     Yields a highly optimized `AsyncSession` bound to the `asyncpg` engine. By leveraging asynchronous I/O and `expire_on_commit=False`, this ensures sub-millisecond latency for complex database queries while aggressively preventing blocking operations in the FastAPI event loop.
 
-    Yields: AsyncSession: The extremely fast, zero-trust database session.
+    Yields:
+        AsyncSession: The extremely fast, zero-trust database session.
+
     """
     async with async_session() as session:
         yield session

@@ -1,5 +1,4 @@
-"""
-High-Performance Database Seeder.
+"""High-Performance Database Seeder.
 
 A massively scalable asynchronous database seeder capable of instantly hydrating the PostgreSQL instance with thousands of realistic, normalized records using `Faker`. It utilizes raw SQL bulk inserts and connection pooling to bypass the ORM overhead, making it essential for aggressive load testing and rapid local development loops.
 """
@@ -33,12 +32,14 @@ fake = Faker()
 
 
 def hash_password(password: str) -> str:
-    """
-    Invokes the staggeringly secure Argon2id KDF to immediately transform raw text into an impenetrable, timing-attack resistant password hash.
+    """Invoke the staggeringly secure Argon2id KDF to immediately transform raw text into an impenetrable, timing-attack resistant password hash.
 
-    Args: password (str): The raw string to protect.
+    Args:
+        password (str): The raw string to protect.
 
-    Returns: str: The cryptographically fortified hashed string.
+    Returns:
+        str: The cryptographically fortified hashed string.
+
     """
     salt = os.urandom(16)
     kdf = Argon2id(
@@ -57,10 +58,11 @@ def hash_password(password: str) -> str:
 
 
 async def clear_data(session) -> None:
-    """
-    A ruthlessly efficient truncation mechanism that drops every single record from the database using direct SQL `TRUNCATE TABLE` cascades, resetting the system state in milliseconds.
+    """Drop every single record from the database using direct SQL `TRUNCATE TABLE` cascades, resetting the system state in milliseconds.
 
-    Args: session (AsyncSession): The database manager.
+    Args:
+        session (AsyncSession): The database manager.
+
     """
     print("Clearing existing data...")
     await session.execute(
@@ -72,10 +74,11 @@ async def clear_data(session) -> None:
 
 
 def generate_jd_code() -> str:
-    """
-    Uses pseudo-random synthesis to consistently generate perfectly formatted Johnny.Decimal structural codes.
+    """Use pseudo-random synthesis to consistently generate perfectly formatted Johnny.Decimal structural codes.
 
-    Returns: str: The correctly synthesized JD area string.
+    Returns:
+        str: The correctly synthesized JD area string.
+
     """
     part1 = "".join(
         str(random.randint(0, 9)) for _ in range(random.randint(2, 5))  # noqa: S311
@@ -102,12 +105,15 @@ def generate_jd_code() -> str:
 
 
 def random_date(start: datetime, end: datetime) -> datetime:
-    """
-    Deploys rapid datetime math to instantaneously calculate a perfectly valid timestamp falling precisely within a defined epoch window.
+    """Deploys rapid datetime math to instantaneously calculate a perfectly valid timestamp falling precisely within a defined epoch window.
 
-    Args: start (datetime): Floor boundary. end (datetime): Ceiling boundary.
+    Args:
+        start (datetime): Floor boundary.
+        end (datetime): Ceiling boundary.
 
-    Returns: datetime: The logically sound random timestamp.
+    Returns:
+        datetime: The logically sound random timestamp.
+
     """
     delta = end - start
     int_delta = (delta.days * 24 * 60 * 60) + delta.seconds
@@ -126,12 +132,21 @@ async def process_user(  # noqa: C901
     next_jd_id: int,
     next_bookmark_id: int,
 ) -> tuple[int, int, int]:
-    """
-    An incredibly fast generator that manages the entire lifecycle of a fake user payload, from Argon2id hashing to mapping relationships, readying it for high-speed bulk ingestion.
+    """Manage the entire lifecycle of a fake user payload, from Argon2id hashing to mapping relationships, readying it for high-speed bulk ingestion.
 
-    Args: args (tuple): Multi-process mapping payload.
+    Args:
+        user_data (Any): Undocumented argument.
+        session (Any): Undocumented argument.
+        next_tag_id (Any): Undocumented argument.
+        next_jd_id (Any): Undocumented argument.
+        next_bookmark_id (Any): Undocumented argument.
+        index (Any): Undocumented argument.
+        user_password_hash (Any): Undocumented argument.
+        args (tuple): Multi-process mapping payload.
 
-    Returns: dict: The completely optimized user dictionary.
+    Returns:
+        dict: The completely optimized user dictionary.
+
     """
     now = datetime.now(UTC)
     epoch = datetime(1970, 1, 1, tzinfo=UTC)
@@ -292,8 +307,7 @@ async def process_user(  # noqa: C901
 
 
 async def main() -> None:
-    """
-    The massively parallelized, impossibly fast database ingestion engine.
+    """Ingest database records massively and fast.
 
     It leverages raw SQLModel arrays and multiprocessing pools to synthesize and commit thousands of users, tens of thousands of bookmarks, and complex junction tables into PostgreSQL at mind-bending speeds, bypassing all ORM bottlenecks for raw performance.
     """

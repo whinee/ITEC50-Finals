@@ -1,5 +1,4 @@
-"""
-Configuration Constants.
+"""Configuration Constants.
 
 Provides strongly-typed configuration loading utilities that validate YAML configurations into immutable Pydantic models at runtime.
 """
@@ -16,14 +15,17 @@ BM = TypeVar("BM", bound=BaseModel)
 
 
 def load_constants[BM: BaseModel](raw_path: str, model: type[BM]) -> BM:
-    """
-    A brutally resilient YAML-to-Pydantic configuration loader.
+    """Load YAML to Pydantic configuration.
 
     This generic function reads static configuration values from disk and aggressively validates them against a frozen Pydantic model. By parsing and freezing strings at server startup, it guarantees zero I/O overhead during API requests and absolute type safety across the entire application lifespan.
 
-    Args: raw_path: The filesystem path to the YAML configuration file. model: The strictly defined Pydantic BaseModel to validate against.
+    Args:
+        raw_path (str): The filesystem path to the YAML configuration file.
+        model (type): The strictly defined Pydantic BaseModel to validate against.
 
-    Returns: BM: A deeply validated, immutable instance of the provided model.
+    Returns:
+        BM: A deeply validated, immutable instance of the provided model.
+
     """
     type_adapter = TypeAdapter(model)  # type: ignore
 

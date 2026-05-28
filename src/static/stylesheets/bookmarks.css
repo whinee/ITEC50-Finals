@@ -3,7 +3,7 @@
 body {
     min-height: 100vh;
     background:
-        radial-gradient(circle at top left, hsl(326deg 70% 70% / 14%), transparent 34rem),
+        radial-gradient(circle at top left, hsla(326deg, 70%, 70%, 0.14), transparent 34rem),
         linear-gradient(135deg, var(--bg-1), var(--bg-1-2));
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -106,7 +106,7 @@ body {
     border: 1px solid hsl(var(--rfg-1), 0.18);
     border-radius: 8px;
     background: hsl(var(--rbg-1), 0.72);
-    box-shadow: 0 18px 48px hsl(0deg 0% 0% / 24%);
+    box-shadow: 0 18px 48px hsla(0deg, 0%, 0%, 0.24);
 }
 
 .bookmark-stats article {

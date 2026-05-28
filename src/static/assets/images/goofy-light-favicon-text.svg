@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <clipPath id="clip-0">
+      <path d="M 660.005 682.873 L 660.005 680.893 L 854.685 680.893 L 854.685 682.873 L 660.005 682.873 Z M 660.005 679.904 L 660.005 678.914 L 854.685 678.915 L 854.685 679.904 L 660.005 679.904 Z M 660.005 676.936 L 660.005 675.947 L 854.685 675.947 L 854.685 676.936 L 660.005 676.936 Z M 660.005 671.988 L 660.005 670.999 L 854.685 670.999 L 854.685 671.988 L 660.005 671.988 Z M 660.005 670.009 L 660.005 668.03 L 854.685 668.03 L 854.685 670.009 L 660.005 670.009 Z M 660.005 665.062 L 660.005 664.073 L 854.685 664.073 L 854.685 665.062 L 660.005 665.062 Z M 660.005 661.103 L 660.005 660.116 L 854.685 660.116 L 854.685 661.103 L 660.005 661.103 Z M 660.005 659.125 L 660.005 657.145 L 854.685 657.145 L 854.685 659.125 L 660.005 659.125 Z M 660.005 655.167 L 660.005 654.175 L 854.685 654.175 L 854.685 655.167 L 660.005 655.167 Z M 660.005 650.218 L 660.005 649.232 L 854.685 649.232 L 854.685 650.218 L 660.005 650.218 Z M 660.005 645.274 L 660.005 644.282 L 854.685 644.282 L 854.685 645.274 L 660.005 645.274 Z M 660.005 643.296 L 660.005 641.317 L 854.685 641.317 L 854.685 643.296 L 660.005 643.296 Z M 660.005 639.333 L 660.005 638.347 L 854.685 638.347 L 854.685 639.339 L 660.005 639.333 Z M 660.005 634.39 L 660.005 632.41 L 854.685 632.41 L 854.685 634.39 L 660.005 634.39 Z M 660.005 631.419 L 660.005 630.432 L 854.685 630.432 L 854.685 631.419 L 660.005 631.419 Z M 660.005 628.454 L 660.005 627.461 L 854.685 627.461 L 854.685 628.454 L 660.005 628.454 Z M 660.005 626.469 L 660.005 623.504 L 854.685 623.504 L 854.685 626.469 L 660.005 626.469 Z M 660.005 622.512 L 660.005 620.533 L 854.685 620.533 L 854.685 622.512 L 660.005 622.512 Z M 660.005 617.569 L 660.005 616.576 L 854.685 616.576 L 854.685 617.569 L 660.005 617.569 Z M 660.005 614.598 L 660.005 613.612 L 854.685 613.612 L 854.685 614.598 L 660.005 614.598 Z M 660.005 612.619 L 660.005 610.641 L 854.685 610.641 L 854.685 612.619 L 660.005 612.619 Z M 660.005 606.684 L 660.005 605.691 L 854.685 605.691 L 854.685 606.684 L 660.005 606.684 Z M 660.005 603.713 L 660.005 602.726 L 854.685 602.726 L 854.685 603.713 L 660.005 603.713 Z M 660.005 600.748 L 660.005 596.791 L 854.685 596.791 L 854.685 600.748 L 660.005 600.748 Z M 660.005 595.798 L 660.005 593.82 L 854.685 593.82 L 854.685 595.798 L 660.005 595.798 Z M 660.005 589.863 L 660.005 588.87 L 854.685 588.87 L 854.685 589.863 L 660.005 589.863 Z M 660.005 586.892 L 660.005 585.906 L 854.685 585.906 L 854.685 586.892 L 660.005 586.892 Z M 660.005 584.913 L 660.005 580.956 L 854.685 580.956 L 854.685 584.913 L 660.005 584.913 Z M 660.005 578.977 L 660.005 577.985 L 854.685 577.985 L 854.685 578.977 L 660.005 578.977 Z M 660.005 576.007 L 660.005 575.02 L 854.685 575.02 L 854.685 576.007 L 660.005 576.007 Z M 660.005 574.028 L 660.005 572.05 L 854.685 572.05 L 854.685 574.028 L 660.005 574.028 Z M 660.005 569.085 L 660.005 566.114 L 854.685 566.114 L 854.685 569.085 L 660.005 569.085 Z M 660.005 565.122 L 660.005 564.135 L 854.685 564.135 L 854.685 565.122 L 660.005 565.122 Z M 660.005 563.143 L 660.005 561.164 L 854.685 561.164 L 854.685 563.143 L 660.005 563.143 Z" style="stroke-width: 0.599; fill: rgb(255, 255, 255);"></path>
+    </clipPath>
+    <bx:guide x="677.783" y="511.912" angle="0"></bx:guide>
+    <bx:guide x="829.732" y="511.912" angle="0"></bx:guide>
+    <bx:guide x="753.757" y="511.912" angle="0"></bx:guide>
+    <bx:guide x="791.745" y="511.912" angle="0"></bx:guide>
+  </defs>
+  <style xmlns="http://www.w3.org/2000/svg" type="text/css" data-editor-id="el-1779899735927-76">
+		:root {
+            --jd-dark: hsl(230deg, 25%, 10%);
+            --jd-mid: hsl(229deg, 24%, 15%);
+            --jd-bright: hsl(228deg, 23%, 20%);
+		}
+		.st0 { fill: var(--jd-bright); }
+		.st1 { fill: var(--jd-mid); }
+		.st2 { fill: var(--jd-dark); }
+        .black { fill: var(--jd-dark); }
+        .white { fill: white; }
+	</style>
+  <g xmlns="http://www.w3.org/2000/svg" data-editor-id="el-1779899783300-80">
+    <bx:title>DeciMark Tag</bx:title>
+    <path class="st2" d="M 769.738 459.259 L 756.759 459.2 C 747.259 459.2 740.459 450.2 743.059 441.1 L 789.959 280.4 C 791.759 274.2 797.459 269.9 803.959 269.9 L 826.659 269.9 C 836.159 269.9 842.959 278.9 840.359 288 L 793.459 448.7 C 791.659 454.9 785.959 459.2 779.559 459.2 L 769.738 459.259 Z">
+      <bx:title>Tag</bx:title>
+    </path>
+    <g id="preview" transform="matrix(0.000001, -1.245855, 2.535364, 0, -42.173233, 30.626822)" style="transform-origin: 756.987px 623.575px;">
+      <bx:title>DeciMark Barcode</bx:title>
+      <path class="white" d="M 662.499 676.508 L 731.528 564.532 C 732.973 562.126 737.548 560.469 742.685 560.469 L 841.091 560.469 C 848.797 560.469 854.255 564.059 852.008 567.687 L 782.978 679.663 C 781.533 682.069 776.958 683.726 771.821 683.726 L 673.495 683.726 C 665.79 683.726 660.331 680.137 662.499 676.508 Z" style="transform-box: fill-box; transform-origin: 50% 50%;" transform="matrix(0, 0.491391, -2.035039, 0.000002, -0.000014, -0.000039)">
+        <bx:title>Base</bx:title>
+      </path>
+      <path class="black" d="M 662.499 676.508 L 731.528 564.532 C 732.973 562.126 737.548 560.469 742.685 560.469 L 841.091 560.469 C 848.797 560.469 854.255 564.059 852.008 567.687 L 782.978 679.663 C 781.533 682.069 776.958 683.726 771.821 683.726 L 673.495 683.726 C 665.79 683.726 660.331 680.137 662.499 676.508 Z" style="transform-box: fill-box; transform-origin: 50% 50%; clip-path: url(#clip-0);" transform="matrix(0, 0.491391, -2.035039, 0.000002, -0.000014, -0.000039)">
+        <bx:title>Clipped Base</bx:title>
+      </path>
+    </g>
+  </g>
+  <g xmlns="http://www.w3.org/2000/svg" data-editor-id="el-1779899735927-77">
+    <path class="st0" d="M473.2,269.9H350.6c-6.4,0-12.1,4.2-13.9,10.4L184.3,791.9c-2.7,9.1,4.1,18.3,13.7,18.3h122.7    c6.4,0,12.1-4.2,13.9-10.4l152.3-511.7C489.6,279,482.8,269.9,473.2,269.9z">
+      <bx:title>Longest</bx:title>
+    </path>
+    <path class="st1" d="M691.3,288.2l-86,283.9c-1.8,6.1-7.5,10.3-13.9,10.3H468.8c-9.6,0-16.4-9.1-13.6-18.3l86-283.9    c1.8-6.1,7.5-10.3,13.9-10.3h122.6C687.2,269.9,694.1,279,691.3,288.2z">
+      <bx:title>Long</bx:title>
+    </path>
+    <path class="st1" d="M449.5,620.8h122.7c9.5,0,16.3,9,13.7,18.1L539,799.7c-1.8,6.2-7.5,10.5-14,10.5H402.3    c-9.5,0-16.3-9-13.7-18.1l46.9-160.7C437.3,625.1,443,620.8,449.5,620.8z">
+      <bx:title>Short</bx:title>
+    </path>
+  </g>
+  <text style="fill: rgb(255, 255, 255); font-family: &quot;FOT-Yuruka Std&quot;; font-size: 135px; white-space: pre; transform-box: fill-box; transform-origin: 32.9396% 10.5591%;" transform="matrix(0.052337, -0.99863, 0.99863, 0.052337, -99.126091, 248.018361)" x="273.301" y="624.499">D</text>
+  <text style="fill: rgb(255, 255, 255); font-family: &quot;FOT-Yuruka Std&quot;; font-size: 135px; white-space: pre; transform-box: fill-box; transform-origin: 55.567% 55.7652%;" transform="matrix(0.390731, -0.920505, 0.920505, 0.390731, -14.348559, 53.383413)" x="271.729" y="647.675">E</text>
+  <text style="fill: rgb(255, 255, 255); font-family: &quot;FOT-Yuruka Std&quot;; font-size: 135px; white-space: pre; transform-box: fill-box; transform-origin: 55.5655% 55.7652%;" transform="matrix(0.017452, -0.999848, 0.999848, 0.017452, -0.503568, -40.639833)" x="271.729" y="647.675">C</text>
+  <text style="fill: rgb(255, 255, 255); font-family: &quot;FOT-Yuruka Std&quot;; font-size: 135px; white-space: pre; transform-box: fill-box; transform-origin: 58.5083px 75.2416px;" transform="matrix(0.390731, -0.920505, 0.920505, 0.390731, 35.428092, -114.145724)" x="271.729" y="647.675">1</text>
+  <text style="fill: rgb(255, 255, 255); font-family: &quot;FOT-Yuruka Std&quot;; font-size: 135px; white-space: pre; transform-box: fill-box; transform-origin: 58.5083px 75.2416px;" transform="matrix(0.390731, -0.920505, 0.920505, 0.390731, 35.144256, -174.950301)" x="271.729" y="647.675">1</text>
+  <text style="fill: rgb(255, 255, 255); font-family: &quot;FOT-Yuruka Std&quot;; font-size: 135px; white-space: pre; transform-box: fill-box; transform-origin: 30.3862px 75.2416px;" transform="matrix(0.390731, -0.920505, 0.920505, 0.390731, 82.674925, -219.840338)" x="271.729" y="647.675">.</text>
+  <text style="fill: rgb(255, 255, 255); font-family: &quot;FOT-Yuruka Std&quot;; font-size: 135px; white-space: pre; transform-box: fill-box; transform-origin: 58.5083px 75.2416px;" transform="matrix(-0.087156, -0.996195, 0.996195, -0.087156, 69.471889, -248.886678)" x="271.729" y="647.675">1</text>
+  <text style="fill: rgb(255, 255, 255); font-family: &quot;FOT-Yuruka Std&quot;; font-size: 135px; white-space: pre; transform-box: fill-box; transform-origin: 58.5083px 75.2416px;" transform="matrix(0.052336, -0.99863, 0.99863, 0.052336, 75.854602, -303.018758)" x="271.729" y="647.675">1</text>
+  <text style="fill: rgb(255, 255, 255); font-family: &quot;FOT-Yuruka Std&quot;; font-size: 140px; white-space: pre; stroke-width: 1; transform-box: fill-box; transform-origin: 53.5802% 53.7736%;" transform="matrix(0.339411, -1.110163, 0.956305, 0.292372, 136.082077, 114.573082)" y="647.675" x="271.729">M</text>
+  <text style="fill: rgb(255, 255, 255); font-family: &quot;FOT-Yuruka Std&quot;; font-size: 135px; white-space: pre; transform-box: fill-box; transform-origin: 55.5632% 55.1524%;" transform="matrix(-0.358368, -0.933581, 0.933581, -0.358368, 187.234828, -79.309174)" x="271.729" y="647.675">A</text>
+  <text style="fill: rgb(255, 255, 255); font-family: &quot;FOT-Yuruka Std&quot;; font-size: 135px; white-space: pre; transform-box: fill-box; transform-origin: 55.5608% 55.1524%;" transform="matrix(0.422618, -0.906308, 0.906308, 0.422618, 255.604283, -180.968014)" x="271.729" y="647.675">R</text>
+  <text style="fill: rgb(255, 255, 255); font-family: &quot;FOT-Yuruka Std&quot;; font-size: 135px; white-space: pre; transform-box: fill-box; transform-origin: 55.5608% 55.1524%;" transform="matrix(0.052336, -0.99863, 0.99863, 0.052336, 281.250029, -285.578598)" x="271.729" y="647.675">K</text>
+</svg>

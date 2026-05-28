@@ -1,5 +1,4 @@
-"""
-Cookie Models.
+"""Cookie Models.
 
 Defines rigidly typed configuration objects for secure HTTPOnly cookies, ensuring impenetrable symmetric encryption headers.
 """
@@ -15,12 +14,13 @@ from src.config.settings import settings
 
 
 class CookieConfig(BaseModel):
-    """
-    Configuration model for secure, high-performance cookie management.
+    """Configuration model for secure, high-performance cookie management.
 
     This model rigidly defines the exact properties for all HTTP cookies minted by the backend. By enforcing strict defaults (like `secure=True`, `httponly=True`, and `samesite="lax"`), it guarantees that DeciMark's session tokens are completely immune to standard XSS and CSRF attack vectors. This is a crucial component of our zero-trust architecture.
 
-    Args: BaseModel (type): Core Pydantic base.
+    Args:
+        BaseModel (type): Core Pydantic base.
+
     """
 
     key: Annotated[str | None, Field()] = None
@@ -37,14 +37,18 @@ def set_default_cookie_params(
     value: str = "",
     expires_at: datetime.datetime | None = None,
 ) -> dict[str, Any]:
-    """
-    Generates an optimized, highly secure cookie parameter dictionary.
+    """Generate an optimized, highly secure cookie parameter dictionary.
 
-    Args: name (str): The strictly-defined name of the cookie key. value (str, optional): The payload of the cookie. Defaults to "". expires_at (datetime.datetime | None, optional): The absolute expiration timestamp. Defaults to None (Session cookie).
+    Args:
+        name (str): The strictly-defined name of the cookie key.
+        value (str, optional): The payload of the cookie. Defaults to "".
+        expires_at (datetime.datetime | None, optional): The absolute expiration timestamp. Defaults to
 
-    Returns: dict[str, Any]: A serialized dictionary ready to be unpacked directly into FastAPI's `Response.set_cookie()`.
+    Returns:
+        dict[str, Any]: A serialized dictionary ready to be unpacked directly into FastAPI's `Response.set_cookie()`.
 
     Note: It strictly validates the generated payload against `CookieConfig` before returning, acting as an invincible safety net against malformed cookie injection.
+
     """
     cookie: dict[str, Any] = {}
     cookie["key"] = name
@@ -63,14 +67,18 @@ def set_default_cookie_params_with_encryption(
     value: str = "",
     expires_at: datetime.datetime | None = None,
 ) -> dict[str, Any]:
-    """
-    Symmetrically encrypts and signs a cookie payload before wrapping it in secure parameters.
+    """Symmetrically encrypts and signs a cookie payload before wrapping it in secure parameters.
 
-    Args: name (str): The strictly-defined name of the cookie key. value (str, optional): The raw, unencrypted payload. Defaults to "". expires_at (datetime.datetime | None, optional): The absolute expiration timestamp. Defaults to None.
+    Args:
+        name (str): The strictly-defined name of the cookie key.
+        value (str, optional): The raw, unencrypted payload. Defaults to "".
+        expires_at (datetime.datetime | None, optional): The absolute expiration timestamp. Defaults to None.
 
-    Returns: dict[str, Any]: A serialized, heavily fortified cookie configuration dictionary.
+    Returns:
+        dict[str, Any]: A serialized, heavily fortified cookie configuration dictionary.
 
     Note: Utilizes `cryptography.fernet.Fernet` with a globally loaded secret key to achieve lightning-fast, military-grade AES-128-CBC encryption and HMAC-SHA256 authentication. Even if the transport layer is compromised, the payload remains computationally impenetrable.
+
     """
     f = Fernet(settings.AUTH.COOKIE_SECRET.encode())
     token_bytes = f.encrypt(value.encode())
@@ -79,16 +87,17 @@ def set_default_cookie_params_with_encryption(
 
 
 def decode_encrypted_cookie(token: str) -> str:
-    """
-    Decrypts and authenticates a Fernet-encrypted cookie payload.
+    """Decrypts and authenticates a Fernet-encrypted cookie payload.
 
-    Args: token (str): The base64-urlsafe encoded ciphertext directly intercepted from the request headers.
+    Args:
+        token (str): The base64-urlsafe encoded ciphertext directly intercepted from the request headers.
 
-    Returns: str: The guaranteed-authentic, plaintext payload.
+    Returns:
+        str: The guaranteed-authentic, plaintext payload.
 
     Note: This function instantly validates the cryptographic signature before attempting decryption, preventing padding oracle attacks and ensuring flawless zero-trust data extraction in sub-millisecond speeds.
-    """
 
+    """
     f = Fernet(settings.AUTH.COOKIE_SECRET.encode())
     btoken = token.encode()
     dtoken = base64.urlsafe_b64decode(btoken)

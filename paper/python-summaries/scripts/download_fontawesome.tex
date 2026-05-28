@@ -1,0 +1,29 @@
+% Python module: scripts.download_fontawesome
+% Generated: 2026-05-28 10:16
+
+\section{\texttt{scripts/download\_fontawesome.py}}
+\textit{Module: \texttt{scripts.download\_fontawesome}} \\
+\textit{Generated: 2026-05-28 10:16} \\
+
+FontAwesome Payload Synchronizer.
+
+An intelligent asset scraper that bypasses manual FontAwesome package
+management. It downloads the exact Webfonts and core CSS files required
+by the frontend, parsing and rewriting URL references on the fly to
+ensure all assets resolve flawlessly from the local DeciMark static
+filesystem.
+
+DISCLAIMER: Generated with Claude.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Hits the GitHub API to find the latest non-prerelease Font Awesome
+  release. 2. Downloads the \texttt{*-web.zip} asset from that release.
+  3. Extracts it to a temp folder. 4. Copies css/all.css →
+  src/static/stylesheets/downloaded/fontawesome.css 5. Copies webfonts/*
+  → src/static/assets/fonts/ 6. Rewrites \texttt{url("../webfonts/} →
+  \texttt{url("/static/assets/fonts/} in the CSS.
+\end{enumerate}
+

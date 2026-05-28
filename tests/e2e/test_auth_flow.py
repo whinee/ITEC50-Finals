@@ -1,3 +1,5 @@
+"""End-to-end tests for the authentication and login flow."""
+
 import re
 
 import pytest

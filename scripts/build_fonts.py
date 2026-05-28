@@ -1,5 +1,4 @@
-"""
-Variable Font Build Pipeline.
+"""Variable Font Build Pipeline.
 
 A highly sophisticated font compiler script that seamlessly aggregates static TTF masters into robust, fluid Variable Fonts using `fontmake`. By automating the generation of DesignSpaces and managing instance interpolations, this engine massively shrinks network payloads and empowers DeciMark's dynamic UI typography without manual font-engineering intervention.
 
@@ -63,19 +62,23 @@ WOFF2_WHITELIST: list[str] = [
 
 
 def log(msg: str) -> None:
-    """
-    Injects high-visibility ANSI-styled logs directly into the standard output stream for instantaneous developer feedback.
+    """Injects high-visibility ANSI-styled logs directly into the standard output stream for instantaneous developer feedback.
 
-    Args: msg (str): The payload string. color (str): Terminal color code.
+    Args:
+        msg (str): The payload string.
+        color (str): Terminal color code.
+
     """
     print(f"  {msg}", flush=True)
 
 
 def section(title: str) -> None:
-    """
-    Renders a visually striking, massive header block in the terminal to cleanly delineate script execution phases.
+    """Render a visually striking, massive header block in the terminal to cleanly delineate script execution phases.
 
-    Args: msg (str): The section title.
+    Args:
+        title (Any): Undocumented argument.
+        msg (str): The section title.
+
     """
     bar = "─" * max(0, 68 - len(title))
     print(f"\n── {title} {bar}", flush=True)
@@ -87,10 +90,11 @@ def section(title: str) -> None:
 
 
 def cff_to_tt_outlines(font: Any) -> None:  # noqa: C901
-    """
-    A brutally fast mathematical transformation that completely obliterates CFF (PostScript) cubic bezier curves and meticulously rebuilds them into perfectly optimized TrueType quadratic outlines.
+    """Obliterate CFF (PostScript) cubic bezier curves and meticulously rebuilds them into perfectly optimized TrueType quadratic outlines.
 
-    Args: font (TTFont): The mutable font object.
+    Args:
+        font (TTFont): The mutable font object.
+
     """
     from fontTools.pens.cu2quPen import Cu2QuPen
     from fontTools.pens.ttGlyphPen import TTGlyphPen
@@ -143,12 +147,17 @@ def cff_to_tt_outlines(font: Any) -> None:  # noqa: C901
 
 
 def ensure_ttf(font_path: Path, ttf_dir: Path) -> Path:
-    """
-    Aggressively coerces any standard font file into a flawlessly formatted TrueType binary, performing live AST replacements on outline definitions.
+    """Aggressively coerces any standard font file into a flawlessly formatted TrueType binary, performing live AST replacements on outline definitions.
 
-    Args: filepath (Path): Source font. out_dir (Path): Destination block.
+    Args:
+        font_path (Any): Undocumented argument.
+        ttf_dir (Any): Undocumented argument.
+        filepath (Path): Source font.
+        out_dir (Path): Destination block.
 
-    Returns: Path | None: The perfectly rendered TTF path.
+    Returns:
+        Path | None: The perfectly rendered TTF path.
+
     """
     if font_path.suffix.lower() == ".ttf":
         return font_path
@@ -176,12 +185,15 @@ def ensure_ttf(font_path: Path, ttf_dir: Path) -> Path:
 
 
 def parse_stem(stem: str, family: str) -> tuple[int | None, bool]:
-    """
-    Executes a surgical regex pattern matching operation to extract exact font weight hierarchies and italic designations from raw file names.
+    """Execute a surgical regex pattern matching operation to extract exact font weight hierarchies and italic designations from raw file names.
 
-    Args: stem (str): The unparsed filename.
+    Args:
+        family (Any): Undocumented argument.
+        stem (str): The unparsed filename.
 
-    Returns: tuple: The isolated weight integer and style boolean.
+    Returns:
+        tuple: The isolated weight integer and style boolean.
+
     """
     suffix = stem[len(family) :].lstrip("-")  # e.g. 'BoldItalic', 'Regular', ''
     is_italic = suffix.endswith("Italic")
@@ -196,12 +208,13 @@ def collect_families(  # noqa: C901
     src_dir: Path,
     ttf_dir: Path,
 ) -> dict[str, dict[str, list[MasterEntry]]]:
-    """
-    Scan src_dir for .ttf/.otf files, group by family, parse weight + italic.
+    """Scan src_dir for .ttf/.otf files, group by family, parse weight + italic.
 
     Family name = everything before the first '-' in the filename stem. Files with no '-' are treated as single-weight families (Regular).
 
-    Returns: { 'Manrope': { 'uprights': [MasterEntry, ...],  # sorted by wght 'italics':  [MasterEntry, ...], }, ... }
+    Returns:
+        { 'Manrope': { 'uprights': [MasterEntry, ...],  # sorted by wght 'italics':  [MasterEntry, ...], }, ... }
+
     """
     families: dict[str, dict[str, list[MasterEntry]]] = defaultdict(
         lambda: {"uprights": [], "italics": []},
@@ -251,12 +264,20 @@ def build_variable_font(  # noqa: C901
     italics: list[MasterEntry],
     out_path: Path,
 ) -> None:
-    """
-    The absolute pinnacle of font engineering: dynamically synthesizes a singular, infinitely scalable Variable TrueType font by perfectly interpolating massive arrays of static font instances across the `wght` design axis.
+    """Synthesize a singular, infinitely scalable Variable TrueType font by perfectly interpolating massive arrays of static font instances across the `wght` design axis.
 
-    Args: family_name (str): The core typeface identity. instances (list): The static font definitions. out_dir (Path): Destination.
+    Args:
+        out_path (Any): Undocumented argument.
+        italics (Any): Undocumented argument.
+        family (Any): Undocumented argument.
+        uprights (Any): Undocumented argument.
+        family_name (str): The core typeface identity.
+        instances (list): The static font definitions.
+        out_dir (Path): Destination.
 
-    Returns: Path | None: The compiled, universally scalable Variable Font.
+    Returns:
+        Path | None: The compiled, universally scalable Variable Font.
+
     """
     from fontTools import varLib
     from fontTools.designspaceLib import (
@@ -316,12 +337,16 @@ def build_variable_font(  # noqa: C901
     # A missing key gets silently defaulted to 0 by varLib, creating
     # phantom extra base masters and triggering VarLibValidationError.
     def make_loc(wght: int, ital: int) -> dict:
-        """
-        Synthesizes an immutable, strongly typed mapping of font instances to ensure infallible iteration during the font processing lifecycle.
+        """Synthesizes an immutable, strongly typed mapping of font instances to ensure infallible iteration during the font processing lifecycle.
 
-        Args: instances (list): The raw instances.
+        Args:
+            ital (Any): Undocumented argument.
+            wght (Any): Undocumented argument.
+            instances (list): The raw instances.
 
-        Returns: list: The perfectly mapped location instances.
+        Returns:
+            list: The perfectly mapped location instances.
+
         """
         # IMPORTANT: keys must be axis NAMES ("Weight", "Italic"),
         # NOT axis tags ("wght", "ital"). getFullDesignLocation matches by name.
@@ -331,10 +356,16 @@ def build_variable_font(  # noqa: C901
         return loc
 
     def add_src(master: MasterEntry, ital_val: int, name: str | None = None) -> None:
-        """
-        Relentlessly injects source definitions into the mutable design space to prevent pipeline desynchronization.
+        """Relentlessly injects source definitions into the mutable design space to prevent pipeline desynchronization.
 
-        Args: ds (DesignSpaceDocument): The target XML tree. i (dict): Instance. out_dir (Path): Context path.
+        Args:
+            master (Any): Undocumented argument.
+            ital_val (Any): Undocumented argument.
+            name (Any): Undocumented argument.
+            ds (DesignSpaceDocument): The target XML tree.
+            i (dict): Instance.
+            out_dir (Path): Context path.
+
         """
         src = SourceDescriptor()
         src.path = str(master["path"])
@@ -389,12 +420,16 @@ def build_variable_font(  # noqa: C901
     default_otl: dict = {}
 
     def load_and_patch(master_path: str) -> TTFont:  # noqa: C901
-        """
-        Performs a deep-level binary inspection to load a font, coercing its axes to match exact definitions and eradicating mismatched metrics to prevent variable font corruption.
+        """Perform a deep-level binary inspection to load a font, coercing its axes to match exact definitions and eradicating mismatched metrics to prevent variable font corruption.
 
-        Args: loc (dict): Axis specifications. out_dir (Path): Path anchor.
+        Args:
+            master_path (Any): Undocumented argument.
+            loc (dict): Axis specifications.
+            out_dir (Path): Path anchor.
 
-        Returns: TTFont: The meticulously patched and compliant font object.
+        Returns:
+            TTFont: The meticulously patched and compliant font object.
+
         """
         f = TTFont(master_path)
 
@@ -446,23 +481,29 @@ def build_variable_font(  # noqa: C901
 
 
 def ttf_to_woff2(out_path: Path) -> Callable[[Path], None]:
-    """
-    Invokes Google's legendary brotli-based WOFF2 compression algorithm, instantaneously crushing a massive TTF binary down to the smallest possible byte footprint for ultra-fast network delivery.
+    """Invoke Google's legendary brotli-based WOFF2 compression algorithm, instantaneously crushing a massive TTF binary down to the smallest possible byte footprint for ultra-fast network delivery.
 
-    Args: ttf_path (Path): Origin. woff2_path (Path): Destination.
+    Args:
+        out_path (Any): Undocumented argument.
+        ttf_path (Path): Origin.
+        woff2_path (Path): Destination.
 
-    Returns: bool: True if the compression was successfully completed.
+    Returns:
+        bool: True if the compression was successfully completed.
+
     """
 
     def inner(ttf_path: Path) -> None:
+        """Manage individual font loading and mathematical alignment during variable font synthesis.
+
+        Args:
+            ttf_path (Any): Undocumented argument.
+            loc (dict): Metadata payload.
+
+        Returns:
+            TTFont: The transformed object.
+
         """
-        The highly parallelizable inner closure responsible for managing individual font loading and mathematical alignment during variable font synthesis.
-
-        Args: loc (dict): Metadata payload.
-
-        Returns: TTFont: The transformed object.
-        """
-
         woff2_path = Path.joinpath(out_path, ttf_path.stem + ".woff2")
         if woff2_path.exists():
             log(f"[skip] {woff2_path.name} already exists")
@@ -482,7 +523,7 @@ def ttf_to_woff2(out_path: Path) -> Callable[[Path], None]:
 
 
 def main() -> None:  # noqa: C901
-    """The master orchestrator of the entire typography pipeline, seamlessly handling conversion, interpolation, compression, and CSS generation in one devastatingly efficient sweep."""
+    """Handle conversion, interpolation, compression, and CSS generation in one devastatingly efficient sweep."""
     parser = argparse.ArgumentParser(
         description="Multi-family variable font builder + woff2 pipeline",
         formatter_class=argparse.RawDescriptionHelpFormatter,

@@ -1,10 +1,9 @@
-# CSS Summary: `bookmarks.css`
+# `bookmarks.css`
 
-> Generated on 2026-05-27 23:53\
+> Generated on 2026-05-28 08:49  
 > Source: `src/static/stylesheets/bookmarks.css`
 
 ## Lint Results
-
 > ✅ No lint issues found.
 
 ## Section Tree

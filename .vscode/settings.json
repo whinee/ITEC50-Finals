@@ -60,4 +60,5 @@
         "**/*.xdv": true,
         "**/*.minted": true,
     },
+    "svg.preview.background": "white",
 }
