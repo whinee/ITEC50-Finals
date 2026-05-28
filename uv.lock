@@ -149,6 +149,18 @@ wheels = [
 ]
 
 [[package]]
+name = "captcha"
+version = "0.7.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pillow" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b4/65/8e186bb798f33ba390eab897c995b0fcee92bc030e0f40cb8ea01f34dd07/captcha-0.7.1.tar.gz", hash = "sha256:a1b462bcc633a64d8db5efa7754548a877c698d98f87716c620a707364cabd6b", size = 226561, upload-time = "2025-03-01T05:00:13.395Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/da/ff/3f0982ecd37c2d6a7266c22e7ea2e47d0773fe449984184c5316459d2776/captcha-0.7.1-py3-none-any.whl", hash = "sha256:8b73b5aba841ad1e5bdb856205bf5f09560b728ee890eb9dae42901219c8c599", size = 147606, upload-time = "2025-03-01T05:00:10.433Z" },
+]
+
+[[package]]
 name = "certifi"
 version = "2026.4.22"
 source = { registry = "https://pypi.org/simple" }
@@ -421,6 +433,19 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/5d/45/c130091c2dfa061bbfe3150f2a5091ef1adf149f2a8d2ae769ecaf6e99a2/fastapi-0.136.1.tar.gz", hash = "sha256:7af665ad7acfa0a3baf8983d393b6b471b9da10ede59c60045f49fbc89a0fa7f", size = 397448, upload-time = "2026-04-23T16:49:44.046Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/5a/ff/2e4eca3ade2c22fe1dea7043b8ee9dabe47753349eb1b56a202de8af6349/fastapi-0.136.1-py3-none-any.whl", hash = "sha256:a6e9d7eeada96c93a4d69cb03836b44fa34e2854accb7244a1ece36cd4781c3f", size = 117683, upload-time = "2026-04-23T16:49:42.437Z" },
+]
+
+[[package]]
+name = "fastapi-limiter"
+version = "0.1.6"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "fastapi" },
+    { name = "redis" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/7f/99/c7903234488d4dca5f9bccb4f88c2f582a234f0dca33348781c9cf8a48c6/fastapi_limiter-0.1.6.tar.gz", hash = "sha256:6f5fde8efebe12eb33861bdffb91009f699369a3c2862cdc7c1d9acf912ff443", size = 8307, upload-time = "2024-01-05T09:14:48.628Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cd/b5/6f6b4d18bee1cafc857eae12738b3a03b7d1102b833668be868938c57b9d/fastapi_limiter-0.1.6-py3-none-any.whl", hash = "sha256:2e53179a4208b8f2c8795e38bb001324d3dc37d2800ff49fd28ec5caabf7a240", size = 15829, upload-time = "2024-01-05T09:14:47.613Z" },
 ]
 
 [[package]]
@@ -1341,6 +1366,15 @@ wheels = [
 ]
 
 [[package]]
+name = "redis"
+version = "7.4.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/7b/7f/3759b1d0d72b7c92f0d70ffd9dc962b7b7b5ee74e135f9d7d8ab06b8a318/redis-7.4.0.tar.gz", hash = "sha256:64a6ea7bf567ad43c964d2c30d82853f8df927c5c9017766c55a1d1ed95d18ad", size = 4943913, upload-time = "2026-03-24T09:14:37.53Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/74/3a/95deec7db1eb53979973ebd156f3369a72732208d1391cd2e5d127062a32/redis-7.4.0-py3-none-any.whl", hash = "sha256:a9c74a5c893a5ef8455a5adb793a31bb70feb821c86eccb62eebef5a19c429ec", size = 409772, upload-time = "2026-03-24T09:14:35.968Z" },
+]
+
+[[package]]
 name = "regex"
 version = "2026.4.4"
 source = { registry = "https://pypi.org/simple" }
@@ -1548,10 +1582,12 @@ source = { editable = "." }
 dependencies = [
     { name = "alltheutils" },
     { name = "asyncpg" },
+    { name = "captcha" },
     { name = "cryptography" },
     { name = "email-validator" },
     { name = "faker" },
     { name = "fastapi" },
+    { name = "fastapi-limiter" },
     { name = "greenlet" },
     { name = "itsdangerous" },
     { name = "jinja2" },
@@ -1562,6 +1598,8 @@ dependencies = [
     { name = "pydantic-settings" },
     { name = "pyjwt" },
     { name = "python-multipart" },
+    { name = "pyyaml" },
+    { name = "redis" },
     { name = "rich" },
     { name = "sqlmodel" },
     { name = "ujson" },
@@ -1600,10 +1638,12 @@ dev = [
 requires-dist = [
     { name = "alltheutils", specifier = ">=2.2.0" },
     { name = "asyncpg", specifier = ">=0.31.0" },
+    { name = "captcha", specifier = ">=0.7.1" },
     { name = "cryptography", specifier = ">=48.0.0" },
     { name = "email-validator", specifier = ">=2.1.0.post1" },
     { name = "faker", specifier = ">=40.19.1" },
     { name = "fastapi", specifier = ">=0.136.1" },
+    { name = "fastapi-limiter", specifier = "<=0.1.6" },
     { name = "greenlet", specifier = ">=3.5.0" },
     { name = "itsdangerous", specifier = ">=2.1.2" },
     { name = "jinja2", specifier = "==3.1.5" },
@@ -1614,6 +1654,8 @@ requires-dist = [
     { name = "pydantic-settings", specifier = ">=2.14.1" },
     { name = "pyjwt", specifier = ">=2.8.0" },
     { name = "python-multipart", specifier = ">=0.0.6" },
+    { name = "pyyaml", specifier = ">=6.0.3" },
+    { name = "redis", specifier = ">=7.4.0" },
     { name = "rich", specifier = ">=13.3.5" },
     { name = "sqlmodel", specifier = ">=0.0.38" },
     { name = "ujson", specifier = ">=5.9.0" },

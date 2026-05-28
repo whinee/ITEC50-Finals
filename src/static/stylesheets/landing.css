@@ -23,6 +23,10 @@
     box-sizing: border-box;
 }
 
+.landing-hero-short {
+    min-height: 50vh;
+}
+
 /* Dynamic glowing background elements */
 .landing-hero::before,
 .landing-hero::after {

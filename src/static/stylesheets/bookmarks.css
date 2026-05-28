@@ -162,6 +162,7 @@ body {
 
 .bookmark-grid > .bookmark-panel:first-child {
     grid-column: span 2 / span 2;
+    min-height: 150px;
 }
 
 .bookmark-sidebar {
@@ -215,6 +216,10 @@ body {
     border: 1px solid hsl(var(--rfg-1), 0.16);
     border-radius: 8px;
     background: var(--bg-1-1);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+    overflow: hidden;
 }
 
 .bookmark-card h3 {
@@ -258,8 +263,8 @@ body {
 }
 
 .tag-pill {
-    color: var(--text-strong);
-    background: var(--bg-1-4);
+    color: var(--tag-fg, var(--text-strong));
+    background: var(--tag-bg, var(--bg-1-4));
 }
 
 .filter-list {
@@ -355,6 +360,41 @@ body {
 }
 
 /* FORMS AND SEARCH: END */
+
+/* TAG STYLES: START */
+.view-header-title {
+    display: inline-block;
+    margin-right: 1rem;
+}
+
+.tag-color-container {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    vertical-align: middle;
+}
+
+.tag-color-picker {
+    border: none;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.save-tag-btn {
+    padding: 4px 12px;
+    min-height: unset;
+    font-size: 0.8rem;
+}
+
+.cancel-btn {
+    text-decoration: none;
+    text-align: center;
+    display: inline-block;
+}
+/* TAG STYLES: END */
 
 /* MEDIA QUERIES: START */
 

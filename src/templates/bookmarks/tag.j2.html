@@ -13,7 +13,11 @@
             <section class="bookmark-header">
                 <div>
                     <p class="eyebrow">Tag View</p>
-                    <h1 id="view-title">Bookmarks by tag</h1>
+                    <h1 id="view-title" class="view-header-title">Bookmarks by tag</h1>
+                    <div id="tag-color-container" class="tag-color-container">
+                        <input type="color" id="tag-color-picker" class="tag-color-picker">
+                        <button id="save-tag-color" class="styled-button save-tag-btn">Save Color</button>
+                    </div>
                 </div>
             </section>
             <form id="tag-filter-form" class="inline-search">
@@ -29,4 +33,57 @@
         </main>
     </div>
     <script src="/static/scripts/bookmarks.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const tagParam = urlParams.get('tag');
+            const colorContainer = document.getElementById('tag-color-container');
+            const colorPicker = document.getElementById('tag-color-picker');
+            const saveBtn = document.getElementById('save-tag-color');
+
+            if (tagParam) {
+                // Wait a bit for TagColorMap to be populated by bookmarks.js
+                setTimeout(() => {
+                    const tagInfo = window.TagColorMap?.get(tagParam.toLowerCase());
+                    if (tagInfo) {
+                        colorContainer.style.display = 'inline-flex';
+                        colorPicker.value = tagInfo.color;
+
+                        saveBtn.addEventListener('click', async () => {
+                            const newColor = colorPicker.value;
+                            const res = await fetch(`/api/tags/${tagInfo.id}`, {
+                                method: 'PATCH',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    color: newColor
+                                })
+                            });
+
+                            if (res.ok) {
+                                toast({
+                                    title: "Success",
+                                    message: "Tag color updated!",
+                                    type: "success"
+                                });
+                                window.TagColorMap.set(tagParam.toLowerCase(), {
+                                    ...tagInfo,
+                                    color: newColor
+                                });
+                                // Force reload of bookmarks to apply new color
+                                location.reload();
+                            } else {
+                                toast({
+                                    title: "Error",
+                                    message: "Failed to update color.",
+                                    type: "error"
+                                });
+                            }
+                        });
+                    }
+                }, 500);
+            }
+        });
+    </script>
 {% endblock body %}

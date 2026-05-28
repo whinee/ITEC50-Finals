@@ -53,7 +53,7 @@ document.querySelectorAll(".field").forEach((field) => {
         eraseInputButton.style.visibility = val ? "visible" : "hidden";
 
         if (!val) {
-            validationMessage.textContent = "";
+            if (validationMessage) validationMessage.textContent = "";
             input.classList.remove("valid", "invalid");
             return;
         }
@@ -62,14 +62,14 @@ document.querySelectorAll(".field").forEach((field) => {
         input.classList.toggle("valid", result.ok);
         input.classList.toggle("invalid", !result.ok);
 
-        validationMessage.textContent = result.msg;
-        validationMessage.className =
-            "validation-msg" + (result.ok ? " ok" : "");
+        if (validationMessage) {
+            validationMessage.textContent = result.msg;
+            validationMessage.className =
+                "validation-msg" + (result.ok ? " ok" : "");
+        }
     }
 
-    if (validationMessage) {
-        input.addEventListener("input", validate);
-    }
+    input.addEventListener("input", validate);
 
     eraseInputButton.addEventListener("click", () => {
         input.value = "";

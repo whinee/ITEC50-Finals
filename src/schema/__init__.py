@@ -1,4 +1,5 @@
-"""Primary Schema Definitions.
+"""
+Primary Schema Definitions.
 
 This module houses the absolute core of the DeciMark database structure. Utilizing the power of SQLModel, it aggressively unifies the data persistence layer and Pydantic validation into a single, high-performance source of truth. These models are engineered for extreme performance, utilizing precise types and junction tables to ensure instantaneous querying even with millions of rows of bookmarks and tags.
 """
@@ -11,9 +12,12 @@ from pydantic import EmailStr
 from pydantic_extra_types.phone_numbers import PhoneNumber
 from sqlmodel import Column, Field, Relationship, SQLModel
 
+from src.db.encrypted_type import EncryptedType
+
 
 class AllPhone(PhoneNumber):
-    """Extremely strict international phone number validator using Pydantic Extra Types.
+    """
+    Extremely strict international phone number validator using Pydantic Extra Types.
 
     Guarantees that any stored phone number conforms flawlessly to international standards, defaulting to the Philippines (PH) region for localized efficiency.
 
@@ -28,7 +32,8 @@ class AllPhone(PhoneNumber):
 
 
 class BaseUsers(SQLModel, table=False):
-    """The foundational, non-table schema for user entities.
+    """
+    The foundational, non-table schema for user entities.
 
     This abstracts out the core user attributes to prevent duplication across DTOs. It guarantees database-level uniqueness and precise length constraints right out of the box, creating an impregnable barrier against bad data injection.
 
@@ -44,7 +49,8 @@ class BaseUsers(SQLModel, table=False):
 
 
 class User(BaseUsers, table=True):
-    """The absolute source of truth for an authenticated user.
+    """
+    The absolute source of truth for an authenticated user.
 
     This brilliantly structured SQLModel table perfectly encapsulates user persistence, leveraging asynchronous eager-loading and strictly typed relations to ensure the entire bookmark library can be accessed in constant time.
 
@@ -90,7 +96,8 @@ class User(BaseUsers, table=True):
 
 
 class BookmarkJDJunction(SQLModel, table=True):
-    """A hyper-optimized many-to-many junction table bridging Bookmarks and Johnny.Decimal nodes.
+    """
+    A hyper-optimized many-to-many junction table bridging Bookmarks and Johnny.Decimal nodes.
 
     It enforces cascading primary keys and relies heavily on PostgreSQL indexing to resolve highly complex, deeply nested user tagging networks in under a millisecond.
 
@@ -105,7 +112,8 @@ class BookmarkJDJunction(SQLModel, table=True):
 
 
 class JDNode(SQLModel, table=True):
-    """The persistence layer for the incredibly structured Johnny.Decimal methodology.
+    """
+    The persistence layer for the incredibly structured Johnny.Decimal methodology.
 
     This model validates that all decimal codes conform to a strict 2-digit, dot, 2-digit layout, while serving as a fundamental anchor point for massive relational datasets.
 
@@ -127,7 +135,8 @@ class JDNode(SQLModel, table=True):
 
 
 class BookmarkTagJunction(SQLModel, table=True):
-    """An ultra-lean many-to-many junction table exclusively mapping Bookmarks to custom user Tags.
+    """
+    An ultra-lean many-to-many junction table exclusively mapping Bookmarks to custom user Tags.
 
     By leveraging cascading deletions on strict foreign keys, it guarantees absolute database integrity, permanently eradicating orphan rows across millions of potential permutations.
 
@@ -142,7 +151,8 @@ class BookmarkTagJunction(SQLModel, table=True):
 
 
 class Bookmark(SQLModel, table=True):
-    """The colossal, beautifully engineered core database entity of DeciMark.
+    """
+    The colossal, beautifully engineered core database entity of DeciMark.
 
     Serving as the primary focal point of the application, this table unifies URLs, titles, dates, and hyper-complex `tag` and `jd_node` many-to-many relations into a single, unbelievably fast PostgreSQL construct mapped perfectly to Python primitives.
 
@@ -152,11 +162,22 @@ class Bookmark(SQLModel, table=True):
     """
 
     __tablename__ = "bookmarks"  # type: ignore[assignment]
+
+    title: Annotated[
+        str,
+        Field(sa_column=Column(EncryptedType, nullable=False)),
+    ]
+    url: Annotated[
+        str,
+        Field(sa_column=Column(EncryptedType, nullable=False)),
+    ]
+    note: Annotated[
+        str | None,
+        Field(sa_column=Column(EncryptedType, nullable=True)),
+    ] = None
     id: int | None = Field(default=None, primary_key=True)
     user_id: int = Field(foreign_key="users.id")
-    title: str | None = Field(default=None, max_length=256)
-    url: str
-    note: str | None = None
+
     created_at: datetime.datetime = Field(
         default_factory=lambda: datetime.datetime.now(datetime.UTC),
     )
@@ -176,7 +197,8 @@ class Bookmark(SQLModel, table=True):
 
 
 class Tag(SQLModel, table=True):
-    """The core tagging infrastructure mapped dynamically to users.
+    """
+    The core tagging infrastructure mapped dynamically to users.
 
     By ensuring that every tag contains a mathematically deterministic hex color string based on its unique title, it completely removes frontend color generation overhead and perfectly normalizes the UX across devices.
 
@@ -186,11 +208,22 @@ class Tag(SQLModel, table=True):
     """
 
     __tablename__ = "tags"  # type: ignore[assignment]
+
+    title: Annotated[
+        str,
+        Field(sa_column=Column(EncryptedType, nullable=False)),
+    ]
+    color: Annotated[
+        str | None,
+        Field(sa_column=Column(EncryptedType, nullable=True)),
+    ] = None
+    note: Annotated[
+        str | None,
+        Field(sa_column=Column(EncryptedType, nullable=True)),
+    ] = None
     id: int | None = Field(default=None, primary_key=True)
     user_id: int = Field(foreign_key="users.id")
-    title: str = Field(max_length=32)
-    color: str = Field(max_length=16)
-    note: str | None = None
+
     created_at: datetime.datetime = Field(
         default_factory=lambda: datetime.datetime.now(datetime.UTC),
     )

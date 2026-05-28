@@ -1,4 +1,5 @@
-"""Security Hardening Constants.
+"""
+Security Hardening Constants.
 
 Globally defined cryptographic expiration lifetimes. These hardcoded values ensure that session tokens (`JWT`) and symmetric cookie payloads expire aggressively, drastically narrowing the attack window for hijacked sessions.
 """

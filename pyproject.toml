@@ -26,6 +26,10 @@ dependencies = [
     "phonenumbers>=9.0.30",
     "wonderwords>=3.0.1",
     "faker>=40.19.1",
+    "fastapi-limiter<=0.1.6",
+    "redis>=7.4.0",
+    "captcha>=0.7.1",
+    "pyyaml>=6.0.3",
 ]
 maintainers = [
     { name = "Lyra Phasma", email = "lyraphasma@gmail.com" },

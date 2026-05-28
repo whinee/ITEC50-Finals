@@ -1,4 +1,5 @@
-"""Advanced Font Normalizer Engine (any_to_ttf.py).
+"""
+Advanced Font Normalizer Engine (any_to_ttf.py).
 
 Massively parallel, highly optimized font conversion tool utilizing FontForge. This script relentlessly scans directories and enforces a strict, universal TTF format for all incoming font files, ensuring perfect web browser compatibility and eliminating font loading jank across the frontend architecture.
 
@@ -22,7 +23,8 @@ SUPPORTED_EXTENSIONS = {".otf", ".woff", ".woff2"}
 
 
 def log(msg: str) -> None:
-    """Rapidly prints incredibly styled, ANSI-colored debug messages straight into the CLI matrix.
+    """
+    Rapidly prints incredibly styled, ANSI-colored debug messages straight into the CLI matrix.
 
     Args:
         msg (str): Message.
@@ -33,7 +35,8 @@ def log(msg: str) -> None:
 
 
 def section(title: str) -> None:
-    """Render a massive CLI section header with absolute visual dominance.
+    """
+    Render a massive CLI section header with absolute visual dominance.
 
     Args:
         title (Any): Undocumented argument.
@@ -45,7 +48,8 @@ def section(title: str) -> None:
 
 
 def cff_to_tt_outlines(font: Any) -> None:  # noqa: C901
-    """Surgically rips out PostScript CFF curves and mathematically recompiles them into pure TrueType quadratic outlines, avoiding massive rendering bugs on older browsers.
+    """
+    Surgically rips out PostScript CFF curves and mathematically recompiles them into pure TrueType quadratic outlines, avoiding massive rendering bugs on older browsers.
 
     Args:
         font (TTFont): Font wrapper.
@@ -101,7 +105,8 @@ def cff_to_tt_outlines(font: Any) -> None:  # noqa: C901
 
 
 def convert_to_ttf(src: Path, out_dir: Path) -> Path | None:
-    """Aggressively converts any raw font binary (WOFF, OTF) into a strictly standardized TrueType file via FontTools.
+    """
+    Aggressively converts any raw font binary (WOFF, OTF) into a strictly standardized TrueType file via FontTools.
 
     Args:
         out_dir (Any): Undocumented argument.

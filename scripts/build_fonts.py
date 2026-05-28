@@ -1,4 +1,5 @@
-"""Variable Font Build Pipeline.
+"""
+Variable Font Build Pipeline.
 
 A highly sophisticated font compiler script that seamlessly aggregates static TTF masters into robust, fluid Variable Fonts using `fontmake`. By automating the generation of DesignSpaces and managing instance interpolations, this engine massively shrinks network payloads and empowers DeciMark's dynamic UI typography without manual font-engineering intervention.
 
@@ -62,7 +63,8 @@ WOFF2_WHITELIST: list[str] = [
 
 
 def log(msg: str) -> None:
-    """Injects high-visibility ANSI-styled logs directly into the standard output stream for instantaneous developer feedback.
+    """
+    Injects high-visibility ANSI-styled logs directly into the standard output stream for instantaneous developer feedback.
 
     Args:
         msg (str): The payload string.
@@ -73,7 +75,8 @@ def log(msg: str) -> None:
 
 
 def section(title: str) -> None:
-    """Render a visually striking, massive header block in the terminal to cleanly delineate script execution phases.
+    """
+    Render a visually striking, massive header block in the terminal to cleanly delineate script execution phases.
 
     Args:
         title (Any): Undocumented argument.
@@ -90,7 +93,8 @@ def section(title: str) -> None:
 
 
 def cff_to_tt_outlines(font: Any) -> None:  # noqa: C901
-    """Obliterate CFF (PostScript) cubic bezier curves and meticulously rebuilds them into perfectly optimized TrueType quadratic outlines.
+    """
+    Obliterate CFF (PostScript) cubic bezier curves and meticulously rebuilds them into perfectly optimized TrueType quadratic outlines.
 
     Args:
         font (TTFont): The mutable font object.
@@ -147,7 +151,8 @@ def cff_to_tt_outlines(font: Any) -> None:  # noqa: C901
 
 
 def ensure_ttf(font_path: Path, ttf_dir: Path) -> Path:
-    """Aggressively coerces any standard font file into a flawlessly formatted TrueType binary, performing live AST replacements on outline definitions.
+    """
+    Aggressively coerces any standard font file into a flawlessly formatted TrueType binary, performing live AST replacements on outline definitions.
 
     Args:
         font_path (Any): Undocumented argument.
@@ -185,7 +190,8 @@ def ensure_ttf(font_path: Path, ttf_dir: Path) -> Path:
 
 
 def parse_stem(stem: str, family: str) -> tuple[int | None, bool]:
-    """Execute a surgical regex pattern matching operation to extract exact font weight hierarchies and italic designations from raw file names.
+    """
+    Execute a surgical regex pattern matching operation to extract exact font weight hierarchies and italic designations from raw file names.
 
     Args:
         family (Any): Undocumented argument.
@@ -208,7 +214,8 @@ def collect_families(  # noqa: C901
     src_dir: Path,
     ttf_dir: Path,
 ) -> dict[str, dict[str, list[MasterEntry]]]:
-    """Scan src_dir for .ttf/.otf files, group by family, parse weight + italic.
+    """
+    Scan src_dir for .ttf/.otf files, group by family, parse weight + italic.
 
     Family name = everything before the first '-' in the filename stem. Files with no '-' are treated as single-weight families (Regular).
 
@@ -264,7 +271,8 @@ def build_variable_font(  # noqa: C901
     italics: list[MasterEntry],
     out_path: Path,
 ) -> None:
-    """Synthesize a singular, infinitely scalable Variable TrueType font by perfectly interpolating massive arrays of static font instances across the `wght` design axis.
+    """
+    Synthesize a singular, infinitely scalable Variable TrueType font by perfectly interpolating massive arrays of static font instances across the `wght` design axis.
 
     Args:
         out_path (Any): Undocumented argument.
@@ -337,7 +345,8 @@ def build_variable_font(  # noqa: C901
     # A missing key gets silently defaulted to 0 by varLib, creating
     # phantom extra base masters and triggering VarLibValidationError.
     def make_loc(wght: int, ital: int) -> dict:
-        """Synthesizes an immutable, strongly typed mapping of font instances to ensure infallible iteration during the font processing lifecycle.
+        """
+        Synthesizes an immutable, strongly typed mapping of font instances to ensure infallible iteration during the font processing lifecycle.
 
         Args:
             ital (Any): Undocumented argument.
@@ -356,7 +365,8 @@ def build_variable_font(  # noqa: C901
         return loc
 
     def add_src(master: MasterEntry, ital_val: int, name: str | None = None) -> None:
-        """Relentlessly injects source definitions into the mutable design space to prevent pipeline desynchronization.
+        """
+        Relentlessly injects source definitions into the mutable design space to prevent pipeline desynchronization.
 
         Args:
             master (Any): Undocumented argument.
@@ -420,7 +430,8 @@ def build_variable_font(  # noqa: C901
     default_otl: dict = {}
 
     def load_and_patch(master_path: str) -> TTFont:  # noqa: C901
-        """Perform a deep-level binary inspection to load a font, coercing its axes to match exact definitions and eradicating mismatched metrics to prevent variable font corruption.
+        """
+        Perform a deep-level binary inspection to load a font, coercing its axes to match exact definitions and eradicating mismatched metrics to prevent variable font corruption.
 
         Args:
             master_path (Any): Undocumented argument.
@@ -481,7 +492,8 @@ def build_variable_font(  # noqa: C901
 
 
 def ttf_to_woff2(out_path: Path) -> Callable[[Path], None]:
-    """Invoke Google's legendary brotli-based WOFF2 compression algorithm, instantaneously crushing a massive TTF binary down to the smallest possible byte footprint for ultra-fast network delivery.
+    """
+    Invoke Google's legendary brotli-based WOFF2 compression algorithm, instantaneously crushing a massive TTF binary down to the smallest possible byte footprint for ultra-fast network delivery.
 
     Args:
         out_path (Any): Undocumented argument.
@@ -494,7 +506,8 @@ def ttf_to_woff2(out_path: Path) -> Callable[[Path], None]:
     """
 
     def inner(ttf_path: Path) -> None:
-        """Manage individual font loading and mathematical alignment during variable font synthesis.
+        """
+        Manage individual font loading and mathematical alignment during variable font synthesis.
 
         Args:
             ttf_path (Any): Undocumented argument.

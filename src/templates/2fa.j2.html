@@ -1,0 +1,45 @@
+{% extends 'base.j2.html' %}
+{% block head %}
+    <link href="/static/stylesheets/forms.css" rel="stylesheet">
+{% endblock head %}
+{% block body %}
+    <div id="wrapper">
+        <main>
+            <div class="inner">
+                <div class="form-header">
+                    <h1 class="form-header-title">DeciMark</h1>
+                    <p class="form-splash">Two-Factor Authentication</p>
+                </div>
+                <form id="login-form" hx-post="/auth/verify-2fa" method="post">
+                    <div class="field">
+                        <label for="otp">One-Time Password (OTP)</label>
+                        <br>
+                        <br>
+                        <div class="form-box">
+                            <input class="input"
+                                   name="otp"
+                                   type="text"
+                                   placeholder="123456"
+                                   maxlength="6"
+                                   required>
+                            <button type="button" class="icon1 erase-input hide">×</button>
+                        </div>
+                        <div class="validation-msg validation-msg-info">
+                            Check your email for the 6-digit code.
+                        </div>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="field">
+                        <input class="button submit" type="submit" value="Verify">
+                    </div>
+                </form>
+                <div class="footer">
+                    <p>
+                        <a href="/login" class="link">Back to Login</a>
+                    </p>
+                </div>
+            </div>
+        </main>
+    </div>
+{% endblock body %}

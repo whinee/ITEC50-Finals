@@ -40,6 +40,7 @@ async def test_settings_modal(page: Page):
     
     await expect(modal_area).to_be_visible()
     await expect(settings_modal).to_be_visible()
+    await page.screenshot(path="docs/screenshots/settings_modal.png")
     
     # Close modal
     await page.click('#close-modal')
@@ -61,6 +62,7 @@ async def test_info_modal(page: Page):
     
     await expect(modal_area).to_be_visible()
     await expect(info_modal).to_be_visible()
+    await page.screenshot(path="docs/screenshots/info_modal.png")
     
     await page.click('#close-modal')
     await expect(modal_area).not_to_be_visible()

@@ -6,19 +6,18 @@
     <div id="wrapper">
         <main>
             <div class="inner">
+                <div class="form-header">
+                    <h1 class="form-header-title">DeciMark</h1>
+                    {% if splash %}<p class="form-splash">{{ splash }}</p>{% endif %}
+                </div>
                 <form id="register-form" method="post">
                     <div class="field">
                         <label for="email">E-mail</label>
                         <br>
                         <br>
                         <div class="form-box">
-                            <input class="input"
-                                   name="email"
-                                   type="text"
-                                   placeholder=""
-                                   class="form"
-                                   required>
-                            <button class="erase-input" style="visibility: hidden;">×</button>
+                            <input class="input" name="email" type="text" placeholder="" required>
+                            <button class="erase-input hide">×</button>
                         </div>
                         <div class="validation-msg"></div>
                     </div>
@@ -31,11 +30,15 @@
                         <div class="form-box">
                             <input class="input"
                                    name="username"
+                                   id="username-input"
                                    type="text"
                                    placeholder=""
-                                   class="form"
                                    required>
-                            <button class="erase-input" style="visibility: hidden;">×</button>
+                            <button type="button"
+                                    id="generate-username-btn"
+                                    class="generate-username-btn"
+                                    title="Generate Random Username">🎲</button>
+                            <button class="erase-input hide">×</button>
                         </div>
                         <div class="validation-msg"></div>
                     </div>
@@ -46,20 +49,51 @@
                         <br>
                         <br>
                         <div class="form-box">
-                            <input class="input"
-                                   name="password"
-                                   type="password"
-                                   placeholder=""
-                                   class="form"
-                                   required>
-                            <button class="erase-input" style="visibility: hidden;">×</button>
+                            <input class="input" name="password" type="password" required>
+                            <button type="button"
+                                    class="icon1 toggle-password toggle-password-btn"
+                                    title="Toggle Password Visibility">👁</button>
+                            <button class="erase-input hide">×</button>
                         </div>
                         <div class="validation-msg"></div>
                     </div>
                     <br>
                     <br>
-                    <input type="submit" value="Login" type="button" class="styled-button">
+                    <div class="field form-field-margin">
+                        <label for="captcha_answer">Captcha</label>
+                        <br>
+                        <br>
+                        <div class="captcha-img-wrapper">
+                            <img id="captcha-img" src="" alt="Captcha Loading..." class="captcha-img">
+                        </div>
+                        <div class="captcha-reload-wrapper">
+                            <button type="button"
+                                    id="reload-captcha"
+                                    class="pill styled-button captcha-reload-btn">
+                                Reload Captcha
+                            </button>
+                        </div>
+                        <div class="form-box">
+                            <input class="input"
+                                   name="captcha_answer"
+                                   type="text"
+                                   placeholder="Enter captcha code"
+                                   required>
+                            <button type="button" class="icon1 erase-input hide">×</button>
+                        </div>
+                    </div>
+                    <br>
+                    <input type="submit" value="Register" class="styled-button">
                 </form>
+                <br>
+                <div class="oauth-btn-group">
+                    {% if settings.OAUTH.GOOGLE.ENABLE %}
+                        <a href="/auth/oauth/google" class="button oauth-btn oauth-btn-google">Login with Google</a>
+                    {% endif %}
+                    {% if settings.OAUTH.GITHUB.ENABLE %}
+                        <a href="/auth/oauth/github" class="button oauth-btn oauth-btn-github">Login with GitHub</a>
+                    {% endif %}
+                </div>
             </div>
         </main>
     </div>
@@ -93,5 +127,51 @@
                 setTimeout(() => window.location.href = "/bookmarks", 1000);
             }
         });
+
+        document.getElementById("generate-username-btn").addEventListener("click", async (e) => {
+            e.preventDefault();
+            const res = await fetch("/generate-username");
+            if (res.ok) {
+                const data = await res.json();
+                document.getElementById("username-input").value = data.username;
+                // Dispatch input event so forms.js erase-input logic kicks in
+                document.getElementById("username-input").dispatchEvent(new Event('input'));
+            } else {
+                toast({
+                    title: "Error",
+                    message: "Failed to generate username.",
+                    type: "error"
+                });
+            }
+        });
+    </script>
+    <script>
+        document.querySelectorAll('.toggle-password').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const input = btn.previousElementSibling;
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    btn.textContent = '🔒';
+                } else {
+                    input.type = 'password';
+                    btn.textContent = '👁';
+                }
+            });
+        });
+    </script>
+    <script>
+        async function loadCaptcha() {
+            const img = document.getElementById('captcha-img');
+            img.style.opacity = '0.5';
+            const res = await fetch("/auth/captcha");
+            if (res.ok) {
+                const data = await res.json();
+                img.src = data.image;
+                img.style.opacity = '1';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', loadCaptcha);
+        document.getElementById('reload-captcha')?.addEventListener('click', loadCaptcha);
     </script>
 {% endblock body %}

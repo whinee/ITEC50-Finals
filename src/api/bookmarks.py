@@ -1,4 +1,8 @@
-"""Bookmark Endpoints.
+import base64
+import json
+
+"""
+Bookmark Endpoints.
 
 Provides high-performance, strictly typed CRUD operations for user bookmarks, utilizing junction tables and O(n) serialization.
 """
@@ -24,8 +28,21 @@ router = APIRouter()
 api_router = APIRouter()
 
 
+class TagEditPayload(BaseModel):
+    """
+    Pydantic schema for editing an existing tag.
+
+    Args:
+        color (str): The newly selected hex color string.
+
+    """
+
+    color: str
+
+
 class BookmarkPayload(BaseModel):
-    """Strictly typed Pydantic schema for creating new bookmarks.
+    """
+    Strictly typed Pydantic schema for creating new bookmarks.
 
     This enforces absolute structural integrity on incoming JSON bodies, ensuring that malicious payloads or malformed URLs are rejected at the edge before they ever touch the PostgreSQL execution engine.
 
@@ -44,7 +61,8 @@ class BookmarkPayload(BaseModel):
 
 
 class BookmarkEditPayload(BaseModel):
-    """Schema for executing partial updates (PATCH/PUT) on existing bookmarks.
+    """
+    Schema for executing partial updates (PATCH/PUT) on existing bookmarks.
 
     By aggressively utilizing `None` defaults and type hints, this DTO seamlessly handles sparse updates without accidentally destroying existing relational data.
 
@@ -66,7 +84,8 @@ async def get_current_user(
     claims: Annotated[Claims, Depends(check_encrypted_cookie_auth)],
     session: Annotated[AsyncSession, Depends(get_session)],
 ) -> User:
-    """Fetch the perfectly authenticated User object.
+    """
+    Fetch the perfectly authenticated User object.
 
     It bridges the gap between the stateless JWT layer and the stateful PostgreSQL backend by querying the user using the guaranteed-authentic `sub` claim. If the user was deleted or disabled mid-session, this instantly triggers a 401 Unauthorized cascade, completely halting the request.
 
@@ -90,7 +109,8 @@ async def get_current_user(
 
 
 def clean_values(values: list[str]) -> list[str]:
-    """Aggressively sanitizes incoming array data (like tags or JD codes).
+    """
+    Aggressively sanitizes incoming array data (like tags or JD codes).
 
     It strips whitespace, removes invalid `#` prefixes, and deduplicates inputs in O(n) time, guaranteeing that the database junction tables are never poisoned with messy user input.
 
@@ -115,7 +135,8 @@ def clean_values(values: list[str]) -> list[str]:
 
 
 def tag_color(title: str) -> str:
-    """Deterministically computes a vibrant hex color code based on the string hash of a tag.
+    """
+    Deterministically computes a vibrant hex color code based on the string hash of a tag.
 
     This pseudo-random generation perfectly mimics Apple's premium UI feel by ensuring that identical tags always map to the exact same visually pleasing pastel color without storing arbitrary states on the client.
 
@@ -135,7 +156,8 @@ async def get_or_create_jd_node(
     user: User,
     code: str,
 ) -> JDNode:
-    """Upsert Johnny.Decimal nodes.
+    """
+    Upsert Johnny.Decimal nodes.
 
     Executes a high-speed SELECT query to locate an existing node for the user. If missing, it autonomously mints and flushes a new node into the session, preventing duplicate key collisions in the junction tables.
 
@@ -162,7 +184,8 @@ async def get_or_create_jd_node(
 
 
 async def get_or_create_tag(session: AsyncSession, user: User, title: str) -> Tag:
-    """Upsert arbitrary tag strings.
+    """
+    Upsert arbitrary tag strings.
 
     Automatically enforces lowercase tag uniformity and leverages high-speed hashing for color assignment before safely flushing the tag record into the database.
 
@@ -189,7 +212,8 @@ async def get_or_create_tag(session: AsyncSession, user: User, title: str) -> Ta
 
 
 def serialize_bookmark(bookmark: Bookmark) -> dict:
-    """Serialize deep ORM models into flat JSON dictionaries.
+    """
+    Serialize deep ORM models into flat JSON dictionaries.
 
     Bypassing heavy Pydantic serialization overhead on massive arrays, this function manually extracts properties and deeply nested relations (`jd_nodes`, `tags`) into a clean, DTO-ready format perfectly tailored for the frontend React components.
 
@@ -214,7 +238,8 @@ def serialize_bookmark(bookmark: Bookmark) -> dict:
 
 
 def bookmark_matches(bookmark: Bookmark, key: str, value: str) -> bool:
-    """Perform a highly optimized, case-insensitive string matching evaluation against bookmark relations.
+    """
+    Perform a highly optimized, case-insensitive string matching evaluation against bookmark relations.
 
     Args:
         bookmark (Bookmark): The target bookmark to scan.
@@ -239,7 +264,8 @@ def filter_bookmarks(
     filters: list[tuple[str, str]],
     match_all: bool,
 ) -> list[Bookmark]:
-    """Execute a blazingly fast algorithmic filter across a memory-resident list of bookmarks.
+    """
+    Execute a blazingly fast algorithmic filter across a memory-resident list of bookmarks.
 
     Args:
         bookmarks (list[Bookmark]): The fully hydrated list of user bookmarks.
@@ -267,7 +293,8 @@ def filter_bookmarks(
 
 
 async def list_user_bookmarks(session: AsyncSession, user: User) -> list[Bookmark]:
-    """Execute a highly optimized, single-pass `JOIN` query to fetch a user's entire bookmark library.
+    """
+    Execute a highly optimized, single-pass `JOIN` query to fetch a user's entire bookmark library.
 
     By utilizing SQLAlchemy's `selectinload` strategy, it eliminates the dreaded N+1 query problem, aggressively fetching all related `jd_nodes` and `tags` in a single asynchronous I/O burst, ensuring that the dashboard renders instantly regardless of database size.
 
@@ -293,7 +320,8 @@ async def bookmarks_home(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
 ):
-    """Aggressively intercepts requests to the base bookmark path and cascades them to the dashboard redirect.
+    """
+    Aggressively intercepts requests to the base bookmark path and cascades them to the dashboard redirect.
 
     Args:
         request (Request): HTTP request.
@@ -313,7 +341,8 @@ async def bookmarks_dashboard(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
 ):
-    """Render the ultra-responsive React-powered core bookmarks dashboard.
+    """
+    Render the ultra-responsive React-powered core bookmarks dashboard.
 
     Args:
         request (Request): HTTP request.
@@ -405,7 +434,7 @@ async def bookmarks_tag(
 
     Returns:
         _TemplateResponse: The incredibly swift Tag dashboard interface.
-    
+
     """
     if not is_authenticated:
         return RedirectResponse(url="/login", status_code=303)
@@ -417,7 +446,8 @@ async def bookmarks_search_page(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
 ):
-    """Bootstraps the massive client-side search engine interface for instant bookmark lookups.
+    """
+    Bootstraps the massive client-side search engine interface for instant bookmark lookups.
 
     Args:
         request (Request): HTTP request.
@@ -437,7 +467,8 @@ async def list_bookmarks(
     session: Annotated[AsyncSession, Depends(get_session)],
     user: Annotated[User, Depends(get_current_user)],
 ):
-    """Serialize the entire user bookmark taxonomy in microseconds.
+    """
+    Serialize the entire user bookmark taxonomy in microseconds.
 
     Args:
         session (AsyncSession): The database transaction manager.
@@ -457,7 +488,8 @@ async def create_bookmark(
     session: Annotated[AsyncSession, Depends(get_session)],
     user: Annotated[User, Depends(get_current_user)],
 ):
-    """Mint new bookmarks into the database.
+    """
+    Mint new bookmarks into the database.
 
     This endpoint rips apart the incoming Pydantic payload, aggressively normalizes JD tags and standard tags, creates missing relational junctions on the fly, and flushes a structurally perfect Bookmark model into PostgreSQL with zero trust logic.
 
@@ -506,7 +538,8 @@ async def update_bookmark(  # noqa: C901
     session: Annotated[AsyncSession, Depends(get_session)],
     user: Annotated[User, Depends(get_current_user)],
 ):
-    """Execute a surgical PATCH operation against a specific, authenticated bookmark entity.
+    """
+    Execute a surgical PATCH operation against a specific, authenticated bookmark entity.
 
     It dynamically computes diffs for relational arrays (`jd_nodes`, `tags`), efficiently executing massive DELETE and INSERT operations against junction tables only when structurally necessary, preserving unimaginable levels of database throughput.
 
@@ -598,3 +631,146 @@ async def search_bookmarks(
     )
 
     return [serialize_bookmark(bookmark) for bookmark in found]
+
+
+@api_router.patch("/tags/{tag_id}")
+async def update_tag(
+    tag_id: int,
+    payload: TagEditPayload,
+    session: Annotated[AsyncSession, Depends(get_session)],
+    user: Annotated[User, Depends(get_current_user)],
+):
+    """
+    Update a specific tag's custom color.
+
+    Locates the precise tag owned by the user and overrides its deterministic color with the new custom hex value.
+
+    Args:
+        tag_id (int): Primary key of the tag.
+        payload (TagEditPayload): Validated hex color payload.
+        session (AsyncSession): Active database channel.
+        user (User): The authenticated owner.
+
+    Returns:
+        dict: Success message.
+
+    """
+    result = await session.exec(
+        select(Tag).where(Tag.id == tag_id, Tag.user_id == user.id),
+    )
+    tag = result.first()
+
+    if not tag:
+        return CustomResponse.error(message="Tag not found.", status_code=404)
+
+    tag.color = payload.color
+    session.add(tag)
+    await session.commit()
+
+    return CustomResponse.json(
+        status_code=200,
+        message="Tag color updated successfully.",
+    )
+
+
+@api_router.get("/tags")
+async def list_tags(
+    session: Annotated[AsyncSession, Depends(get_session)],
+    user: Annotated[User, Depends(get_current_user)],
+):
+    """
+    Retrieve all tags with their colors for the frontend mapping.
+
+    Args:
+        session (AsyncSession): Active database channel.
+        user (User): The authenticated owner.
+
+    Returns:
+        dict: List of tag dictionaries.
+
+    """
+    result = await session.exec(select(Tag).where(Tag.user_id == user.id))
+    tags = result.all()
+
+    return [
+        {
+            "id": tag.id,
+            "title": tag.title,
+            "color": tag.color,
+        }
+        for tag in tags
+    ]
+
+
+@router.get("/tags/export")
+async def export_tags(
+    user: Annotated[User, Depends(get_current_user)],
+    session: Annotated[AsyncSession, Depends(get_session)],
+):
+    """
+    Export all custom tag colors as a base64 encoded JSON string.
+
+    Args:
+        user (User): The authenticated user.
+        session (AsyncSession): Database session.
+
+    Returns:
+        dict: A dictionary containing the base64 theme data.
+
+    """
+    statement = select(Tag).where(Tag.user_id == user.id)
+    result = await session.exec(statement)
+    tags = result.all()
+
+    # We serialize just the title and color
+    data = [{"title": t.title, "color": t.color} for t in tags]
+    json_str = json.dumps(data)
+    b64_str = base64.b64encode(json_str.encode("utf-8")).decode("utf-8")
+
+    return {"theme_data": b64_str}
+
+
+class ImportThemeData(BaseModel):
+    theme_data: str
+
+
+@router.post("/tags/import")
+async def import_tags(
+    user: Annotated[User, Depends(get_current_user)],
+    session: Annotated[AsyncSession, Depends(get_session)],
+    payload: ImportThemeData,
+):
+    """
+    Import and merge custom tag colors from a base64 encoded JSON string.
+
+    Args:
+        user (User): The authenticated user.
+        session (AsyncSession): Database session.
+        payload (ImportThemeData): The base64 payload.
+
+    Returns:
+        dict: Success message.
+
+    """
+    try:
+        json_str = base64.b64decode(payload.theme_data).decode("utf-8")
+        data = json.loads(json_str)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid theme data format")
+
+    statement = select(Tag).where(Tag.user_id == user.id)
+    result = await session.exec(statement)
+    tags = result.all()
+
+    # Create a quick lookup map
+    tag_map = {t.title: t for t in tags}
+
+    for item in data:
+        title = item.get("title")
+        color = item.get("color")
+        if title in tag_map and color:
+            tag_map[title].color = color
+            session.add(tag_map[title])
+
+    await session.commit()
+    return {"message": "Theme imported successfully!"}

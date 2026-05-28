@@ -1,4 +1,5 @@
-"""Custom Response Factory.
+"""
+Custom Response Factory.
 
 Serves as the ultimate bottleneck for all outbound traffic, structuring unified JSON payloads and Jinja2 templates flawlessly.
 """
@@ -23,7 +24,8 @@ from src.utils.http_code import (
 
 
 def fetch_flash(request: Request):
-    """Mercilessly extracts and flushes all ephemeral flash messages from the deeply encrypted HTTP session securely.
+    """
+    Mercilessly extracts and flushes all ephemeral flash messages from the deeply encrypted HTTP session securely.
 
     Args:
         request (Request): The active, cryptographically signed HTTP request object carrying session state.
@@ -37,12 +39,14 @@ def fetch_flash(request: Request):
 
 TEMPLATES = Jinja2Templates(directory="src/templates")
 TEMPLATES.env.globals["fetch_flash"] = fetch_flash  # type: ignore
+TEMPLATES.env.globals["settings"] = settings  # type: ignore
 
 CookieParams = dict[str, Any] | list[dict[str, Any]]
 
 
 def set_cookies(response, cookie_params: CookieParams) -> None:  # type: ignore[no-untyped-def]
-    """Inject pre-compiled, symmetric cookie configurations into raw HTTP responses prior to network transmission.
+    """
+    Inject pre-compiled, symmetric cookie configurations into raw HTTP responses prior to network transmission.
 
     Args:
         response (Response): The mutable outbound FastAPI response class.
@@ -56,7 +60,8 @@ def set_cookies(response, cookie_params: CookieParams) -> None:  # type: ignore[
 
 
 class TemplateFlashInnerCallable(Protocol):
-    """A rigorously typed Protocol defining the exact signature of the inner flash message closure, ensuring flawless type checking across Jinja2 templates.
+    """
+    A rigorously typed Protocol defining the exact signature of the inner flash message closure, ensuring flawless type checking across Jinja2 templates.
 
     Args:
         Protocol (type): Core typing inheritance.
@@ -74,7 +79,8 @@ class TemplateFlashInnerCallable(Protocol):
         background: BackgroundTask | None = None,
         cookie_params: CookieParams | None = None,
     ) -> _TemplateResponse:
-        """Ensure the highest standard of type safety.
+        """
+        Ensure the highest standard of type safety.
 
         Args:
             message (str): Message payload.
@@ -94,7 +100,8 @@ class TemplateFlashInnerCallable(Protocol):
 
 
 class CustomResponse:
-    """A meticulously engineered, static factory for generating highly consistent HTTP responses.
+    """
+    A meticulously engineered, static factory for generating highly consistent HTTP responses.
 
     This class serves as the ultimate bottleneck for all outbound data in DeciMark. By funneling all JSON and HTML template responses through these methods, it guarantees that every single response adheres to a strict, RFC-compliant JSON envelope or injects precisely structured flash messages into the Jinja2 context, eliminating the possibility of fragmented or malformed API responses.
     """
@@ -106,7 +113,8 @@ class CustomResponse:
         message: str | None = None,
         error: bool | None = None,
     ) -> tuple[int, dict[str, Any], dict[str, Any]]:
-        """Synthesizes raw JSON payload metadata based on deep HTTP specification rules.
+        """
+        Synthesizes raw JSON payload metadata based on deep HTTP specification rules.
 
         Args:
             status_code (int): The raw HTTP status code.
@@ -143,7 +151,8 @@ class CustomResponse:
         background: BackgroundTask | None = None,
         cookie_params: CookieParams | None = None,
     ) -> UJSONResponse:  # type: ignore
-        """Construct a blazing-fast UJSONResponse wrapped with standardized DeciMark metadata.
+        """
+        Construct a blazing-fast UJSONResponse wrapped with standardized DeciMark metadata.
 
         Args:
             status_code (int): The HTTP status code.
@@ -200,7 +209,8 @@ class CustomResponse:
         background: BackgroundTask | None = None,
         cookie_params: CookieParams | None = None,
     ) -> UJSONResponse:  # type: ignore
-        """Synthesizes a devastatingly rapid JSON response dynamically enriched with a stylized frontend flash category payload.
+        """
+        Synthesizes a devastatingly rapid JSON response dynamically enriched with a stylized frontend flash category payload.
 
         Args:
             status_code (int): Core HTTP status block.
@@ -238,7 +248,8 @@ class CustomResponse:
         message: str | None = None,
         error: bool | None = None,
     ) -> _TemplateResponse:
-        """Synthesize a beautifully structured JSON response payload while aggressively pushing a transient flash message into the user's active HTTP session.
+        """
+        Synthesize a beautifully structured JSON response payload while aggressively pushing a transient flash message into the user's active HTTP session.
 
         Args:
             details (Any): Undocumented argument.
@@ -303,7 +314,8 @@ class CustomResponse:
         background: BackgroundTask | None = None,
         cookie_params: CookieParams | None = None,
     ) -> _TemplateResponse:
-        """Render a Jinja2 template perfectly infused with the request context and security headers.
+        """
+        Render a Jinja2 template perfectly infused with the request context and security headers.
 
         Args:
             request (Request): The raw FastAPI request object.
@@ -339,7 +351,8 @@ class CustomResponse:
         request: Request,
         name: str,
     ) -> TemplateFlashInnerCallable:
-        """Build a closure designed to instantly render templates while concurrently appending serialized flash payloads into the active browser session.
+        """
+        Build a closure designed to instantly render templates while concurrently appending serialized flash payloads into the active browser session.
 
         Args:
             request (Request): Mutable request envelope.
@@ -360,7 +373,8 @@ class CustomResponse:
             background: BackgroundTask | None = None,
             cookie_params: CookieParams | None = None,
         ) -> _TemplateResponse:
-            """Execute the template rendering and session modification sequence in one devastatingly efficient motion.
+            """
+            Execute the template rendering and session modification sequence in one devastatingly efficient motion.
 
             Args:
                 message (str): The string message.

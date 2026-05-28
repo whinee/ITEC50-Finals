@@ -54,29 +54,20 @@
                         aria-label="Menu"
                         aria-expanded="false"
                         onclick="document.getElementById('hamburger-dropdown').classList.toggle('show')">
-                    <span class="svg-icon"
-                          style="-webkit-mask-image: url(/static/assets/images/menu.svg);
-                                 mask-image: url(/static/assets/images/menu.svg)"
-                          aria-label="Menu"></span>
+                    <span class="svg-icon nav-icon-menu" aria-label="Menu"></span>
                 </button>
                 <div id="hamburger-dropdown" class="hamburger-dropdown">
                     <button id="settings-modal-button">
-                        <span class="svg-icon"
-                              style="-webkit-mask-image: url(/static/assets/images/settings.svg);
-                                     mask-image: url(/static/assets/images/settings.svg)"></span>
+                        <span class="svg-icon nav-icon-settings"></span>
                         Settings
                     </button>
                     <button id="info-modal-button">
-                        <span class="svg-icon"
-                              style="-webkit-mask-image: url(/static/assets/images/info.svg);
-                                     mask-image: url(/static/assets/images/info.svg)"></span>
+                        <span class="svg-icon nav-icon-info"></span>
                         Info
                     </button>
                     {% if not hide_logout %}
                         <a href="/auth/logout">
-                            <span class="svg-icon"
-                                  style="-webkit-mask-image: url(/static/assets/images/logout.svg);
-                                         mask-image: url(/static/assets/images/logout.svg)"></span>
+                            <span class="svg-icon nav-icon-logout"></span>
                             Logout
                         </a>
                     {% endif %}

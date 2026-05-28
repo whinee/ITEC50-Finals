@@ -1,4 +1,5 @@
-"""Cookie Models.
+"""
+Cookie Models.
 
 Defines rigidly typed configuration objects for secure HTTPOnly cookies, ensuring impenetrable symmetric encryption headers.
 """
@@ -14,7 +15,8 @@ from src.config.settings import settings
 
 
 class CookieConfig(BaseModel):
-    """Configuration model for secure, high-performance cookie management.
+    """
+    Configuration model for secure, high-performance cookie management.
 
     This model rigidly defines the exact properties for all HTTP cookies minted by the backend. By enforcing strict defaults (like `secure=True`, `httponly=True`, and `samesite="lax"`), it guarantees that DeciMark's session tokens are completely immune to standard XSS and CSRF attack vectors. This is a crucial component of our zero-trust architecture.
 
@@ -37,7 +39,8 @@ def set_default_cookie_params(
     value: str = "",
     expires_at: datetime.datetime | None = None,
 ) -> dict[str, Any]:
-    """Generate an optimized, highly secure cookie parameter dictionary.
+    """
+    Generate an optimized, highly secure cookie parameter dictionary.
 
     Args:
         name (str): The strictly-defined name of the cookie key.
@@ -67,7 +70,8 @@ def set_default_cookie_params_with_encryption(
     value: str = "",
     expires_at: datetime.datetime | None = None,
 ) -> dict[str, Any]:
-    """Symmetrically encrypts and signs a cookie payload before wrapping it in secure parameters.
+    """
+    Symmetrically encrypts and signs a cookie payload before wrapping it in secure parameters.
 
     Args:
         name (str): The strictly-defined name of the cookie key.
@@ -87,7 +91,8 @@ def set_default_cookie_params_with_encryption(
 
 
 def decode_encrypted_cookie(token: str) -> str:
-    """Decrypts and authenticates a Fernet-encrypted cookie payload.
+    """
+    Decrypts and authenticates a Fernet-encrypted cookie payload.
 
     Args:
         token (str): The base64-urlsafe encoded ciphertext directly intercepted from the request headers.

@@ -1,4 +1,5 @@
-"""FontAwesome Payload Synchronizer.
+"""
+FontAwesome Payload Synchronizer.
 
 An intelligent asset scraper that bypasses manual FontAwesome package management. It downloads the exact Webfonts and core CSS files required by the frontend, parsing and rewriting URL references on the fly to ensure all assets resolve flawlessly from the local DeciMark static filesystem.
 
@@ -30,7 +31,8 @@ FONTS_SERVE_PATH = "/static/assets/fonts"
 
 
 def get_json(url: str) -> object:
-    """Issues an extremely strict, timeout-bound HTTPS GET request to rip JSON payloads directly out of the GitHub API.
+    """
+    Issues an extremely strict, timeout-bound HTTPS GET request to rip JSON payloads directly out of the GitHub API.
 
     Args:
         url (str): Target API endpoint.
@@ -51,7 +53,8 @@ def get_json(url: str) -> object:
 
 
 def download_bytes(url: str, label: str = "") -> bytes:
-    """Streams raw binary data from a remote URL directly into local memory with unwavering reliability.
+    """
+    Streams raw binary data from a remote URL directly into local memory with unwavering reliability.
 
     Args:
         label (Any): Undocumented argument.
@@ -74,7 +77,8 @@ def download_bytes(url: str, label: str = "") -> bytes:
 
 
 def find_latest_release(releases: list) -> dict:
-    """Query the GitHub API and autonomously locks onto the absolute latest stable release of FontAwesome in milliseconds.
+    """
+    Query the GitHub API and autonomously locks onto the absolute latest stable release of FontAwesome in milliseconds.
 
     Returns:
         dict: The release metadata.
@@ -87,7 +91,8 @@ def find_latest_release(releases: list) -> dict:
 
 
 def find_web_zip_asset(assets: list) -> dict:
-    """Scan a massive array of release assets to pinpoint the exact 'web' distribution ZIP, ignoring all source and desktop variants.
+    """
+    Scan a massive array of release assets to pinpoint the exact 'web' distribution ZIP, ignoring all source and desktop variants.
 
     Args:
         assets (list): The API response list.
@@ -109,7 +114,8 @@ def find_web_zip_asset(assets: list) -> dict:
 
 
 def rewrite_font_urls(css: str, serve_path: str) -> str:
-    """Intercept all `url()` declarations within the FontAwesome CSS and mathematically realigns them to the local `fonts/` directory, preventing 404 network failures.
+    """
+    Intercept all `url()` declarations within the FontAwesome CSS and mathematically realigns them to the local `fonts/` directory, preventing 404 network failures.
 
     Args:
         css (Any): Undocumented argument.

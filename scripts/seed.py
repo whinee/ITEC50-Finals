@@ -1,4 +1,5 @@
-"""High-Performance Database Seeder.
+"""
+High-Performance Database Seeder.
 
 A massively scalable asynchronous database seeder capable of instantly hydrating the PostgreSQL instance with thousands of realistic, normalized records using `Faker`. It utilizes raw SQL bulk inserts and connection pooling to bypass the ORM overhead, making it essential for aggressive load testing and rapid local development loops.
 """
@@ -26,13 +27,15 @@ from src.schema import Bookmark, JDNode, Tag, User
 
 # Junction tables
 bookmark_tag_junction = Tag.bookmarks.property.secondary  # type: ignore
+
 bookmark_jd_junction = JDNode.bookmarks.property.secondary  # type: ignore
 
 fake = Faker()
 
 
 def hash_password(password: str) -> str:
-    """Invoke the staggeringly secure Argon2id KDF to immediately transform raw text into an impenetrable, timing-attack resistant password hash.
+    """
+    Invoke the staggeringly secure Argon2id KDF to immediately transform raw text into an impenetrable, timing-attack resistant password hash.
 
     Args:
         password (str): The raw string to protect.
@@ -58,7 +61,8 @@ def hash_password(password: str) -> str:
 
 
 async def clear_data(session) -> None:
-    """Drop every single record from the database using direct SQL `TRUNCATE TABLE` cascades, resetting the system state in milliseconds.
+    """
+    Drop every single record from the database using direct SQL `TRUNCATE TABLE` cascades, resetting the system state in milliseconds.
 
     Args:
         session (AsyncSession): The database manager.
@@ -74,7 +78,8 @@ async def clear_data(session) -> None:
 
 
 def generate_jd_code() -> str:
-    """Use pseudo-random synthesis to consistently generate perfectly formatted Johnny.Decimal structural codes.
+    """
+    Use pseudo-random synthesis to consistently generate perfectly formatted Johnny.Decimal structural codes.
 
     Returns:
         str: The correctly synthesized JD area string.
@@ -105,7 +110,8 @@ def generate_jd_code() -> str:
 
 
 def random_date(start: datetime, end: datetime) -> datetime:
-    """Deploys rapid datetime math to instantaneously calculate a perfectly valid timestamp falling precisely within a defined epoch window.
+    """
+    Deploys rapid datetime math to instantaneously calculate a perfectly valid timestamp falling precisely within a defined epoch window.
 
     Args:
         start (datetime): Floor boundary.
@@ -132,7 +138,8 @@ async def process_user(  # noqa: C901
     next_jd_id: int,
     next_bookmark_id: int,
 ) -> tuple[int, int, int]:
-    """Manage the entire lifecycle of a fake user payload, from Argon2id hashing to mapping relationships, readying it for high-speed bulk ingestion.
+    """
+    Manage the entire lifecycle of a fake user payload, from Argon2id hashing to mapping relationships, readying it for high-speed bulk ingestion.
 
     Args:
         user_data (Any): Undocumented argument.
@@ -202,8 +209,8 @@ async def process_user(  # noqa: C901
             {
                 "id": t_id,
                 "user_id": user_id,
-                "title": f"tag_{t_id}_{random.randint(1,1000)}",  # noqa: S311
-                "color": f"#{random.randint(0, 0xFFFFFF):06x}",  # noqa: S311
+                "title": f"tag_{t_id}_{random.randint(1,1000)}",
+                "color": f"#{random.randint(0, 0xFFFFFF):06x}",
                 "note": "Bulk generated tag",
                 "created_at": t_created,
                 "updated_at": t_created,
@@ -258,8 +265,8 @@ async def process_user(  # noqa: C901
             {
                 "id": b_id,
                 "user_id": user_id,
-                "title": random.choice(titles) + f" {b_idx}",  # noqa: S311
-                "url": random.choice(urls),  # noqa: S311
+                "title": random.choice(titles) + f" {b_idx}",
+                "url": random.choice(urls),
                 "note": None,
                 "created_at": b_created,
                 "updated_at": b_updated,
@@ -307,7 +314,8 @@ async def process_user(  # noqa: C901
 
 
 async def main() -> None:
-    """Ingest database records massively and fast.
+    """
+    Ingest database records massively and fast.
 
     It leverages raw SQLModel arrays and multiprocessing pools to synthesize and commit thousands of users, tens of thousands of bookmarks, and complex junction tables into PostgreSQL at mind-bending speeds, bypassing all ORM bottlenecks for raw performance.
     """
@@ -337,7 +345,7 @@ async def main() -> None:
                 "username": f"user_{n}_{secrets.token_hex(4)}",
                 "email": f"user_{n}_{secrets.token_hex(4)}@example.com",
                 "password": "password123!",
-                "role": random.choice(["admin", "normal"]),  # noqa: S311
+                "role": random.choice(["admin", "normal"]),
             },
         )
 

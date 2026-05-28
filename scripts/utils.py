@@ -1,7 +1,9 @@
 """Utility functions for CLI scripts."""
 
+
 def tex_escape(text: str) -> str:
-    """Neutralize any LaTeX-breaking characters found within file paths or code structures, preventing compilation crashes.
+    """
+    Neutralize any LaTeX-breaking characters found within file paths or code structures, preventing compilation crashes.
 
     Args:
         text (str): The unsafe string.

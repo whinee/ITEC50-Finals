@@ -42,6 +42,7 @@
   eprint=true,
 ]{biblatex}
 \usepackage{verbatimbox}
+\usepackage{hanging}
 
 \setstretch{1.5}
 
@@ -241,7 +242,7 @@
 
 % Pandoc
 \providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 \DefineBibliographyStrings{english}{
   urlseen = {Retrieved},
@@ -287,14 +288,13 @@
     \shade[shading=darkglow] (current page.south east) circle (20cm);
   \end{tikzpicture}
 
-
   \color{white}
   \centering
   \vspace*{2cm}
   {\large\bfseries [ P01.31.11.32+ITEC50.61 ]\par}
 
   \vspace{1cm}
-  \includegraphics[width=0.2\linewidth, keepaspectratio]{./logo.pdf}
+  \includegraphics[width=0.2\linewidth, keepaspectratio]{./dark-logo.pdf}
   \vspace{1cm}
 
   {\Huge\bfseries DeciMark:\par}
@@ -311,6 +311,33 @@
   {\normalsize Lyra Phasma\par}
   {\normalsize ITEC50\par}
 \end{titlepage}
+\clearpage
+\cleardoublepage
+
+{
+  \thispagestyle{empty}
+  \centering
+  \vspace*{2cm}
+  {\large\bfseries [ P01.31.11.32+ITEC50.61 ]\par}
+
+  \vspace{1cm}
+  \includegraphics[width=0.2\linewidth, keepaspectratio]{./light-logo.pdf}
+  \vspace{1cm}
+
+  {\Huge\bfseries DeciMark:\par}
+  {\LARGE\bfseries A Johnny.Decimal Bookmark Link Manager\par}
+  \vspace{0.5cm}
+  {\Large\bfseries System Prototype Document\par}
+  \vspace{0.5cm}
+  {\large\itshape On Decimal Systems, Disciplined Engineering, and the Education a Group Project Provides Whether You Asked for It or Not\par}
+  \vspace{1cm}
+  {\large ITEC50 Final Project --- Individual Submission\par}
+  \vspace{0.5cm}
+  {\normalsize\color{black!60} A documentation of technical decisions, professional standards, and the realities of collaborative development\par}
+  \vfill
+  {\normalsize Lyra Phasma\par}
+  {\normalsize ITEC50\par}
+}
 \clearpage
 \cleardoublepage
 
@@ -482,10 +509,15 @@ In the modern knowledge economy, information workers routinely navigate dozens o
 A McKinsey Global Institute study found that knowledge workers spend an estimated \textbf{20\% of their working week} searching for information or tracking down colleagues who can help locate it \citep{chui2012social}. A centralized, structured bookmark manager directly reduces this friction. In a professional team context, it functions as an operational backbone for the following use cases:
 
 \begin{itemize}
+  \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
   \item \textbf{Research teams} cataloguing literature, citations, and reference links by project phase
   \item \textbf{Developers} tracking documentation pages, API references, and deployment dashboards
   \item \textbf{Business analysts} managing client portals, third-party SaaS tools, and reporting endpoints
   \item \textbf{Students} organizing academic resources, course links, reading lists, and submission portals
+  \item \textbf{Advanced Security Architecture}: Engineered a zero-trust backend by integrating Redis-backed rate limiting via \texttt{fastapi-limiter} on all authentication endpoints, and built a native, self-hosted visual CAPTCHA generation engine using Python to aggressively thwart automated brute-force attacks without relying on third-party tracking APIs.
+  \item \textbf{Dynamic Frontend Theming}: Authored a robust HSL color manipulation pipeline within \texttt{bookmarks.js} that reads custom hex values from the newly exposed \texttt{/api/tags} endpoint, calculates mathematically contrasting foreground/background ratios, and injects them directly into CSS Custom Properties for flawless custom Tag rendering.
 \end{itemize}
 
 \begin{shadequote}[l]{\citet{pernice2014navigation}}
@@ -513,6 +545,9 @@ The following two platforms were selected as primary reference points because th
 \subsubsection{Core Features}
 
 \begin{itemize}
+  \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
   \item Tag-based flat organization (no folders or hierarchy)
   \item Optional archive mode---saves a cached copy of bookmarked pages (paid tier)
   \item Public and private bookmark visibility toggles
@@ -526,6 +561,9 @@ The following two platforms were selected as primary reference points because th
 Pinboard's design philosophy of deliberate minimalism, while coherent, produces several structural gaps that DeciMark directly addresses:
 
 \begin{itemize}
+  \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
   \item \textbf{No visual interface.} Pinboard renders as a plain text list with no thumbnails, link previews, or card-based layouts. This imposes a high cognitive load on users managing large collections, as links are distinguished only by title text and tags \citep{jones2007keeping}.
   \item \textbf{Flat tag system.} Pinboard offers no hierarchical organization---no folders, no categories, no enforced naming schema. Tags are entirely free-form, meaning any two users will inevitably develop incompatible taxonomies for the same content domain.
   \item \textbf{No structured classification.} There is no concept of a numeric identifier, reference code, or stable address for any given bookmark beyond its URL.
@@ -548,6 +586,9 @@ This is a meaningful lesson in the fragility of single-maintainer SaaS dependenc
 \subsubsection{Core Features}
 
 \begin{itemize}
+  \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
   \item Full self-hosting: the operator owns all data and infrastructure
   \item Tag-based bookmark organization
   \item Browser extension for one-click saving
@@ -560,6 +601,9 @@ This is a meaningful lesson in the fragility of single-maintainer SaaS dependenc
 \subsubsection{Identified Gaps \& Weaknesses}
 
 \begin{itemize}
+  \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
   \item \textbf{Requires Docker and server infrastructure.} linkding is inaccessible to any user without Linux/server administration experience. For a student team or a small business without a DevOps resource, the setup cost is prohibitive \citep{linkding2020github}.
   \item \textbf{No visual card or grid view.} The interface is list-only. Link previews and thumbnail generation are absent.
   \item \textbf{Flat tagging, no structural schema.} Like Pinboard, linkding uses free-form tags without any enforced hierarchy or classification model.
@@ -574,6 +618,9 @@ This is a meaningful lesson in the fragility of single-maintainer SaaS dependenc
 \subsubsection{Core Features}
 
 \begin{itemize}
+  \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
   \item Nested collections (folders with sub-folders)
   \item Multiple view modes: Grid, Masonry, Headlines, List
   \item Tag support alongside folder hierarchy
@@ -586,6 +633,9 @@ This is a meaningful lesson in the fragility of single-maintainer SaaS dependenc
 \subsubsection{Identified Gaps \& Weaknesses}
 
 \begin{itemize}
+  \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
   \item \textbf{No structured numeric classification.} Folder naming is entirely user-defined with no enforced schema. Two team members will inevitably use different naming conventions \citep{jones2007keeping}.
   \item \textbf{Key features are paywalled.} Nested collections, full-text search, and permanent caching require a Pro subscription at \$28/year, which is a barrier for student use \citep{raindropio2024}.
   \item \textbf{Cloud-only, no self-hosting option.} Raindrop.io has no self-hostable mode; all data is held on their servers with no operator control.
@@ -631,6 +681,9 @@ Table \ref{tab:competitor-matrix} summarizes the feature gaps across all three r
 
 \section{Functional Requirements}
 \begin{itemize}
+  \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
   \item \textbf{User Authentication:} Registration, login, and secure session management.
   \item \textbf{Bookmark Management:} Ability to create, read, update, and delete bookmarks.
   \item \textbf{Structural Organization:} Native integration of the Johnny.Decimal system (Area, Category, ID) for every bookmark.
@@ -641,6 +694,9 @@ Table \ref{tab:competitor-matrix} summarizes the feature gaps across all three r
 
 \section{Non-Functional Requirements}
 \begin{itemize}
+  \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
   \item \textbf{Performance:} Fast rendering and rapid search results through optimized database queries and efficient frontend design.
   \item \textbf{Usability:} Responsive, mobile-first design ensuring accessibility across devices. Support for both light and dark color schemes for visual comfort.
   \item \textbf{Reliability:} Stable persistence of user data using a robust relational database (PostgreSQL/SQLite) with data integrity constraints.
@@ -671,6 +727,9 @@ The primary structural innovation in DeciMark is the integration of the \textbf{
 The JD system assigns every item in a collection a unique two-part numeric identifier in the format \texttt{AC.ID}, where:
 
 \begin{itemize}
+  \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
   \item The \textbf{Area} (\texttt{10-19}, \texttt{20-29}, \ldots) groups broad domains of activity into sets of ten categories
   \item The \textbf{Category} (\texttt{15}, \texttt{32}, \ldots) groups related items within an area, with a maximum of ten categories per area
   \item The \textbf{ID} (\texttt{15.23}, \texttt{32.04}, \ldots) uniquely identifies the specific item within its category
@@ -687,6 +746,9 @@ A link to a vendor's API documentation might be assigned \texttt{32.04}, placing
 This has several concrete advantages over free-form tagging:
 
 \begin{itemize}
+  \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
   \item \textbf{IDs are stable.} Unlike folder names that shift with renaming, a JD number does not move. \texttt{32.04} always refers to the same thing.
   \item \textbf{IDs are speakable.} ``Check thirty-two oh-four'' is faster to communicate than ``it's in the Engineering folder, under External APIs, find the vendor docs.''
   \item \textbf{IDs impose productive constraints.} A maximum of 10 categories per area and 99 items per category forces regular pruning and prevents organizational sprawl \citep{johnnydecimal2021}.
@@ -700,6 +762,9 @@ No existing bookmark manager on the market integrates this system as a native fi
 Where existing tools already solve a problem well, I adopted rather than reinvented:
 
 \begin{itemize}
+  \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
   \item \textbf{Tag support}---adopted from Pinboard and linkding. Free-form tags complement the structured JD IDs and support cross-cutting retrieval that the numeric scheme alone cannot express.
   \item \textbf{Card-based visual layout}---inspired by Raindrop.io's grid view, identified as the most effective at-a-glance organization model. This is implemented as the primary view mode.
   \item \textbf{Multi-attribute search and filter}---combining linkding's keyword search speed with Raindrop.io's filtering by multiple attributes (tag, JD ID range, keyword).
@@ -712,6 +777,9 @@ Where existing tools already solve a problem well, I adopted rather than reinven
 The following features present in existing tools were intentionally omitted from the current MVP scope:
 
 \begin{itemize}
+  \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
   \item \textbf{Browser extension}---extension APIs are browser-specific and platform-dependent, placing them outside the current implementation scope. Planned for a future release.
   \item \textbf{Full-text page archiving}---requires a server-side crawler with significant storage overhead. Out of scope for the current iteration.
   \item \textbf{Portable distribution}---\texttt{.exe}, \texttt{.msi}, and \texttt{.AppImage} packaging is planned for later development stages to support self-hosting without a full server environment.
@@ -792,8 +860,8 @@ The implementation uses CSS custom properties that store the raw HSL components 
 /* Light theme -- primary accent palette */
 --rfg-1: 262deg, 62%, 42%;      /* raw HSL triple */
 --fg-1:  hsl(var(--rfg-1));     /* composed, opaque */
---fg-1-1: hsl(262deg 62% 36%); /* hover: -6% lightness */
---fg-1-2: hsl(262deg 64% 30%); /* active: -12% lightness */
+--fg-1-1: hsl(262deg, 62%, 36%); /* hover: -6% lightness */
+--fg-1-2: hsl(262deg, 64%, 30%); /* active: -12% lightness */
 
 /* Dark theme -- same hue, shifted lightness axis */
 --rfg-1: 260deg, 50%, 70%;      /* brighter for dark bg */
@@ -991,6 +1059,19 @@ The dichotomy between Raster and Vector images was decisively resolved in favor 
 
 Furthermore, traditional RGB and Hexadecimal color models were rejected as being functionally inferior for programmatic theming. DeciMark employs a unified \textbf{HSL (Hue, Saturation, Lightness)} color strategy across all CSS custom properties (variables). By decoupling the lightness channel, the HSL model mathematically enables the creation of a stunning, accessible glassmorphic dark mode without needing to painstakingly manually define separate color hexes. Adjusting a single \texttt{--lightness} variable systematically cascades perfectly readable contrast ratios across the entire user interface.
 
+\chapter{Generated Reports}
+
+\section{Lighthouse Audit}
+
+These are the Performance, Accessibility, Best Practices, and SEO scores for the landing page and the authenticated bookmark dashboard, captured via Playwright + the Lighthouse CLI integration.
+
+\begin{multicols}{2}
+
+  \input{lighthouse_reports.tex}
+  \newpage
+
+\end{multicols}
+
 \part{Reflection}
 
 \chapter{Preface to the Reflection}
@@ -1096,7 +1177,7 @@ Consider a concrete example from the author's own workflow. At one point in this
 
 The author knew all of this. She knew the directory structure to expect, the path rewriting required, and exactly why it was necessary. She also knew that writing a shell script to automate it was not a problem worth her full attention --- it was a utility task, a cherry on top, a nice-to-have automation that sat firmly below the actual work on the priority list.
 
-So she described the task precisely and delegated it to Claude.
+So she described the task precisely and delegated it to Anthropic's Claude AI.
 
 This is not a reduction in intelligence. This is the correct application of it. The skill on display is not the ability to write a download script. It is the ability to specify, with enough precision that the task can be delegated without ambiguity, exactly what needs to happen and why. That specification --- knowing the API endpoint, the file structure, the serving path, the CSS rewrite --- is the intellectual work. The script is just the output.
 
@@ -1370,13 +1451,19 @@ And some people, it turns out, will only pick up the tools after the person who 
 
 \chapter{AI Disclosure}
 
-In the interest of academic integrity, the following discloses the use of artificial intelligence tools during the development of this project. All architectural decisions, design choices, and implementation strategies were conceived, directed, and validated by the author. AI tools were used as assistive accelerators under the author's explicit instruction and supervision --- not as a substitute for understanding.
+In the interest of academic integrity, the following discloses the use of artificial intelligence tools during the development of this project. The initial codebase, comprising approximately 35,000 to 40,000 lines of code, was authored by the author with foundational assistance from OpenAI Codex and Anthropic's Claude AI, alongside properly licensed third-party assets (such as Swagger UI CSS and open-source snippets from authors like uncomfyhalomacro). Subsequently, an advanced AI coding assistant was utilized as a pair-programming accelerator under the author's explicit instruction and supervision to scale the project to its current 45,000 lines of code. All architectural decisions, design choices, and implementation strategies were conceived, directed, and validated by the author. AI tools were used as assistive accelerators --- not as a substitute for understanding.
 
 \begin{itemize}
+  \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
   \item \textbf{HTML Templates}: The Jinja2 template files under \texttt{src/templates/bookmarks} were initially scaffolded with assistance from OpenAI Codex, and subsequently reviewed, corrected, and heavily modified by the author to conform to the application's architecture.
   \item \textbf{Utility Scripts}: Several Python scripts in the \texttt{scripts/} directory were drafted with Anthropic's Claude AI as a starting point, with the author directing the logic, reviewing the output, and rewriting where necessary.
   \item \textbf{Backend \& Frontend Modifications}: Google DeepMind's Antigravity was used as an assistive pair-programming tool to accelerate implementation of specific features under the author's direction, including:
     \begin{itemize}
+      \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+      \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
       \item The \texttt{edit} bookmark endpoint and associated frontend logic in \texttt{src/api/bookmarks.py} and \texttt{bookmarks.js}.
       \item Authentication tightening and the \texttt{/login} auto-redirect endpoint.
       \item Hamburger menu styling and the SVG \texttt{mask-image} icon theming technique.
@@ -1392,10 +1479,24 @@ In the interest of academic integrity, the following discloses the use of artifi
       \item Implementation and refinement of a dark mode gradient title page design in LaTeX using TikZ and PGF radial shadings for smoother, more granular visual transitions.
       \item Refactoring of \texttt{scripts/summarize\_css.py} to concatenate all CSS summary documentation into a single LaTeX index file, streamlining document compilation.
       \item Creation of \texttt{scripts/summarize\_python.py} to parse Python module docstrings via \texttt{pdoc3} and convert them to LaTeX using \texttt{pypandoc} for inclusion in the final document.
+      \item Resolution of cryptographic payload formatting in the \texttt{jwt\_service.sign} method for standardized authentication.
+      \item Rectification of PostgreSQL strict schema validation errors during the automated provisioning of Demo Mode accounts.
+      \item Implementation of an inline, high-performance database seeder within the \texttt{/auth/demo} endpoint, utilizing raw \texttt{sqlalchemy.insert} commands to instantaneously provision 10,000 randomized bookmarks, 100 tags, and 100 Johnny.Decimal nodes for immediate friction-free demonstration.
+      \item Engineering of a comprehensive, cascade-delete teardown protocol inside the \texttt{/logout} route, guaranteeing zero-trust data hygiene by securely incinerating all generated artifacts and the demo account itself upon session termination. To prevent UI blocking, this deletion was shifted into an asynchronous Starlette \texttt{BackgroundTask}.
+      \item Development of \texttt{scripts/cleanup\_demos.py}, an external, cron-ready CLI utility designed to automatically sweep the database and aggressively purge any demo accounts that have remained inactive for over 60 minutes.
+      \item Refactoring of the Pydantic settings schema to introduce deeply nested OAuth enablement flags (\texttt{settings.OAUTH.GOOGLE.ENABLE}), securely passing the global settings object into the Jinja2 template context (\texttt{TEMPLATES.env.globals}) to dynamically strip unconfigured OAuth provider buttons from the DOM and enforce hard 404 blocks on deactivated callback routes.
+      \item Comprehensive refactoring of Jinja2 HTML templates (\texttt{login.j2.html}, \texttt{register.j2.html}, \texttt{2fa.j2.html}, \texttt{public\_docs.j2.html}, \texttt{base.j2.html}, \texttt{tag.j2.html}, \texttt{edit.j2.html}) to systematically eliminate all inline \texttt{style="..."} attributes and meticulously abstract them into semantic CSS utility classes across the standard stylesheet matrix (\texttt{forms.css}, \texttt{base.css}, \texttt{bookmarks.css}, \texttt{landing.css}).
     \end{itemize}
   \item \textbf{Backend Docstrings}: Google-style docstrings across the backend Python modules were authored with AI assistance to meet documentation standards.
+  \item \textbf{Frontend Modals \& Splash UI}: Developed robust Playwright E2E tests for modal interactions with automated screenshotting. Engineered dynamic Jinja2 injection of randomized splash quotes on authentication views via Python route extensions.
+  \item \textbf{Documentation Integration}: Injected an automated public documentation viewer route mapping directly to README metrics, updated the core README to distinctly explain the Johnny.Decimal design philosophy of DeciMark, and aggressively sanitized pdoc3 LaTeX artifacts to remove auto-generated signatures.
+  \item \textbf{Rapid Prototyping \& QA Automation}: Accelerated the execution of numerous backlog tasks (e.g., automated seeding with randomized Epoch dates, toggleable password visibility scripts, UI/CSS polishing for erase-input, instantaneous feedback modal integration, frontend username generation, and secure DB checks for stale authentication tokens).
+  \item \textbf{Demo Auto-Provisioning}: Engineered a dedicated, highly robust demo login route ensuring immediate, friction-free access to a populated dashboard via dynamically generated users and symmetric JWT signing.
   \item \textbf{Paper Sections}: Certain sections of \texttt{paper/main.tex} were drafted collaboratively with AI assistance and then edited by the author, including:
     \begin{itemize}
+      \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
+      \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
+
       \item The HSL Color Strategy section, the navigation flow TikZ diagram, the Lighthouse Audit appendix, and the Theoretical Foundations chapter.
       \item The Abstract, Acknowledgements, and the restructuring of the Dedication into three typographically distinct pages.
     \end{itemize}
@@ -1411,13 +1512,17 @@ The overall system architecture, the Johnny.Decimal integration model, the zero-
 
 The fonts used in this project are the following:
 
-Microsoft Corporation. (2007). \textit{Microsoft Core Fonts for the Web} (Arial) [Font]. Licensed under the Microsoft End-User License Agreement (personal, non-commercial use). Obtained on Fedora Linux via the \texttt{msttcore-fonts-installer} package, which downloads the official font files from a Microsoft-authorised mirror in compliance with the EULA. Retrieved May 17, 2026, from \url{https://sourceforge.net/projects/corefonts/}.
+\begin{hangparas}{3em}{1}
 
-Sharanda M. (2018). \textit{Manrope} [Font]. Licensed under the SIL Open Font License, Version 1.1. Retrieved May 16, 2026, from \url{https://fonts.google.com/specimen/Manrope}.
+  Microsoft Corporation. (2007). \textit{Microsoft Core Fonts for the Web} (Arial) [Font]. Licensed under the Microsoft End-User License Agreement (personal, non-commercial use). Obtained on Fedora Linux via the \texttt{msttcore-fonts-installer} package, which downloads the official font files from a Microsoft-authorised mirror in compliance with the EULA. Retrieved May 17, 2026, from \url{https://sourceforge.net/projects/corefonts/}.
 
-Voos M. (2020). \textit{Manrope Italic} [Font]. Licensed under the SIL Open Font License, Version 1.1. Retrieved June 14, 2025, from \url{https://github.com/malte-v/manrope-italic}.
+  Sharanda M. (2018). \textit{Manrope} [Font]. Licensed under the SIL Open Font License, Version 1.1. Retrieved May 27, 2026, from \url{https://fonts.google.com/specimen/Manrope}.
 
-Miwa, S. (2018). \textit{Comic Mono} [Font]. Licensed under the MIT License. Retrieved June 5, 2025, from \url{https://github.com/dtinth/comic-mono-font}. Modified by dtinth (2019).
+  Voos M. (2020). \textit{Manrope Italic} [Font]. Licensed under the SIL Open Font License, Version 1.1. Retrieved June 14, 2025, from \url{https://github.com/malte-v/manrope-italic}.
+
+  Pangsakulyanon, T.  (2019). \textit{Comic Mono} [Font]. Licensed under the MIT License. Retrieved June 5, 2025, from \url{https://github.com/dtinth/comic-mono-font}.
+
+\end{hangparas}
 
 \newpage
 
@@ -1492,17 +1597,6 @@ The fix was to replace the locally compiled variable font with the official \tex
 
 \input{./scc-report.tex}
 \newpage
-
-\chapter{Lighthouse Audit}
-
-These are the Performance, Accessibility, Best Practices, and SEO scores for the landing page and the authenticated bookmark dashboard, captured via Playwright + the Lighthouse CLI integration.
-
-\begin{multicols}{2}
-
-  \input{lighthouse_reports.tex}
-  \newpage
-
-\end{multicols}
 
 \chapter{CSS Code Summary}
 

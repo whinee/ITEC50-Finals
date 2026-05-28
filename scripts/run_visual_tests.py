@@ -183,8 +183,9 @@ async def process_pages(
         url = f"{BASE_URL}{path}"
         escaped_path = f"\\texttt{{{tex_escape(path)}}}"
         path_section = f"\\section{{{escaped_path}}}\n\n"
+        path_subsection = f"\\subsection{{{escaped_path}}}\n\n"
         pages_tex_content += path_section
-        lighthouse_tex_content += path_section
+        lighthouse_tex_content += path_subsection
 
         screenshot_tasks = []
         for theme in ["light", "dark"]:

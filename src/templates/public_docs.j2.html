@@ -1,0 +1,21 @@
+{% extends 'base.j2.html' %}
+{% block head %}
+    <link href="/static/stylesheets/landing.css" rel="stylesheet">
+{% endblock head %}
+{% block body %}
+    <div id="wrapper">
+        <main>
+            <section class="landing-hero landing-hero-short">
+                <h1 class="landing-title">Public Documentation</h1>
+                <p class="landing-subtitle">
+                    Comprehensive technical specifications and implementation details.
+                </p>
+                <div class="landing-actions">
+                    <a href="https://github.com/whinee/ITEC50-Finals/blob/main/docs/README.md"
+                       target="_blank"
+                       class="landing-btn landing-btn-primary">View on GitHub</a>
+                </div>
+            </section>
+        </main>
+    </div>
+{% endblock body %}

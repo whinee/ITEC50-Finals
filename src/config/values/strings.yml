@@ -1,8 +1,3 @@
-# site_info:
-#     title: Lyra-on.top!
-#     author: Lyra Phasma
-#     description: Lyra staying on top of things :3
-
 http:
     code:
         '100':
@@ -510,3 +505,14 @@ http:
                 '9':
                     spec: Internet crashed
                     spec_link: https://github.com/joho/7XX-rfc/blob/master/7xx.md#internet-crashed
+quotes:
+  - text: "The aspiration to do great things are paved by small yet well-built tools."
+    author: "Lyra Phasma"
+  - text: "Simplicity is prerequisite for reliability."
+    author: "Edsger W. Dijkstra"
+  - text: "Any fool can write code that a computer can understand. Good programmers write code that humans can understand."
+    author: "Martin Fowler"
+  - text: "Programs must be written for people to read, and only incidentally for machines to execute."
+    author: "Harold Abelson"
+  - text: "First, solve the problem. Then, write the code."
+    author: "John Johnson"

@@ -1,9 +1,9 @@
 % Python module: scripts.summarize_python
-% Generated: 2026-05-28 10:16
+% Generated: 2026-05-28 10:32
 
 \section{\texttt{scripts/summarize\_python.py}}
 \textit{Module: \texttt{scripts.summarize\_python}} \\
-\textit{Generated: 2026-05-28 10:16} \\
+\textit{Generated: 2026-05-28 10:32} \\
 
 Python Documentation Summarizer.
 
@@ -13,19 +13,18 @@ and writes them into \texttt{paper/python-summaries/} as individual .tex
 files. Generates two index files:
 
 \begin{itemize}
-\tightlist
-\item
-  \texttt{paper/python-summaries/index.tex} --- one
-  \texttt{\textbackslash{}section} per module with its docstring
-  rendered as LaTeX.
-\item
-  \texttt{paper/python-summaries/index-code.tex} --- one
-  \texttt{\textbackslash{}section} per module with the raw source
-  inlined via \texttt{\textbackslash{}inputmintedstyledtwocolumns}.
+    \tightlist
+  \item
+    \texttt{paper/python-summaries/index.tex} --- one
+    \texttt{\textbackslash{}section} per module with its docstring
+    rendered as LaTeX.
+  \item
+    \texttt{paper/python-summaries/index-code.tex} --- one
+    \texttt{\textbackslash{}section} per module with the raw source
+    inlined via \texttt{\textbackslash{}inputmintedstyledtwocolumns}.
 \end{itemize}
 
 Module discovery covers: - main.py in the project root - Everything
 under \texttt{src/} and \texttt{scripts/} - Excludes
 \texttt{src/migrations/}, \_\_init\_\_.py files that are empty, and
 \texttt{.history/} artefacts.
-

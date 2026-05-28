@@ -5,17 +5,21 @@ The primary FastAPI ASGI gateway. This file meticulously orchestrates the entire
 import hashlib
 import hmac
 import os
+import random
 import subprocess
 import time
 import traceback
 from collections.abc import Awaitable, Callable
+from contextlib import asynccontextmanager
 from typing import Annotated
 
+import redis.asyncio as redis
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import RedirectResponse, UJSONResponse  # type: ignore
 from fastapi.security import HTTPBasic
 from fastapi.staticfiles import StaticFiles
+from fastapi_limiter import FastAPILimiter
 from jinja2 import TemplateNotFound
 from sqlalchemy import func
 from sqlmodel import select
@@ -33,7 +37,7 @@ from src.utils.custom_response import TEMPLATES, CustomResponse
 
 # Constants
 DEFAULT_ERROR_HTTP_CODE = 500
-DESCRIPTION = """DeciMArk: A Johnny.Decimal Bookmark Link Manager!"""
+DESCRIPTION = """DeciMark: A Johnny.Decimal Bookmark Link Manager!"""
 
 security = HTTPBasic()
 
@@ -41,7 +45,17 @@ middleware = [
     Middleware(SessionMiddleware, secret_key=settings.AUTH.JWT_SECRET),  # type: ignore
 ]
 
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    # Initialize redis and fastapi-limiter
+    redis_conn = redis.from_url("redis://localhost", encoding="utf-8", decode_responses=True)
+    await FastAPILimiter.init(redis_conn)
+    yield
+    await redis_conn.aclose()
+
 app = FastAPI(
+    lifespan=lifespan,
     title="Lyra-on.top",
     description=DESCRIPTION,
     version="1.0.0",
@@ -66,7 +80,8 @@ async def add_process_time_header(
     request: Request,
     call_next: Callable[[Request], Awaitable[Response]],
 ) -> Response | UJSONResponse | _TemplateResponse:  # type: ignore
-    """High-performance HTTP middleware that brutally intercepts every request to compute and inject ultra-precise `X-Process-Time` headers, while autonomously catching unhandled exceptions and mapping them to standardized JSON payloads.
+    """
+    High-performance HTTP middleware that brutally intercepts every request to compute and inject ultra-precise `X-Process-Time` headers, while autonomously catching unhandled exceptions and mapping them to standardized JSON payloads.
 
     Args:
         request (Request): The incoming FastAPI request.
@@ -116,7 +131,8 @@ async def docs(response: Response):  # type: ignore[no-untyped-def]
 
 @app.get("/http_code/{status_code}")
 async def http_code_get(request: Request, status_code: int) -> _TemplateResponse:
-    """Dynamically resolves and renders a deeply comprehensive HTTP status code documentation page.
+    """
+    Dynamically resolves and renders a deeply comprehensive HTTP status code documentation page.
 
     Args:
         request (Request): The raw HTTP request.
@@ -134,7 +150,8 @@ async def landing_page(
     request: Request,
     session: Annotated[AsyncSession, Depends(get_session)],
 ):
-    """Serve the primary landing page while concurrently aggregating live system statistics (total bookmarks, total users) via aggressive `asyncpg` COUNT aggregations to ensure O(1) dashboard responsiveness.
+    """
+    Serve the primary landing page while concurrently aggregating live system statistics (total bookmarks, total users) via aggressive `asyncpg` COUNT aggregations to ensure O(1) dashboard responsiveness.
 
     Args:
         request (Request): The raw HTTP request.
@@ -162,7 +179,8 @@ async def bookmarks_dashboard_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
 ) -> RedirectResponse:
-    """Instantly redirects an authenticated user straight to the bookmarks dashboard.
+    """
+    Instantly redirects an authenticated user straight to the bookmarks dashboard.
 
     Args:
         request (Request): The incoming HTTP request.
@@ -183,7 +201,8 @@ async def bookmarks_add_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
 ) -> RedirectResponse:
-    """Aggressively routes the user to the bookmark creation interface.
+    """
+    Aggressively routes the user to the bookmark creation interface.
 
     Args:
         request (Request): The incoming HTTP request.
@@ -204,7 +223,8 @@ async def bookmarks_jd_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
 ) -> RedirectResponse:
-    """Directs the user to the precise Johnny.Decimal bookmark management portal.
+    """
+    Directs the user to the precise Johnny.Decimal bookmark management portal.
 
     Args:
         request (Request): The incoming HTTP request.
@@ -225,7 +245,8 @@ async def bookmarks_tag_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
 ) -> RedirectResponse:
-    """Navigates the user instantly into the tag-based bookmark filtering system.
+    """
+    Navigates the user instantly into the tag-based bookmark filtering system.
 
     Args:
         request (Request): The incoming HTTP request.
@@ -246,7 +267,8 @@ async def bookmarks_search_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
 ) -> RedirectResponse:
-    """Propels the user directly into the high-performance search interface.
+    """
+    Propels the user directly into the high-performance search interface.
 
     Args:
         request (Request): The incoming HTTP request.
@@ -264,7 +286,8 @@ async def bookmarks_search_redirect(
 
 @app.post("/http_code/{status_code}")
 async def http_code_post(status_code: int):  # type: ignore[no-untyped-def]
-    """Instantly bounce a POST request to the equivalent HTTP status code documentation endpoint.
+    """
+    Instantly bounce a POST request to the equivalent HTTP status code documentation endpoint.
 
     Args:
         status_code (int): The target HTTP status code to brutally redirect towards.
@@ -278,7 +301,8 @@ async def http_code_post(status_code: int):  # type: ignore[no-untyped-def]
 
 @app.post("/webhook")
 async def handle_webhook(request: Request):  # type: ignore[no-untyped-def]
-    """Cryptographically secure GitHub Webhook listener.
+    """
+    Cryptographically secure GitHub Webhook listener.
 
     Relentlessly verifies the incoming `X-Hub-Signature-256` payload against the environment webhook secret using constant-time HMAC comparison to prevent timing attacks, automatically deploying updates upon validation.
 
@@ -302,12 +326,34 @@ async def handle_webhook(request: Request):  # type: ignore[no-untyped-def]
     return {"message": "Webhook received successfully!"}
 
 
+
+@app.get("/", include_in_schema=False)
+async def serve_root(request: Request):
+    """Serve the root landing page."""
+    try:
+        splash_msg = random.choice(settings.STRINGS.splash) if settings.STRINGS.splash else ""  # noqa: S311
+        return TEMPLATES.TemplateResponse(request=request, name="index.j2.html", context={"hide_logout": True, "splash": splash_msg})
+    except TemplateNotFound as e:
+        raise HTTPException(status_code=404) from e
+
+
+@app.get("/login/2fa", include_in_schema=False)
+async def login_2fa_redirect(
+    request: Request,
+):
+    try:
+        splash_msg = random.choice(settings.STRINGS.splash) if settings.STRINGS.splash else ""  # noqa: S311
+        return TEMPLATES.TemplateResponse(request=request, name="2fa.j2.html", context={"hide_logout": True, "splash": splash_msg})
+    except TemplateNotFound as e:
+        raise HTTPException(status_code=404) from e
+
 @app.get("/login", include_in_schema=False)
 async def login_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
 ):
-    """Intelligently divert already-authenticated users away from the login portal back to the core dashboard.
+    """
+    Intelligently divert already-authenticated users away from the login portal back to the core dashboard.
 
     Args:
         request (Request): The HTTP request.
@@ -320,14 +366,17 @@ async def login_redirect(
     if is_authenticated:
         return RedirectResponse(url="/bookmarks/dashboard", status_code=303)
     try:
-        return TEMPLATES.TemplateResponse(request=request, name="login.j2.html", context={"hide_logout": True})
+        splash_msg = random.choice(settings.STRINGS.splash) if settings.STRINGS.splash else ""  # noqa: S311
+        return TEMPLATES.TemplateResponse(request=request, name="login.j2.html", context={"hide_logout": True, "splash": splash_msg})
+
     except TemplateNotFound as e:
         raise HTTPException(status_code=404) from e
 
 
 @app.get("/{page}")
 async def serve_page(request: Request, page: str):
-    """Resolve and renders root-level Markdown pages.
+    """
+    Resolve and renders root-level Markdown pages.
 
     Args:
         request (Request): The HTTP request.
@@ -338,6 +387,8 @@ async def serve_page(request: Request, page: str):
 
     """
     try:
-        return TEMPLATES.TemplateResponse(request=request, name=f"{page}.j2.html", context={"hide_logout": True})
+        splash_msg = random.choice(settings.STRINGS.splash) if settings.STRINGS.splash else ""  # noqa: S311
+        return TEMPLATES.TemplateResponse(request=request, name=f"{page}.j2.html", context={"hide_logout": True, "splash": splash_msg})
+
     except TemplateNotFound as e:
         raise HTTPException(status_code=404) from e

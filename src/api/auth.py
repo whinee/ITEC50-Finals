@@ -1,20 +1,27 @@
-"""Authentication Endpoints.
+"""
+Authentication Endpoints.
 
 Exposes lightning-fast endpoints for user registration, login, session termination, and identity verification, secured by Argon2id.
 """
 
+import base64
 import datetime
 import random
 from datetime import UTC
 from typing import Annotated
 
+from captcha.image import ImageCaptcha
 from cryptography.exceptions import InvalidKey
 from cryptography.hazmat.primitives.kdf.argon2 import Argon2id
-from fastapi import APIRouter, Depends, Form, HTTPException, Request, Response
+from faker import Faker
+from fastapi import APIRouter, Depends, Form, HTTPException, Request
+from fastapi_limiter.depends import Response
 from pydantic import BaseModel, EmailStr, TypeAdapter, ValidationError
+from sqlalchemy import text
 from sqlalchemy.exc import NoResultFound
-from sqlmodel import select
+from sqlmodel import insert, select
 from sqlmodel.ext.asyncio.session import AsyncSession
+from starlette.background import BackgroundTask
 from starlette.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
@@ -34,11 +41,13 @@ from src.models.cookies import (
     set_default_cookie_params,
     set_default_cookie_params_with_encryption,
 )
-from src.schema import BaseUsers, User
+from src.schema import BaseUsers, Bookmark, JDNode, Tag, User
 from src.security.constants import COOKIE_EXPIRES_AFTER
 from src.security.jwt_service import Claims, JwtService, get_jwt_service
 from src.security.kdf_pass import get_kdf
 from src.utils.custom_response import CustomResponse
+from src.utils.demo_cleanup import cleanup_demo_user
+from src.utils.email import send_otp_email
 
 router = APIRouter()
 
@@ -65,7 +74,8 @@ email_adapter = TypeAdapter(EmailStr)
 
 
 class LoginData(BaseModel):
-    """Strictly typed payload for incoming authentication requests.
+    """
+    Strictly typed payload for incoming authentication requests.
 
     Args:
         BaseModel (type): Pydantic inheritance.
@@ -76,8 +86,27 @@ class LoginData(BaseModel):
     password: str
 
 
+@router.get("/generate-username")
+async def generate_username_route(
+    session: Annotated[AsyncSession, Depends(get_session)],
+):
+    """
+    Generate a unique random username.
+
+    Args:
+        session (AsyncSession): Database session.
+
+    Returns:
+        dict: JSON response containing the generated username.
+
+    """
+    username = await generate_username(session)
+    return {"username": username}
+
+
 async def generate_username(session: AsyncSession) -> str:  # noqa: C901
-    """Dynamically generates a globally unique, human-readable username.
+    """
+    Dynamically generates a globally unique, human-readable username.
 
     Leverages `wonderwords` to stitch together randomized adjective-noun combinations (e.g., 'fast_cheetah_42'). It aggressively polls the database in a loop to guarantee absolute collision avoidance before returning the minted username.
 
@@ -86,7 +115,7 @@ async def generate_username(session: AsyncSession) -> str:  # noqa: C901
 
     Returns:
         str: A mathematically unique human-readable username.
-    
+
     """
     while True:
         if not _adj_pool:
@@ -119,7 +148,8 @@ async def login_user(  # noqa: C901
     data: Annotated[LoginData, Form()],
     is_logged_in: Annotated[bool, Depends(check_if_logged_in)],
 ):
-    """Authenticate users logging into DeciMark.
+    """
+    Authenticate users logging into DeciMark.
 
     This route performs a hyper-secure authentication sequence. It accepts either an E-mail or Username, dynamically routing the query based on Pydantic validation. It then defers to the Argon2id Key Derivation Function to rigorously verify the password hash against timing attacks. Upon success, it mints a symmetrically encrypted JWT and injects it securely into an HTTPOnly cookie.
 
@@ -178,21 +208,31 @@ async def login_user(  # noqa: C901
             category="error",
             status_code=HTTP_500_INTERNAL_SERVER_ERROR,
         )
+    # Generate 6-digit OTP
+    otp = str(random.randint(100000, 999999))
+    send_otp_email(user.email, otp)
+
+    # Store OTP in a short-lived 2FA JWT
     issued_at = int(datetime.datetime.now(datetime.UTC).timestamp())
-    expires_at = issued_at + COOKIE_EXPIRES_AFTER
-    claims = Claims(exp=expires_at, sub=user.email, iat=issued_at)
-    token = jwt_service.sign(claims=claims)
+    expires_at = issued_at + 300  # 5 minutes
+    claims = Claims(exp=expires_at, sub=f"{user.email}:{otp}", iat=issued_at)
+    # Add custom claims for OTP (we'll just append it to the subject for simplicity)
+    token = jwt_service.sign(claims)
+
     cookie_params = set_default_cookie_params_with_encryption(
-        name="session",
+        name="2fa_token",
         value=token,
         expires_at=datetime.datetime.fromtimestamp(expires_at, tz=datetime.UTC),
     )
 
     return CustomResponse.json_flash(
-        message="Login successful!",
-        category="success",
+        message="2FA Verification required. Check your email.",
+        category="info",
         status_code=HTTP_200_OK,
         cookie_params=[cookie_params, theme_cookie_params(normalize_theme(user.theme))],
+        headers={
+            "HX-Redirect": "/login/2fa",
+        },  # Assuming the frontend uses HTMX to redirect or handle it
     )
 
 
@@ -203,7 +243,8 @@ async def decrypt_cookie(
     is_logged_in: Annotated[bool, Depends(check_if_logged_in)],
     session_cookie: Annotated[str, Depends(get_session_cookie)],
 ):
-    """Introspect the client's current session token.
+    """
+    Introspect the client's current session token.
 
     Primarily used for debugging or deep frontend state synchronization, this route safely unwraps the Fernet-encrypted cookie and returns the verified JWT claims without exposing any sensitive cryptographic secrets.
 
@@ -227,17 +268,20 @@ async def decrypt_cookie(
 async def logout_user(
     request: Request,
     response: Response,
+    session: Annotated[AsyncSession, Depends(get_session)],
     jwt_service: Annotated[JwtService, Depends(get_jwt_service)],
     is_logged_in: Annotated[bool, Depends(check_if_logged_in)],
     session_cookie: Annotated[str, Depends(get_session_cookie)],
 ):
-    """Securely terminates a user session.
+    """
+    Securely terminates a user session and eradicates demo accounts.
 
-    Intercepts the request, validates the existing JWT signature, and commands the browser to aggressively purge the HTTPOnly session cookie. It then forcefully redirects the client back to the login perimeter.
+    Intercepts the request, validates the existing JWT signature, and commands the browser to aggressively purge the HTTPOnly session cookie. If the departing user is a demo account, it forcefully executes cascading DELETE cascades across all relational tables to ensure absolute data hygiene, instantly vaporizing all generated bookmarks, tags, and nodes.
 
     Args:
         request (Request): Incoming request.
         response (Response): The HTTP response to modify.
+        session (AsyncSession): Database session.
         jwt_service (JwtService): Token engine.
         is_logged_in (bool): Boolean state.
         session_cookie (str): The actual cookie payload to annihilate.
@@ -249,7 +293,14 @@ async def logout_user(
     if not is_logged_in:
         raise HTTPException(status_code=HTTP_401_UNAUTHORIZED)
 
-    if jwt_service.verify(decode_encrypted_cookie(session_cookie)) is not None:
+    claims = jwt_service.verify(decode_encrypted_cookie(session_cookie))
+    if claims is not None:
+        email = claims.sub
+        if email and email.endswith("@demo.decimark.com"):
+            user = await session.scalar(select(User).where(User.email == email))
+            if user:
+                response.background = BackgroundTask(cleanup_demo_user, user.id)
+
         cookie_params = set_default_cookie_params(name="session")
         # NOTE: `delete_cookie` does not have the following params:
         # - value
@@ -277,7 +328,8 @@ async def register_new_user(
     payload: Annotated[BaseUsers, Form()],
     is_logged_in: Annotated[bool, Depends(check_if_logged_in)],
 ):
-    """Register a brand new user into the DeciMark ecosystem.
+    """
+    Register a brand new user into the DeciMark ecosystem.
 
     This route aggressively validates incoming form data against strictly typed Pydantic models. It executes high-speed `asyncpg` queries to ensure absolute uniqueness of the Email and Username before invoking the heavy Argon2id hashing mechanism on the password. If no username is provided, it autonomously falls back to the dynamic username generator.
 
@@ -347,4 +399,340 @@ async def register_new_user(
             "Location": "/",
         },
         cookie_params=theme_cookie_params(theme),
+    )
+
+
+async def seed_demo_account(session: AsyncSession, user_id: int):
+    """Bulk inserts fake data for a demo account bypassing ORM overhead."""
+    fake = Faker()
+    bookmark_tag_junction = Tag.bookmarks.property.secondary  # type: ignore
+    bookmark_jd_junction = JDNode.bookmarks.property.secondary  # type: ignore
+
+    now = datetime.datetime.now(UTC)
+    epoch = datetime.datetime(1970, 1, 1, tzinfo=UTC)
+
+    def random_date():
+        delta = now - epoch
+        random_second = random.randrange((delta.days * 24 * 60 * 60) + delta.seconds)
+        return epoch + datetime.timedelta(seconds=random_second)
+
+    def generate_jd_code():
+        part1 = "".join(str(random.randint(0, 9)) for _ in range(random.randint(2, 5)))
+        part2 = "".join(str(random.randint(0, 9)) for _ in range(random.randint(2, 5)))
+        code = f"{part1}.{part2}"
+        if random.random() > 0.5:
+            words = [
+                "tech",
+                "news",
+                "code",
+                "design",
+                "work",
+                "lyra",
+                "school",
+                "project",
+                "dev",
+            ]
+            code += f"+{random.choice(words)}"
+        return code
+
+    res = await session.execute(text("SELECT coalesce(max(id), 0) + 1 FROM tags"))
+    next_tag_id = res.scalar() or 1
+    res = await session.execute(text("SELECT coalesce(max(id), 0) + 1 FROM jd_nodes"))
+    next_jd_id = res.scalar() or 1
+    res = await session.execute(text("SELECT coalesce(max(id), 0) + 1 FROM bookmarks"))
+    next_bookmark_id = res.scalar() or 1
+
+    tag_count = 100
+    tag_ids = []
+    tag_batch = []
+    tag_titles = list({fake.word() for _ in range(200)})[:tag_count]
+
+    for i in range(len(tag_titles)):
+        t_id = next_tag_id
+        next_tag_id += 1
+        tag_ids.append(t_id)
+        t_created = random_date()
+        tag_batch.append(
+            {
+                "id": t_id,
+                "user_id": user_id,
+                "title": tag_titles[i],
+                "color": fake.hex_color(),
+                "note": fake.sentence() if random.random() > 0.5 else None,
+                "created_at": t_created,
+                "updated_at": t_created,
+            },
+        )
+    if tag_batch:
+        await session.execute(insert(Tag).values(tag_batch))
+
+    jd_count = 100
+    jd_ids = []
+    jd_batch = []
+    for _ in range(jd_count):
+        j_id = next_jd_id
+        next_jd_id += 1
+        jd_ids.append(j_id)
+        jd_batch.append(
+            {
+                "id": j_id,
+                "user_id": user_id,
+                "code": generate_jd_code(),
+            },
+        )
+    if jd_batch:
+        await session.execute(insert(JDNode).values(jd_batch))
+
+    bookmark_count = 10000
+    b_batch = []
+    b_tag_batch = []
+    b_jd_batch = []
+
+    titles = [fake.catch_phrase() for _ in range(100)]
+    urls = [fake.url() for _ in range(100)]
+
+    for b_idx in range(bookmark_count):
+        b_id = next_bookmark_id
+        next_bookmark_id += 1
+        b_created = random_date()
+
+        b_batch.append(
+            {
+                "id": b_id,
+                "user_id": user_id,
+                "title": random.choice(titles) + f" {b_idx}",
+                "url": random.choice(urls),
+                "note": fake.sentence() if random.random() > 0.8 else None,
+                "created_at": b_created,
+                "updated_at": b_created,
+            },
+        )
+
+        if tag_ids:
+            num_tags = random.randint(1, 3)
+            sampled_tags = random.sample(tag_ids, num_tags)
+            for t_id in sampled_tags:
+                b_tag_batch.append({"bookmark_id": b_id, "tag_id": t_id})
+
+        if jd_ids:
+            num_jds = random.randint(1, 3)
+            sampled_jds = random.sample(jd_ids, num_jds)
+            for j_id in sampled_jds:
+                b_jd_batch.append({"bookmark_id": b_id, "jd_node_id": j_id})
+
+        if len(b_batch) >= 5000:
+            await session.execute(insert(Bookmark).values(b_batch))
+            if b_tag_batch:
+                await session.execute(insert(bookmark_tag_junction).values(b_tag_batch))
+            if b_jd_batch:
+                await session.execute(insert(bookmark_jd_junction).values(b_jd_batch))
+            b_batch = []
+            b_tag_batch = []
+            b_jd_batch = []
+            await session.commit()
+
+    if b_batch:
+        await session.execute(insert(Bookmark).values(b_batch))
+        if b_tag_batch:
+            await session.execute(insert(bookmark_tag_junction).values(b_tag_batch))
+        if b_jd_batch:
+            await session.execute(insert(bookmark_jd_junction).values(b_jd_batch))
+
+    await session.commit()
+
+    # Reset sequences
+    await session.execute(
+        text(
+            "SELECT setval(pg_get_serial_sequence('tags', 'id'), coalesce(max(id), 1)) FROM tags;",
+        ),
+    )
+    await session.execute(
+        text(
+            "SELECT setval(pg_get_serial_sequence('jd_nodes', 'id'), coalesce(max(id), 1)) FROM jd_nodes;",
+        ),
+    )
+    await session.execute(
+        text(
+            "SELECT setval(pg_get_serial_sequence('bookmarks', 'id'), coalesce(max(id), 1)) FROM bookmarks;",
+        ),
+    )
+    await session.commit()
+
+
+@router.post("/demo")
+async def demo_login(
+    session: Annotated[AsyncSession, Depends(get_session)],
+    kdf: Annotated[Argon2id, Depends(get_kdf)],
+    jwt_service: Annotated[JwtService, Depends(get_jwt_service)],
+):
+    """
+    Auto-provision and authenticate a demo account.
+
+    Instantly generates a randomized username, creates a new user with a static dummy password, and logs them in.
+
+    Args:
+        session (AsyncSession): Database session.
+        kdf (Argon2id): Key derivation function.
+        jwt_service (JwtService): JWT service.
+
+    Returns:
+        dict: Success message with secure HTTP-only cookies injected.
+
+    """
+    demo_username = await generate_username(session)
+    demo_email = f"{demo_username}@demo.decimark.com"
+    demo_password = "demopassword123"
+
+    password_hash = kdf.derive_phc_encoded(demo_password.encode())
+
+    new_user = User(
+        username=demo_username,
+        email=demo_email,
+        password=password_hash,
+        role="normal",
+        disabled=False,
+    )
+
+    session.add(new_user)
+    await session.commit()
+    await session.refresh(new_user)
+
+    await seed_demo_account(session, new_user.id)
+
+    issued_at = int(datetime.datetime.now(tz=datetime.UTC).timestamp())
+    expires_at = issued_at + 86400  # 1 day
+
+    claims = Claims(exp=expires_at, iat=issued_at, sub=new_user.email)
+    jwt = jwt_service.sign(claims)
+
+    cookie_params = set_default_cookie_params_with_encryption(
+        name="session",
+        value=jwt,
+        expires_at=datetime.datetime.fromtimestamp(expires_at, tz=datetime.UTC),
+    )
+
+    return CustomResponse.json(
+        status_code=200,
+        message="Logged in as demo user.",
+        cookie_params=cookie_params,
+    )
+
+
+@router.get("/captcha")
+async def generate_captcha(
+    jwt_service: Annotated[JwtService, Depends(get_jwt_service)],
+):
+    """
+    Generate a self-hosted visual CAPTCHA.
+
+    Generates a secure image captcha, returning the base64-encoded image and setting an encrypted HTTP-only cookie with the expected answer.
+
+    Args:
+        jwt_service (JwtService): Core JWT service.
+
+    Returns:
+        dict: Base64 captcha payload and sets `captcha_token` cookie.
+
+    """
+    import random
+    import string
+
+    chars = string.ascii_uppercase + string.digits
+    captcha_text = "".join(random.choices(chars, k=5))
+
+    image = ImageCaptcha(width=280, height=90)
+    data = image.generate(captcha_text)
+
+    b64_image = base64.b64encode(data.getvalue()).decode()
+
+    # Store text in a short-lived JWT token to prevent tampering
+    exp = int(
+        (datetime.datetime.now(tz=UTC) + datetime.timedelta(minutes=5)).timestamp(),
+    )
+    claims = Claims(sub=captcha_text, exp=exp)
+    captcha_jwt = jwt_service.sign(claims)
+
+    return CustomResponse.json(
+        status_code=HTTP_200_OK,
+        json={"image": f"data:image/png;base64,{b64_image}"},
+        cookie_params={"key": "captcha_token", "value": captcha_jwt, "httponly": True},
+    )
+
+
+@router.post(path="/verify-2fa", status_code=HTTP_200_OK)
+async def verify_2fa(
+    request: Request,
+    response: Response,
+    session: Annotated[AsyncSession, Depends(get_session)],
+    jwt_service: Annotated[JwtService, Depends(get_jwt_service)],
+    otp: Annotated[str, Form()],
+):
+    """
+    Validate the One-Time Password to finalize authentication.
+
+    Args:
+        request (Request): The incoming request.
+        response (Response): The FastAPI response endpoint.
+        session (AsyncSession): Database session.
+        jwt_service (JwtService): The cryptographic token engine.
+        otp (str): The provided OTP payload.
+
+    Returns:
+        UJSONResponse: The brilliantly formatted custom response.
+
+    """
+    token_str = request.cookies.get("2fa_token")
+    if not token_str:
+        return CustomResponse.json_flash(
+            message="2FA session expired.",
+            category="error",
+            status_code=HTTP_401_UNAUTHORIZED,
+        )
+
+    try:
+        raw_token = decode_encrypted_cookie(token_str)
+        payload = jwt_service.verify(raw_token)
+    except Exception:
+        return CustomResponse.json_flash(
+            message="Invalid 2FA session.",
+            category="error",
+            status_code=HTTP_401_UNAUTHORIZED,
+        )
+
+    if not payload or payload.get("otp") != otp.strip():
+        return CustomResponse.json_flash(
+            message="Invalid OTP code.",
+            category="error",
+            status_code=HTTP_401_UNAUTHORIZED,
+        )
+
+    email = payload.get("sub")
+    statement = select(User).where(User.email == email)
+    result = await session.exec(statement)
+    user = result.one()
+
+    # Issue real session
+    issued_at = int(datetime.datetime.now(datetime.UTC).timestamp())
+    expires_at = issued_at + COOKIE_EXPIRES_AFTER
+    claims = Claims(exp=expires_at, sub=user.email, iat=issued_at)
+    session_token = jwt_service.sign(claims=claims)
+
+    cookie_params = set_default_cookie_params_with_encryption(
+        name="session",
+        value=session_token,
+        expires_at=datetime.datetime.fromtimestamp(expires_at, tz=datetime.UTC),
+    )
+
+    # Delete 2fa token
+    del_cookie = set_default_cookie_params(name="2fa_token")
+    del del_cookie["value"]
+    del del_cookie["expires"]
+    response.delete_cookie(**del_cookie)
+
+    return CustomResponse.json_flash(
+        message="Login successful!",
+        category="success",
+        status_code=HTTP_200_OK,
+        cookie_params=[cookie_params],
+        headers={"HX-Redirect": "/"},
     )

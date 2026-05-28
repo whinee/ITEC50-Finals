@@ -1,4 +1,5 @@
-"""High-Speed CSS Asset Synchronizer.
+"""
+High-Speed CSS Asset Synchronizer.
 
 An automated, asynchronous dependency downloader that ruthlessly fetches strictly pinned CSS assets from CDNs. By caching static files locally, it guarantees that DeciMark can operate perfectly in air-gapped or offline development environments while insulating the frontend from transient network failures.
 
@@ -23,7 +24,8 @@ CSS_FILES = [
 
 
 def filename_from_url(url: str) -> str:
-    """Extract the precise filename from an arbitrary URL, effortlessly circumventing URL parameters and fragments.
+    """
+    Extract the precise filename from an arbitrary URL, effortlessly circumventing URL parameters and fragments.
 
     Args:
         url (str): Target URL.
@@ -36,7 +38,8 @@ def filename_from_url(url: str) -> str:
 
 
 def download_file(url: str, dest_path: str) -> None:
-    """Execute a high-speed HTTP GET request, forcefully ripping a remote file from the network and streaming it safely into local disk storage.
+    """
+    Execute a high-speed HTTP GET request, forcefully ripping a remote file from the network and streaming it safely into local disk storage.
 
     Args:
         dest_path (Any): Undocumented argument.

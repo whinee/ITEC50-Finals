@@ -1,4 +1,5 @@
-"""JWT Cryptographic Service.
+"""
+JWT Cryptographic Service.
 
 Mints, signs, and aggressively verifies stateless JSON Web Tokens using hyper-secure HMAC-SHA256 signatures.
 """
@@ -15,7 +16,8 @@ from src.config.settings import settings
 
 
 class Claims(BaseModel):
-    """Standardized payload schema for JSON Web Tokens (JWT).
+    """
+    Standardized payload schema for JSON Web Tokens (JWT).
 
     This strictly enforces the RFC 7519 standard claims. By mapping this directly into a frozen Pydantic model, it utterly nullifies the risk of payload tampering or type injection during deserialization.
 
@@ -33,7 +35,8 @@ class Claims(BaseModel):
 
 
 class JwtService:
-    """High-performance cryptographic service for minting and verifying JSON Web Tokens (JWT).
+    """
+    High-performance cryptographic service for minting and verifying JSON Web Tokens (JWT).
 
     Built around PyJWT, this stateful service caches the secret key and algorithmic configuration in memory to allow for blindingly fast, sub-millisecond token signatures and verification. It strictly enforces expiration (`exp`) claims and dynamically rejects forged tokens instantly, acting as the primary gateway for all authenticated traffic.
     """
@@ -50,7 +53,8 @@ class JwtService:
         algo: str = "HS256",
         options: Options | None = None,
     ) -> None:
-        """Initialize the JWT Service with a highly fortified HMAC secret and encoding algorithm.
+        """
+        Initialize the JWT Service with a highly fortified HMAC secret and encoding algorithm.
 
         Args:
             secret (str): The absolute cryptographic secret used for HS256 operations.
@@ -69,7 +73,8 @@ class JwtService:
             self.__options = self.__options | options
 
         def __encoding(claims: Claims) -> str:
-            """Internally handles the rapid serialization and HS256 signing of a perfectly typed Claims payload.
+            """
+            Internally handles the rapid serialization and HS256 signing of a perfectly typed Claims payload.
 
             Args:
                 claims (Claims): The strictly typed Pydantic claims object.
@@ -84,7 +89,8 @@ class JwtService:
             return jwt.encode(claims_payload, self.__secret, self.__algorithm)
 
         def __decoding(encoded: str) -> dict:
-            """Internally forces the rigorous verification and payload extraction of an incoming token string.
+            """
+            Internally forces the rigorous verification and payload extraction of an incoming token string.
 
             Args:
                 encoded (str): The raw, unverified JWT payload string.
@@ -99,7 +105,8 @@ class JwtService:
         self.__decoding = __decoding
 
     def sign(self, claims: Claims) -> str:
-        """Cryptographically signs a Pydantic Claims object into a compact JWT string.
+        """
+        Cryptographically signs a Pydantic Claims object into a compact JWT string.
 
         Args:
             claims (Claims): The strictly typed payload claims.
@@ -111,7 +118,8 @@ class JwtService:
         return self.__encoding(claims)
 
     def is_expired(self, token: str) -> bool:
-        """Evaluate whether a given token has surpassed its cryptographic expiration timestamp.
+        """
+        Evaluate whether a given token has surpassed its cryptographic expiration timestamp.
 
         Args:
             token (str): The JWT string to evaluate.
@@ -126,7 +134,8 @@ class JwtService:
         return claims.exp <= now
 
     def verify(self, token: str) -> Claims:
-        """Aggressively verifies the cryptographic signature of a token and decodes it.
+        """
+        Aggressively verifies the cryptographic signature of a token and decodes it.
 
         Args:
             token (str): The incoming JWT string.
@@ -142,7 +151,8 @@ class JwtService:
 
 
 def get_jwt_service() -> JwtService:
-    """Dependency injection factory for the JwtService. Instantiates the service with the globally secure HMAC-SHA256 secret.
+    """
+    Dependency injection factory for the JwtService. Instantiates the service with the globally secure HMAC-SHA256 secret.
 
     Returns:
         JwtService: A fully armed and operational JWT cryptographic instance.

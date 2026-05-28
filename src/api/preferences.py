@@ -1,4 +1,5 @@
-"""User Preferences Endpoints.
+"""
+User Preferences Endpoints.
 
 Handles real-time, asynchronous theme toggling by persisting preferences to PostgreSQL and reflecting them via secure cookies.
 """
@@ -25,7 +26,8 @@ THEME_COOKIE_MAX_AGE = 60 * 60 * 24 * 180
 
 
 class ThemePayload(BaseModel):
-    """Strictly typed JSON validation schema for user theme mutation requests.
+    """
+    Strictly typed JSON validation schema for user theme mutation requests.
 
     Args:
         BaseModel (type): Core Pydantic inheritance.
@@ -36,7 +38,8 @@ class ThemePayload(BaseModel):
 
 
 def normalize_theme(value: str | None) -> Theme:
-    """Sanitizes theme strings to rigidly enforce `light` or `dark`.
+    """
+    Sanitizes theme strings to rigidly enforce `light` or `dark`.
 
     Args:
         value (str | None): The unsafe input theme state.
@@ -49,7 +52,8 @@ def normalize_theme(value: str | None) -> Theme:
 
 
 def set_theme_cookie(response: Response, theme: Theme) -> None:
-    """Dynamically mutates an outbound FastAPI response object to inject a rock-solid, six-month theme preference cookie.
+    """
+    Dynamically mutates an outbound FastAPI response object to inject a rock-solid, six-month theme preference cookie.
 
     Args:
         response (Response): The mutable outbound response.
@@ -60,7 +64,8 @@ def set_theme_cookie(response: Response, theme: Theme) -> None:
 
 
 def theme_cookie_params(theme: Theme) -> dict:
-    """Construct the highly secure, unencrypted but strictly bounded configuration dictionary for the frontend theme cookie.
+    """
+    Construct the highly secure, unencrypted but strictly bounded configuration dictionary for the frontend theme cookie.
 
     Args:
         theme (Theme): The validated visual style string.
@@ -85,7 +90,8 @@ async def get_optional_user(
     session: AsyncSession,
     jwt_service: JwtService,
 ) -> User | None:
-    """Fetch the authenticated User.
+    """
+    Fetch the authenticated User.
 
     This gracefully absorbs token tampering, missing cookies, or database faults by returning `None` instead of throwing HTTP exceptions, perfect for routes that need to serve both logged-in and anonymous states (like theme togglers).
 
@@ -121,7 +127,8 @@ async def get_theme(
     session: Annotated[AsyncSession, Depends(get_session)],
     jwt_service: Annotated[JwtService, Depends(get_jwt_service)],
 ):
-    """Resolve the current theme for the client in real-time.
+    """
+    Resolve the current theme for the client in real-time.
 
     It intelligently queries the database for persisted preferences if the user is authenticated, falling back to an unencrypted browser cookie if they are anonymous. It guarantees that the browser is always issued an updated `theme` cookie in response.
 
@@ -153,7 +160,8 @@ async def update_theme(
     session: Annotated[AsyncSession, Depends(get_session)],
     jwt_service: Annotated[JwtService, Depends(get_jwt_service)],
 ):
-    """Asynchronously mutates the application theme for the active user.
+    """
+    Asynchronously mutates the application theme for the active user.
 
     This immediately cascades the updated theme into the PostgreSQL database and simultaneously injects a fresh, 180-day `theme` cookie back into the client for instantaneous UI reactivity.
 

@@ -3,7 +3,8 @@
 pyenv/
 .venv/
 .mypy_cache/
-pgdata
+pgdata/
+redisdata/
 .codex
 .refact
 **/__pycache__/

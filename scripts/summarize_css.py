@@ -1,4 +1,5 @@
-r"""Advanced CSS Abstract Syntax Tree Parser.
+r"""
+Advanced CSS Abstract Syntax Tree Parser.
 
 An intelligent CSS linter and structural summarizer that harnesses `tinycss2`. It deeply analyzes complex stylesheets, effortlessly extracting component maps, color variables, and structural hierarchies, serving as the backbone for automated frontend documentation generation.
 
@@ -66,7 +67,8 @@ TEX_OUTPUT_DIR_REL_MAIN_PAPER = f"./{TEX_OUTPUT_DIR.relative_to(TEX_MAIN_PAPER_D
 
 
 def resolve_files() -> list[str]:  # noqa: C901
-    """Intelligently crawls the entire filesystem, resolving incredibly complex include/exclude glob configurations to generate the ultimate, deduplicated list of target CSS files in milliseconds.
+    """
+    Intelligently crawls the entire filesystem, resolving incredibly complex include/exclude glob configurations to generate the ultimate, deduplicated list of target CSS files in milliseconds.
 
     Returns:
         list[str]: The perfectly curated list of absolute paths.
@@ -132,7 +134,8 @@ def resolve_files() -> list[str]:  # noqa: C901
 
 @dataclass
 class CSSNode:
-    """The absolute foundational structure of our custom CSS Abstract Syntax Tree (AST).
+    """
+    The absolute foundational structure of our custom CSS Abstract Syntax Tree (AST).
 
     This heavily typed class recursively houses selectors, properties, and deeply nested sub-nodes, serving as the in-memory representation of our frontend architecture.
 
@@ -152,7 +155,8 @@ class CSSNode:
 
 @dataclass
 class LintError:
-    """An immutable class capturing structural inconsistencies during AST generation, enabling strict adherence to our documentation standards.
+    """
+    An immutable class capturing structural inconsistencies during AST generation, enabling strict adherence to our documentation standards.
 
     Args:
         BaseModel (type): Class inheritance.
@@ -171,7 +175,8 @@ SELECTOR_RE = re.compile(r"^\s*([^{]+)\{")
 
 
 def split_path(label: str) -> list[str]:
-    """Instantly tokenizes a structured comment path (e.g., `SECTION - SUBSECTION`) into a strictly ordered array.
+    """
+    Instantly tokenizes a structured comment path (e.g., `SECTION - SUBSECTION`) into a strictly ordered array.
 
     Args:
         label (str): The raw path label.
@@ -184,7 +189,8 @@ def split_path(label: str) -> list[str]:
 
 
 def next_non_blank_selector(lines: list[str], after: int) -> str | None:
-    """Blazes forward through a massive array of lines to definitively lock onto the very next CSS selector or block initializer, completely ignoring comments and whitespace.
+    """
+    Blazes forward through a massive array of lines to definitively lock onto the very next CSS selector or block initializer, completely ignoring comments and whitespace.
 
     Args:
         lines (list[str]): The file dump.
@@ -207,7 +213,8 @@ def next_non_blank_selector(lines: list[str], after: int) -> str | None:
 
 
 def parse_css(path: str) -> tuple[list[CSSNode], list[LintError]]:  # noqa: C901
-    """Dissect raw CSS strings into our majestic, deeply nested custom CSSNode AST by identifying semantic START/END blocks and inferring relationships.
+    """
+    Dissect raw CSS strings into our majestic, deeply nested custom CSSNode AST by identifying semantic START/END blocks and inferring relationships.
 
     Args:
         path (str): CSS file location.
@@ -224,7 +231,8 @@ def parse_css(path: str) -> tuple[list[CSSNode], list[LintError]]:  # noqa: C901
     # ── pass 1: collect all comments with their line numbers ─────────────────
     @dataclass
     class RawComment:
-        """A transient DTO storing unparsed comment blocks exactly as they were ripped from the source code.
+        """
+        A transient DTO storing unparsed comment blocks exactly as they were ripped from the source code.
 
         Args:
             object (type): Internal class.
@@ -243,7 +251,8 @@ def parse_css(path: str) -> tuple[list[CSSNode], list[LintError]]:  # noqa: C901
     # ── pass 2: identify start/end pairs vs inline comments ──────────────────
     @dataclass
     class Event:
-        """A strongly typed event class mapping exactly when and where a structural START, END, or INLINE comment occurred during the initial parser scan.
+        """
+        A strongly typed event class mapping exactly when and where a structural START, END, or INLINE comment occurred during the initial parser scan.
 
         Args:
             object (type): Internal class.
@@ -315,7 +324,8 @@ def parse_css(path: str) -> tuple[list[CSSNode], list[LintError]]:  # noqa: C901
     stack: list[CSSNode] = []  # currently open block nodes
 
     def current_path_str(extra_parts: list[str]) -> str:
-        """Assembles the definitive string representation of the current AST traversal path.
+        """
+        Assembles the definitive string representation of the current AST traversal path.
 
         Args:
             extra_parts (list): Modifiers.
@@ -333,7 +343,8 @@ def parse_css(path: str) -> tuple[list[CSSNode], list[LintError]]:  # noqa: C901
         full_path: str,
         depth: int,
     ) -> CSSNode:
-        """Create or navigates deeply nested AST branches based on string inputs.
+        """
+        Create or navigates deeply nested AST branches based on string inputs.
 
         Args:
             parent_list (list): Parent array.
@@ -355,7 +366,8 @@ def parse_css(path: str) -> tuple[list[CSSNode], list[LintError]]:  # noqa: C901
     def insert_node(
         parts: list[str],
     ) -> CSSNode | None:
-        """Take raw, parsed strings and forces them into their correct structural node locations within the overall file architecture.
+        """
+        Take raw, parsed strings and forces them into their correct structural node locations within the overall file architecture.
 
         Args:
             parts (list): Array.
@@ -469,7 +481,8 @@ def generate_md(
     roots: list[CSSNode],
     lint_errors: list[LintError],
 ) -> str:
-    """Synthesizes the complete, artifact-ready Markdown file for a parsed CSS document, flawlessly injecting lint errors, statistics, and the recursively generated markdown tree.
+    """
+    Synthesizes the complete, artifact-ready Markdown file for a parsed CSS document, flawlessly injecting lint errors, statistics, and the recursively generated markdown tree.
 
     Args:
         css_path (str): File origin.
@@ -517,7 +530,8 @@ def generate_tex(
     roots: list[CSSNode],
     lint_errors: list[LintError],
 ) -> str:
-    """Assembles the final, pristine LaTeX fragment representing an entire CSS architecture, ready to be immediately included in the main academic paper.
+    """
+    Assembles the final, pristine LaTeX fragment representing an entire CSS architecture, ready to be immediately included in the main academic paper.
 
     Args:
         css_path (str): Source path.
@@ -578,7 +592,8 @@ def generate_tex(
 
 
 def generate_md_index(css_files: list[str], md_dir: str) -> str:
-    """Construct the master Markdown index, dynamically hyperlinking every single generated CSS summary into a cohesive, easily navigable frontend architecture hub.
+    """
+    Construct the master Markdown index, dynamically hyperlinking every single generated CSS summary into a cohesive, easily navigable frontend architecture hub.
 
     Args:
         css_files (list): Extracted files.
@@ -644,15 +659,19 @@ def generate_tex_code_index(css_files: list[str]) -> str:
         lines.append(r"\section{\texttt{" + filename_escaped + r"}}")
         lines.append(
             r"\inputmintedstyledtwocolumns{css}{"
-            + str(Path(css_path).absolute().relative_to(TEX_MAIN_PAPER_DIR, walk_up=True))
+            + str(
+                Path(css_path).absolute().relative_to(TEX_MAIN_PAPER_DIR, walk_up=True),
+            )
             + "}",
         )
         lines.append(r"\newpage")
     lines.append(r"")
     return "\n".join(lines)
 
+
 def run_stylelint(css_path: str) -> list[LintError]:  # noqa: C901
-    """Spawns an asynchronous subprocess to relentlessly unleash `stylelint` upon a CSS file, immediately fetching its JSON payload to integrate industry-standard linting straight into our custom reports.
+    """
+    Spawns an asynchronous subprocess to relentlessly unleash `stylelint` upon a CSS file, immediately fetching its JSON payload to integrate industry-standard linting straight into our custom reports.
 
     Args:
         css_path (Any): Undocumented argument.

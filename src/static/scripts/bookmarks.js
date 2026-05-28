@@ -25,6 +25,69 @@ async function requestJson(url, options = {}) {
     }
 }
 
+window.TagColorMap = new Map();
+async function fetchTagColors() {
+    const tags = await requestJson("/api/tags");
+    if (Array.isArray(tags)) {
+        tags.forEach((t) =>
+            window.TagColorMap.set(t.title.toLowerCase(), {
+                color: t.color,
+                id: t.id,
+            }),
+        );
+    }
+}
+
+function hexToHSL(hex) {
+    let r = 0,
+        g = 0,
+        b = 0;
+    if (hex.length === 4) {
+        r = "0x" + hex[1] + hex[1];
+        g = "0x" + hex[2] + hex[2];
+        b = "0x" + hex[3] + hex[3];
+    } else if (hex.length === 7) {
+        r = "0x" + hex[1] + hex[2];
+        g = "0x" + hex[3] + hex[4];
+        b = "0x" + hex[5] + hex[6];
+    }
+    r /= 255;
+    g /= 255;
+    b /= 255;
+    let cmin = Math.min(r, g, b),
+        cmax = Math.max(r, g, b),
+        delta = cmax - cmin,
+        h = 0,
+        s = 0,
+        l = 0;
+
+    if (delta == 0) h = 0;
+    else if (cmax == r) h = ((g - b) / delta) % 6;
+    else if (cmax == g) h = (b - r) / delta + 2;
+    else h = (r - g) / delta + 4;
+
+    h = Math.round(h * 60);
+    if (h < 0) h += 360;
+    l = (cmax + cmin) / 2;
+    s = delta == 0 ? 0 : delta / (1 - Math.abs(2 * l - 1));
+    s = +(s * 100).toFixed(1);
+    l = +(l * 100).toFixed(1);
+    return { h, s, l };
+}
+
+function applyTagColor(element, tagTitle) {
+    const tagInfo = window.TagColorMap.get(tagTitle.toLowerCase());
+    if (tagInfo && tagInfo.color) {
+        const { h, s, l } = hexToHSL(tagInfo.color);
+        element.style.setProperty("--tag-fg", tagInfo.color);
+        // Make background a very faded version of the foreground
+        element.style.setProperty("--tag-bg", `hsla(${h}, ${s}%, ${l}%, 0.15)`);
+
+        // Add a click listener for the color picker if in edit mode, or just as a general feature
+        element.dataset.tagId = tagInfo.id;
+    }
+}
+
 async function getBookmarks() {
     const data = await requestJson(API.list);
     if (Array.isArray(data)) return data;
@@ -123,6 +186,12 @@ function renderBookmarkCard(bookmark) {
         tagLink.className = "tag-pill";
         tagLink.href = `/bookmarks/tag?tag=${encodeURIComponent(tag)}`;
         tagLink.textContent = "#" + tag;
+
+        // Apply dynamic color
+        if (window.TagColorMap && window.TagColorMap.has(tag.toLowerCase())) {
+            applyTagColor(tagLink, tag);
+        }
+
         tagRow.append(tagLink);
     });
 
@@ -209,6 +278,7 @@ function renderFilterLinks(container, values, baseUrl, queryKey) {
 }
 
 async function initDashboard() {
+    await fetchTagColors();
     const bookmarks = (await getBookmarks()).map(normalizeBookmark);
     const jdIds = countValues(bookmarks, "jdIds");
     const tags = countValues(bookmarks, "tags");
@@ -380,6 +450,7 @@ async function initSearch() {
     const results = document.querySelector("#search-results");
 
     renderSkeletonList(results);
+    await fetchTagColors();
     const bookmarks = (await getBookmarks()).map(normalizeBookmark);
     renderList(results, bookmarks);
 
@@ -414,6 +485,7 @@ async function initFilteredView(type) {
     const title = document.querySelector("#view-title");
 
     renderSkeletonList(results);
+    await fetchTagColors();
     const bookmarks = (await getBookmarks()).map(normalizeBookmark);
 
     if (input) input.value = value;
@@ -454,3 +526,33 @@ if (page === "edit") initEditForm();
 if (page === "search") initSearch();
 if (page === "jd") initFilteredView("jd");
 if (page === "tag") initFilteredView("tag");
+
+window.exportTheme = async function () {
+    try {
+        const response = await fetch("/api/bookmarks/tags/export");
+        const data = await response.json();
+        prompt("Copy this Base64 Theme string:", data.theme_data);
+    } catch (e) {
+        alert("Failed to export theme.");
+    }
+};
+
+window.importTheme = async function () {
+    const themeStr = prompt("Paste your Base64 Theme string here:");
+    if (!themeStr) return;
+    try {
+        const response = await fetch("/api/bookmarks/tags/import", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ theme_data: themeStr }),
+        });
+        if (response.ok) {
+            alert("Theme imported successfully!");
+            window.location.reload();
+        } else {
+            alert("Failed to import theme.");
+        }
+    } catch (e) {
+        alert("Failed to import theme.");
+    }
+};

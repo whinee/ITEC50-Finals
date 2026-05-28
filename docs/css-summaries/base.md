@@ -1,9 +1,10 @@
 # `base.css`
 
-> Generated on 2026-05-28 08:49  
+> Generated on 2026-05-29 07:09\
 > Source: `src/static/stylesheets/base.css`
 
 ## Lint Results
+
 > ✅ No lint issues found.
 
 ## Section Tree
@@ -55,16 +56,16 @@
 ├── override `./downloaded/browserux.css`
 ├── HEADERS  (line 229-282)
 ├── ICONS  (line 284-302)
-├── SVG ICONS  (line 304-323)
-├── BUTTONS  (line 325-369)
-├── STRUCTURE  (line 371-408)
-├── VISIBILITY  (line 410-418)
-├── SCROLLBAR  (line 420-443)
+├── SVG ICONS  (line 304-339)
+├── BUTTONS  (line 341-385)
+├── STRUCTURE  (line 387-424)
+├── VISIBILITY  (line 426-434)
+├── SCROLLBAR  (line 436-459)
 │   ├── MAIN
 │   ├── HANDLE
 │   ├── HANDLE ON HOVER
 │   └── TRACK
-├── OTHER  (line 445-460)
+├── OTHER  (line 461-476)
 │   └── STRIKETHROUGH
-└── HAMBURGER MENU  (line 462-505)
+└── HAMBURGER MENU  (line 478-521)
 ```

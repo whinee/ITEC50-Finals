@@ -33,26 +33,35 @@ test-migrations:
     #!/bin/sh
     echo "stopping any existing instance"
     just stop-db || true
-    echo "Starting test postgres server with ${PGDATA}"
+    echo "Starting test postgres server with ${PG_DATA}"
     just start-db
     just create-test-db
     just alembic upgrade head
     just alembic downgrade base
     echo "Cleaning up"
     just stop-db
-    rm -rf "${PGDATA}"
-    echo "Stopped postgres server. Do not forget to run start-db with your own PGDATA to restart"
+    rm -rf "${PG_DATA}"
+    echo "Stopped postgres server. Do not forget to run start-db with your own PG_DATA to restart"
 
 alembic +args:
     uv run alembic {{args}}
 
+stop-redis:
+    docker stop decimark-redis || true
+    docker rm decimark-redis || true
+
+start-redis:
+    mkdir -p "${REDIS_DATA}"
+    just stop-redis
+    docker run -d --name decimark-redis -p 6379:6379 -v "${PWD}/${REDIS_DATA}:/data" redis:alpine || docker start decimark-redis
+
 start-db:
-    if [ ! -f "${PGDATA}/PG_VERSION" ]; then initdb -D "${PGDATA}" -U ${PG__USER}; fi
-    sed -i -E "s/#unix_socket_directories = '\/var\/run\/postgresql, \/tmp' # comma-separated list of directories/unix_socket_directories = '\/tmp' # comma-separated list of directories/" "${PGDATA}/postgresql.conf"
-    pg_ctl -o "${INIT_DB_OPTIONS}" -D "${PGDATA}" start
+    if [ ! -f "${PG_DATA}/PG_VERSION" ]; then initdb -D "${PG_DATA}" -U ${PG__USER}; fi
+    sed -i -E "s/#unix_socket_directories = '\/var\/run\/postgresql, \/tmp' # comma-separated list of directories/unix_socket_directories = '\/tmp' # comma-separated list of directories/" "${PG_DATA}/postgresql.conf"
+    pg_ctl -o "${INIT_DB_OPTIONS}" -D "${PG_DATA}" start
 
 stop-db:
-    pg_ctl -D ${PGDATA} stop
+    pg_ctl -D ${PG_DATA} stop
 
 create-db-user:
     createuser -s ${PG__USER}
@@ -150,15 +159,21 @@ lint:
 gen-reports:
     @ just lint-css
     @ uv run scripts/summarize_python.py
-    @ uv run scripts/generate_scc_report.py
+    @ uv run scripts/generate_scc_report.py --count-as 'j2.html:Jinja2'
     @ uv run scripts/run_visual_tests.py
     @ just lint-tex
     @ just lint-md
 
+# Seed data
+seed:
+    uv run scripts/seed.py
+
 # Run web app in a lightweight way
 dev:
-    just stop-db; exit 0
+    just stop-db || true
+    just stop-redis || true
     just start-db
+    just start-redis
     hypercorn main:app --reload --bind 0.0.0.0:8000 --workers 1
 
 # Run web app

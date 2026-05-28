@@ -320,12 +320,28 @@ header {
     width: 20px;
     height: 20px;
 }
+.nav-icon-menu {
+    -webkit-mask-image: url(/static/assets/images/menu.svg);
+    mask-image: url(/static/assets/images/menu.svg);
+}
+.nav-icon-settings {
+    -webkit-mask-image: url(/static/assets/images/settings.svg);
+    mask-image: url(/static/assets/images/settings.svg);
+}
+.nav-icon-info {
+    -webkit-mask-image: url(/static/assets/images/info.svg);
+    mask-image: url(/static/assets/images/info.svg);
+}
+.nav-icon-logout {
+    -webkit-mask-image: url(/static/assets/images/logout.svg);
+    mask-image: url(/static/assets/images/logout.svg);
+}
 /* SVG ICONS: END */
 
 /* BUTTONS: START */
 
 button.styled, .styled-button {
-    padding: 1.3em 3em;
+    padding: var(--space-xs);
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 2.5px;

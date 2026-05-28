@@ -1,4 +1,5 @@
-"""HTTP Code Normalization.
+"""
+HTTP Code Normalization.
 
 Performs O(1) dictionary lookups to map and sanitize raw HTTP status codes into standardized RFC-compliant groups and metadata.
 """
@@ -16,7 +17,8 @@ STATUS_KEY_PRIORITY = ["phrase", "description", "spec", "spec_link"]
 
 
 def fetch_flash(request: Request):
-    """Pop arbitrary flash messages out of the session state for rendering.
+    """
+    Pop arbitrary flash messages out of the session state for rendering.
 
     Args:
         request (Request): The raw HTTP request possessing the mutable session dictionary.
@@ -34,7 +36,8 @@ HTTPGroupStrings = HTTPStrings.group
 
 
 def get_http_code_group(status_code: int) -> int:
-    """Extract the major HTTP classification group (e.g., 2 for 2xx, 4 for 4xx) via integer division.
+    """
+    Extract the major HTTP classification group (e.g., 2 for 2xx, 4 for 4xx) via integer division.
 
     Returns:
         int: The hundreds digit of the status code.
@@ -44,7 +47,8 @@ def get_http_code_group(status_code: int) -> int:
 
 
 def normalize_http_status(status_code: int) -> int:
-    """Sanitizes non-standard internal informational (1xx) and obscure server (7xx) codes into their standard 200/500 equivalents to guarantee RFC-compliant reverse-proxy ingestion.
+    """
+    Sanitizes non-standard internal informational (1xx) and obscure server (7xx) codes into their standard 200/500 equivalents to guarantee RFC-compliant reverse-proxy ingestion.
 
     Args:
         status_code (int): The raw HTTP response integer.
@@ -65,7 +69,8 @@ def extract_prioritized(
     source: BaseModel,
     keys: list[str],
 ) -> tuple[dict[str, Any], dict[str, Any]]:
-    """Intelligently partitions a Pydantic model dictionary into high-priority keys and the remainder.
+    """
+    Intelligently partitions a Pydantic model dictionary into high-priority keys and the remainder.
 
     This O(n) operation ensures that strictly defined specification strings (like `spec_link`) are cleanly separated from wildcard metadata, allowing the custom response factory to construct highly predictable JSON structures without manual key popping.
 
@@ -89,7 +94,8 @@ def extract_prioritized(
 
 
 def get_group_info(code_group: int) -> HTTPGroupString:
-    """Perform a hyper-fast O(1) dictionary lookup to fetch the deeply nested configuration for an entire class of HTTP status codes, falling back to a safe empty string model.
+    """
+    Perform a hyper-fast O(1) dictionary lookup to fetch the deeply nested configuration for an entire class of HTTP status codes, falling back to a safe empty string model.
 
     Args:
         code_group (int): The integer hundreds-
@@ -102,7 +108,8 @@ def get_group_info(code_group: int) -> HTTPGroupString:
 
 
 def build_status_meta(status_code: int) -> dict[str, Any]:
-    """Construct the ultimate, deeply enriched status metadata dictionary.
+    """
+    Construct the ultimate, deeply enriched status metadata dictionary.
 
     This function traverses the static `Strings` configuration, resolves subgroups, and merges default messages with exact RFC spec links. This forms the "status" block present in every JSON API response, providing unrivaled developer experience by literally embedding documentation into the API payload.
 
@@ -145,7 +152,8 @@ def get_http_code_group_details(
     code_group: int,
     override_details: str | None = None,
 ) -> str:
-    """Extract the semantic details for an HTTP status group, allowing dynamic runtime overrides if a specialized payload demands it.
+    """
+    Extract the semantic details for an HTTP status group, allowing dynamic runtime overrides if a specialized payload demands it.
 
     Args:
         code_group (int): The classification tier identifier.
@@ -164,7 +172,8 @@ def get_http_code_group_message(
     code_group: int,
     override_message: str | None = None,
 ) -> str:
-    """Return the default human-readable headline message for an HTTP code group, seamlessly handling dynamic runtime substitutions.
+    """
+    Return the default human-readable headline message for an HTTP code group, seamlessly handling dynamic runtime substitutions.
 
     Args:
         code_group (int): The classification tier integer identifier.
@@ -183,7 +192,8 @@ def check_if_http_code_group_error(
     code_group: int,
     default_error: bool | None = None,
 ) -> bool:
-    """Execute a blazing-fast boolean evaluation to definitively categorize an HTTP code group as a client/server error or a successful response, allowing for explicit runtime overrides.
+    """
+    Execute a blazing-fast boolean evaluation to definitively categorize an HTTP code group as a client/server error or a successful response, allowing for explicit runtime overrides.
 
     Args:
         code_group (int): The integer classification tier.
