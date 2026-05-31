@@ -16,7 +16,7 @@ from typing import Annotated
 import redis.asyncio as redis
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.openapi.docs import get_swagger_ui_html
-from fastapi.responses import RedirectResponse, UJSONResponse  # type: ignore
+from fastapi.responses import RedirectResponse, JSONResponse  # type: ignore
 from fastapi.security import HTTPBasic
 from fastapi.staticfiles import StaticFiles
 from fastapi_limiter import FastAPILimiter
@@ -25,6 +25,7 @@ from sqlalchemy import func
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 from starlette.middleware import Middleware
+from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.templating import _TemplateResponse
 
@@ -42,6 +43,13 @@ DESCRIPTION = """DeciMark: A Johnny.Decimal Bookmark Link Manager!"""
 security = HTTPBasic()
 
 middleware = [
+    Middleware(
+        CORSMiddleware,
+        allow_origins=list(settings.ORIGINS) if settings.ORIGINS else ["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    ),
     Middleware(SessionMiddleware, secret_key=settings.AUTH.JWT_SECRET),  # type: ignore
 ]
 
@@ -49,7 +57,8 @@ middleware = [
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
     # Initialize redis and fastapi-limiter
-    redis_conn = redis.from_url("redis://localhost", encoding="utf-8", decode_responses=True)
+    redis_url = os.getenv("REDIS_URL", "redis://localhost")
+    redis_conn = redis.from_url(redis_url, encoding="utf-8", decode_responses=True)
     await FastAPILimiter.init(redis_conn)
     yield
     await redis_conn.aclose()
@@ -79,7 +88,7 @@ app = FastAPI(
 async def add_process_time_header(
     request: Request,
     call_next: Callable[[Request], Awaitable[Response]],
-) -> Response | UJSONResponse | _TemplateResponse:  # type: ignore
+) -> Response | JSONResponse | _TemplateResponse:  # type: ignore
     """
     High-performance HTTP middleware that brutally intercepts every request to compute and inject ultra-precise `X-Process-Time` headers, while autonomously catching unhandled exceptions and mapping them to standardized JSON payloads.
 
@@ -161,11 +170,11 @@ async def landing_page(
         _TemplateResponse: The brilliantly rendered frontend landing interface.
     
     """
-    bookmark_result = await session.execute(select(func.count(Bookmark.id)))  # type: ignore[arg-type]
-    total_bookmarks = bookmark_result.scalar_one()
+    bookmark_result = await session.exec(select(func.count(Bookmark.id)))  # type: ignore[arg-type]
+    total_bookmarks = bookmark_result.one()
     
-    user_result = await session.execute(select(func.count(User.id)))  # type: ignore[arg-type]
-    total_users = user_result.scalar_one()
+    user_result = await session.exec(select(func.count(User.id)))  # type: ignore[arg-type]
+    total_users = user_result.one()
 
     return TEMPLATES.TemplateResponse(
         request=request, 

@@ -139,7 +139,7 @@ async def get_theme(
         jwt_service (JwtService): JWT validation factory.
 
     Returns:
-        UJSONResponse: The fully synthesized theme JSON dictionary.
+        JSONResponse: The fully synthesized theme JSON dictionary.
 
     """
     user = await get_optional_user(
@@ -173,7 +173,7 @@ async def update_theme(
         jwt_service (JwtService): The cryptographic orchestrator.
 
     Returns:
-        UJSONResponse: The meticulously updated theme echo dictionary.
+        JSONResponse: The meticulously updated theme echo dictionary.
 
     """
     theme = normalize_theme(payload.theme)

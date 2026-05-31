@@ -151,6 +151,32 @@ def tag_color(title: str) -> str:
     return palette[sum(ord(char) for char in title) % len(palette)]
 
 
+def get_contrast_color(hex_color: str) -> str:
+    """
+    Computes a highly accessible contrasting text color (black or white) based on the background hex luminance.
+
+    References:
+        - W3C WCAG 2.0 Relative Luminance (ITU-R BT.709 weighting): https://www.w3.org/TR/WCAG20/#relativeluminancedef
+
+    Args:
+        hex_color (str): The background color in hex.
+
+    Returns:
+        str: Either #000000 or #ffffff depending on optimal contrast.
+
+    """
+    hex_color = hex_color.lstrip("#")
+    if len(hex_color) == 3:
+        hex_color = "".join(c * 2 for c in hex_color)
+    try:
+        r, g, b = (int(hex_color[i : i + 2], 16) for i in (0, 2, 4))
+        # W3C WCAG 2.0 simplified relative luminance (BT.709 coefficients)
+        luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
+        return "#000000" if luminance > 128 else "#ffffff"
+    except Exception:
+        return "#ffffff"
+
+
 async def get_or_create_jd_node(
     session: AsyncSession,
     user: User,
@@ -475,7 +501,7 @@ async def list_bookmarks(
         user (User): The deeply authenticated user core.
 
     Returns:
-        UJSONResponse: The entirely serialized O(n) array of structured dictionaries.
+        JSONResponse: The entirely serialized O(n) array of structured dictionaries.
 
     """
     bookmarks = await list_user_bookmarks(session=session, user=user)
@@ -499,7 +525,7 @@ async def create_bookmark(
         user (User): The strictly authenticated owner.
 
     Returns:
-        UJSONResponse: The successfully minted payload echo.
+        JSONResponse: The successfully minted payload echo.
 
     """
     jd_nodes = [
@@ -550,7 +576,7 @@ async def update_bookmark(  # noqa: C901
         user (User): The verified owner.
 
     Returns:
-        UJSONResponse: The masterfully updated and re-serialized bookmark model.
+        JSONResponse: The masterfully updated and re-serialized bookmark model.
 
     """
     result = await session.exec(
@@ -615,7 +641,7 @@ async def search_bookmarks(
         match_all (bool): AND / OR logic toggle.
 
     Returns:
-        UJSONResponse: A deeply parsed, correctly filtered payload structure.
+        JSONResponse: A deeply parsed, correctly filtered payload structure.
 
     """
     bookmarks = await list_user_bookmarks(session=session, user=user)
@@ -697,6 +723,7 @@ async def list_tags(
             "id": tag.id,
             "title": tag.title,
             "color": tag.color,
+            "text_color": get_contrast_color(tag.color),
         }
         for tag in tags
     ]

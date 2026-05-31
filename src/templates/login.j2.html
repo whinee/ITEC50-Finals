@@ -14,26 +14,43 @@
                     <div class="field">
                         <label for="identifier">Username/E-mail</label>
                         <div class="form-box form-field-margin">
-                            <input class="input" name="identifier" type="text" placeholder="" required>
-                            <button type="button" class="icon1 erase-input hide">×</button>
+                            <input class="input"
+                                   name="identifier"
+                                   id="identifier"
+                                   type="text"
+                                   placeholder=""
+                                   required>
+                            <button type="button"
+                                    class="icon1 erase-input hide"
+                                    aria-label="Erase Input"
+                                    title="Erase Input">×</button>
                         </div>
                         <!-- <div class="validation-msg"></div> -->
                     </div>
                     <div class="field form-field-margin">
                         <label for="password">Password</label>
                         <div class="form-box form-field-margin">
-                            <input class="input" name="password" type="password" placeholder="" required>
+                            <input class="input"
+                                   name="password"
+                                   id="password"
+                                   type="password"
+                                   placeholder=""
+                                   required>
                             <button type="button"
                                     class="icon1 toggle-password toggle-password-btn"
+                                    aria-label="Toggle Password Visibility"
                                     title="Toggle Password Visibility">👁</button>
-                            <button type="button" class="icon1 erase-input hide">×</button>
+                            <button type="button"
+                                    class="icon1 erase-input hide"
+                                    aria-label="Erase Input"
+                                    title="Erase Input">×</button>
                         </div>
                         <!-- <div class="validation-msg"></div> -->
                     </div>
                     <div class="field form-field-margin">
                         <label for="captcha_answer">Captcha</label>
                         <div class="captcha-img-wrapper">
-                            <img id="captcha-img" src="" class="captcha-img">
+                            <img id="captcha-img" src="" alt="Captcha Image" class="captcha-img">
                         </div>
                         <div class="captcha-reload-wrapper">
                             <button type="button"
@@ -45,10 +62,14 @@
                         <div class="form-box form-field-margin">
                             <input class="input"
                                    name="captcha_answer"
+                                   id="captcha_answer"
                                    type="text"
                                    placeholder="Enter captcha code"
                                    required>
-                            <button type="button" class="icon1 erase-input hide">×</button>
+                            <button type="button"
+                                    class="icon1 erase-input hide"
+                                    aria-label="Erase Input"
+                                    title="Erase Input">×</button>
                         </div>
                     </div>
                     <br>
@@ -105,6 +126,7 @@
                 body: new URLSearchParams(formData), // sends as form-encoded
             });
 
+            let data = {};
             if (res.status === 422) {
                 toast({
                     title: "Error",
@@ -113,7 +135,7 @@
                 });
             } else {
                 console.log(res);
-                const data = await res.json();
+                data = await res.json();
                 toast({
                     title: data.error ? "Error" : "Success",
                     message: data.message,
@@ -122,8 +144,13 @@
             }
 
             if (res.ok) {
-                console.log("FUCKING HELL!");
-                setTimeout(() => window.location.href = "/bookmarks", 1000);
+                if (data.redirect) {
+                    setTimeout(() => window.location.href = data.redirect, 1000);
+                } else if (res.headers.get("hx-redirect")) {
+                    setTimeout(() => window.location.href = res.headers.get("hx-redirect"), 1000);
+                } else {
+                    setTimeout(() => window.location.href = "/bookmarks", 1000);
+                }
             }
         });
 

@@ -1,0 +1,46 @@
+services:
+  web:
+    build: .
+    ports:
+      - "${EXTERNAL_WEB_PORT:-8000}:8000"
+    env_file: .env
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: >
+      bash -c "uv run --no-dev alembic upgrade head && uv run --no-dev hypercorn main:app --bind 0.0.0.0:8000 --workers ${WORKERS:-16}"
+
+  db:
+    image: postgres:16
+    command: postgres -c listen_addresses='*'
+    environment:
+      POSTGRES_USER: ${PG__USER:-postgres}
+      POSTGRES_PASSWORD: ${PG__PASSWORD:-postgres}
+      POSTGRES_DB: ${PG__DBNAME:-decimark}
+    env_file: .env
+    ports:
+      - "${EXTERNAL_DB_PORT:-5432}:5432"
+    volumes:
+      - ${PGDATA:-./src/pgdata}:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "${EXTERNAL_REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  redis_data:

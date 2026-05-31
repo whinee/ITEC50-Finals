@@ -15,7 +15,11 @@
                     <p class="eyebrow">Tag View</p>
                     <h1 id="view-title" class="view-header-title">Bookmarks by tag</h1>
                     <div id="tag-color-container" class="tag-color-container">
-                        <input type="color" id="tag-color-picker" class="tag-color-picker">
+                        <input type="color"
+                               id="tag-color-picker"
+                               class="tag-color-picker"
+                               aria-label="Tag Color"
+                               title="Tag Color">
                         <button id="save-tag-color" class="styled-button save-tag-btn">Save Color</button>
                     </div>
                 </div>
@@ -25,6 +29,8 @@
                        name="tag"
                        type="text"
                        placeholder="Enter tag"
+                       aria-label="Enter tag"
+                       title="Enter tag"
                        required>
                 <button type="submit" class="bookmark-action">Load</button>
             </form>

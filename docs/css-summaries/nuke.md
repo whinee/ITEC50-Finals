@@ -1,6 +1,6 @@
 # `nuke.css`
 
-> Generated on 2026-05-29 07:09\
+> Generated on 2026-05-31 23:58\
 > Source: `src/static/stylesheets/nuke.css`
 
 ## Lint Results

@@ -1,6 +1,6 @@
 # `fonts/manrope.css`
 
-> Generated on 2026-05-29 07:09\
+> Generated on 2026-05-31 23:57\
 > Source: `src/static/stylesheets/fonts/manrope.css`
 
 ## Lint Results

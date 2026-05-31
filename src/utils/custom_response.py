@@ -8,7 +8,7 @@ from collections.abc import Mapping
 from typing import Any, Literal, Protocol
 
 from fastapi import Request
-from fastapi.responses import UJSONResponse  # type: ignore
+from fastapi.responses import JSONResponse  # type: ignore
 from starlette.background import BackgroundTask
 from starlette.templating import Jinja2Templates, _TemplateResponse
 
@@ -150,9 +150,9 @@ class CustomResponse:
         media_type: str | None = None,
         background: BackgroundTask | None = None,
         cookie_params: CookieParams | None = None,
-    ) -> UJSONResponse:  # type: ignore
+    ) -> JSONResponse:  # type: ignore
         """
-        Construct a blazing-fast UJSONResponse wrapped with standardized DeciMark metadata.
+        Construct a blazing-fast JSONResponse wrapped with standardized DeciMark metadata.
 
         Args:
             status_code (int): The HTTP status code.
@@ -166,7 +166,7 @@ class CustomResponse:
             cookie_params (CookieParams | None, optional): Strictly typed cookie injection parameters.
 
         Returns:
-            UJSONResponse: A deeply optimized, ultra-fast JSON response object.
+            JSONResponse: A deeply optimized, ultra-fast JSON response object.
 
         """
         if json is None:
@@ -179,7 +179,7 @@ class CustomResponse:
             error,
         )
 
-        response = UJSONResponse(  # type: ignore[misc]
+        response = JSONResponse(  # type: ignore[misc]
             content={
                 **content,
                 **json,
@@ -208,7 +208,7 @@ class CustomResponse:
         media_type: str | None = None,
         background: BackgroundTask | None = None,
         cookie_params: CookieParams | None = None,
-    ) -> UJSONResponse:  # type: ignore
+    ) -> JSONResponse:  # type: ignore
         """
         Synthesizes a devastatingly rapid JSON response dynamically enriched with a stylized frontend flash category payload.
 
@@ -225,7 +225,7 @@ class CustomResponse:
             cookie_params (CookieParams | None, optional): Highly secure auth tokens. Defaults to None.
 
         Returns:
-            UJSONResponse: The completely assembled and minified JSON network payload.
+            JSONResponse: The completely assembled and minified JSON network payload.
 
         """
         return CustomResponse.json(
@@ -266,7 +266,7 @@ class CustomResponse:
             cookie_params (dict): Encrypted cookie data.
 
         Returns:
-            UJSONResponse: The masterfully fused API payload.
+            JSONResponse: The masterfully fused API payload.
 
         """
         """Synthesizes an unbelievably detailed, dynamically generated HTTP documentation error/success page complete with RFC links and human-readable feedback.

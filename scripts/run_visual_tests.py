@@ -34,9 +34,15 @@ SCREENSHOTS_OUTPUT_DIR = Path("src/static/assets/images/screenshots/").absolute(
 PAGES = [
     ("landing", "/", False),
     ("login", "/login", False),
+    ("register", "/register", False),
+    ("2fa", "/login/2fa", False),
+    ("docs", "/docs", False),
     ("dashboard", "/bookmarks", True),
     ("add", "/bookmarks/add", True),
     ("edit", "/bookmarks/edit?id=1", True),
+    ("jd", "/bookmarks/jd", True),
+    ("tag", "/bookmarks/tag", True),
+    ("search", "/bookmarks/search?q=test", True),
     ("404", "/http_code/404", False),
     ("500", "/http_code/500", False),
 ]
@@ -222,9 +228,24 @@ async def run_tests():  # noqa: C901
     """Missing docstring."""
     os.environ["TEST__LIGHTHOUSE"] = "true"
 
+    port = os.environ.get("EXTERNAL_DB_PORT", "5432")
+    user = os.environ.get("PG__USER", "postgres")
+    pwd = os.environ.get("PG__PASSWORD", "postgres")
+    db = os.environ.get("PG__DBNAME", "decimark")
+
+    os.environ["PG_SYNC_URL"] = (
+        f"postgresql+psycopg://{user}:{pwd}@localhost:{port}/{db}"
+    )
+    os.environ["PG_ASYNC_URL"] = (
+        f"postgresql+psycopg://{user}:{pwd}@localhost:{port}/{db}"
+    )
+    os.environ["REDIS_URL"] = (
+        f"redis://localhost:{os.environ.get('EXTERNAL_REDIS_PORT', '6379')}/0"
+    )
+
     # Using 4 workers to ensure Hypercorn doesn't choke under Playwright concurrency
     server_process = subprocess.Popen(  # noqa: S603
-        [  # noqa: S607
+        [
             "hypercorn",
             "main:app",
             "--bind",
@@ -232,18 +253,22 @@ async def run_tests():  # noqa: C901
             "--workers",
             "4",
         ],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
+        stdout=sys.stdout,
+        stderr=sys.stderr,
     )
 
     start_time = time.time()
     server_ready = False
-    while time.time() - start_time < 15:
+    while time.time() - start_time < 30:
         try:
-            if httpx.get(BASE_URL).status_code == 200:
+            resp = httpx.get(BASE_URL, follow_redirects=True)
+            if resp.status_code == 200:
                 server_ready = True
                 break
-        except httpx.RequestError:
+            print(f"Server not ready, status code: {resp.status_code}, {resp.text}")
+            time.sleep(0.5)
+        except httpx.RequestError as e:
+            print(f"Request error: {e}")
             time.sleep(0.5)
 
     if not server_ready:
@@ -296,6 +321,14 @@ async def run_tests():  # noqa: C901
                 await page.goto("/login")
                 await page.fill('input[name="identifier"]', user["username"])
                 await page.fill('input[name="password"]', user["password"])
+                await page.fill('input[name="captcha_answer"]', "1234")
+                await page.click('input[type="submit"]')
+                await page.wait_for_selector(
+                    'input[name="otp"]',
+                    state="visible",
+                    timeout=30000,
+                )
+                await page.fill('input[name="otp"]', "000000")
                 await page.click('input[type="submit"]')
                 await page.wait_for_url("**/bookmarks*")
                 await page.close()

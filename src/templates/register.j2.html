@@ -16,15 +16,23 @@
                         <br>
                         <br>
                         <div class="form-box">
-                            <input class="input" name="email" type="text" placeholder="" required>
-                            <button class="erase-input hide">×</button>
+                            <input class="input"
+                                   name="email"
+                                   id="email"
+                                   type="text"
+                                   placeholder=""
+                                   required>
+                            <button type="button"
+                                    class="erase-input hide"
+                                    aria-label="Erase Input"
+                                    title="Erase Input">×</button>
                         </div>
                         <div class="validation-msg"></div>
                     </div>
                     <br>
                     <br>
                     <div class="field">
-                        <label for="username">Username</label>
+                        <label for="username-input">Username</label>
                         <br>
                         <br>
                         <div class="form-box">
@@ -37,8 +45,12 @@
                             <button type="button"
                                     id="generate-username-btn"
                                     class="generate-username-btn"
+                                    aria-label="Generate Random Username"
                                     title="Generate Random Username">🎲</button>
-                            <button class="erase-input hide">×</button>
+                            <button type="button"
+                                    class="erase-input hide"
+                                    aria-label="Erase Input"
+                                    title="Erase Input">×</button>
                         </div>
                         <div class="validation-msg"></div>
                     </div>
@@ -49,11 +61,15 @@
                         <br>
                         <br>
                         <div class="form-box">
-                            <input class="input" name="password" type="password" required>
+                            <input class="input" name="password" id="password" type="password" required>
                             <button type="button"
                                     class="icon1 toggle-password toggle-password-btn"
+                                    aria-label="Toggle Password Visibility"
                                     title="Toggle Password Visibility">👁</button>
-                            <button class="erase-input hide">×</button>
+                            <button type="button"
+                                    class="erase-input hide"
+                                    aria-label="Erase Input"
+                                    title="Erase Input">×</button>
                         </div>
                         <div class="validation-msg"></div>
                     </div>
@@ -76,10 +92,14 @@
                         <div class="form-box">
                             <input class="input"
                                    name="captcha_answer"
+                                   id="captcha_answer"
                                    type="text"
                                    placeholder="Enter captcha code"
                                    required>
-                            <button type="button" class="icon1 erase-input hide">×</button>
+                            <button type="button"
+                                    class="icon1 erase-input hide"
+                                    aria-label="Erase Input"
+                                    title="Erase Input">×</button>
                         </div>
                     </div>
                     <br>

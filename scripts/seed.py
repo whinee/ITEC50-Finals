@@ -191,7 +191,7 @@ async def process_user(  # noqa: C901
             int(bookmark_count * 0.2),
         ),
     )
-    jd_count = random.randint(5, 10)  # noqa: S311
+    jd_count = random.randint(500, 1000)  # noqa: S311
 
     print(
         f"User {user_id}: Generating {tag_count} Tags, {jd_count} JDs, {bookmark_count} Bookmarks",
@@ -320,8 +320,8 @@ async def main() -> None:
     It leverages raw SQLModel arrays and multiprocessing pools to synthesize and commit thousands of users, tens of thousands of bookmarks, and complex junction tables into PostgreSQL at mind-bending speeds, bypassing all ORM bottlenecks for raw performance.
     """
     # 1. Prepare User Data
-    count = 100
-    print(f"Preparing to seed {count} users and millions of bookmarks...")
+    count = random.randint(80, 120)  # noqa: S311
+    print(f"Preparing to seed {count} users and hundreds of thousands of bookmarks...")
 
     users_data = [
         {

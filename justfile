@@ -4,6 +4,10 @@
 set dotenv-load := true
 set shell := ["bash", "-cu"]
 
+export PG_SYNC_URL := "postgresql+psycopg://" + env_var_or_default("PG__USER", "postgres") + ":" + env_var_or_default("PG__PASSWORD", "postgres") + "@localhost:" + env_var_or_default("EXTERNAL_DB_PORT", "5432") + "/" + env_var_or_default("PG__DBNAME", "decimark")
+export PG_ASYNC_URL := "postgresql+psycopg_async://" + env_var_or_default("PG__USER", "postgres") + ":" + env_var_or_default("PG__PASSWORD", "postgres") + "@localhost:" + env_var_or_default("EXTERNAL_DB_PORT", "5432") + "/" + env_var_or_default("PG__DBNAME", "decimark")
+export REDIS_URL := "redis://localhost:" + env_var_or_default("EXTERNAL_REDIS_PORT", "6379") + "/0"
+
 # Choose recipes
 default:
     @ just -l
@@ -30,62 +34,53 @@ tests +args="":
     uv run pytest {{args}}
 
 test-migrations:
-    #!/bin/sh
-    echo "stopping any existing instance"
     just stop-db || true
-    echo "Starting test postgres server with ${PG_DATA}"
     just start-db
     just create-test-db
-    just alembic upgrade head
-    just alembic downgrade base
-    echo "Cleaning up"
-    just stop-db
-    rm -rf "${PG_DATA}"
-    echo "Stopped postgres server. Do not forget to run start-db with your own PG_DATA to restart"
+    PG__DBNAME=${TEST__DBNAME:-decimark_test} uv run alembic upgrade head
+    PG__DBNAME=${TEST__DBNAME:-decimark_test} uv run alembic downgrade base
+    just drop-test-db
 
 alembic +args:
     uv run alembic {{args}}
 
 stop-redis:
-    docker stop decimark-redis || true
-    docker rm decimark-redis || true
+    docker compose stop redis || true
 
 start-redis:
-    mkdir -p "${REDIS_DATA}"
     just stop-redis
-    docker run -d --name decimark-redis -p 6379:6379 -v "${PWD}/${REDIS_DATA}:/data" redis:alpine || docker start decimark-redis
-
-start-db:
-    if [ ! -f "${PG_DATA}/PG_VERSION" ]; then initdb -D "${PG_DATA}" -U ${PG__USER}; fi
-    sed -i -E "s/#unix_socket_directories = '\/var\/run\/postgresql, \/tmp' # comma-separated list of directories/unix_socket_directories = '\/tmp' # comma-separated list of directories/" "${PG_DATA}/postgresql.conf"
-    pg_ctl -o "${INIT_DB_OPTIONS}" -D "${PG_DATA}" start
+    docker compose up -d redis
 
 stop-db:
-    pg_ctl -D ${PG_DATA} stop
+    docker compose stop db || true
+
+start-db:
+    just stop-db
+    docker compose up -d db
 
 create-db-user:
-    createuser -s ${PG__USER}
+    docker compose exec -T db createuser -s ${PG__USER} || true
 
 create-db:
-    psql -h ${PG__HOST} -p ${PG__PORT} -U ${PG__USER} \
+    docker compose exec -T db psql -U ${PG__USER} \
         -tc "SELECT 1 FROM pg_database WHERE datname='${PG__DBNAME}'" | \
         grep -q 1 || \
-    psql -h ${PG__HOST} -p ${PG__PORT} -U ${PG__USER} \
+    docker compose exec -T db psql -U ${PG__USER} \
         -c "CREATE DATABASE ${PG__DBNAME};"
 
 drop-db:
-    psql -h ${PG__HOST} -p ${PG__PORT} -U ${PG__USER} \
+    docker compose exec -T db psql -U ${PG__USER} \
         -c "DROP DATABASE IF EXISTS ${PG__DBNAME};"
 
 create-test-db:
-    psql -h ${PG__HOST} -p ${PG__PORT} -U ${PG__USER} \
+    docker compose exec -T db psql -U ${PG__USER} \
         -tc "SELECT 1 FROM pg_database WHERE datname='${TEST__DBNAME}'" | \
         grep -q 1 || \
-    psql -h ${PG__HOST} -p ${PG__PORT} -U ${PG__USER} \
+    docker compose exec -T db psql -U ${PG__USER} \
         -c "CREATE DATABASE ${TEST__DBNAME};"
 
 drop-test-db:
-    psql -h ${PG__HOST} -p ${PG__PORT} -U ${PG__USER} \
+    docker compose exec -T db psql -U ${PG__USER} \
         -c "DROP DATABASE IF EXISTS ${TEST__DBNAME};"
 
 [private]
@@ -123,7 +118,7 @@ format-css:
 # Lint HTML files
 [private]
 lint-html:
-    @ npx htmlhint "**/*.html"; exit 0
+    @ npx --yes hint src/templates/**/*.j2.html src/templates/*.j2.html --formatters summary; exit 0
 
 # Lint Jinja2 templates
 [private]
@@ -150,13 +145,23 @@ lint:
     uv run black -q src
     just lint-js
     just lint-css
-    # just lint-html
+    just lint-html
     just lint-jinja
     just lint-md
     just lint-tex
 
+# Seed data
+seed:
+    uv run scripts/seed.py
+
+[private]
+restart-web-deps:
+    just start-db
+    just start-redis
+
 # Generate reports
 gen-reports:
+    @ just restart-web-deps
     @ just lint-css
     @ uv run scripts/summarize_python.py
     @ uv run scripts/generate_scc_report.py --count-as 'j2.html:Jinja2'
@@ -164,18 +169,12 @@ gen-reports:
     @ just lint-tex
     @ just lint-md
 
-# Seed data
-seed:
-    uv run scripts/seed.py
-
 # Run web app in a lightweight way
 dev:
-    just stop-db || true
-    just stop-redis || true
-    just start-db
-    just start-redis
-    hypercorn main:app --reload --bind 0.0.0.0:8000 --workers 1
+    just restart-web-deps
+    uv run hypercorn main:app --reload --bind 0.0.0.0:8000 --workers 1
 
 # Run web app
 run:
-    hypercorn main:app --reload --bind 0.0.0.0:8000 --workers 16
+    just restart-web-deps
+    uv run hypercorn main:app --reload --bind 0.0.0.0:8000 --workers 16

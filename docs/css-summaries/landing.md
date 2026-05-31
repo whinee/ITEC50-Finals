@@ -1,6 +1,6 @@
 # `landing.css`
 
-> Generated on 2026-05-29 07:09\
+> Generated on 2026-05-31 23:58\
 > Source: `src/static/stylesheets/landing.css`
 
 ## Lint Results
@@ -20,6 +20,6 @@
 ├── FEATURES  (line 162-205)
 ├── ANIMATIONS  (line 207-242)
 ├── Animations
-├── MEDIA QUERIES  (line 244-271)
+├── MEDIA QUERIES  (line 244-274)
 └── MOBILE RESPONSIVENESS
 ```

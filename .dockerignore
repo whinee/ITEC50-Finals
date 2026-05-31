@@ -1,0 +1,15 @@
+pgdata/
+redisdata/
+.venv/
+.venv*/
+__pycache__/
+*.pyc
+.git/
+.ruff_cache/
+.pytest_cache/
+.codex/
+.agents/
+.history/
+paper/
+docs/
+*.log

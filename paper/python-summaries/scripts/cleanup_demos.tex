@@ -1,0 +1,12 @@
+% Python module: scripts.cleanup_demos
+% Generated: 2026-05-31 21:44
+
+\section{\texttt{scripts/cleanup\_demos.py}}
+\textit{Module: \texttt{scripts.cleanup\_demos}} \\
+\textit{Generated: 2026-05-31 21:44} \\
+
+Cron-ready Demo Account Sweeper.
+
+Scans the database for expired demo accounts (accounts untouched for
+\textgreater{} 60 minutes) and forcefully completely purges them via the
+cleanup\_demo\_user utility. Intended to be invoked externally via cron.

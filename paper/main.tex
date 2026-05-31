@@ -290,14 +290,13 @@
 
   \color{white}
   \centering
-  \vspace*{2cm}
   {\large\bfseries [ P01.31.11.32+ITEC50.61 ]\par}
 
   \vspace{1cm}
-  \includegraphics[width=0.2\linewidth, keepaspectratio]{./dark-logo.pdf}
+  \includegraphics[width=0.4\linewidth, keepaspectratio]{./dark-logo.pdf}
   \vspace{1cm}
 
-  {\Huge\bfseries DeciMark:\par}
+  {\Huge\bfseries DeciMark\par}
   {\LARGE\bfseries A Johnny.Decimal Bookmark Link Manager\par}
   \vspace{0.5cm}
   {\Large\bfseries System Prototype Document\par}
@@ -309,7 +308,6 @@
   {\normalsize\color{textgray} A documentation of technical decisions, professional standards, and the realities of collaborative development\par}
   \vfill
   {\normalsize Lyra Phasma\par}
-  {\normalsize ITEC50\par}
 \end{titlepage}
 \clearpage
 \cleardoublepage
@@ -317,14 +315,13 @@
 {
   \thispagestyle{empty}
   \centering
-  \vspace*{2cm}
   {\large\bfseries [ P01.31.11.32+ITEC50.61 ]\par}
 
   \vspace{1cm}
-  \includegraphics[width=0.2\linewidth, keepaspectratio]{./light-logo.pdf}
+  \includegraphics[width=0.4\linewidth, keepaspectratio]{./light-logo.pdf}
   \vspace{1cm}
 
-  {\Huge\bfseries DeciMark:\par}
+  {\Huge\bfseries DeciMark\par}
   {\LARGE\bfseries A Johnny.Decimal Bookmark Link Manager\par}
   \vspace{0.5cm}
   {\Large\bfseries System Prototype Document\par}
@@ -336,7 +333,6 @@
   {\normalsize\color{black!60} A documentation of technical decisions, professional standards, and the realities of collaborative development\par}
   \vfill
   {\normalsize Lyra Phasma\par}
-  {\normalsize ITEC50\par}
 }
 \clearpage
 \cleardoublepage
@@ -352,7 +348,7 @@
 
   {\itshape
     who carries ADHD and depression like weather,\\
-    and forgets some things, as we all do,\\
+    and forgets some things, as one does,\\
     but has never once let go\\
     of the afternoons that made her laugh until it hurt,\\
     the moments that made her cry ---\\
@@ -431,7 +427,7 @@ Personal Information Management (PIM) research has long established that informa
 
 This document presents \textbf{DeciMark}, a server-backed bookmark link manager built on the \textbf{Johnny.Decimal} (JD) organizational methodology. DeciMark is, to the author's knowledge, the first bookmark management system to integrate the JD numeric classification scheme as a first-class data field, assigning every saved URL a stable, speakable, sortable two-part identifier of the form \texttt{AC.ID}. This enforces organizational discipline without sacrificing retrieval speed, and scales from individual use to collaborative team environments without the entropy that free-form tagging systems inevitably accumulate.
 
-The system is implemented using \textbf{FastAPI} with asynchronous \texttt{asyncpg} database access against \textbf{PostgreSQL}, a \textbf{SQLModel} ORM layer that eliminates dual class definitions between the API and persistence layers, \textbf{Jinja2} server-side rendering, and a handcrafted vanilla CSS and JavaScript frontend with zero client-side framework dependencies. Authentication uses \textbf{Argon2id} password hashing at the 64~MB memory-hardness configuration, wrapped in \textbf{Fernet} symmetric encryption for session tokens stored in \texttt{HttpOnly} cookies. The frontend CSS design system is built entirely on the HSL color model with CSS custom properties, enabling deterministic theme switching across light and dark modes with no JavaScript involvement. The application is self-hostable, browser-accessible with zero client-side installation requirements, and deployed on \textbf{Hypercorn} for native HTTP/2 multiplexing support.
+The system is implemented using \textbf{FastAPI} for request handling and dependency injection, \textbf{SQLModel} for shared database and validation models, \textbf{PostgreSQL} for persistence, \textbf{Jinja2} for server-rendered pages, and a handcrafted vanilla CSS and JavaScript frontend with no client-side framework dependency. Authentication uses \textbf{Argon2id} password hashing and encrypted cookie handling for session state. The application is browser-accessible with no client-side installation requirement and is started with \textbf{Hypercorn} in the documented run commands.
 
 This document provides a comprehensive engineering record of all technical decisions made during the development of DeciMark: the rationale for each architectural choice, the competitors evaluated and rejected, the CSS layout and specificity strategy, the JavaScript data handling model, the security posture, the asset pipeline, and the performance considerations that informed them. It is authored in the spirit that every engineering decision deserves an explanation --- not merely a description of what was done, but a rigorous justification of \textit{why}.
 
@@ -510,14 +506,10 @@ A McKinsey Global Institute study found that knowledge workers spend an estimate
 
 \begin{itemize}
   \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
-  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
-
   \item \textbf{Research teams} cataloguing literature, citations, and reference links by project phase
   \item \textbf{Developers} tracking documentation pages, API references, and deployment dashboards
   \item \textbf{Business analysts} managing client portals, third-party SaaS tools, and reporting endpoints
   \item \textbf{Students} organizing academic resources, course links, reading lists, and submission portals
-  \item \textbf{Advanced Security Architecture}: Engineered a zero-trust backend by integrating Redis-backed rate limiting via \texttt{fastapi-limiter} on all authentication endpoints, and built a native, self-hosted visual CAPTCHA generation engine using Python to aggressively thwart automated brute-force attacks without relying on third-party tracking APIs.
-  \item \textbf{Dynamic Frontend Theming}: Authored a robust HSL color manipulation pipeline within \texttt{bookmarks.js} that reads custom hex values from the newly exposed \texttt{/api/tags} endpoint, calculates mathematically contrasting foreground/background ratios, and injects them directly into CSS Custom Properties for flawless custom Tag rendering.
 \end{itemize}
 
 \begin{shadequote}[l]{\citet{pernice2014navigation}}
@@ -902,9 +894,51 @@ To handle long, unbroken URLs without breaking the card layout, \texttt{overflow
 \chapter{Media \& Asset Management}
 %=============================================================
 
+\section{Brand Identity \& Logo Design}
+
+\subsection{Derivative Origin and the Johnny.Decimal Lineage}
+
+The DeciMark logotype is a deliberate derivative of the official Johnny.Decimal logo, modified under the spirit of the open intellectual tradition that the Johnny.Decimal project itself embodies. The original Johnny.Decimal mark is a compact \textbf{quinpartite} composition---five distinct slanted rounded-rectangle elements arranged in a skewed staircase: one tall leftmost bar, one long upper-middle bar, one short lower-middle bar, one short upper-right bar, and one long lower-right bar. Taken together, they produce a visual rhythm of staggered, descending planes that, to the trained eye, reads immediately as an index hierarchy rather than a decorative motif.
+
+It is worth noting---speculatively, and in the full admission that the author has not confirmed this with Johnny Noble directly---that the quinpartite structure may encode the five syntactic components of a Johnny.Decimal identifier. A canonical JD address such as \texttt{12.34} is composed of precisely five atomic units: the area decade (\texttt{1x}), the category ordinal (\texttt{2}), the decimal separator (\texttt{.}), and the two-digit item identifier (\texttt{3} and \texttt{4}). Whether or not this structural isomorphism was intentional, it is geometrically coherent: five visual planes, five lexical tokens, one shared constraint of strict two-level depth. The elegance of this reading, if nothing else, makes it worth proposing.
+
+DeciMark inherits this quinpartite structure on the left side. The three leftmost elements are preserved intact, carrying forward the unmistakable Johnny.Decimal geometric identity. The two rightmost elements, however, have been surgically transformed to produce a new visual argument that is simultaneously reverent and maximalist.
+
+\subsection{The Lower Right Element: A Code 128 Barcode}
+
+The lower-right slanted rounded rectangle of the original mark has been replaced with a dense, tightly packed field of vertical bars of varying widths---a Code 128 barcode that, when decoded, reads the literal string \textbf{``DeciMark''}. The barcode is rendered at full width within the logo geometry, occupying the same footprint as the original parallelogram element it replaces. At document scale, the bars are fully formed and decodable with any standard barcode scanner. The illegibility emerges not at render time, but at \textit{display time}: when the full logo is scaled down to the 16$\times$16 pixel slot that browsers assign to favicons, the barcode's individual bars collapse into an undifferentiated visual smear---deliberately, unapologetically illegible.
+
+This illegibility is not a bug. It is the entire point.
+
+Code 128 is a high-density linear barcode standard capable of encoding the full ASCII character set. At the scales typically encountered in a browser's favicon slot, the barcode's individual bars collapse into a visual texture---a dense, almost aggressive hatching that reads as structured noise before it reads as information. This tension between embedded meaning and surface illegibility is a direct visual homage to \textit{Johnny.Hyperdecimal}, the author's personal extension of the Johnny.Decimal methodology into higher-dimensional, multi-axis classification spaces.
+
+Johnny.Hyperdecimal operates on the principle that the full informational content of a system need not be legible at every level of zoom. A file reference such as \texttt{P01.31.11.32+ITEC50.61} is maximally dense: it recursively embeds project, area, category, sub-area, identifier, and a qualifier extension within a single compact string. To a cold reader, this is noise. To a practitioner with context, it is instantly resolvable to a precise location in an information architecture. The barcode, when the full logo is compressed to favicon dimensions, reproduces this property in a purely visual register---the data is there, fully present at source scale, fully decodable to anyone who cares to scan it; but at tab-bar glance, it performs as texture, as weight, as material presence.
+
+The design thus pays ironic but sincere homage to the maximalist impulse embedded in Johnny.Hyperdecimal: information so dense it becomes aesthetic.
+
+\subsection{The Upper Right Element: The Bookmark Tag Tail}
+
+The upper-right element of the original mark has been thinned substantially---its width reduced to a narrow, tapered sliver that angles upward and to the right. This transformation converts a geometric peer of the primary block into something closer to a reed, a pointer, or---most precisely---the pointed tail of a luggage tag.
+
+Read in combination with the barcode below it, the two rightmost elements of the DeciMark logo resolve into the visual language of an \textbf{airport luggage tag}: a scannable barcode strip attached to a narrow identifying tab. This is the semiotic core of the derivative design. DeciMark is, at its operational heart, a bookmark repository---a system for attaching durable, structured, retrievable identifiers to digital objects that would otherwise be ungoverned. The luggage-tag metaphor extends this naturally: as airports use barcoded tags to route physical items through complex multi-leg systems with zero ambiguity, DeciMark uses structured Johnny.Decimal identifiers to route URLs through a user's personal information architecture with the same deterministic precision.
+
+The upper sliver also functions as the physical tab of the tag itself---the part that is punched with a hole and threaded through a handle. In physical luggage tagging practice, this tab anchors the entire tag to the object it identifies. In the logo, it anchors the bookmark identity to the primary body of the mark, which represents the structured index system (the Johnny.Decimal block) to which the bookmark is attached.
+
+\subsection{Synthesis: Identity, Homage, and Maximalism}
+
+The complete DeciMark mark is therefore a five-element composition that functions simultaneously at two levels of reading:
+
+\begin{itemize}
+  \item \textbf{A quinpartite Johnny.Decimal index}---the full five-bar inheritance from the original mark, read left-to-right as the five syntactic atoms of a JD address: area decade, category ordinal, decimal separator, and the two digits of the item ID. Three of these bars are preserved without modification as direct homage to the parent system;
+  \item \textbf{A scannable barcode}---the lower-right element, transformed from its original geometry into a Code 128 symbology field carrying the application name, embodying the Johnny.Hyperdecimal philosophy of information-dense representation;
+  \item \textbf{A luggage tag}---the composite right-side assembly, abstracting the application's core function (attaching structured retrieval identifiers to digital objects, much as a baggage handler attaches routing tags to physical cargo) into a single geometric metaphor that is legible at document scale but collapses into pure texture at icon scale.
+\end{itemize}
+
+The choice to accept---even embrace---the favicon illegibility of the barcode is a deliberate design statement. Most icon design optimizes aggressively for recognizability at small sizes, reducing geometry to its most abstract silhouette. DeciMark's favicon does the opposite: it maintains full informational density at all scales, with the explicit acknowledgment that the icon is {\itshape not meant to be read at favicon scale}. It is meant to be recognized as a specific, highly individual texture---one that rewards the user who takes the time to zoom in and discovers that the noise resolves into a barcode, and that the barcode resolves into the application's name. This is the maximalist position, and it is consistent with the entire design philosophy of Johnny.Hyperdecimal: legibility is a function of context and attention, not of surface simplicity.
+
 \section{SVG Usage}
 
-Vector assets were prioritized over raster formats throughout the application to ensure consistent rendering across display densities, including high-DPI screens where raster assets at incorrect resolutions would appear blurry (Web Media lecture). The application logo and all navigational iconography are served as SVGs, which are resolution-independent by definition and require no separate asset variants for different pixel densities.
+Vector assets were prioritized over raster formats throughout the application to ensure consistent rendering across display densities, including high-DPI screens where raster assets at incorrect resolutions would appear blurry (as discussed in Web Media lecture). The application logo and all navigational iconography are served as SVGs, which are resolution-independent by definition and require no separate asset variants for different pixel densities.
 
 Rather than embedding SVG nodes directly into the HTML or importing them as \texttt{<img>} tags, the implementation uses the CSS \texttt{mask-image} technique. The implementation ensures broad support across modern standards-compliant browsers by using the mask properties alongside background-color for icon recoloring.
 
@@ -917,7 +951,6 @@ Rather than embedding SVG nodes directly into the HTML or importing them as \tex
 \end{minted}
 
 Icons are applied to an empty structural element (\texttt{<i>}) and colored using the element's \texttt{background-color}. This approach has two practical advantages: it decouples the vector geometry from the DOM, avoiding markup bloat, and it allows any icon's color to be changed by updating a single CSS variable. Theme switching between light and dark mode updates all icons simultaneously without any JavaScript or DOM manipulation.
-
 \section{Image Optimization Strategy}
 
 Raster imagery was deliberately excluded from the current MVP. The visual hierarchy of DeciMark relies entirely on CSS gradients, translucent backgrounds (\texttt{backdrop-filter}), and vector geometry. Removing raster assets eliminates the associated performance costs: image decoding overhead, potential layout shift during load, and additional network payload. This strategy directly targets the Core Web Vitals metrics that the Lighthouse audit tool measures---specifically Time to Interactive (TTI) and Largest Contentful Paint (LCP)---which is particularly relevant for the intended self-hosted deployment on constrained hardware.
@@ -1039,7 +1072,7 @@ The architectural superiority of DeciMark is not a product of coincidence, but t
 
 The foundational principle of the Cascade---dictating how inheritance, specificity, and location resolve conflicts---was heavily exploited to construct DeciMark's infallible theming engine. Rather than relying on fragile, unmaintainable inline styles or low-specificity generic element selectors, this project leverages a BEM-inspired contextual selector strategy nested within external stylesheets.
 
-By mathematically calculating specificity hierarchy (where IDs outrank classes, which outrank elements), we isolated critical component styles to prevent unintentional inheritance. The location principle was enforced by deliberately structuring the \texttt{<link>} tags in \texttt{base.j2.html}, ensuring that the highly specific component-level stylesheets always override the generic \texttt{responsive-base.css}. Furthermore, advanced pseudo-classes such as \texttt{:hover}, \texttt{:focus-visible}, and \texttt{:nth-child} were utilized extensively to handle interaction states natively within the CSS engine, bypassing unnecessary JavaScript DOM mutations entirely.
+By mathematically calculating specificity hierarchy (where IDs outrank classes, which outrank elements), the author isolated critical component styles to prevent unintentional inheritance. The location principle was enforced by deliberately structuring the \texttt{<link>} tags in \texttt{base.j2.html}, ensuring that the highly specific component-level stylesheets always override the generic \texttt{responsive-base.css}. Furthermore, advanced pseudo-classes such as \texttt{:hover}, \texttt{:focus-visible}, and \texttt{:nth-child} were utilized extensively to handle interaction states natively within the CSS engine, bypassing unnecessary JavaScript DOM mutations entirely.
 
 \section{The Box Model \& Responsive Dimensions}
 
@@ -1058,6 +1091,8 @@ The font stacks are meticulously ordered (ideal, alternative, generic). However,
 The dichotomy between Raster and Vector images was decisively resolved in favor of the latter. Raster formats (JPEG, PNG, GIF) suffer from interpolation artifacts when scaled and carry unnecessary pixel bloat. Consequently, all iconographic media in DeciMark is exclusively rendered using resolution-independent SVG (Scalable Vector Graphics). To achieve maximum theming flexibility, these vectors are not used as simple \texttt{<img>} tags; instead, they are rendered using the advanced CSS \texttt{mask-image} property. This allows the SVGs to act as alpha channels, taking on the exact \texttt{background-color} of the active CSS theme.
 
 Furthermore, traditional RGB and Hexadecimal color models were rejected as being functionally inferior for programmatic theming. DeciMark employs a unified \textbf{HSL (Hue, Saturation, Lightness)} color strategy across all CSS custom properties (variables). By decoupling the lightness channel, the HSL model mathematically enables the creation of a stunning, accessible glassmorphic dark mode without needing to painstakingly manually define separate color hexes. Adjusting a single \texttt{--lightness} variable systematically cascades perfectly readable contrast ratios across the entire user interface.
+
+\newpage
 
 \chapter{Generated Reports}
 
@@ -1454,16 +1489,14 @@ And some people, it turns out, will only pick up the tools after the person who 
 In the interest of academic integrity, the following discloses the use of artificial intelligence tools during the development of this project. The initial codebase, comprising approximately 35,000 to 40,000 lines of code, was authored by the author with foundational assistance from OpenAI Codex and Anthropic's Claude AI, alongside properly licensed third-party assets (such as Swagger UI CSS and open-source snippets from authors like uncomfyhalomacro). Subsequently, an advanced AI coding assistant was utilized as a pair-programming accelerator under the author's explicit instruction and supervision to scale the project to its current 45,000 lines of code. All architectural decisions, design choices, and implementation strategies were conceived, directed, and validated by the author. AI tools were used as assistive accelerators --- not as a substitute for understanding.
 
 \begin{itemize}
-  \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
-  \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
-
   \item \textbf{HTML Templates}: The Jinja2 template files under \texttt{src/templates/bookmarks} were initially scaffolded with assistance from OpenAI Codex, and subsequently reviewed, corrected, and heavily modified by the author to conform to the application's architecture.
   \item \textbf{Utility Scripts}: Several Python scripts in the \texttt{scripts/} directory were drafted with Anthropic's Claude AI as a starting point, with the author directing the logic, reviewing the output, and rewriting where necessary.
   \item \textbf{Backend \& Frontend Modifications}: Google DeepMind's Antigravity was used as an assistive pair-programming tool to accelerate implementation of specific features under the author's direction, including:
     \begin{itemize}
       \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
       \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
-
+      \item \textbf{Advanced Security Architecture}: Engineered a zero-trust backend by integrating Redis-backed rate limiting via \texttt{fastapi-limiter} on all authentication endpoints, and built a native, self-hosted visual CAPTCHA generation engine using Python to aggressively thwart automated brute-force attacks without relying on third-party tracking APIs.
+      \item \textbf{Dynamic Frontend Theming}: Authored a robust HSL color manipulation pipeline within \texttt{bookmarks.js} that reads custom hex values from the newly exposed \texttt{/api/tags} endpoint, calculates mathematically contrasting foreground/background ratios, and injects them directly into CSS Custom Properties for flawless custom Tag rendering.
       \item The \texttt{edit} bookmark endpoint and associated frontend logic in \texttt{src/api/bookmarks.py} and \texttt{bookmarks.js}.
       \item Authentication tightening and the \texttt{/login} auto-redirect endpoint.
       \item Hamburger menu styling and the SVG \texttt{mask-image} icon theming technique.
@@ -1472,12 +1505,18 @@ In the interest of academic integrity, the following discloses the use of artifi
       \item The \texttt{scripts/seed.py} bulk-insert pipeline rewrite.
       \item The glassmorphic landing page (\texttt{index.j2.html}).
       \item Client-side UTC-to-local timezone conversion and skeleton loading states.
+      \item \textbf{Dependency and Technical Debt Cleanup}: Accelerated with AI pair-programming under the author's direction, resolving FastAPI deprecation warnings by replacing \texttt{UJSONResponse} with \texttt{JSONResponse}, removing deprecated dependencies like \texttt{ujson} from \texttt{pyproject.toml}, and adding proper \texttt{CORSMiddleware} configuration using the \texttt{ORIGINS} environment variable to restrict domain access.
+      \item \textbf{Mobile Viewport Optimization}: Rectified a layout overflow issue on the landing page CSS specifically targeting 320px ultra-narrow screens by tuning CSS Grid \texttt{minmax} logic and \texttt{clamp()} typography variables.
       \item E2E test suite concurrency refactoring in \texttt{scripts/run\_visual\_tests.py}.
       \item Resolution of the \texttt{/bookmarks/jd} and \texttt{/bookmarks/tag} load button logic.
       \item Integration of the \texttt{favicon.svg} branding logo across all pages via the unified \texttt{base.j2.html} header and bookmark dashboard titles.
       \item Implementation of \texttt{@media (prefers-color-scheme: dark)} media queries in \texttt{favicon.svg} and \texttt{favicon-not-safe.svg} to support OS-level dark mode switching.
       \item Implementation and refinement of a dark mode gradient title page design in LaTeX using TikZ and PGF radial shadings for smoother, more granular visual transitions.
       \item Refactoring of \texttt{scripts/summarize\_css.py} to concatenate all CSS summary documentation into a single LaTeX index file, streamlining document compilation.
+      \item \textbf{Comprehensive UI Testing Expansion}: Expanded the visual testing automation suite in \texttt{scripts/run\_visual\_tests.py} to exhaustively cover all critical application views, including edge cases such as the 2FA login route, interactive tag editing pages, search views, and the Johnny.Decimal dimensional filters.
+      \item \textbf{Dev Environment Containerization}: Refactored the local \texttt{just dev} bootstrapping workflow to leverage Docker Compose for both PostgreSQL and Redis, eliminating manual binary dependencies and streamlining the developer experience.
+      \item \textbf{Visual Test Fix}: Fixed Playwright visual tests timing out by resolving frontend javascript issues where standard form submissions weren't intercepted by \texttt{fetch} on the 2FA page due to misplaced script blocks. Furthermore, refactored the backend \texttt{verify\_2fa} route to correctly parse OTP claims from the Pydantic \texttt{Claims} model, successfully resolving a silent \texttt{500 Internal Server Error} that was preventing the post-2FA redirect to the bookmarks dashboard.
+      \item \textbf{Test Suite Stability}: Verified the end-to-end Lighthouse and Visual Playwright pipeline executes flawlessly through all test cases within the automated \texttt{just gen-reports} procedure.
       \item Creation of \texttt{scripts/summarize\_python.py} to parse Python module docstrings via \texttt{pdoc3} and convert them to LaTeX using \texttt{pypandoc} for inclusion in the final document.
       \item Resolution of cryptographic payload formatting in the \texttt{jwt\_service.sign} method for standardized authentication.
       \item Rectification of PostgreSQL strict schema validation errors during the automated provisioning of Demo Mode accounts.
@@ -1486,6 +1525,8 @@ In the interest of academic integrity, the following discloses the use of artifi
       \item Development of \texttt{scripts/cleanup\_demos.py}, an external, cron-ready CLI utility designed to automatically sweep the database and aggressively purge any demo accounts that have remained inactive for over 60 minutes.
       \item Refactoring of the Pydantic settings schema to introduce deeply nested OAuth enablement flags (\texttt{settings.OAUTH.GOOGLE.ENABLE}), securely passing the global settings object into the Jinja2 template context (\texttt{TEMPLATES.env.globals}) to dynamically strip unconfigured OAuth provider buttons from the DOM and enforce hard 404 blocks on deactivated callback routes.
       \item Comprehensive refactoring of Jinja2 HTML templates (\texttt{login.j2.html}, \texttt{register.j2.html}, \texttt{2fa.j2.html}, \texttt{public\_docs.j2.html}, \texttt{base.j2.html}, \texttt{tag.j2.html}, \texttt{edit.j2.html}) to systematically eliminate all inline \texttt{style="..."} attributes and meticulously abstract them into semantic CSS utility classes across the standard stylesheet matrix (\texttt{forms.css}, \texttt{base.css}, \texttt{bookmarks.css}, \texttt{landing.css}).
+      \item \textbf{Containerized Deployment Architecture}: Resolution of Docker deployment failures by refactoring \texttt{pyproject.toml} dependency groups to include production-critical ASGI and migration tools, fixing \texttt{docker-compose.yml} to exclude development binaries, and generating valid cryptographic base64 secrets for the database encryption environment variable. Further refactored the deployment stack to decouple sensitive environment variables from \texttt{docker-compose.yml} into a dedicated \texttt{.env.docker} file, and documented deployment procedures.
+      \item Rectification of rigorous accessibility (a11y) linting errors flagged by Microsoft Edge DevTools by systematically injecting \texttt{aria-label} and \texttt{title} properties into form controls, strictly enforcing \texttt{rel="noopener noreferrer"} on all external links, and purging restrictive \texttt{user-scalable=no} viewport directives to ensure screen magnification compliance across the entire Jinja2 template matrix (including \texttt{base.j2.html}, \texttt{login.j2.html}, \texttt{register.j2.html}, \texttt{public\_docs.j2.html}, and \texttt{tag.j2.html}). Furthermore, integrated Microsoft's \texttt{webhint} engine directly into the CLI pipeline via \texttt{justfile} for continuous a11y regression testing.
     \end{itemize}
   \item \textbf{Backend Docstrings}: Google-style docstrings across the backend Python modules were authored with AI assistance to meet documentation standards.
   \item \textbf{Frontend Modals \& Splash UI}: Developed robust Playwright E2E tests for modal interactions with automated screenshotting. Engineered dynamic Jinja2 injection of randomized splash quotes on authentication views via Python route extensions.
@@ -1499,6 +1540,7 @@ In the interest of academic integrity, the following discloses the use of artifi
 
       \item The HSL Color Strategy section, the navigation flow TikZ diagram, the Lighthouse Audit appendix, and the Theoretical Foundations chapter.
       \item The Abstract, Acknowledgements, and the restructuring of the Dedication into three typographically distinct pages.
+      \item The \textbf{Brand Identity \& Logo Design} section of the Media \& Asset Management chapter, drafted with AI assistance under the author's direction, documenting the derivative relationship between the DeciMark logotype and the official Johnny.Decimal mark, the semiotic rationale for the Code 128 barcode and luggage-tag transformation, and the connection to the author's Johnny.Hyperdecimal philosophy.
     \end{itemize}
 \end{itemize}
 

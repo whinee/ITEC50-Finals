@@ -66,7 +66,7 @@
 
 /* TYPOGRAPHY AND CONTENT: START */
 .landing-title {
-    font-size: clamp(3rem, 8vw, 6rem);
+    font-size: clamp(2.5rem, 10vw, 6rem);
     font-weight: 800;
     margin-bottom: 1rem;
     background: linear-gradient(135deg, var(--text-1) 0%, var(--fg-1) 100%);
@@ -162,7 +162,7 @@
 /* FEATURES: START */
 .landing-features {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
     gap: 2rem;
     max-width: 1200px;
     margin: 4rem auto;
@@ -265,6 +265,9 @@
     }
     .feature-card {
         padding: 1.5rem;
+    }
+    .landing-features {
+        padding: 0 1rem;
     }
 }
 

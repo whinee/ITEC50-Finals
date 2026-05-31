@@ -42,4 +42,42 @@
             </div>
         </main>
     </div>
+    <script>
+        document.getElementById("login-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+
+            const res = await fetch("/auth/verify-2fa", {
+                method: "POST",
+                body: new URLSearchParams(formData),
+            });
+
+            let data = {};
+            if (res.status === 422) {
+                toast({
+                    title: "Error",
+                    message: "Something went wrong.",
+                    type: "error",
+                });
+            } else {
+                console.log(res);
+                data = await res.json();
+                toast({
+                    title: data.error ? "Error" : "Success",
+                    message: data.message,
+                    type: data.error ? "error" : "success",
+                });
+            }
+
+            if (res.ok) {
+                if (data.redirect) {
+                    setTimeout(() => window.location.href = data.redirect, 1000);
+                } else if (res.headers.get("hx-redirect")) {
+                    setTimeout(() => window.location.href = res.headers.get("hx-redirect"), 1000);
+                } else {
+                    setTimeout(() => window.location.href = "/bookmarks", 1000);
+                }
+            }
+        });
+    </script>
 {% endblock body %}
