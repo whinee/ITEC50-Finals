@@ -1,0 +1,36 @@
+flowchart TD
+    Client["Browser / Client"]
+
+    subgraph Netbird["Netbird Beta"]
+        ReverseProxy["Reverse Proxy & Routing"]
+    end
+
+    subgraph Docker["Docker Compose"]
+        Hypercorn["Hypercorn (ASGI)"]
+        FastAPI["FastAPI App"]
+        
+        subgraph BackendCore["Backend Core"]
+            Auth["Auth & Security Middleware"]
+            Routes["API & View Routes"]
+            Jinja["Jinja2 SSR"]
+        end
+        
+        subgraph DataLayer["Data Layer"]
+            SQLA["SQLAlchemy Async / SQLModel"]
+            PG[("PostgreSQL")]
+            Redis[("Redis (Limiter & State)")]
+        end
+    end
+
+    Client -- HTTPS --> ReverseProxy
+    ReverseProxy -- Proxy Pass --> Hypercorn
+    Hypercorn --> FastAPI
+    
+    FastAPI --> Auth
+    FastAPI --> Routes
+    Routes --> Jinja
+    Jinja -- Renders HTML --> Client
+    
+    Routes --> SQLA
+    SQLA --> PG
+    Auth --> Redis

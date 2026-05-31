@@ -242,7 +242,7 @@ async def run_tests():  # noqa: C901
     os.environ["REDIS_URL"] = (
         f"redis://localhost:{os.environ.get('EXTERNAL_REDIS_PORT', '6379')}/0"
     )
-
+    os.environ["TEST__SMTP"] = "true"
     # Using 4 workers to ensure Hypercorn doesn't choke under Playwright concurrency
     server_process = subprocess.Popen(  # noqa: S603
         [

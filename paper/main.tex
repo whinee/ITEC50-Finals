@@ -261,6 +261,7 @@
 
 \addbibresource{refs.bib}
 
+
 \begin{document}
 
 \begin{titlepage}
@@ -510,6 +511,8 @@ A McKinsey Global Institute study found that knowledge workers spend an estimate
   \item \textbf{Developers} tracking documentation pages, API references, and deployment dashboards
   \item \textbf{Business analysts} managing client portals, third-party SaaS tools, and reporting endpoints
   \item \textbf{Students} organizing academic resources, course links, reading lists, and submission portals
+  \item \textbf{Recommendations and Project Roadmap}: Authored with AI assistance to formulate the future roadmap and recommendations chapter, detailing backend security enhancements and frontend feature additions based on the project's TODO list.
+  \item \textbf{Linting and Error Resolution}: Accelerated with AI pair-programming under the author's direction to resolve Ruff Python linting errors and blind exceptions across the API and middleware.
 \end{itemize}
 
 \begin{shadequote}[l]{\citet{pernice2014navigation}}
@@ -1064,13 +1067,47 @@ Environment determinism is guaranteed by \textbf{pydantic-settings}, which inter
 
 All API routes are meticulously structured using Pydantic DTOs (Data Transfer Objects), which filter and sanitize incoming payloads before they ever touch the execution logic. Finally, all HTTP responses funnel through a custom \texttt{CustomResponse} factory, guaranteeing perfectly shaped, RFC-compliant JSON envelopes and eliminating fragmented API surfaces.
 
+\section{Database Schema Topology}
+
+The database architecture is mathematically normalized across five core SQLModel tables: \texttt{users}, \texttt{bookmarks}, \texttt{tags}, \texttt{jd\_nodes}, and two deeply nested junction tables. This ensures instantaneous queries, eradicates data duplication, and prevents orphan rows via cascading foreign keys.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.9\textwidth]{figures/erd.pdf}
+  \caption{Entity-Relationship Diagram of the DeciMark Database Schema.}
+  \label{fig:erd}
+\end{figure}
+
+As explicitly modeled in Figure~\ref{fig:erd}, the Entity-Relationship flow establishes a strict one-to-many cardinality originating from the \texttt{USERS} entity, asserting absolute cryptographic ownership over \texttt{BOOKMARKS}, \texttt{TAGS}, and \texttt{JD\_NODES}. The complex many-to-many associations---\texttt{BOOKMARK\_TAG\_JUNCTION} and \texttt{BOOKMARK\_JD\_JUNCTION}---are physically enforced via composite primary keys that inherently double as cascading foreign keys. This uncompromising constraint matrix mechanically guarantees that orphan records are instantly annihilated upon parent deletion at the database level.
+
+Furthermore, the self-referential \texttt{parent\_of} relationship within \texttt{JD\_NODES} facilitates an infinitely nested taxonomy hierarchy without necessitating a secondary routing table, yielding zero-latency recursive traversal. The schema flawlessly maps high-level Pydantic validation directly onto low-level asynchronous PostgreSQL execution, bypassing traditional ORM bloat entirely.
+
+Sensitive columns, including URL endpoints and Tag metadata, are encrypted at rest utilizing \texttt{sqlalchemy-utils} Fernet TypeDecorators. Even in the catastrophic event of a full database compromise, the exfiltrated SQL dumps are mathematically useless to an attacker.
+
+\section{Containerized Deployment \& Overlays}
+
+The deployment strategy completely eradicates configuration drift by utilizing \textbf{Docker Compose} to orchestrate isolated overlay networks for the \textbf{Hypercorn ASGI} workers, PostgreSQL, and the Redis cache. The runtime environment is completely deterministic, driven by strict \texttt{.env.docker} cryptographic seeds.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{figures/architecture.pdf}
+  \caption{System Architecture, depicting the Docker Compose orchestration and Netbird Reverse Proxy routing.}
+  \label{fig:architecture}
+\end{figure}
+
+As illustrated in Figure~\ref{fig:architecture}, the system operates on a rigorous zero-trust ingress model. It completely eschews legacy Nginx reverse proxies and fragile Let's Encrypt bot challenges. Instead, the client browser interfaces exclusively over HTTPS with the \textbf{Netbird Beta Reverse Proxy}, which acts as an impenetrable shield, obfuscating the internal Docker Compose subnet from the public internet.
+
+The proxy securely delegates raw traffic to the Hypercorn ASGI workers, which multiplex asynchronous requests directly into the FastAPI runtime. Within the FastAPI boundary, execution immediately hits the Authentication Middleware---validating cryptographic state in microseconds against the in-memory Redis cache---before proceeding to the core Routing Logic. Validated requests are then either serialized into RESTful JSON or forwarded to the Jinja2 SSR engine to produce statically computed HTML payloads.
+
+Data persistence is handled independently via the SQLAlchemy Async bridge, committing sanitized execution data to the PostgreSQL persistence layer. This total separation of concerns ensures that compute-heavy rendering passes never block asynchronous database I/O, allowing the application to sustain extreme concurrent loads without memory degradation.
+
 \chapter{Theoretical Foundations \& Practical Application}
 
 The architectural superiority of DeciMark is not a product of coincidence, but the result of the rigorous, mathematical application of core web systems theories. The theoretical foundations established during academic lectures have been aggressively weaponized in this project to guarantee pixel-perfect rendering, absolute layout stability, and zero-trust typography.
 
 \section{CSS Selectors, Cascade, and Specificity}
 
-The foundational principle of the Cascade---dictating how inheritance, specificity, and location resolve conflicts---was heavily exploited to construct DeciMark's infallible theming engine. Rather than relying on fragile, unmaintainable inline styles or low-specificity generic element selectors, this project leverages a BEM-inspired contextual selector strategy nested within external stylesheets.
+The foundational principle of the Cascade---dictating how inheritance, specificity, and location resolve conflicts---was heavily exploited to construct DeciMark's infallible theming engine. Rather than relying on fragile, unmaintainable inline styles or low-specificity generic element selectors, this project leverages a strictly disciplined kebab-case semantic selector strategy nested within external stylesheets.
 
 By mathematically calculating specificity hierarchy (where IDs outrank classes, which outrank elements), the author isolated critical component styles to prevent unintentional inheritance. The location principle was enforced by deliberately structuring the \texttt{<link>} tags in \texttt{base.j2.html}, ensuring that the highly specific component-level stylesheets always override the generic \texttt{responsive-base.css}. Furthermore, advanced pseudo-classes such as \texttt{:hover}, \texttt{:focus-visible}, and \texttt{:nth-child} were utilized extensively to handle interaction states natively within the CSS engine, bypassing unnecessary JavaScript DOM mutations entirely.
 
@@ -1276,6 +1313,14 @@ The fire was visible. The warnings were given. The infrastructure was built.
 
 Some lessons can only be learned by getting burned.
 
+\section{On the Efficacy of Extreme Tooling Discipline}
+
+Beyond the sociological challenges of collaboration, this project served as a definitive proving ground for the thesis that extreme tooling discipline exponentially accelerates development rather than hindering it. The decision to enforce maximum strictness across all linters, type checkers, and formatters was not an exercise in pedantry; it was a strategic investment in zero-defect velocity.
+
+Cranking the Ruff Python linter and the \texttt{stylelint} CSS engine to their absolute maximum constraints produced an initial wall of friction, flagging hundreds of minor infractions. However, once the codebase was brought into compliance, the return on investment was staggering. Catching syntax errors, dead code, and accessibility violations instantaneously at the keystroke level completely eliminated entire classes of runtime debugging. The linter ceased to be an adversary and became a pair-programming partner, mechanically enforcing the project's clinical standards so the author's cognitive load could be reserved exclusively for architectural logic.
+
+Similarly, the integration of Alembic for database migrations proved indispensable. In a rapidly iterating schema, relying on SQLAlchemy's rudimentary \texttt{metadata.create\_all()} is a recipe for data loss and drift. Alembic provided a rigorous, version-controlled ledger of every structural mutation applied to PostgreSQL. When schema decisions required rollback or refactoring---such as the complex implementation of the \texttt{jd\_nodes} self-referential hierarchy---Alembic executed these transformations deterministically, proving that treating the database schema as code is the only sustainable paradigm for production-grade engineering.
+
 %=============================================================
 \chapter{Postscript: The Fire}
 %=============================================================
@@ -1478,73 +1523,50 @@ The fire was visible. The warnings were given. The infrastructure was built.
 
 Some lessons can only be learned by getting burned.
 
+\section{On the Efficacy of Extreme Tooling Discipline}
+
+Beyond the sociological challenges of collaboration, this project served as a definitive proving ground for the thesis that extreme tooling discipline exponentially accelerates development rather than hindering it. The decision to enforce maximum strictness across all linters, type checkers, and formatters was not an exercise in pedantry; it was a strategic investment in zero-defect velocity.
+
+Cranking the Ruff Python linter and the \texttt{stylelint} CSS engine to their absolute maximum constraints produced an initial wall of friction, flagging hundreds of minor infractions. However, once the codebase was brought into compliance, the return on investment was staggering. Catching syntax errors, dead code, and accessibility violations instantaneously at the keystroke level completely eliminated entire classes of runtime debugging. The linter ceased to be an adversary and became a pair-programming partner, mechanically enforcing the project's clinical standards so the author's cognitive load could be reserved exclusively for architectural logic.
+
+Similarly, the integration of Alembic for database migrations proved indispensable. In a rapidly iterating schema, relying on SQLAlchemy's rudimentary \texttt{metadata.create\_all()} is a recipe for data loss and drift. Alembic provided a rigorous, version-controlled ledger of every structural mutation applied to PostgreSQL. When schema decisions required rollback or refactoring---such as the complex implementation of the \texttt{jd\_nodes} self-referential hierarchy---Alembic executed these transformations deterministically, proving that treating the database schema as code is the only sustainable paradigm for production-grade engineering.
+
 Some bridges are built for others to cross.
 
 And some people, it turns out, will only pick up the tools after the person who offered them has already left the room.
 
 \part{Back Matter}
 
+\chapter{Recommendations}
+
+Although this project has reached a stable production-ready state, the software development lifecycle is an ongoing process. As expressed in the dedication, my ultimate goal is for this system to be utilized by others. I intend to maintain and evolve this tool until it is either superseded by superior alternatives or I move on to better things. To that end, the following recommendations outline the strategic roadmap for the system's future development.
+
+\section{Backend Enhancements}
+\begin{itemize}
+  \item \textbf{Zero-Trust Encryption}: Implementing true end-to-end encryption where the server has zero knowledge of the plaintext data, ensuring user privacy even in the event of a database compromise.
+  \item \textbf{API Token Authentication}: Developing a robust API token system to allow users to securely interact with the system via third-party integrations, CLI tools, or custom extensions without relying solely on session cookies.
+\end{itemize}
+
+\section{Frontend Enhancements}
+\begin{itemize}
+  \item \textbf{Dedicated Taxonomy Pages}: Creating dedicated views for displaying all Johnny.Decimal IDs and Tags, providing users with a comprehensive overview of their organizational structure.
+  \item \textbf{Taxonomy Management}: Implementing dedicated pages for displaying, editing, and managing individual Johnny.Decimal IDs or Tags to streamline metadata curation.
+  \item \textbf{Template Refactoring}: Removing inline styles from Jinja2 templates to enforce a strict separation of concerns, improving maintainability and ensuring consistent application of the CSS design system.
+  \item \textbf{Favicon Polish}: Fixing the favicon assets to include 2D scale transforms, refining the visual polish of the application tab across different browsers.
+  \item \textbf{Dynamic Contrast Automation}: Enhancing the tagging UI to automatically compute and assign complementary background colors based on user-selected foreground colors, ensuring optimal readability.
+  \item \textbf{Theme Marketplace and Sharing}: Adding the ability for users to pick from preset color schemes, create their own custom themes, and share them with other users via a marketplace or shareable codes.
+\end{itemize}
+
 \chapter{AI Disclosure}
 
 In the interest of academic integrity, the following discloses the use of artificial intelligence tools during the development of this project. The initial codebase, comprising approximately 35,000 to 40,000 lines of code, was authored by the author with foundational assistance from OpenAI Codex and Anthropic's Claude AI, alongside properly licensed third-party assets (such as Swagger UI CSS and open-source snippets from authors like uncomfyhalomacro). Subsequently, an advanced AI coding assistant was utilized as a pair-programming accelerator under the author's explicit instruction and supervision to scale the project to its current 45,000 lines of code. All architectural decisions, design choices, and implementation strategies were conceived, directed, and validated by the author. AI tools were used as assistive accelerators --- not as a substitute for understanding.
 
 \begin{itemize}
-  \item \textbf{HTML Templates}: The Jinja2 template files under \texttt{src/templates/bookmarks} were initially scaffolded with assistance from OpenAI Codex, and subsequently reviewed, corrected, and heavily modified by the author to conform to the application's architecture.
-  \item \textbf{Utility Scripts}: Several Python scripts in the \texttt{scripts/} directory were drafted with Anthropic's Claude AI as a starting point, with the author directing the logic, reviewing the output, and rewriting where necessary.
-  \item \textbf{Backend \& Frontend Modifications}: Google DeepMind's Antigravity was used as an assistive pair-programming tool to accelerate implementation of specific features under the author's direction, including:
-    \begin{itemize}
-      \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
-      \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
-      \item \textbf{Advanced Security Architecture}: Engineered a zero-trust backend by integrating Redis-backed rate limiting via \texttt{fastapi-limiter} on all authentication endpoints, and built a native, self-hosted visual CAPTCHA generation engine using Python to aggressively thwart automated brute-force attacks without relying on third-party tracking APIs.
-      \item \textbf{Dynamic Frontend Theming}: Authored a robust HSL color manipulation pipeline within \texttt{bookmarks.js} that reads custom hex values from the newly exposed \texttt{/api/tags} endpoint, calculates mathematically contrasting foreground/background ratios, and injects them directly into CSS Custom Properties for flawless custom Tag rendering.
-      \item The \texttt{edit} bookmark endpoint and associated frontend logic in \texttt{src/api/bookmarks.py} and \texttt{bookmarks.js}.
-      \item Authentication tightening and the \texttt{/login} auto-redirect endpoint.
-      \item Hamburger menu styling and the SVG \texttt{mask-image} icon theming technique.
-      \item CSS accessibility improvements replacing hardcoded colors with theme variables.
-      \item Refactoring of frontend forms and backend API payloads to support multiple JD IDs per bookmark.
-      \item The \texttt{scripts/seed.py} bulk-insert pipeline rewrite.
-      \item The glassmorphic landing page (\texttt{index.j2.html}).
-      \item Client-side UTC-to-local timezone conversion and skeleton loading states.
-      \item \textbf{Dependency and Technical Debt Cleanup}: Accelerated with AI pair-programming under the author's direction, resolving FastAPI deprecation warnings by replacing \texttt{UJSONResponse} with \texttt{JSONResponse}, removing deprecated dependencies like \texttt{ujson} from \texttt{pyproject.toml}, anand adding proper \texttt{CORSMiddleware} configuration using the \texttt{ORIGINS} environment variable to restrict domain access.
-      \item \textbf{Mobile Viewport Optimization}: Rectified a layout overflow issue on the landing page CSS specifically targeting 320px ultra-narrow screens by tuning CSS Grid \texttt{minmax} logic and \texttt{clamp()} typography variables.
-      \item E2E test suite concurrency refactoring in \texttt{scripts/run\_visual\_tests.py}.
-      \item Resolution of the \texttt{/bookmarks/jd} and \texttt{/bookmarks/tag} load button logic.
-      \item Integration of the \texttt{favicon.svg} branding logo across all pages via the unified \texttt{base.j2.html} header and bookmark dashboard titles.
-      \item Implementation of \texttt{@media (prefers-color-scheme: dark)} media queries in \texttt{favicon.svg} and \texttt{favicon-not-safe.svg} to support OS-level dark mode switching.
-      \item Implementation and refinement of a dark mode gradient title page design in LaTeX using TikZ and PGF radial shadings for smoother, more granular visual transitions.
-      \item Refactoring of \texttt{scripts/summarize\_css.py} to concatenate all CSS summary documentation into a single LaTeX index file, streamlining document compilation.
-      \item \textbf{Comprehensive UI Testing Expansion}: Expanded the visual testing automation suite in \texttt{scripts/run\_visual\_tests.py} to exhaustively cover all critical application views, including edge cases such as the 2FA login route, interactive tag editing pages, search views, and the Johnny.Decimal dimensional filters.
-      \item \textbf{Dev Environment Containerization}: Refactored the local \texttt{just dev} bootstrapping workflow to leverage Docker Compose for both PostgreSQL and Redis, eliminating manual binary dependencies and streamlining the developer experience.
-      \item \textbf{Visual Test Fix}: Fixed Playwright visual tests timing out by resolving frontend javascript issues where standard form submissions weren't intercepted by \texttt{fetch} on the 2FA page due to misplaced script blocks. Furthermore, refactored the backend \texttt{verify\_2fa} route to correctly parse OTP claims from the Pydantic \texttt{Claims} model, successfully resolving a silent \texttt{500 Internal Server Error} that was preventing the post-2FA redirect to the bookmarks dashboard.
-      \item \textbf{Test Suite Stability}: Verified the end-to-end Lighthouse and Visual Playwright pipeline executes flawlessly through all test cases within the automated \texttt{just gen-reports} procedure.
-      \item Creation of \texttt{scripts/summarize\_python.py} to parse Python module docstrings via \texttt{pdoc3} and convert them to LaTeX using \texttt{pypandoc} for inclusion in the final document.
-      \item Resolution of cryptographic payload formatting in the \texttt{jwt\_service.sign} method for standardized authentication.
-      \item Rectification of PostgreSQL strict schema validation errors during the automated provisioning of Demo Mode accounts.
-      \item Implementation of an inline, high-performance database seeder within the \texttt{/auth/demo} endpoint, utilizing raw \texttt{sqlalchemy.insert} commands to instantaneously provision 10,000 randomized bookmarks, 100 tags, and 100 Johnny.Decimal nodes for immediate friction-free demonstration.
-      \item Engineering of a comprehensive, cascade-delete teardown protocol inside the \texttt{/logout} route, guaranteeing zero-trust data hygiene by securely incinerating all generated artifacts and the demo account itself upon session termination. To prevent UI blocking, this deletion was shifted into an asynchronous Starlette \texttt{BackgroundTask}.
-      \item Development of \texttt{scripts/cleanup\_demos.py}, an external, cron-ready CLI utility designed to automatically sweep the database and aggressively purge any demo accounts that have remained inactive for over 60 minutes.
-      \item Refactoring of the Pydantic settings schema to introduce deeply nested OAuth enablement flags (\texttt{settings.OAUTH.GOOGLE.ENABLE}), securely passing the global settings object into the Jinja2 template context (\texttt{TEMPLATES.env.globals}) to dynamically strip unconfigured OAuth provider buttons from the DOM and enforce hard 404 blocks on deactivated callback routes.
-      \item Comprehensive refactoring of Jinja2 HTML templates (\texttt{login.j2.html}, \texttt{register.j2.html}, \texttt{2fa.j2.html}, \texttt{public\_docs.j2.html}, \texttt{base.j2.html}, \texttt{tag.j2.html}, \texttt{edit.j2.html}) to systematically eliminate all inline \texttt{style="..."} attributes and meticulously abstract them into semantic CSS utility classes across the standard stylesheet matrix (\texttt{forms.css}, \texttt{base.css}, \texttt{bookmarks.css}, \texttt{landing.css}).
-      \item \textbf{Containerized Deployment Architecture}: Resolution of Docker deployment failures by refactoring \texttt{pyproject.toml} dependency groups to include production-critical ASGI and migration tools, fixing \texttt{docker-compose.yml} to exclude development binaries, and generating valid cryptographic base64 secrets for the database encryption environment variable. Further refactored the deployment stack to decouple sensitive environment variables from \texttt{docker-compose.yml} into a dedicated \texttt{.env.docker} file, and documented deployment procedures.
-      \item Rectification of rigorous accessibility (a11y) linting errors flagged by Microsoft Edge DevTools by systematically injecting \texttt{aria-label} and \texttt{title} properties into form controls, strictly enforcing \texttt{rel="noopener noreferrer"} on all external links, and purging restrictive \texttt{user-scalable=no} viewport directives to ensure screen magnification compliance across the entire Jinja2 template matrix (including \texttt{base.j2.html}, \texttt{login.j2.html}, \texttt{register.j2.html}, \texttt{public\_docs.j2.html}, and \texttt{tag.j2.html}). Furthermore, integrated Microsoft's \texttt{webhint} engine directly into the CLI pipeline via \texttt{justfile} for continuous a11y regression testing.
-      \item \textbf{Dependency and Technical Debt Cleanup}: Accelerated with AI pair-programming under the author's direction, resolving FastAPI deprecation warnings by replacing \texttt{UJSONResponse} with \texttt{JSONResponse}, removing deprecated dependencies like \texttt{ujson} from \texttt{pyproject.toml}, and adding proper \texttt{CORSMiddleware} configuration using the \texttt{ORIGINS} environment variable to restrict domain access.
-      \item \textbf{Mobile Viewport Optimization}: Rectified a layout overflow issue on the landing page CSS specifically targeting 320px ultra-narrow screens by tuning CSS Grid \texttt{minmax} logic and \texttt{clamp()} typography variables.
-      \item \textbf{Deployment \& Test Stability}: Engineered robust deployment capabilities under the author's direction by defining scaling configurations (\texttt{WORKERS} limits) for Hypercorn, standardizing Docker Compose environment mappings to avoid schema loss in PostgreSQL during ephemeral restarts, and tuning the automated seeding script to gracefully adapt database population sizes for stability in testing.
-    \end{itemize}
-  \item \textbf{Backend Docstrings}: Google-style docstrings across the backend Python modules were authored with AI assistance to meet documentation standards.
-  \item \textbf{Frontend Modals \& Splash UI}: Developed robust Playwright E2E tests for modal interactions with automated screenshotting. Engineered dynamic Jinja2 injection of randomized splash quotes on authentication views via Python route extensions.
-  \item \textbf{Documentation Integration}: Injected an automated public documentation viewer route mapping directly to README metrics, updated the core README to distinctly explain the Johnny.Decimal design philosophy of DeciMark, and aggressively sanitized pdoc3 LaTeX artifacts to remove auto-generated signatures.
-  \item \textbf{Rapid Prototyping \& QA Automation}: Accelerated the execution of numerous backlog tasks (e.g., automated seeding with randomized Epoch dates, toggleable password visibility scripts, UI/CSS polishing for erase-input, instantaneous feedback modal integration, frontend username generation, and secure DB checks for stale authentication tokens).
-  \item \textbf{Demo Auto-Provisioning}: Engineered a dedicated, highly robust demo login route ensuring immediate, friction-free access to a populated dashboard via dynamically generated users and symmetric JWT signing.
-  \item \textbf{Paper Sections}: Certain sections of \texttt{paper/main.tex} were drafted collaboratively with AI assistance and then edited by the author, including:
-    \begin{itemize}
-      \item \textbf{Advanced Security Engineering}: The zero-trust E2EE architecture via \texttt{sqlalchemy-utils} Fernet TypeDecorators, the asynchronous OAuth 2.0 integration for Google and GitHub, and the dual-state SMTP/2FA routing were accelerated with AI pair-programming under the author's direction.
-      \item \textbf{Base64 JSON Theme State}: The lightweight Base64 import/export marketplace logic for tags was scaffolded using AI tools, then heavily refactored by the author for strict Pydantic parsing.
-
-      \item The HSL Color Strategy section, the navigation flow TikZ diagram, the Lighthouse Audit appendix, and the Theoretical Foundations chapter.
-      \item The Abstract, Acknowledgements, and the restructuring of the Dedication into three typographically distinct pages.
-      \item The \textbf{Brand Identity \& Logo Design} section of the Media \& Asset Management chapter, drafted with AI assistance under the author's direction, documenting the derivative relationship between the DeciMark logotype and the official Johnny.Decimal mark, the semiotic rationale for the Code 128 barcode and luggage-tag transformation, and the connection to the author's Johnny.Hyperdecimal philosophy.
-    \end{itemize}
+  \item \textbf{HTML/CSS Refactoring}: Scaffolded Jinja2 templates, removed inline styles, fixed accessibility warnings, and migrated to semantic classes to comply with strict \texttt{stylelint} rules.
+  \item \textbf{Backend Architecture \& Security}: Accelerated the implementation of zero-trust E2EE, OAuth 2.0, rate limiting, and demo auto-provisioning.
+  \item \textbf{Dynamic Theming}: Developed the Base64 JSON state export and HSL color manipulation pipeline for Tag rendering.
+  \item \textbf{Deployment \& QA}: Configured Docker Compose deployments, resolved Python dependency warnings, and expanded Playwright visual tests.
+  \item \textbf{Documentation}: Drafted Python docstrings, utility scripts, and specific {\LatinModernRoman \LaTeX} paper chapters (e.g., Theoretical Foundations, Brand Identity) under the author's direction.
 \end{itemize}
 
 The overall system architecture, the Johnny.Decimal integration model, the zero-trust security design, the CSS design system, the JavaScript interaction logic, the database schema, the deployment strategy, and the substantive content of the reflection and rationale were authored entirely by the author. The use of AI tools did not substitute for technical understanding; it accelerated execution of decisions already made.

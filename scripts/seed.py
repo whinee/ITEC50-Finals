@@ -85,12 +85,8 @@ def generate_jd_code() -> str:
         str: The correctly synthesized JD area string.
 
     """
-    part1 = "".join(
-        str(random.randint(0, 9)) for _ in range(random.randint(2, 5))  # noqa: S311
-    )
-    part2 = "".join(
-        str(random.randint(0, 9)) for _ in range(random.randint(2, 5))  # noqa: S311
-    )
+    part1 = f"{random.randint(10, 99):02d}"  # noqa: S311
+    part2 = f"{random.randint(10, 99):02d}"  # noqa: S311
     code = f"{part1}.{part2}"
     if random.random() > 0.5:  # noqa: S311
         # Pre-generated list of words for speed
@@ -209,8 +205,8 @@ async def process_user(  # noqa: C901
             {
                 "id": t_id,
                 "user_id": user_id,
-                "title": f"tag_{t_id}_{random.randint(1,1000)}",
-                "color": f"#{random.randint(0, 0xFFFFFF):06x}",
+                "title": f"tag_{t_id}_{random.randint(1,1000)}",  # noqa: S311
+                "color": f"#{random.randint(0, 0xFFFFFF):06x}",  # noqa: S311
                 "note": "Bulk generated tag",
                 "created_at": t_created,
                 "updated_at": t_created,
@@ -265,8 +261,8 @@ async def process_user(  # noqa: C901
             {
                 "id": b_id,
                 "user_id": user_id,
-                "title": random.choice(titles) + f" {b_idx}",
-                "url": random.choice(urls),
+                "title": random.choice(titles) + f" {b_idx}",  # noqa: S311
+                "url": random.choice(urls),  # noqa: S311
                 "note": None,
                 "created_at": b_created,
                 "updated_at": b_updated,
@@ -345,7 +341,7 @@ async def main() -> None:
                 "username": f"user_{n}_{secrets.token_hex(4)}",
                 "email": f"user_{n}_{secrets.token_hex(4)}@example.com",
                 "password": "password123!",
-                "role": random.choice(["admin", "normal"]),
+                "role": random.choice(["admin", "normal"]),  # noqa: S311
             },
         )
 

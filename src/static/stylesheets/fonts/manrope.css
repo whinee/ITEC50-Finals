@@ -1,3 +1,4 @@
+/* stylelint-disable at-rule-descriptor-value-no-unknown */
 @font-face {
     font-family: Manrope;
     src: url("/static/assets/fonts/Manrope-Variable.woff2") format("woff2");

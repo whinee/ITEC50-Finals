@@ -18,6 +18,20 @@
 - [x] Document all environment variables from `.env.example` in `docs/README.md`
 - [ ] Proofread docs for tone and contradictions
 
+## Backend
+
+- [ ] Add zero-trust encryption
+- [ ] Add API token authentication
+
+## Frontend
+
+- [ ] Add dedicated page for displaying all JD IDs and Tags
+- [ ] Add dedicated page for displaying and editing a JD ID or a Tag
+- [ ] Remove inline styles from Jinja2 templates
+- [ ] [NO-AI] Fix goofy favicons to have 2D scale transforms
+- [ ] Add background color per foreground color
+- [ ] Add the ability for users to pick from preset color schemes or make their own and be able to share it with other users, either thru a marketplace, or thru sharing a code
+
 ## Deployment
 
 - [ ] Confirm production environment variables are documented

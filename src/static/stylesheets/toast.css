@@ -1,10 +1,13 @@
+/* stylelint-disable no-duplicate-selectors, no-descending-specificity */
+
 /* IMPORTS: START */
 @import url("/static/stylesheets/downloaded/fontawesome.css");
+
 /* IMPORTS: END */
 
 /* TOAST CONTAINER: START */
 
-#toast {
+.toast {
     position: fixed;
     top: 32px;
     right: 32px;
@@ -25,7 +28,7 @@
     overflow-wrap: break-word;
 }
 
-@keyframes slideInLeft {
+@keyframes slide-in-left {
     from {
         opacity: 0;
         transform: translateX(calc(100% + 32px));
@@ -37,7 +40,7 @@
     }
 }
 
-@keyframes fadeOut {
+@keyframes fade-out {
     to {
         opacity: 0;
     }
@@ -47,35 +50,35 @@
 
 /* TOAST VARIANTS: START */
 
-.toast--success {
+.toast-success {
     border-color: #47d864;
 }
 
-.toast--success .toast__icon {
+.toast-success .toast-icon {
     color: #47d864;
 }
 
-.toast--info {
+.toast-info {
     border-color: #2f86eb;
 }
 
-.toast--info .toast__icon {
+.toast-info .toast-icon {
     color: #2f86eb;
 }
 
-.toast--warning {
+.toast-warning {
     border-color: #ffc021;
 }
 
-.toast--warning .toast__icon {
+.toast-warning .toast-icon {
     color: #ffc021;
 }
 
-.toast--error {
+.toast-error {
     border-color: #ff623d;
 }
 
-.toast--error .toast__icon {
+.toast-error .toast-icon {
     color: #ff623d;
 }
 
@@ -87,33 +90,33 @@
 
 /* TOAST CONTENT: START */
 
-.toast__icon {
+.toast-icon {
     font-size: 24px;
 }
 
-.toast__icon,
-.toast__close {
+.toast-icon,
+.toast-close {
     padding: 0 16px;
 }
 
-.toast__body {
+.toast-body {
     flex-grow: 1;
 }
 
-.toast__title {
+.toast-title {
     font-size: 16px;
     font-weight: 600;
     color: var(--fg-2);
 }
 
-.toast__msg {
+.toast-msg {
     font-size: 14px;
     color: var(--fg-1);
     margin-top: 6px;
     line-height: 1.5;
 }
 
-.toast__close {
+.toast-close {
     font-size: 20px;
     color: rgb(0 0 0 / 30%);
     cursor: pointer;

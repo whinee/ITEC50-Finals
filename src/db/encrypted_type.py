@@ -6,15 +6,14 @@ from src.config.settings import settings
 
 
 class EncryptedType(types.TypeDecorator):
-    """
-    A custom SQLAlchemy TypeDecorator that seamlessly encrypts data before hitting the PostgreSQL database, and decrypts it when fetched.
+    """A custom SQLAlchemy TypeDecorator that seamlessly encrypts data before hitting the PostgreSQL database, and decrypts it when fetched.
     It guarantees E2EE (End-to-End Encryption) at rest by leveraging the highly secure Fernet symmetric encryption algorithm.
-    """
+    """  # noqa: D205, D213
 
     impl = TEXT
     cache_ok = True
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         if not settings.AUTH.DB_ENCRYPTION_KEY:
             raise ValueError(
@@ -55,7 +54,7 @@ class EncryptedType(types.TypeDecorator):
         if value is not None:
             try:
                 return self.fernet.decrypt(value.encode("utf-8")).decode("utf-8")
-            except Exception:
+            except Exception:  # noqa: BLE001
                 # If decryption fails (e.g. data was previously unencrypted or key rotated), just return the raw string
                 return value
         return value

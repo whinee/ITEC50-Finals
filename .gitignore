@@ -7,6 +7,7 @@ pgdata/
 redisdata/
 .codex
 .refact
+docs/.obsidian
 **/__pycache__/
 **/_minted/
 

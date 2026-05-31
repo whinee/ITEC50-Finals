@@ -1,6 +1,6 @@
 # `fonts/manrope.css`
 
-> Generated on 2026-06-01 00:34\
+> Generated on 2026-06-01 07:13\
 > Source: `src/static/stylesheets/fonts/manrope.css`
 
 ## Lint Results
@@ -10,5 +10,6 @@
 ## Section Tree
 
 ```
-(no sections)
+.
+└── stylelint-disable at-rule-descriptor-value-no-unknown
 ```

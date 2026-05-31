@@ -1,6 +1,6 @@
 # `modal.css`
 
-> Generated on 2026-06-01 00:34\
+> Generated on 2026-06-01 07:13\
 > Source: `src/static/stylesheets/modal.css`
 
 ## Lint Results
@@ -11,6 +11,6 @@
 
 ```
 .
-├── MODAL CONTAINER  (line 1-72)
-└── MODAL CONTENT  (line 74-116)
+├── MODAL CONTAINER  (line 1-71)
+└── MODAL CONTENT  (line 73-115)
 ```

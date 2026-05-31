@@ -49,7 +49,7 @@ def check_if_logged_in(
     return request.cookies.get("session") is not None
 
 
-async def check_encrypted_cookie_auth(
+async def check_encrypted_cookie_auth(  # noqa: C901
     request: Request,
     session: Annotated[AsyncSession, Depends(get_session)],
     jwt_service: Annotated[JwtService, Depends(get_jwt_service)],

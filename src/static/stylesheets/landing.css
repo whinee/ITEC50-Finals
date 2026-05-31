@@ -1,6 +1,8 @@
+/* stylelint-disable declaration-no-important */
+
 /* OVERRIDES AND GLOBALS: START */
 
-#wrapper {
+.wrapper {
     max-width: unset !important;
     padding-top: unset !important;
 }
@@ -8,6 +10,7 @@
 /* OVERRIDES AND GLOBALS: END */
 
 /* HERO SECTION: START */
+
 /* LANDING PAGE STYLES */
 .landing-hero {
     display: flex;
@@ -71,9 +74,8 @@
     margin-bottom: 1rem;
     background: linear-gradient(135deg, var(--text-1) 0%, var(--fg-1) 100%);
     background-clip: text;
-    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: fadeInDown 1s cubic-bezier(0.1, 0.9, 0.2, 1);
+    animation: fade-in-down 1s cubic-bezier(0.1, 0.9, 0.2, 1);
 }
 
 .landing-subtitle {
@@ -83,28 +85,27 @@
     max-width: 800px;
     margin-bottom: 3rem;
     line-height: 1.6;
-    animation: fadeInUp 1s cubic-bezier(0.1, 0.9, 0.2, 1) 0.2s both;
+    animation: fade-in-up 1s cubic-bezier(0.1, 0.9, 0.2, 1) 0.2s both;
 }
 
 .landing-stats {
     display: inline-block;
     padding: 1rem 2.5rem;
-    background: rgba(255, 255, 255, 0.05);
-    -webkit-backdrop-filter: blur(16px);
+    background: rgb(255 255 255 / 5%);
     backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgb(255 255 255 / 10%);
     border-radius: 999px;
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 3rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    animation: scaleIn 1s cubic-bezier(0.1, 0.9, 0.2, 1) 0.4s both;
+    box-shadow: 0 8px 32px rgb(0 0 0 / 10%);
+    animation: scale-in 1s cubic-bezier(0.1, 0.9, 0.2, 1) 0.4s both;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .landing-stats:hover {
     transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 15px 40px rgb(0 0 0 / 20%);
     border-color: var(--fg-1);
 }
 
@@ -119,7 +120,7 @@
 .landing-actions {
     display: flex;
     gap: 1.5rem;
-    animation: fadeInUp 1s cubic-bezier(0.1, 0.9, 0.2, 1) 0.6s both;
+    animation: fade-in-up 1s cubic-bezier(0.1, 0.9, 0.2, 1) 0.6s both;
 }
 
 .landing-btn {
@@ -137,13 +138,13 @@
     background: var(--fg-1);
     color: var(--bg-1);
     border: none;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgb(0 0 0 / 20%);
 }
 
 .landing-btn-primary:hover {
     background: var(--fg-2);
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 25px rgb(0 0 0 / 30%);
 }
 
 .landing-btn-secondary {
@@ -153,7 +154,7 @@
 }
 
 .landing-btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgb(255 255 255 / 10%);
     transform: translateY(-3px);
 }
 
@@ -172,21 +173,20 @@
 }
 
 .feature-card {
-    background: rgba(var(--rbg-1), 0.6);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgb(var(--rbg-1), 0.6);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgb(255 255 255 / 5%);
     padding: 2.5rem;
     border-radius: 16px;
     text-align: left;
     transition: all 0.4s cubic-bezier(0.1, 0.9, 0.2, 1);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgb(0 0 0 / 10%);
 }
 
 .feature-card:hover {
     transform: translateY(-10px);
     border-color: var(--fg-1);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 20px 40px rgb(0 0 0 / 20%);
 }
 
 .feature-card h3 {
@@ -205,34 +205,38 @@
 /* FEATURES: END */
 
 /* ANIMATIONS: START */
+
 /* Animations */
-@keyframes fadeInDown {
+@keyframes fade-in-down {
     from {
         opacity: 0;
         transform: translateY(-30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-@keyframes fadeInUp {
+@keyframes fade-in-up {
     from {
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
     }
 }
 
-@keyframes scaleIn {
+@keyframes scale-in {
     from {
         opacity: 0;
         transform: scale(0.9);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -242,6 +246,7 @@
 /* ANIMATIONS: END */
 
 /* MEDIA QUERIES: START */
+
 /* MOBILE RESPONSIVENESS */
 @media (width <= 480px) {
     .landing-actions {
@@ -249,23 +254,28 @@
         width: 100%;
         gap: 1rem;
     }
+
     .landing-btn {
         width: 100%;
         text-align: center;
         box-sizing: border-box;
     }
+
     .landing-stats {
         padding: 1rem;
         font-size: 1.1rem;
         width: 100%;
         box-sizing: border-box;
     }
+
     .landing-stats span {
         font-size: 1.3rem;
     }
+
     .feature-card {
         padding: 1.5rem;
     }
+
     .landing-features {
         padding: 0 1rem;
     }

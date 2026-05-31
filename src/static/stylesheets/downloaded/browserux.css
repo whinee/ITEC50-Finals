@@ -1,3 +1,4 @@
+/* stylelint-disable */
 /*! browserux.css 4.0.0 | 2026 MIT Licence | github.com/Effeilo/browserux.css */
 
 /**
@@ -610,9 +611,9 @@ textarea,
  * with the primary brand color.
  */
 
-input[type="checkbox"],
-input[type="radio"],
-input[type="range"],
+[type="checkbox"],
+[type="radio"],
+[type="range"],
 meter,
 select {
     accent-color: var(--bux-color-primary);
@@ -637,8 +638,8 @@ progress {
  * 1. Remove the default border that some browsers add to the thumb
  */
 
-input[type="range"]::-webkit-slider-thumb,
-input[type="range"]::-moz-range-thumb {
+[type="range"]::-webkit-slider-thumb,
+[type="range"]::-moz-range-thumb {
     background: var(--bux-color-primary);
     border: none; /* 1 */
 }
@@ -910,10 +911,8 @@ html {
     overflow-y: scroll; /* 4 */
     -moz-osx-font-smoothing: grayscale; /* 5 */
     -webkit-font-smoothing: antialiased; /* 5 */
-    -webkit-tap-highlight-color: transparent; /* 6 */
-    tab-size: 4; /* 7 */
-    tab-size: 4; /* 7 */
-    text-size-adjust: 100%; /* 8 */
+    -webkit-tap-highlight-color: transparent; /* 6 */ /* 7 */
+    tab-size: 4; /* 7 */ /* 8 */
     text-size-adjust: 100%; /* 8 */
     scrollbar-gutter: stable; /* 9 */
 }
@@ -1028,8 +1027,8 @@ a {
  * 2. Applies correct underline decoration for better readability.
  */
 
-abbr[title],
-dfn[title] {
+[title],
+[title] {
     cursor: help; /* 1 */
     text-decoration: underline dotted; /* 2 */
 }
@@ -1260,7 +1259,7 @@ button:not(:disabled),
 [type="button"]:not(:disabled),
 [type="reset"]:not(:disabled),
 [type="submit"]:not(:disabled),
-label[for],
+[for],
 select {
     cursor: pointer;
 }
@@ -1283,7 +1282,6 @@ button,
 [type="button"],
 [type="reset"],
 [type="submit"] {
-    appearance: button;
     appearance: auto;
 }
 
@@ -1311,8 +1309,7 @@ textarea {
  * 2. Correct the outline style in Safari.
  */
 
-[type="search"] {
-    appearance: textfield; /* 1 */
+[type="search"] { /* 1 */
     appearance: textfield; /* 1 */
     outline-offset: -2px; /* 2 */
 }
@@ -1353,7 +1350,6 @@ textarea {
  */
 
 ::-webkit-file-upload-button {
-    appearance: button;
     appearance: auto;
     font: inherit;
 }
@@ -1405,7 +1401,7 @@ summary {
  */
 
 [role="button"],
-details[open] summary,
+[open] summary,
 summary {
     user-select: none;
 }
@@ -1470,7 +1466,7 @@ dialog::backdrop {
    */
 
     @starting-style {
-        dialog[open] {
+        [open] {
             opacity: 0;
             transform: translateY(-8px);
         }
@@ -1488,7 +1484,7 @@ dialog::backdrop {
    */
 
     @starting-style {
-        dialog[open]::backdrop {
+        [open]::backdrop {
             background-color: rgb(0 0 0 / 0%);
         }
     }
@@ -1530,7 +1526,7 @@ dialog::backdrop {
         text-shadow: none !important; /* 1 */
     }
 
-    a[href]::after {
+    [href]::after {
         content: " (" attr(href) ")"; /* 3 */
     }
 

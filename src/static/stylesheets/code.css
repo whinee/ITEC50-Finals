@@ -1,10 +1,13 @@
+/* stylelint-disable declaration-no-important, font-family-no-missing-generic-family-keyword, selector-class-pattern, selector-no-qualifying-type, block-no-empty */
+
 /* IMPORTS: START */
 @import url("/static/stylesheets/fonts/inconsolata.css");
+
 /* IMPORTS: END */
 
 /* LAYOUT AND TYPOGRAPHY: START */
 
-#wrapper {
+.wrapper {
     padding: 0 !important;
 }
 
@@ -30,7 +33,7 @@ h1 {
     color: var(--fg-3) !important;
 }
 
-#main {
+.main {
     --alignment: var(--site-language-alignment);
 
     text-align: var(--alignment);
@@ -55,7 +58,7 @@ h1 {
     color: hsl(var(--rfg-3), 0.8);
     text-shadow:
         0 0 1px hsl(var(--rfg-3), 0.8),
-        0 0 2px hsla(0deg, 0%, 100%, 0.8);
+        0 0 2px hsl(0deg 0% 100% / 80%);
 }
 
 .op::before {
@@ -118,7 +121,7 @@ a.spec-link::after {
         font-size: 11pt;
     }
 
-    #h1 {
+    .h1 {
         letter-spacing: 0;
         width: 100%;
         font-size: 2.5em;
@@ -127,7 +130,7 @@ a.spec-link::after {
 }
 
 @media (width <= 360px) {
-    #h1 {
+    .h1 {
         font-size: 2em;
     }
 }

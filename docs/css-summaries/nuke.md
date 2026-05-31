@@ -1,6 +1,6 @@
 # `nuke.css`
 
-> Generated on 2026-06-01 00:35\
+> Generated on 2026-06-01 07:13\
 > Source: `src/static/stylesheets/nuke.css`
 
 ## Lint Results
@@ -11,6 +11,7 @@
 
 ```
 .
-├── IMPORTS  (line 1-3)
-└── NUCLEAR RESET  (line 5-181)
+├── stylelint-disable declaration-block-no-shorthand-property-overrides, declaration-no-important, selector-no-qualifying-type
+├── IMPORTS  (line 3-6)
+└── NUCLEAR RESET  (line 8-181)
 ```

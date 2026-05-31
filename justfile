@@ -22,7 +22,7 @@ screenshot:
     CHROME_PATH="/usr/bin/ungoogled-chromium" node screenshot.js
 
 build_tex doc:
-    latexmk -xelatex -synctex=1 -interaction=nonstopmode -file-line-error -bibtex -shell-escape "{{doc}}"
+    bash scripts/build_tex.sh "{{doc}}"
 
 build:
     just optimize_images

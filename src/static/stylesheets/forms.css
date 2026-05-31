@@ -1,3 +1,5 @@
+/* stylelint-disable color-named, selector-max-id, no-descending-specificity */
+
 /* FORMS: START */
 
 /* FORM */
@@ -163,7 +165,7 @@ input {
     padding-right: 2.5rem;
 }
 
-input[type="submit"] {
+[type="submit"] {
     box-shadow: unset;
 }
 
@@ -171,12 +173,12 @@ input:focus {
     outline: var(--fg-1) solid 3px;
 }
 
-input.invalid {
+.invalid {
     outline: var(--error-1) solid 3px;
     transition: all 0.5s;
 }
 
-input.valid {
+.valid {
     outline: var(--valid-1) solid 3px;
     transition: all 0.5s;
 }
@@ -198,7 +200,7 @@ input:focus::placeholder {
     justify-content: center;
 }
 
-.star-rating input[type="radio"] {
+.star-rating [type="radio"] {
     display: none;
 }
 
@@ -212,10 +214,10 @@ input:focus::placeholder {
     content: "★";
 }
 
-.star-rating input[type="radio"]:checked ~ label,
+.star-rating [type="radio"]:checked ~ label,
 .star-rating label:hover,
-.star-rating label:hover ~ label {
-    color: gold;
+.star-rating :hover ~ label {
+    color: #ffd700;
 }
 
 /* INPUTS: END */

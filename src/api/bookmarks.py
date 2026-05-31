@@ -1,13 +1,12 @@
-import base64
-import json
-
 """
 Bookmark Endpoints.
 
 Provides high-performance, strictly typed CRUD operations for user bookmarks, utilizing junction tables and O(n) serialization.
 """
 
+import base64
 import datetime
+import json
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
@@ -173,7 +172,7 @@ def get_contrast_color(hex_color: str) -> str:
         # W3C WCAG 2.0 simplified relative luminance (BT.709 coefficients)
         luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
         return "#000000" if luminance > 128 else "#ffffff"
-    except Exception:
+    except ValueError:
         return "#ffffff"
 
 
@@ -782,8 +781,10 @@ async def import_tags(
     try:
         json_str = base64.b64decode(payload.theme_data).decode("utf-8")
         data = json.loads(json_str)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid theme data format")
+    except ValueError:
+        raise HTTPException(
+            status_code=400, detail="Invalid theme data format"  # noqa: COM812
+        ) from None
 
     statement = select(Tag).where(Tag.user_id == user.id)
     result = await session.exec(statement)

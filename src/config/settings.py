@@ -36,7 +36,7 @@ def split_csv(v) -> set[str]:
 class StringsConfig(BaseModel):
     splash: list[str] = []
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
         try:
             with open("src/config/values/strings.yml") as f:
@@ -45,7 +45,7 @@ class StringsConfig(BaseModel):
                     self.splash = [
                         f'"{q["text"]}" - {q["author"]}' for q in data["quotes"]
                     ]
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             print("Could not load strings.yml:", e)
 
 

@@ -1,6 +1,6 @@
 # `landing.css`
 
-> Generated on 2026-06-01 00:34\
+> Generated on 2026-06-01 07:13\
 > Source: `src/static/stylesheets/landing.css`
 
 ## Lint Results
@@ -11,15 +11,16 @@
 
 ```
 .
-├── OVERRIDES AND GLOBALS  (line 1-8)
-├── HERO SECTION  (line 10-65)
+├── stylelint-disable declaration-no-important
+├── OVERRIDES AND GLOBALS  (line 3-10)
+├── HERO SECTION  (line 12-68)
 ├── LANDING PAGE STYLES
 ├── Dynamic glowing background elements
-├── TYPOGRAPHY AND CONTENT  (line 67-116)
-├── BUTTONS AND ACTIONS  (line 118-160)
-├── FEATURES  (line 162-205)
-├── ANIMATIONS  (line 207-242)
+├── TYPOGRAPHY AND CONTENT  (line 70-117)
+├── BUTTONS AND ACTIONS  (line 119-161)
+├── FEATURES  (line 163-205)
+├── ANIMATIONS  (line 207-246)
 ├── Animations
-├── MEDIA QUERIES  (line 244-274)
+├── MEDIA QUERIES  (line 248-284)
 └── MOBILE RESPONSIVENESS
 ```

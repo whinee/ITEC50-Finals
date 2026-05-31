@@ -380,6 +380,8 @@ def main() -> None:  # noqa: C901
             continue
 
         tex_content = generate_tex_for_module(py_path, module, pdoc_output)
+        # Strip box drawing characters to prevent xelatex font crash
+        tex_content = re.sub(r"[\u2500-\u257F]", "-", tex_content)
 
         # Mirror the source tree inside python-summaries/
         rel_no_ext = rel.with_suffix(".tex")

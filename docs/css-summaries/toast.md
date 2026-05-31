@@ -1,6 +1,6 @@
 # `toast.css`
 
-> Generated on 2026-06-01 00:35\
+> Generated on 2026-06-01 07:13\
 > Source: `src/static/stylesheets/toast.css`
 
 ## Lint Results
@@ -11,8 +11,9 @@
 
 ```
 .
-├── IMPORTS  (line 1-3)
-├── TOAST CONTAINER  (line 5-46)
-├── TOAST VARIANTS  (line 48-86)
-└── TOAST CONTENT  (line 88-122)
+├── stylelint-disable no-duplicate-selectors, no-descending-specificity
+├── IMPORTS  (line 3-6)
+├── TOAST CONTAINER  (line 8-49)
+├── TOAST VARIANTS  (line 51-89)
+└── TOAST CONTENT  (line 91-125)
 ```

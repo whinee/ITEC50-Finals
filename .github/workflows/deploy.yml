@@ -1,0 +1,17 @@
+name: Trigger Gitea Action
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Gitea workflow_dispatch
+        run: |
+          curl -X POST 'https://komodo-ckn-omv-main.lyra-on.top/listener/github/repo/ITEC50-Finals/clone' \
+            --url-query 'access_token=${{ secrets.GITEA_ACCESS_TOKEN }}' \
+            --header 'Content-Type: application/json' \
+            --data-raw '{"ref": "main"}'

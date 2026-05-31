@@ -1,5 +1,8 @@
+/* stylelint-disable declaration-block-no-shorthand-property-overrides, declaration-no-important, selector-no-qualifying-type */
+
 /* IMPORTS: START */
 @import url("/static/stylesheets/fonts/manrope.css");
+
 /* IMPORTS: END */
 
 /* NUCLEAR RESET: START */
@@ -166,9 +169,6 @@ input[type="text"],
 input[type="email"],
 select,
 textarea {
-    appearance: none;
-    appearance: none;
-    appearance: none;
     appearance: none;
 }
 

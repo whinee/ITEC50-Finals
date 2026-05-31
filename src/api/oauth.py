@@ -69,7 +69,7 @@ async def google_callback(
             status_code=HTTP_404_NOT_FOUND,
             detail="Google OAuth is not enabled.",
         )
-    token_url = "https://oauth2.googleapis.com/token"
+    token_url = "https://oauth2.googleapis.com/token"  # noqa: S105
     data = {
         "client_id": settings.OAUTH.GOOGLE.CLIENT_ID,
         "client_secret": settings.OAUTH.GOOGLE.CLIENT_SECRET,
@@ -138,7 +138,7 @@ async def github_callback(
             status_code=HTTP_404_NOT_FOUND,
             detail="GitHub OAuth is not enabled.",
         )
-    token_url = "https://github.com/login/oauth/access_token"
+    token_url = "https://github.com/login/oauth/access_token"  # noqa: S105
     data = {
         "client_id": settings.OAUTH.GITHUB.CLIENT_ID,
         "client_secret": settings.OAUTH.GITHUB.CLIENT_SECRET,

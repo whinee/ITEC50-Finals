@@ -1,0 +1,62 @@
+erDiagram
+    USERS {
+        int id PK
+        string username
+        string email
+        string contact_number
+        string password
+        string theme
+        string role
+        timestamp created_at
+        timestamp updated_at
+        boolean disabled
+    }
+    
+    BOOKMARKS {
+        int id PK
+        int user_id FK
+        string title "Encrypted"
+        string url "Encrypted"
+        string note "Encrypted"
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    TAGS {
+        int id PK
+        int user_id FK
+        string title "Encrypted"
+        string color "Encrypted"
+        string note "Encrypted"
+        timestamp created_at
+        timestamp updated_at
+    }
+    
+    JD_NODES {
+        int id PK
+        int user_id FK
+        string code
+        int parent_id FK
+    }
+
+    BOOKMARK_TAG_JUNCTION {
+        int bookmark_id PK, FK
+        int tag_id PK, FK
+    }
+
+    BOOKMARK_JD_JUNCTION {
+        int bookmark_id PK, FK
+        int jd_node_id PK, FK
+    }
+
+    USERS ||--o{ BOOKMARKS : "owns"
+    USERS ||--o{ TAGS : "owns"
+    USERS ||--o{ JD_NODES : "owns"
+    
+    JD_NODES ||--o{ JD_NODES : "parent_of"
+
+    BOOKMARKS ||--o{ BOOKMARK_TAG_JUNCTION : "has"
+    TAGS ||--o{ BOOKMARK_TAG_JUNCTION : "applied_to"
+    
+    BOOKMARKS ||--o{ BOOKMARK_JD_JUNCTION : "classified_by"
+    JD_NODES ||--o{ BOOKMARK_JD_JUNCTION : "contains"

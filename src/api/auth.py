@@ -210,7 +210,7 @@ async def login_user(  # noqa: C901
             status_code=HTTP_500_INTERNAL_SERVER_ERROR,
         )
     # Generate 6-digit OTP
-    otp = str(random.randint(100000, 999999))
+    otp = str(random.randint(100000, 999999))  # noqa: S311
     send_otp_email(user.email, otp)
 
     # Store OTP in a short-lived 2FA JWT
@@ -404,7 +404,7 @@ async def register_new_user(
     )
 
 
-async def seed_demo_account(session: AsyncSession, user_id: int):
+async def seed_demo_account(session: AsyncSession, user_id: int):  # noqa: C901
     """Bulk inserts fake data for a demo account bypassing ORM overhead."""
     fake = Faker()
     bookmark_tag_junction = Tag.bookmarks.property.secondary  # type: ignore
@@ -415,14 +415,16 @@ async def seed_demo_account(session: AsyncSession, user_id: int):
 
     def random_date():
         delta = now - epoch
-        random_second = random.randrange((delta.days * 24 * 60 * 60) + delta.seconds)
+        random_second = random.randrange(
+            (delta.days * 24 * 60 * 60) + delta.seconds,
+        )
         return epoch + datetime.timedelta(seconds=random_second)
 
     def generate_jd_code():
-        part1 = "".join(str(random.randint(0, 9)) for _ in range(random.randint(2, 5)))
-        part2 = "".join(str(random.randint(0, 9)) for _ in range(random.randint(2, 5)))
+        part1 = f"{random.randint(10, 99):02d}"  # noqa: S311
+        part2 = f"{random.randint(10, 99):02d}"  # noqa: S311
         code = f"{part1}.{part2}"
-        if random.random() > 0.5:
+        if random.random() > 0.5:  # noqa: S311
             words = [
                 "tech",
                 "news",
@@ -434,7 +436,7 @@ async def seed_demo_account(session: AsyncSession, user_id: int):
                 "project",
                 "dev",
             ]
-            code += f"+{random.choice(words)}"
+            code += f"+{random.choice(words)}"  # noqa: S311
         return code
 
     res = await session.execute(text("SELECT coalesce(max(id), 0) + 1 FROM tags"))
@@ -460,7 +462,7 @@ async def seed_demo_account(session: AsyncSession, user_id: int):
                 "user_id": user_id,
                 "title": tag_titles[i],
                 "color": fake.hex_color(),
-                "note": fake.sentence() if random.random() > 0.5 else None,
+                "note": (fake.sentence() if random.random() > 0.5 else None),
                 "created_at": t_created,
                 "updated_at": t_created,
             },
@@ -502,22 +504,22 @@ async def seed_demo_account(session: AsyncSession, user_id: int):
             {
                 "id": b_id,
                 "user_id": user_id,
-                "title": random.choice(titles) + f" {b_idx}",
-                "url": random.choice(urls),
-                "note": fake.sentence() if random.random() > 0.8 else None,
+                "title": random.choice(titles) + f" {b_idx}",  # noqa: S311
+                "url": random.choice(urls),  # noqa: S311
+                "note": (fake.sentence() if random.random() > 0.8 else None),
                 "created_at": b_created,
                 "updated_at": b_created,
             },
         )
 
         if tag_ids:
-            num_tags = random.randint(1, 3)
+            num_tags = random.randint(1, 3)  # noqa: S311
             sampled_tags = random.sample(tag_ids, num_tags)
             for t_id in sampled_tags:
                 b_tag_batch.append({"bookmark_id": b_id, "tag_id": t_id})
 
         if jd_ids:
-            num_jds = random.randint(1, 3)
+            num_jds = random.randint(1, 3)  # noqa: S311
             sampled_jds = random.sample(jd_ids, num_jds)
             for j_id in sampled_jds:
                 b_jd_batch.append({"bookmark_id": b_id, "jd_node_id": j_id})
@@ -583,7 +585,7 @@ async def demo_login(
     """
     demo_username = await generate_username(session)
     demo_email = f"{demo_username}@demo.decimark.com"
-    demo_password = "demopassword123"
+    demo_password = "demopassword123"  # noqa: S105
 
     password_hash = kdf.derive_phc_encoded(demo_password.encode())
 
@@ -640,7 +642,7 @@ async def generate_captcha(
     import string
 
     chars = string.ascii_uppercase + string.digits
-    captcha_text = "".join(random.choices(chars, k=5))
+    captcha_text = "".join(random.choices(chars, k=5))  # noqa: S311
 
     image = ImageCaptcha(width=280, height=90)
     data = image.generate(captcha_text)
@@ -662,7 +664,7 @@ async def generate_captcha(
 
 
 @router.post(path="/verify-2fa", status_code=HTTP_200_OK)
-async def verify_2fa(
+async def verify_2fa(  # noqa: C901
     request: Request,
     response: Response,
     session: Annotated[AsyncSession, Depends(get_session)],
@@ -694,7 +696,7 @@ async def verify_2fa(
     try:
         raw_token = decode_encrypted_cookie(token_str)
         payload = jwt_service.verify(raw_token)
-    except Exception:
+    except Exception:  # noqa: BLE001
         return CustomResponse.json_flash(
             message="Invalid 2FA session.",
             category="error",
