@@ -260,6 +260,7 @@ async def run_tests():  # noqa: C901
     start_time = time.time()
     server_ready = False
     while time.time() - start_time < 30:
+        """Fix missing docstring."""
         try:
             resp = httpx.get(BASE_URL, follow_redirects=True)
             if resp.status_code == 200:

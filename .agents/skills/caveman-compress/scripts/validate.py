@@ -39,7 +39,8 @@ def extract_headings(text):
 
 
 def extract_code_blocks(text):
-    """Line-based fenced code block extractor.
+    """
+    Line-based fenced code block extractor.
 
     Handles ``` and ~~~ fences with variable length (CommonMark: closing
     fence must use same char and be at least as long as opening). Supports

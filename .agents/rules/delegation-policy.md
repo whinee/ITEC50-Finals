@@ -12,7 +12,7 @@ description: Model delegation roles for this repo
 - No file edits
 - No terminal commands
 - No web fetches
-- Produces task breakdowns, architecture notes, and delegation prompts
+- Produces task breakdowns, architecture notes, and delegation prompts (Gemini 3.1 Pro if unavailable)
 
 ## Gemini 3.1 Pro
 
@@ -22,7 +22,7 @@ description: Model delegation roles for this repo
 - Applies repo rules after every edit
 - Follows `loop-until-done.md` and `lint-and-fix.md`
 
-## DeepSeek
+## DeepSeek (Gemini 3.1 Pro if unavailable)
 
 - Research only
 - Validates citations

@@ -23,10 +23,14 @@ def split_csv(v) -> set[str]:
 
     """
     if isinstance(v, str):
-        return {i.strip() for i in v.split(",")}
+        if not v.strip():
+            return set()
+        return {i.strip() for i in v.split(",") if i.strip()}
     if isinstance(v, set):
         return v
-    raise ValueError("field is not of type set or str")
+    if isinstance(v, list):
+        return set(v)
+    raise ValueError("field is not of type set, str, or list")
 
 
 class StringsConfig(BaseModel):

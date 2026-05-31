@@ -4,14 +4,14 @@ DeciMark is a server-rendered bookmark manager built around Johnny.Decimal ident
 
 ## Stack
 
-- **FastAPI** — request routing, dependency injection, and API endpoints.
-- **SQLModel** — shared database and schema models.
-- **PostgreSQL** — durable relational storage and many-to-many bookmark relations.
-- **Jinja2** — server-rendered HTML pages.
-- **Vanilla JavaScript** — progressive enhancement without a client SPA framework.
-- **Hypercorn** — ASGI server used by `just dev` and `just run`.
-- **Playwright** — browser automation for visual and end-to-end checks.
-- **Docker Compose** — local Postgres and Redis orchestration.
+- **FastAPI** — request routing, dependency injection, and API endpoints. Chosen for its raw ASGI performance, built-in Pydantic validation, and automatic OpenAPI schema generation.
+- **SQLModel** — shared database and schema models. Allows utilizing the power of SQLAlchemy while writing concise Pydantic-compatible type hints.
+- **PostgreSQL** — durable relational storage and many-to-many bookmark relations. Provides ACID compliance and robust relational integrity.
+- **Jinja2** — server-rendered HTML pages. Allows zero-JS functional baseline rendering for ultimate resilience.
+- **Vanilla JavaScript** — progressive enhancement without a client SPA framework. Keeps the application hyper-lightweight by executing interactivity strictly via raw DOM manipulation and the Fetch API, sidestepping heavy client-side bundle costs.
+- **Hypercorn** — ASGI server used by `just dev` and `just run`. Selected for HTTP/2 support and high asynchronous throughput.
+- **Playwright** — browser automation for visual and end-to-end checks. Provides cross-browser rendering accuracy for UI regression testing.
+- **Docker Compose** — local Postgres and Redis orchestration. Eliminates manual binary dependencies for local development.
 
 ## Setup
 
@@ -113,31 +113,81 @@ These recipes are internal support only and are not part of the public operator 
 
 ## Environment variables
 
-Key runtime variables:
+The application relies on the following environment variables, detailed in `.env.example`:
 
-- `PG__USER`
-- `PG__PASSWORD`
-- `PG__DBNAME`
-- `EXTERNAL_DB_PORT`
-- `EXTERNAL_REDIS_PORT`
-- `TEST__DBNAME`
-- `TEST__NO_AUTH`
-- `TEST__NO_2FA`
-- `TEST__LIGHTHOUSE`
-- `TEST__SMTP`
-- `SMTP__HOST`
-- `SMTP__PORT`
-- `SMTP__USERNAME`
-- `SMTP__PASSWORD`
-- `OAUTH__GOOGLE__ENABLE`
-- `OAUTH__GOOGLE__CLIENT_ID`
-- `OAUTH__GOOGLE__CLIENT_SECRET`
-- `OAUTH__GITHUB__ENABLE`
-- `OAUTH__GITHUB__CLIENT_ID`
-- `OAUTH__GITHUB__CLIENT_SECRET`
+### Server & App Config
 
-## Paper sync note
+| Variable | Purpose |
+| --- | --- |
+| `ENV` | Environment mode (e.g., `production`, `development`). |
+| `DEBUG` | Enables debugging features when `true`. |
+| `HOST` / `PORT` | Bind address and port for the application server. |
+| `WORKERS` | Number of Uvicorn/Hypercorn workers to run. |
+| `ORIGINS` | Comma-separated list of allowed CORS origins. |
+| `API_ROOT` | The root path for backend API routes (e.g., `/api`). |
 
-Paper text should stay aligned with the implementation and the command surface above.
+### PostgreSQL Database
 
-If command names change, update this file and `paper/main.tex` together.
+| Variable | Purpose |
+| --- | --- |
+| `PG__HOST` / `PG__PORT` | Database host and port. |
+| `PG__USER` / `PG__PASSWORD` | Database credentials. |
+| `PG__DBNAME` | Name of the primary application database. |
+| `PG_SYNC_URL` / `PG_ASYNC_URL` | SQLAlchemy connection URIs (usually derived automatically). |
+| `PG_DATA` | Local mount path for the Docker PostgreSQL data volume. |
+| `EXTERNAL_DB_PORT` | Port exposed to the host for external DB connection. |
+
+### Redis & Caching
+
+| Variable | Purpose |
+| --- | --- |
+| `REDIS_URL` | Connection URL for the Redis server. |
+| `REDIS_DATA` | Local mount path for the Docker Redis data volume. |
+| `EXTERNAL_REDIS_PORT` | Port exposed to the host for external Redis connection. |
+| `EXTERNAL_WEB_PORT` | Port exposed to the host for the web server. |
+
+### Security & Cryptography
+
+| Variable | Purpose |
+| --- | --- |
+| `AUTH__JWT_SECRET` | Secret key for signing JSON Web Tokens. |
+| `AUTH__COOKIE_SECRET` | Secret key for encrypting HTTP-only cookies. |
+| `AUTH__WEBHOOK_SECRET` | Secret key for validating incoming webhooks. |
+| `AUTH__DB_ENCRYPTION_KEY` | Secret key for encrypting sensitive data at rest in PostgreSQL. |
+
+### Testing
+
+| Variable | Purpose |
+| --- | --- |
+| `TEST__DBNAME` | Name of the database used exclusively for testing. |
+| `TEST__LIGHTHOUSE` | Enables Lighthouse performance auditing during tests. |
+| `TEST__SMTP` | Toggles SMTP functionality in the testing environment. |
+
+### SMTP (Email)
+
+| Variable | Purpose |
+| --- | --- |
+| `SMTP__HOST` / `SMTP__PORT` | Mail server host and port. |
+| `SMTP__USERNAME` / `SMTP__PASSWORD` | Mail server authentication credentials. |
+
+### OAuth Providers
+
+| Variable | Purpose |
+| --- | --- |
+| `OAUTH__GOOGLE__ENABLE` | Toggles Google OAuth integration. |
+| `OAUTH__GOOGLE__CLIENT_ID` / `_SECRET` | Google OAuth application credentials. |
+| `OAUTH__GITHUB__ENABLE` | Toggles GitHub OAuth integration. |
+| `OAUTH__GITHUB__CLIENT_ID` / `_SECRET` | GitHub OAuth application credentials. |
+
+## AI Disclosure
+
+In the interest of academic integrity, the following discloses the use of artificial intelligence tools during the development of this project. The initial codebase, comprising approximately 35,000 to 40,000 lines of code, was authored by the author with foundational assistance from OpenAI Codex and Anthropic's Claude AI, alongside properly licensed third-party assets (such as Swagger UI CSS and open-source snippets from authors like uncomfyhalomacro). Subsequently, an advanced AI coding assistant was utilized as a pair-programming accelerator under the author's explicit instruction and supervision to scale the project to its current 45,000 lines of code. All architectural decisions, design choices, and implementation strategies were conceived, directed, and validated by the author. AI tools were used as assistive accelerators — not as a substitute for understanding.
+
+- **HTML Templates**: The Jinja2 template files under `src/templates/bookmarks` were initially scaffolded with assistance from OpenAI Codex, and subsequently reviewed, corrected, and heavily modified by the author to conform to the application's architecture.
+- **Utility Scripts**: Several Python scripts in the `scripts/` directory were drafted with Anthropic's Claude AI as a starting point, with the author directing the logic, reviewing the output, and rewriting where necessary.
+- **Documentation sync and Error fixing**: Accelerated with AI pair-programming under the author's direction to split the presentation tasks between the author and AI, and fixed D103 and D401 Ruff docstring errors across the main app and scripts.
+- **Dependency and Technical Debt Cleanup**: Accelerated with AI pair-programming under the author's direction, resolving FastAPI deprecation warnings by replacing `UJSONResponse` with `JSONResponse`, removing deprecated dependencies like `ujson` from `pyproject.toml`, and adding proper `CORSMiddleware` configuration using the `ORIGINS` environment variable to restrict domain access.
+- **Mobile Viewport Optimization**: Rectified a layout overflow issue on the landing page CSS specifically targeting 320px ultra-narrow screens by tuning CSS Grid `minmax` logic and `clamp()` typography variables.
+- **Deployment & Test Stability**: Engineered robust deployment capabilities under the author's direction by defining scaling configurations (`WORKERS` limits) for Hypercorn, standardizing Docker Compose environment mappings to avoid schema loss in PostgreSQL during ephemeral restarts, and tuning the automated seeding script to gracefully adapt database population sizes for stability in testing.
+
+The overall system architecture, the Johnny.Decimal integration model, the zero-trust security design, the CSS design system, the JavaScript interaction logic, the database schema, the deployment strategy, and the substantive content of the reflection and rationale were authored entirely by the author. The use of AI tools did not substitute for technical understanding; it accelerated execution of decisions already made.

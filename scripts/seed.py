@@ -320,7 +320,7 @@ async def main() -> None:
     It leverages raw SQLModel arrays and multiprocessing pools to synthesize and commit thousands of users, tens of thousands of bookmarks, and complex junction tables into PostgreSQL at mind-bending speeds, bypassing all ORM bottlenecks for raw performance.
     """
     # 1. Prepare User Data
-    count = random.randint(80, 120)  # noqa: S311
+    count = random.randint(1, 3)  # noqa: S311
     print(f"Preparing to seed {count} users and hundreds of thousands of bookmarks...")
 
     users_data = [

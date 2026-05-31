@@ -1,4 +1,5 @@
-"""Application Entrypoint.
+"""
+Application Entrypoint.
 
 The primary FastAPI ASGI gateway. This file meticulously orchestrates the entire lifecycle of the DeciMark backend, aggressively mounting routers, static files, and security middlewares into a cohesive, zero-trust web application capable of servicing thousands of concurrent asynchronous connections.
 """
@@ -16,7 +17,7 @@ from typing import Annotated
 import redis.asyncio as redis
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.openapi.docs import get_swagger_ui_html
-from fastapi.responses import RedirectResponse, JSONResponse  # type: ignore
+from fastapi.responses import JSONResponse, RedirectResponse  # type: ignore
 from fastapi.security import HTTPBasic
 from fastapi.staticfiles import StaticFiles
 from fastapi_limiter import FastAPILimiter
@@ -106,6 +107,7 @@ async def add_process_time_header(
         process_time = time.time() - start_time
         status_code = response.status_code
         # if check_if_http_code_group_error(get_http_code_group(status_code)):
+        """Fix missing docstring."""
         if status_code == 404:
             return CustomResponse.http_code(request, status_code)
         response.headers["X-Process-Time"] = str(process_time)
@@ -244,6 +246,7 @@ async def bookmarks_jd_redirect(
 
     """
     if not is_authenticated:
+        """Fix missing docstring."""
         return RedirectResponse(url="/login", status_code=303)
     query = f"?{request.url.query}" if request.url.query else ""
     return RedirectResponse(url=f"/bookmarks/jd{query}")

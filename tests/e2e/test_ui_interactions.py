@@ -30,10 +30,10 @@ async def test_settings_modal(page: Page):
     await page.goto("/")
     
     # Open menu
-    await page.click('#hamburger-button')
+    await page.click("#hamburger-button")
     
     # Open settings
-    await page.click('#settings-modal-button')
+    await page.click("#settings-modal-button")
     
     modal_area = page.locator("#modal-area")
     settings_modal = page.locator("#settings-modal")
@@ -43,7 +43,7 @@ async def test_settings_modal(page: Page):
     await page.screenshot(path="docs/screenshots/settings_modal.png")
     
     # Close modal
-    await page.click('#close-modal')
+    await page.click("#close-modal")
     await expect(modal_area).not_to_be_visible()
 
 
@@ -52,10 +52,10 @@ async def test_info_modal(page: Page):
     await page.goto("/")
     
     # Open menu
-    await page.click('#hamburger-button')
+    await page.click("#hamburger-button")
     
     # Open info
-    await page.click('#info-modal-button')
+    await page.click("#info-modal-button")
     
     modal_area = page.locator("#modal-area")
     info_modal = page.locator("#info-modal")
@@ -64,5 +64,5 @@ async def test_info_modal(page: Page):
     await expect(info_modal).to_be_visible()
     await page.screenshot(path="docs/screenshots/info_modal.png")
     
-    await page.click('#close-modal')
+    await page.click("#close-modal")
     await expect(modal_area).not_to_be_visible()

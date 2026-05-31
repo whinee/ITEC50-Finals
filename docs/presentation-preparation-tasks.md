@@ -34,9 +34,11 @@ Not allowed:
 1. Backup paths
 1. Extra polish only if time remains
 
-## Workstream 1 — Deployment
+______________________________________________________________________
 
-### Tasks
+## 🧍‍♀️ Lyra's Tasks
+
+### Workstream 1 — Deployment
 
 - [ ] Confirm production environment variables
 - [ ] Confirm database migrations run cleanly
@@ -47,71 +49,9 @@ Not allowed:
 - [ ] Confirm backup and rollback command is documented
 - [ ] Confirm deployment instructions are current in docs and paper
 
-### Done when
+*Done when: Live site opens without errors, main user flow works end to end, recovery path exists if deploy breaks.*
 
-- Live site opens without errors
-- Main user flow works end to end
-- Recovery path exists if deploy breaks
-
-## Workstream 2 — Paper Finalization
-
-### Tasks
-
-- [ ] Proofread all sections for grammar and tone
-- [ ] Remove unsupported claims and contradictions
-- [ ] Verify citations against `paper/refs.bib`
-- [ ] Verify captions, figure labels, and cross-references
-- [ ] Document architecture accurately
-- [ ] Document database schema accurately
-- [ ] Document deployment steps accurately
-- [ ] Document tech stack rationale accurately
-- [ ] Update recommendations section with real future plans
-- [ ] Ensure AI disclosure matches actual usage
-- [ ] Export final PDF and inspect layout
-
-### Done when
-
-- Paper reflects actual implementation
-- No stale claims remain
-- PDF compiles cleanly
-- Print copy is ready
-
-## Workstream 3 — README and Docs Sync
-
-### Tasks
-
-- [ ] Update `docs/README.md` to match real `just` recipes
-- [ ] Add concise dependency rationale
-- [ ] Remove stale or unsupported setup instructions
-- [ ] Update `docs/TODO.md` to current scope
-- [ ] Add recommendations summary to project docs if needed
-- [ ] Document `justfile` recipes in human-readable form
-- [ ] Keep deployment instructions consistent across docs and paper
-
-### Done when
-
-- Docs agree with current codebase
-- No obsolete commands mentioned
-- No duplicated instructions across files
-
-## Workstream 4 — Justfile Documentation
-
-### Tasks
-
-- [ ] Document public recipes
-- [ ] Mark private helper recipes as internal
-- [ ] Note external tool requirements for lint recipes
-- [ ] Note Docker Compose dependency for dev/run recipes
-- [ ] Call out missing recipes mentioned in docs if they remain absent
-- [ ] Keep naming consistent with recipe names in `justfile`
-
-### Done when
-
-- Reader can tell what each recipe does without opening the file
-
-## Workstream 5 — Panel Defense Prep
-
-### Tasks
+### Workstream 5 — Panel Defense Prep
 
 - [ ] Prepare 3-minute project summary
 - [ ] Prepare 5-minute full demo summary
@@ -123,7 +63,7 @@ Not allowed:
 - [ ] Prepare likely panel questions
 - [ ] Prepare short answers for each question
 
-### Suggested panel questions
+**Suggested panel questions:**
 
 - Why this project?
 - What problem does it solve?
@@ -136,15 +76,9 @@ Not allowed:
 - How does deployment work?
 - What is future work after submission?
 
-### Done when
+*Done when: Answers fit time limit, answers are consistent with paper and code, no improvisation needed for core questions.*
 
-- Answers fit time limit
-- Answers are consistent with paper and code
-- No improvisation needed for core questions
-
-## Workstream 6 — Backup Plan
-
-### Tasks
+### Workstream 6 — Backup Plan
 
 - [ ] Save final paper PDF locally
 - [ ] Save final project zip or repo snapshot
@@ -155,39 +89,86 @@ Not allowed:
 - [ ] Prepare fallback if internet fails
 - [ ] Prepare fallback if server fails
 
-### Done when
+*Done when: Presentation can continue even if live server breaks.*
 
-- Presentation can continue even if live server breaks
+### Workstream 7 — Timeline
 
-## Workstream 7 — Timeline
-
-### Sunday night
+**Sunday night**
 
 - Freeze scope
 - Capture remaining issues
 - Start doc cleanup
 - Draft deployment + defense notes
 
-### Monday
+**Monday**
 
 - Finalize docs and paper
 - Run lint and report generation
 - Fix any remaining errors
 - Deploy and verify live environment
 
-### Monday night
+**Monday night**
 
 - Rehearse demo
 - Rehearse panel answers
 - Generate final PDFs and backups
 - Stop editing early
 
-### Tuesday before panel
+**Tuesday before panel**
 
 - Open live app
 - Check one full demo path
 - Bring backups
 - Deliver with no surprise edits
+
+______________________________________________________________________
+
+## 🤖 AI's Tasks (Gemini)
+
+### Workstream 2 — Paper Finalization
+
+- [ ] Proofread all sections for grammar and tone
+- [ ] Remove unsupported claims and contradictions
+- [ ] Verify citations against `paper/refs.bib`
+- [ ] Verify captions, figure labels, and cross-references
+- [x] Document architecture accurately
+- [x] Document database schema accurately
+- [x] Document deployment steps accurately
+- [x] Document tech stack rationale accurately
+- [x] Update recommendations section with real future plans
+- [x] Ensure AI disclosure matches actual usage
+- [x] Export final PDF and inspect layout
+
+*Done when: Paper reflects actual implementation, no stale claims remain, PDF compiles cleanly, print copy is ready.*
+
+### Workstream 3 — README and Docs Sync
+
+- [x] Update `docs/README.md` to match real `just` recipes
+- [x] Update `docs/README.md` to explain ALL environment variables in .env.example
+- [x] Add concise dependency rationale
+- [x] Remove stale or unsupported setup instructions
+- [x] Update `docs/TODO.md` to current scope
+- [x] Add recommendations summary to project docs if needed
+- [x] Document `justfile` recipes in human-readable form
+- [x] Keep deployment instructions consistent across docs and paper
+
+*Done when: Docs agree with current codebase, no obsolete commands mentioned, no duplicated instructions across files.*
+
+### Workstream 4 — Justfile Documentation
+
+- [x] Document public recipes
+- [x] Mark private helper recipes as internal
+- [x] Note external tool requirements for lint recipes
+- [x] Note Docker Compose dependency for dev/run recipes
+- [x] Call out missing recipes mentioned in docs if they remain absent
+- [x] Keep naming consistent with recipe names in `justfile`
+
+*Done when: Reader can tell what each recipe does without opening the file.*
+
+### Workstream 8 — Code Fixes (Ruff)
+
+- [x] Fix `D103` and `D401` Ruff errors in `main.py`
+- [x] Fix `D103` and `D401` Ruff errors in `scripts/*.py`
 
 ## Success Criteria
 

@@ -60,10 +60,12 @@ def _is_yaml_content(lines: list[str]) -> bool:
 
 
 def detect_file_type(filepath: Path) -> str:
-    """Classify a file as 'natural_language', 'code', 'config', or 'unknown'.
+    """
+    Classify a file as 'natural_language', 'code', 'config', or 'unknown'.
 
     Returns:
         One of: 'natural_language', 'code', 'config', 'unknown'
+
     """
     ext = filepath.suffix.lower()
 

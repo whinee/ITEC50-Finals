@@ -15,6 +15,7 @@
 - [x] Replace stale setup commands in `docs/README.md`
 - [x] Document public and private `justfile` recipes
 - [x] Add concise stack rationale in `docs/README.md`
+- [x] Document all environment variables from `.env.example` in `docs/README.md`
 - [ ] Proofread docs for tone and contradictions
 
 ## Deployment
@@ -26,8 +27,8 @@
 
 ## Testing
 
-- [ ] Run `just lint` cleanly
-- [ ] Run `just gen-reports` cleanly
+- [x] Run `just lint` cleanly
+- [x] Run `just gen-reports` cleanly
 - [ ] Recheck generated reports after doc edits
 
 ## Paper

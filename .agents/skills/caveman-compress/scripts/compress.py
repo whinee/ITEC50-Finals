@@ -10,10 +10,9 @@ import os
 import re
 import subprocess
 from pathlib import Path
-from typing import List
 
 OUTER_FENCE_REGEX = re.compile(
-    r"\A\s*(`{3,}|~{3,})[^\n]*\n(.*)\n\1\s*\Z", re.DOTALL
+    r"\A\s*(`{3,}|~{3,})[^\n]*\n(.*)\n\1\s*\Z", re.DOTALL,
 )
 
 # Filenames and paths that almost certainly hold secrets or PII. Compressing
@@ -32,7 +31,7 @@ SENSITIVE_BASENAME_REGEX = re.compile(
     r"|authorized_keys"
     r"|known_hosts"
     r"|.*\.(pem|key|p12|pfx|crt|cer|jks|keystore|asc|gpg)"
-    r")$"
+    r")$",
 )
 
 SENSITIVE_PATH_COMPONENTS = frozenset({".ssh", ".aws", ".gnupg", ".kube", ".docker"})
@@ -120,7 +119,7 @@ TEXT:
 """
 
 
-def build_fix_prompt(original: str, compressed: str, errors: List[str]) -> str:
+def build_fix_prompt(original: str, compressed: str, errors: list[str]) -> str:
     errors_str = "\n".join(f"- {e}" for e in errors)
     return f"""You are fixing a caveman-compressed markdown file. Specific validation errors were found.
 
@@ -170,7 +169,7 @@ def compress_file(filepath: Path) -> bool:
             f"Refusing to compress {filepath}: filename looks sensitive "
             "(credentials, keys, secrets, or known private paths). "
             "Compression sends file contents to the Anthropic API. "
-            "Rename the file if this is a false positive."
+            "Rename the file if this is a false positive.",
         )
 
     print(f"Processing: {filepath}")
@@ -247,7 +246,7 @@ def compress_file(filepath: Path) -> bool:
 
         print("Fixing with Claude...")
         compressed = call_claude(
-            build_fix_prompt(original_text, compressed, result.errors)
+            build_fix_prompt(original_text, compressed, result.errors),
         )
         filepath.write_text(compressed)
 
