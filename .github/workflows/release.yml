@@ -75,6 +75,8 @@ jobs:
     name: Create GitHub Release
     needs: [package-source, build-executables]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v4
