@@ -29,6 +29,8 @@ dependencies = [
     "pyyaml>=6.0.3",
     "hypercorn>=0.16.0",
     "alembic>=1.18.4",
+    "faker>=40.19.1",
+    "wonderwords>=3.0.1",
 ]
 maintainers = [
     { name = "Lyra Phasma", email = "lyraphasma@gmail.com" },

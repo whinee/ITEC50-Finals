@@ -15,7 +15,13 @@ DeciMark is a server-rendered bookmark manager built around Johnny.Decimal ident
 
 ## Setup
 
-Use the real repository commands:
+For the main app server:
+
+```bash
+just run
+```
+
+Use the repository commands:
 
 ```bash
 just start-db
@@ -24,12 +30,6 @@ just tests
 just lint
 just gen-reports
 just dev
-```
-
-For the main app server:
-
-```bash
-just run
 ```
 
 For migrations:
