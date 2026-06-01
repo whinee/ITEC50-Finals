@@ -34,24 +34,24 @@ biber "$(basename "${TEXFILE}" .tex)" || true
 xelatex -synctex=1 -interaction=nonstopmode -file-line-error -shell-escape "${TEXFILE}" || true
 xelatex -synctex=1 -interaction=nonstopmode -file-line-error -shell-escape "${TEXFILE}"
 
-BASENAME=$(basename "${TEXFILE}" .tex)
-mkdir -p "image-export/${BASENAME}"
-echo "Exporting ${BASENAME}.pdf to images in parallel chunks..."
+# BASENAME=$(basename "${TEXFILE}" .tex)
+# mkdir -p "image-export/${BASENAME}"
+# echo "Exporting ${BASENAME}.pdf to images in parallel chunks..."
 
-# Get total pages
-PAGES=$(pdfinfo "${BASENAME}.pdf" | awk '/^Pages:/ {print $2}')
+# # Get total pages
+# PAGES=$(pdfinfo "${BASENAME}.pdf" | awk '/^Pages:/ {print $2}')
 
-# Process in 8 parallel chunks to avoid loading the PDF hundreds of times and segfaulting
-CHUNKS=8
-PAGES_PER_CHUNK=$(( (PAGES + CHUNKS - 1) / CHUNKS ))
+# # Process in 8 parallel chunks to avoid loading the PDF hundreds of times and segfaulting
+# CHUNKS=8
+# PAGES_PER_CHUNK=$(( (PAGES + CHUNKS - 1) / CHUNKS ))
 
-for i in $(seq 0 $((CHUNKS - 1))); do
-    START=$(( i * PAGES_PER_CHUNK + 1 ))
-    END=$(( (i + 1) * PAGES_PER_CHUNK ))
-    if [ "$END" -gt "$PAGES" ]; then END=$PAGES; fi
-    pdftoppm -r 300 -png -f "$START" -l "$END" "${BASENAME}.pdf" "image-export/${BASENAME}/page" &
-done
+# for i in $(seq 0 $((CHUNKS - 1))); do
+#     START=$(( i * PAGES_PER_CHUNK + 1 ))
+#     END=$(( (i + 1) * PAGES_PER_CHUNK ))
+#     if [ "$END" -gt "$PAGES" ]; then END=$PAGES; fi
+#     pdftoppm -r 300 -png -f "$START" -l "$END" "${BASENAME}.pdf" "image-export/${BASENAME}/page" &
+# done
 
-wait
+# wait
 
-echo "Image export complete!"
+# echo "Image export complete!"
