@@ -49,6 +49,7 @@ async def test_settings_modal(page: Page):
 
 async def test_info_modal(page: Page):
     """Test that the info modal can be opened and closed."""
+    page.on("console", lambda msg: print(f"CONSOLE: {msg.type}: {msg.text}"))
     await page.goto("/")
     
     # Open menu
@@ -66,3 +67,52 @@ async def test_info_modal(page: Page):
     
     await page.click("#close-modal")
     await expect(modal_area).not_to_be_visible()
+
+async def test_bookmark_add_ui(auth_page: Page):
+    """Test the add bookmark UI flow."""
+    auth_page.on("console", lambda msg: print(f"CONSOLE: {msg.type}: {msg.text}"))
+    auth_page.on("response", lambda res: print(f"RESPONSE: {res.url} {res.status}"))
+    await auth_page.goto("/bookmarks/add")
+    await expect(auth_page.locator("h1").first).to_have_text("Add bookmark")
+    
+    await auth_page.fill('input[name="title"]', "Playwright UI Bookmark")
+    await auth_page.fill('input[name="url"]', "https://playwright.dev")
+    await auth_page.fill('input[name="jdIds"]', "11.11")
+    
+    await auth_page.wait_for_timeout(1000) # Wait for bookmarks.js event listener to bind
+    await auth_page.screenshot(path="docs/screenshots/add_bookmark_form.png")
+    await auth_page.click('button[type="submit"]')
+    
+    # Wait for the toast and form reset
+    await auth_page.wait_for_timeout(1000)
+    await expect(auth_page.locator('input[name="title"]')).to_be_empty()
+    
+    # Navigate to dashboard
+    await auth_page.click('a[href="/bookmarks/dashboard"]')
+    await auth_page.wait_for_timeout(1000)
+    await auth_page.screenshot(path="docs/screenshots/dashboard_after_add.png")
+
+async def test_search_ui(auth_page: Page):
+    """Test the search UI functionality."""
+    await auth_page.goto("/bookmarks/search")
+    await expect(auth_page.locator("h1")).to_have_text("Search bookmarks")
+    
+    # Search for something
+    await auth_page.fill('input[name="title"]', "Playwright")
+    await auth_page.click('button[type="submit"]')
+    
+    await auth_page.wait_for_timeout(1000) # Wait for fetch and render
+    await auth_page.screenshot(path="docs/screenshots/search_results.png")
+
+async def test_tags_ui(auth_page: Page):
+    """Test the tag UI view."""
+    await auth_page.goto("/bookmarks/tag")
+    await auth_page.wait_for_timeout(1000)
+    await auth_page.screenshot(path="docs/screenshots/tags_view.png")
+
+async def test_jd_ui(auth_page: Page):
+    """Test the JD tree UI view."""
+    await auth_page.goto("/bookmarks/jd")
+    await expect(auth_page.locator("h1").first).to_have_text("Bookmarks by JD ID")
+    await auth_page.wait_for_timeout(1000)
+    await auth_page.screenshot(path="docs/screenshots/jd_view.png")
