@@ -9,9 +9,10 @@ color: #e0e0e0
 style: |
   h1 { color: #F173AC; font-family: 'Arial', sans-serif; }
   h2 { color: #a68cd9; font-weight: normal; }
+  * { font-size: 1.2rem }
   strong { color: #F173AC; }
   a { color: #a68cd9; }
-  ul li { font-size: 1.2rem; line-height: 1.8; text-align: left; }
+  ul li { line-height: 1.8; text-align: left; }
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
 ---
 
