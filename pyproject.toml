@@ -23,8 +23,6 @@ dependencies = [
     "pydantic-extra-types>=2.11.1",
     "psycopg[binary]>=3.3.4",
     "phonenumbers>=9.0.30",
-    "wonderwords>=3.0.1",
-    "faker>=40.19.1",
     "fastapi-limiter<=0.1.6",
     "redis>=7.4.0",
     "captcha>=0.7.1",
@@ -52,6 +50,10 @@ documentation = "https://github.com/whinee/lyra-on.top/tree/main/docs"
 
 
 [dependency-groups]
+seeding = [
+    "faker>=40.19.1",
+    "wonderwords>=3.0.1",
+]
 dev = [
     "black>=25.1.0",
     "erdantic>=1.1.0.post1",
