@@ -77,6 +77,8 @@ dev = [
     "pytest-asyncio>=1.4.0",
     "cairosvg>=2.9.0",
     "pypandoc-binary>=1.17",
+    "faker>=40.19.1",
+    "wonderwords>=3.0.1",
 ]
 
 [build-system]
