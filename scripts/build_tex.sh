@@ -29,10 +29,14 @@ for pdf in "figures/"*.pdf; do
 done
 
 # Run xelatex manually to avoid latexmk concurrent write/parsing bugs on huge documents
-xelatex -synctex=1 -interaction=nonstopmode -file-line-error -shell-escape "${TEXFILE}" || true
+# Use -no-pdf to decouple xdvipdfmx from xelatex; preventing OOM/segfaults on huge documents
+xelatex -no-pdf -synctex=1 -interaction=nonstopmode -file-line-error -shell-escape "${TEXFILE}" || true
 biber "$(basename "${TEXFILE}" .tex)" || true
-xelatex -synctex=1 -interaction=nonstopmode -file-line-error -shell-escape "${TEXFILE}" || true
-xelatex -synctex=1 -interaction=nonstopmode -file-line-error -shell-escape "${TEXFILE}"
+xelatex -no-pdf -synctex=1 -interaction=nonstopmode -file-line-error -shell-escape "${TEXFILE}" || true
+xelatex -no-pdf -synctex=1 -interaction=nonstopmode -file-line-error -shell-escape "${TEXFILE}"
+
+BASENAME=$(basename "${TEXFILE}" .tex)
+xdvipdfmx "${BASENAME}.xdv"
 
 BASENAME=$(basename "${TEXFILE}" .tex)
 mkdir -p "image-export/${BASENAME}"
