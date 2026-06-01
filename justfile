@@ -177,4 +177,4 @@ dev:
 # Run web app
 run:
     just restart-web-deps
-    uv run hypercorn main:app --reload --bind 0.0.0.0:8000 --workers 16
+    uv run hypercorn main:app --bind 0.0.0.0:8000 --workers 16

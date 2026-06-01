@@ -12,9 +12,10 @@ docs/.obsidian
 **/_minted/
 
 # User-ignored Files
-test.sh
 .env
 .error
+decimark.db
+test.sh
 seed_credentials.json
 **/*.bbl-SAVE-ERROR
 **/*.bcf-SAVE-ERROR
