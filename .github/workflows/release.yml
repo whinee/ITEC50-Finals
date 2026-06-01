@@ -1,0 +1,105 @@
+name: Release Pipeline
+
+on:
+  push:
+    tags:
+      - 'v*' # Trigger on version tags (e.g., v1.0.0)
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  package-source:
+    name: Package Repository Archive
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for all tags and branches
+          
+      - name: Create Full Source Archive
+        run: |
+          zip -r decimark-source.zip . -x "node_modules/*" -x ".venv/*" -x "__pycache__/*" -x "*.pyc"
+
+      - name: Upload Source Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: decimark-source-archive
+          path: decimark-source.zip
+
+  build-executables:
+    name: Build Standalone Executables
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            executable_name: decimark-linux
+            os_name: linux
+          - os: windows-latest
+            executable_name: decimark-windows.exe
+            os_name: windows
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+          
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version-file: "pyproject.toml"
+
+      - name: Install dependencies
+        run: uv sync --all-groups
+        
+      - name: Install PyInstaller
+        run: uv pip install pyinstaller
+        
+      - name: Build Executable with PyInstaller
+        # We use a custom spec to bundle templates, static files, and environment variables
+        run: |
+          uv run pyinstaller --noconfirm --onefile \
+            --name ${{ matrix.executable_name }} \
+            --add-data "src/templates${{ matrix.os == 'windows-latest' && ';' || ':' }}src/templates" \
+            --add-data "src/static${{ matrix.os == 'windows-latest' && ';' || ':' }}src/static" \
+            --add-data ".env.example${{ matrix.os == 'windows-latest' && ';' || ':' }}.env" \
+            --hidden-import "asyncpg" \
+            --hidden-import "psycopg" \
+            --hidden-import "psycopg_binary" \
+            --hidden-import "jinja2" \
+            scripts/run_app.py
+
+      - name: Upload Binary Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: decimark-${{ matrix.os_name }}-binary
+          path: dist/${{ matrix.executable_name }}
+
+  release:
+    name: Create GitHub Release
+    needs: [package-source, build-executables]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          
+      - name: Prepare Release Assets
+        run: |
+          mkdir -p release-assets
+          cp artifacts/decimark-source-archive/decimark-source.zip release-assets/
+          cp artifacts/decimark-linux-binary/decimark-linux release-assets/
+          cp artifacts/decimark-windows-binary/decimark-windows.exe release-assets/
+          
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-assets/*
+          draft: true # Keep it as a draft so Lyra can review before publishing
+          generate_release_notes: true
