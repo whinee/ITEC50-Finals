@@ -7,6 +7,11 @@
     padding-top: unset !important;
 }
 
+main {
+    width: 100%;
+    overflow-x: hidden;
+}
+
 /* OVERRIDES AND GLOBALS: END */
 
 /* HERO SECTION: START */
@@ -69,7 +74,7 @@
 
 /* TYPOGRAPHY AND CONTENT: START */
 .landing-title {
-    font-size: clamp(2.5rem, 10vw, 6rem);
+    font-size: clamp(2rem, 10vw, 6rem);
     font-weight: 800;
     margin-bottom: 1rem;
     background: linear-gradient(135deg, var(--text-1) 0%, var(--fg-1) 100%);

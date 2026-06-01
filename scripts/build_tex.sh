@@ -34,3 +34,9 @@ biber "$(basename "${TEXFILE}" .tex)" || true
 xelatex -synctex=1 -interaction=nonstopmode -file-line-error -shell-escape "${TEXFILE}" || true
 xelatex -synctex=1 -interaction=nonstopmode -file-line-error -shell-escape "${TEXFILE}"
 
+BASENAME=$(basename "${TEXFILE}" .tex)
+mkdir -p "image-export/${BASENAME}"
+echo "Exporting ${BASENAME}.pdf to images..."
+pdftoppm -r 300 -png "${BASENAME}.pdf" "image-export/${BASENAME}/page"
+echo "Image export complete!"
+

@@ -7,7 +7,7 @@
 
 /* TOAST CONTAINER: START */
 
-.toast {
+#toast {
     position: fixed;
     top: 32px;
     right: 32px;

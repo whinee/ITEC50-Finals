@@ -1541,12 +1541,6 @@ And some people, it turns out, will only pick up the tools after the person who 
 
 Although this project has reached a stable production-ready state, the software development lifecycle is an ongoing process. As expressed in the dedication, my ultimate goal is for this system to be utilized by others. I intend to maintain and evolve this tool until it is either superseded by superior alternatives or I move on to better things. To that end, the following recommendations outline the strategic roadmap for the system's future development.
 
-\section{Backend Enhancements}
-\begin{itemize}
-  \item \textbf{Zero-Trust Encryption}: Implementing true end-to-end encryption where the server has zero knowledge of the plaintext data, ensuring user privacy even in the event of a database compromise.
-  \item \textbf{API Token Authentication}: Developing a robust API token system to allow users to securely interact with the system via third-party integrations, CLI tools, or custom extensions without relying solely on session cookies.
-\end{itemize}
-
 \section{Frontend Enhancements}
 \begin{itemize}
   \item \textbf{Dedicated Taxonomy Pages}: Creating dedicated views for displaying all Johnny.Decimal IDs and Tags, providing users with a comprehensive overview of their organizational structure.
@@ -1555,6 +1549,12 @@ Although this project has reached a stable production-ready state, the software 
   \item \textbf{Favicon Polish}: Fixing the favicon assets to include 2D scale transforms, refining the visual polish of the application tab across different browsers.
   \item \textbf{Dynamic Contrast Automation}: Enhancing the tagging UI to automatically compute and assign complementary background colors based on user-selected foreground colors, ensuring optimal readability.
   \item \textbf{Theme Marketplace and Sharing}: Adding the ability for users to pick from preset color schemes, create their own custom themes, and share them with other users via a marketplace or shareable codes.
+\end{itemize}
+
+\section{Backend Enhancements}
+\begin{itemize}
+  \item \textbf{Zero-Trust Encryption}: Implementing true end-to-end encryption where the server has zero knowledge of the plaintext data, ensuring user privacy even in the event of a database compromise.
+  \item \textbf{API Token Authentication}: Developing a robust API token system to allow users to securely interact with the system via third-party integrations, CLI tools, or custom extensions without relying solely on session cookies.
 \end{itemize}
 
 \chapter{AI Disclosure}
@@ -1567,6 +1567,8 @@ In the interest of academic integrity, the following discloses the use of artifi
   \item \textbf{Dynamic Theming}: Developed the Base64 JSON state export and HSL color manipulation pipeline for Tag rendering.
   \item \textbf{Deployment \& QA}: Configured Docker Compose deployments, resolved Python dependency warnings, and expanded Playwright visual tests.
   \item \textbf{Documentation}: Drafted Python docstrings, utility scripts, and specific {\LatinModernRoman \LaTeX} paper chapters (e.g., Theoretical Foundations, Brand Identity) under the author's direction.
+  \item \textbf{Captcha Validation}: Implemented server-side verification of the base64 captcha token during login.
+  \item \textbf{Global Rate Limiting}: Integrated \texttt{fastapi-limiter} with Redis to enforce strict rate limits across all API endpoints and root pages.
 \end{itemize}
 
 The overall system architecture, the Johnny.Decimal integration model, the zero-trust security design, the CSS design system, the JavaScript interaction logic, the database schema, the deployment strategy, and the substantive content of the reflection and rationale were authored entirely by the author. The use of AI tools did not substitute for technical understanding; it accelerated execution of decisions already made.

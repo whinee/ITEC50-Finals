@@ -110,7 +110,8 @@ form {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    margin-top: 1.5rem;
+    width: max(20vw, 250px);
+    margin: 1.5rem auto 0;
 }
 
 .demo-login-btn {

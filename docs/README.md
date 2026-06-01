@@ -337,5 +337,7 @@ In the interest of academic integrity, the following discloses the use of artifi
 - **Dynamic Theming**: Developed the Base64 JSON state export and HSL color manipulation pipeline for Tag rendering.
 - **Deployment & QA**: Configured Docker Compose deployments, resolved Python dependency warnings, and expanded Playwright visual tests.
 - **Documentation**: Drafted Python docstrings, utility scripts, and LaTeX paper chapters under the author's direction.
+- **Captcha Validation**: Implemented server-side verification of the base64 captcha token during login.
+- **Global Rate Limiting**: Integrated `fastapi-limiter` with Redis to enforce strict rate limits across all API endpoints and root pages.
 
 The overall system architecture, the Johnny.Decimal integration model, the zero-trust security design, the CSS design system, the JavaScript interaction logic, the database schema, the deployment strategy, and the substantive content of the reflection and rationale were authored entirely by the author. The use of AI tools did not substitute for technical understanding; it accelerated execution of decisions already made.

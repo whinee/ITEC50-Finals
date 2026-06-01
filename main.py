@@ -21,6 +21,7 @@ from fastapi.responses import JSONResponse, RedirectResponse  # type: ignore
 from fastapi.security import HTTPBasic
 from fastapi.staticfiles import StaticFiles
 from fastapi_limiter import FastAPILimiter
+from fastapi_limiter.depends import RateLimiter
 from jinja2 import TemplateNotFound
 from sqlalchemy import func
 from sqlmodel import select
@@ -123,10 +124,11 @@ async def add_process_time_header(
 
 
 app.mount("/static/", StaticFiles(directory="src/static"), name="static")
-app.include_router(auth.router, prefix="/auth", tags=["auth"])
-app.include_router(bookmarks.router, prefix="/bookmarks", tags=["bookmarks"])
-app.include_router(bookmarks.api_router, prefix="/api", tags=["bookmarks-api"])
-app.include_router(preferences.router, prefix="/api", tags=["preferences"])
+
+app.include_router(auth.router, prefix="/auth", tags=["auth"], dependencies=[Depends(RateLimiter(times=20, seconds=60))])
+app.include_router(bookmarks.router, prefix="/bookmarks", tags=["bookmarks"], dependencies=[Depends(RateLimiter(times=120, seconds=60))])
+app.include_router(bookmarks.api_router, prefix="/api", tags=["bookmarks-api"], dependencies=[Depends(RateLimiter(times=120, seconds=60))])
+app.include_router(preferences.router, prefix="/api", tags=["preferences"], dependencies=[Depends(RateLimiter(times=60, seconds=60))])
 
 
 @app.get("/docs", include_in_schema=False, status_code=200)
@@ -156,7 +158,7 @@ async def http_code_get(request: Request, status_code: int) -> _TemplateResponse
     return CustomResponse.http_code(request=request, status_code=status_code)
 
 
-@app.get("/", include_in_schema=False)
+@app.get("/", include_in_schema=False, dependencies=[Depends(RateLimiter(times=120, seconds=60))])
 async def landing_page(
     request: Request,
     session: Annotated[AsyncSession, Depends(get_session)],
@@ -170,7 +172,7 @@ async def landing_page(
 
     Returns:
         _TemplateResponse: The brilliantly rendered frontend landing interface.
-    
+
     """
     bookmark_result = await session.exec(select(func.count(Bookmark.id)))  # type: ignore[arg-type]
     total_bookmarks = bookmark_result.one()
@@ -178,14 +180,16 @@ async def landing_page(
     user_result = await session.exec(select(func.count(User.id)))  # type: ignore[arg-type]
     total_users = user_result.one()
 
+    splash_msg = random.choice(settings.STRINGS.splash) if settings.STRINGS.splash else ""  # noqa: S311
+
     return TEMPLATES.TemplateResponse(
         request=request, 
         name="index.j2.html", 
-        context={"total_bookmarks": total_bookmarks, "total_users": total_users, "hide_logout": True},
+        context={"total_bookmarks": total_bookmarks, "total_users": total_users, "splash": splash_msg},
     )
 
 
-@app.get("/bookmarks_dashboard", include_in_schema=False)
+@app.get("/bookmarks_dashboard", include_in_schema=False, dependencies=[Depends(RateLimiter(times=120, seconds=60))])
 async def bookmarks_dashboard_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
@@ -207,7 +211,7 @@ async def bookmarks_dashboard_redirect(
     return RedirectResponse(url=f"/bookmarks/dashboard{query}")
 
 
-@app.get("/bookmarks_add", include_in_schema=False)
+@app.get("/bookmarks_add", include_in_schema=False, dependencies=[Depends(RateLimiter(times=120, seconds=60))])
 async def bookmarks_add_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
@@ -229,7 +233,7 @@ async def bookmarks_add_redirect(
     return RedirectResponse(url=f"/bookmarks/add{query}")
 
 
-@app.get("/bookmarks_jd", include_in_schema=False)
+@app.get("/bookmarks_jd", include_in_schema=False, dependencies=[Depends(RateLimiter(times=120, seconds=60))])
 async def bookmarks_jd_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
@@ -252,7 +256,7 @@ async def bookmarks_jd_redirect(
     return RedirectResponse(url=f"/bookmarks/jd{query}")
 
 
-@app.get("/bookmarks_tag", include_in_schema=False)
+@app.get("/bookmarks_tag", include_in_schema=False, dependencies=[Depends(RateLimiter(times=120, seconds=60))])
 async def bookmarks_tag_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
@@ -274,7 +278,7 @@ async def bookmarks_tag_redirect(
     return RedirectResponse(url=f"/bookmarks/tag{query}")
 
 
-@app.get("/bookmarks_search", include_in_schema=False)
+@app.get("/bookmarks_search", include_in_schema=False, dependencies=[Depends(RateLimiter(times=120, seconds=60))])
 async def bookmarks_search_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
@@ -339,17 +343,10 @@ async def handle_webhook(request: Request):  # type: ignore[no-untyped-def]
 
 
 
-@app.get("/", include_in_schema=False)
-async def serve_root(request: Request):
-    """Serve the root landing page."""
-    try:
-        splash_msg = random.choice(settings.STRINGS.splash) if settings.STRINGS.splash else ""  # noqa: S311
-        return TEMPLATES.TemplateResponse(request=request, name="index.j2.html", context={"hide_logout": True, "splash": splash_msg})
-    except TemplateNotFound as e:
-        raise HTTPException(status_code=404) from e
 
 
-@app.get("/login/2fa", include_in_schema=False)
+
+@app.get("/login/2fa", include_in_schema=False, dependencies=[Depends(RateLimiter(times=120, seconds=60))])
 async def login_2fa_redirect(
     request: Request,
 ):
@@ -359,7 +356,7 @@ async def login_2fa_redirect(
     except TemplateNotFound as e:
         raise HTTPException(status_code=404) from e
 
-@app.get("/login", include_in_schema=False)
+@app.get("/login", include_in_schema=False, dependencies=[Depends(RateLimiter(times=60, seconds=60))])
 async def login_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
@@ -385,7 +382,7 @@ async def login_redirect(
         raise HTTPException(status_code=404) from e
 
 
-@app.get("/{page}")
+@app.get("/{page}", dependencies=[Depends(RateLimiter(times=120, seconds=60))])
 async def serve_page(request: Request, page: str):
     """
     Resolve and renders root-level Markdown pages.

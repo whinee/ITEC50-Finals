@@ -14,8 +14,7 @@ from captcha.image import ImageCaptcha
 from cryptography.exceptions import InvalidKey
 from cryptography.hazmat.primitives.kdf.argon2 import Argon2id
 from faker import Faker
-from fastapi import APIRouter, Depends, Form, HTTPException, Request
-from fastapi_limiter.depends import Response
+from fastapi import APIRouter, Depends, Form, HTTPException, Request, Response
 from pydantic import BaseModel, EmailStr, TypeAdapter, ValidationError
 from sqlalchemy import text
 from sqlalchemy.exc import NoResultFound
@@ -26,6 +25,7 @@ from starlette.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
     HTTP_301_MOVED_PERMANENTLY,
+    HTTP_400_BAD_REQUEST,
     HTTP_401_UNAUTHORIZED,
     HTTP_406_NOT_ACCEPTABLE,
     HTTP_409_CONFLICT,
@@ -85,6 +85,7 @@ class LoginData(BaseModel):
 
     identifier: str
     password: str
+    captcha_answer: str
 
 
 @router.get("/generate-username")
@@ -172,6 +173,29 @@ async def login_user(  # noqa: C901
             message="You must logout first.",
             category="error",
             status_code=HTTP_406_NOT_ACCEPTABLE,
+        )
+
+    captcha_token = request.cookies.get("captcha_token")
+    if not captcha_token:
+        return CustomResponse.json_flash(
+            message="Captcha missing. Please reload.",
+            category="error",
+            status_code=HTTP_400_BAD_REQUEST,
+        )
+    
+    try:
+        claims = jwt_service.verify(captcha_token)
+        if not claims.sub or claims.sub.lower() != data.captcha_answer.strip().lower():
+            return CustomResponse.json_flash(
+                message="Invalid captcha answer.",
+                category="error",
+                status_code=HTTP_400_BAD_REQUEST,
+            )
+    except Exception:
+        return CustomResponse.json_flash(
+            message="Captcha expired or invalid. Please reload.",
+            category="error",
+            status_code=HTTP_400_BAD_REQUEST,
         )
 
     identifier = data.identifier.strip().lower()
