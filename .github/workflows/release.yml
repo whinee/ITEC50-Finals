@@ -63,17 +63,7 @@ jobs:
         
       - name: Build Executable with PyInstaller
         # We use a custom spec to bundle templates, static files, and environment variables
-        run: |
-          uv run pyinstaller --noconfirm --onefile \
-            --name ${{ matrix.executable_name }} \
-            --add-data "src/templates${{ matrix.os == 'windows-latest' && ';' || ':' }}src/templates" \
-            --add-data "src/static${{ matrix.os == 'windows-latest' && ';' || ':' }}src/static" \
-            --add-data ".env.example${{ matrix.os == 'windows-latest' && ';' || ':' }}.env" \
-            --hidden-import "asyncpg" \
-            --hidden-import "psycopg" \
-            --hidden-import "psycopg_binary" \
-            --hidden-import "jinja2" \
-            scripts/run_app.py
+        run: uv run pyinstaller --noconfirm --onefile --name ${{ matrix.executable_name }} --add-data "src/templates${{ matrix.os == 'windows-latest' && ';' || ':' }}src/templates" --add-data "src/static${{ matrix.os == 'windows-latest' && ';' || ':' }}src/static" --add-data ".env.example${{ matrix.os == 'windows-latest' && ';' || ':' }}.env" --hidden-import "asyncpg" --hidden-import "psycopg" --hidden-import "psycopg_binary" --hidden-import "jinja2" scripts/run_app.py
 
       - name: Upload Binary Artifact
         uses: actions/upload-artifact@v4
