@@ -57,9 +57,11 @@ seeding = [
     "faker>=40.19.1",
     "wonderwords>=3.0.1",
 ]
+diagrams = [
+    "erdantic>=1.1.0.post1",
+]
 dev = [
     "black>=25.1.0",
-    "erdantic>=1.1.0.post1",
     "mypy>=1.15.0",
     "no-implicit-optional>=1.4",
     "pdoc3>=0.11.5",
