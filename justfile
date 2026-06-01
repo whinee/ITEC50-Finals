@@ -165,7 +165,6 @@ gen-reports:
     @ just lint-css
     @ uv run scripts/summarize_python.py
     @ uv run scripts/generate_scc_report.py --count-as 'j2.html:Jinja2'
-    @ just seed
     @ uv run scripts/run_visual_tests.py
     @ just lint-tex
     @ just lint-md

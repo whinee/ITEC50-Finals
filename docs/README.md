@@ -343,5 +343,6 @@ In the interest of academic integrity, the following discloses the use of artifi
 - **Global Rate Limiting**: Integrated `fastapi-limiter` with Redis to enforce strict rate limits across all API endpoints and root pages.
 - **Tag Header Alignment**: Wrapped the tag view header title and color picker in a flex container to align them vertically in the UI, and added horizontal spacing between them.
 - **Color Picker Race Condition**: Refactored the inline JavaScript in the tag template to use a polling interval instead of a static timeout, ensuring the color picker UI consistently renders after the tag map loads.
+- **Demo Login UI Polish**: Removed a duplicate click event listener on the demo login button that was causing race conditions, and adjusted redirect timeouts to ensure the toast message has adequate time to display before navigation.
 
 The overall system architecture, the Johnny.Decimal integration model, the zero-trust security design, the CSS design system, the JavaScript interaction logic, the database schema, the deployment strategy, and the substantive content of the reflection and rationale were authored entirely by the author. The use of AI tools did not substitute for technical understanding; it accelerated execution of decisions already made.

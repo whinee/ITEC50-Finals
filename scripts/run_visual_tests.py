@@ -227,6 +227,7 @@ async def process_pages(
 async def run_tests():  # noqa: C901
     """Missing docstring."""
     os.environ["TEST__LIGHTHOUSE"] = "true"
+    os.environ["AUTH__OTP"] = "true"
 
     port = os.environ.get("EXTERNAL_DB_PORT", "5432")
     user = os.environ.get("PG__USER", "postgres")
@@ -246,6 +247,8 @@ async def run_tests():  # noqa: C901
     # Using 4 workers to ensure Hypercorn doesn't choke under Playwright concurrency
     server_process = subprocess.Popen(  # noqa: S603
         [
+            sys.executable,
+            "-m",
             "hypercorn",
             "main:app",
             "--bind",

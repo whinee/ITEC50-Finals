@@ -94,28 +94,7 @@
             </div>
         </main>
     </div>
-    <script src="/static/scripts/forms.js">
-        document.getElementById("demo-login-btn").addEventListener("click", async (e) => {
-            e.preventDefault();
-            const res = await fetch("/auth/demo", {
-                method: "POST"
-            });
-            if (res.ok) {
-                toast({
-                    title: "Success",
-                    message: "Logged in as demo user.",
-                    type: "success"
-                });
-                setTimeout(() => window.location.href = "/bookmarks", 1000);
-            } else {
-                toast({
-                    title: "Error",
-                    message: "Demo login failed.",
-                    type: "error"
-                });
-            }
-        });
-    </script>
+    <script src="/static/scripts/forms.js"></script>
     <script>
         document.getElementById("login-form").addEventListener("submit", async (e) => {
             e.preventDefault();

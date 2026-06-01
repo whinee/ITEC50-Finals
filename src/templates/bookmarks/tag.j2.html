@@ -83,8 +83,10 @@
                                         ...tagInfo,
                                         color: newColor
                                     });
-                                    // Force reload of bookmarks to apply new color
-                                    location.reload();
+                                    // Wait for toast to display before reloading
+                                    setTimeout(() => {
+                                        location.reload();
+                                    }, 1500);
                                 } else {
                                     if (window.toast) {
                                         toast({
