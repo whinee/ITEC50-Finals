@@ -6,7 +6,7 @@ const modals = ["settings", "info"];
 // Document Selectors
 const closeModal = document.getElementById("close-modal");
 const modalArea = document.getElementById("modal-area");
-const modalBg = document.getElementById("modal-bg");
+const modalBg = document.querySelector(".modal-bg");
 
 for (let i of modals) {
     const iBtn = document.getElementById(`${i}-modal-button`);

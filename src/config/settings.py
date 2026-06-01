@@ -1,7 +1,7 @@
 """
 Environment Settings.
 
-Exposes the core `Settings` object powered by `pydantic-settings`, violently asserting environment variables and secrets before the application even boots.
+Exposes the core Settings object powered by `pydantic-settings`, violently asserting environment variables and secrets before the application even boots.
 """
 
 from typing import Annotated, Literal

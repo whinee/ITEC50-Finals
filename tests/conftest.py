@@ -89,6 +89,7 @@ async def auth_context(browser: Browser):
     await page.goto("/login")
     await page.fill('input[name="identifier"]', user["username"])
     await page.fill('input[name="password"]', user["password"])
+    await page.fill('input[name="captcha_answer"]', "1234")
     await page.click('input[type="submit"]')
     
     # Wait for successful login redirect

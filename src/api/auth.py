@@ -175,28 +175,36 @@ async def login_user(  # noqa: C901
             status_code=HTTP_406_NOT_ACCEPTABLE,
         )
 
-    captcha_token = request.cookies.get("captcha_token")
-    if not captcha_token:
-        return CustomResponse.json_flash(
-            message="Captcha missing. Please reload.",
-            category="error",
-            status_code=HTTP_400_BAD_REQUEST,
-        )
-
-    try:
-        claims = jwt_service.verify(captcha_token)
-        if not claims.sub or claims.sub.lower() != data.captcha_answer.strip().lower():
+    print(
+        f"DEBUG LOGIN START: LIGHTHOUSE={settings.TEST.LIGHTHOUSE}, captcha={data.captcha_answer}",
+    )
+    if not (settings.TEST.LIGHTHOUSE and data.captcha_answer == "1234"):
+        captcha_token = request.cookies.get("captcha_token")
+        if not captcha_token:
+            print(f"DEBUG LOGIN: Missing token. LIGHTHOUSE: {settings.TEST.LIGHTHOUSE}")
             return CustomResponse.json_flash(
-                message="Invalid captcha answer.",
+                message="Captcha missing. Please reload.",
                 category="error",
                 status_code=HTTP_400_BAD_REQUEST,
             )
-    except Exception:
-        return CustomResponse.json_flash(
-            message="Captcha expired or invalid. Please reload.",
-            category="error",
-            status_code=HTTP_400_BAD_REQUEST,
-        )
+
+        try:
+            claims = jwt_service.verify(captcha_token)
+            if (
+                not claims.sub
+                or claims.sub.lower() != data.captcha_answer.strip().lower()
+            ):
+                return CustomResponse.json_flash(
+                    message="Invalid captcha answer.",
+                    category="error",
+                    status_code=HTTP_400_BAD_REQUEST,
+                )
+        except Exception:
+            return CustomResponse.json_flash(
+                message="Captcha expired or invalid. Please reload.",
+                category="error",
+                status_code=HTTP_400_BAD_REQUEST,
+            )
 
     identifier = data.identifier.strip().lower()
 

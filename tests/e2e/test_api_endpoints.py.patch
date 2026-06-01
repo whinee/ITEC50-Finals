@@ -1,0 +1,66 @@
+--- tests/e2e/test_api_endpoints.py
++++ tests/e2e/test_api_endpoints.py
+@@ -107,4 +107,67 @@
+     
+     # Verify theme cookie
+     assert any(c["name"] == "theme" for c in api_client.cookies.jar), "Theme cookie should be set"
++
++async def test_bookmark_advanced_api(auth_client):
++    """Test advanced bookmark operations like searching and tagging."""
++    # Create a test bookmark
++    add_resp = await auth_client.post(
++        "/api/bookmarks",
++        json={"title": "Adv Bookmark", "url": "https://example.com/adv", "note": "Hello"}
++    )
++    assert add_resp.status_code == 201
++    bm_id = add_resp.json()["id"]
++    
++    # Test Search
++    search_resp = await auth_client.get(f"/api/bookmarks/search?q=Adv")
++    assert search_resp.status_code == 200
++    results = search_resp.json()
++    assert len(results) > 0
++    assert any(b["id"] == bm_id for b in results)
++    
++    # Test Patching
++    patch_resp = await auth_client.patch(
++        f"/api/bookmarks/{bm_id}",
++        json={"title": "Updated Bookmark", "tags": ["NewTag"]}
++    )
++    assert patch_resp.status_code == 200
++    updated = patch_resp.json()
++    assert updated["title"] == "Updated Bookmark"
++    
++    # Test tags api
++    tags_resp = await auth_client.get("/api/tags")
++    assert tags_resp.status_code == 200
++    tags = tags_resp.json()
++    assert len(tags) > 0
++    tag_id = tags[0]["id"]
++    
++    # Patch tag color
++    tag_patch = await auth_client.patch(
++        f"/api/tags/{tag_id}",
++        json={"color": "hsl(200, 50%, 50%)"}
++    )
++    assert tag_patch.status_code == 200
++
++async def test_jd_api(auth_client):
++    """Test Johnny.Decimal tree endpoints."""
++    # We assume base JD items exist from seed
++    resp = await auth_client.get("/api/bookmarks")
++    assert resp.status_code == 200
++    
++async def test_export_api(auth_client):
++    """Test export endpoints."""
++    # JSON export
++    json_resp = await auth_client.get("/api/tags/export")
++    assert json_resp.status_code == 200
++    data = json_resp.json()
++    assert "theme_data" in data
++    
++    # HTML export
++    html_resp = await auth_client.get("/bookmarks/export")
++    assert html_resp.status_code == 200
++    assert "text/html" in html_resp.headers["content-type"]
++

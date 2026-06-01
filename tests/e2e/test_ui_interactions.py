@@ -80,7 +80,7 @@ async def test_bookmark_add_ui(auth_page: Page):
     await auth_page.fill('input[name="jdIds"]', "11.11")
     
     await auth_page.wait_for_timeout(1000) # Wait for bookmarks.js event listener to bind
-    await auth_page.screenshot(path="docs/screenshots/add_bookmark_form.png")
+    await auth_page.screenshot(path="src/static/assets/images/screenshots/e2e_add_bookmark_form.png")
     await auth_page.click('button[type="submit"]')
     
     # Wait for the toast and form reset
@@ -90,7 +90,7 @@ async def test_bookmark_add_ui(auth_page: Page):
     # Navigate to dashboard
     await auth_page.click('a[href="/bookmarks/dashboard"]')
     await auth_page.wait_for_timeout(1000)
-    await auth_page.screenshot(path="docs/screenshots/dashboard_after_add.png")
+    await auth_page.screenshot(path="src/static/assets/images/screenshots/e2e_dashboard_after_add.png")
 
 async def test_search_ui(auth_page: Page):
     """Test the search UI functionality."""
@@ -102,17 +102,17 @@ async def test_search_ui(auth_page: Page):
     await auth_page.click('button[type="submit"]')
     
     await auth_page.wait_for_timeout(1000) # Wait for fetch and render
-    await auth_page.screenshot(path="docs/screenshots/search_results.png")
+    await auth_page.screenshot(path="src/static/assets/images/screenshots/e2e_search_results.png")
 
 async def test_tags_ui(auth_page: Page):
     """Test the tag UI view."""
     await auth_page.goto("/bookmarks/tag")
     await auth_page.wait_for_timeout(1000)
-    await auth_page.screenshot(path="docs/screenshots/tags_view.png")
+    await auth_page.screenshot(path="src/static/assets/images/screenshots/e2e_tags_view.png")
 
 async def test_jd_ui(auth_page: Page):
     """Test the JD tree UI view."""
     await auth_page.goto("/bookmarks/jd")
     await expect(auth_page.locator("h1").first).to_have_text("Bookmarks by JD ID")
     await auth_page.wait_for_timeout(1000)
-    await auth_page.screenshot(path="docs/screenshots/jd_view.png")
+    await auth_page.screenshot(path="src/static/assets/images/screenshots/e2e_jd_view.png")

@@ -53,7 +53,7 @@ def _is_excluded(path: Path) -> bool:
     return any(ex in parts or any(ex in p for p in parts) for ex in EXCLUDE_PATTERNS)
 
 
-def resolve_python_files() -> list[Path]:
+def resolve_python_files() -> list[Path]:  # noqa: C901
     """
     Discover all project Python files in deterministic sorted order.
 
@@ -168,8 +168,7 @@ def md_to_tex(md: str, base_section_depth: int = 2) -> str:
 
     adjusted_md = "\n".join(adjusted_lines)
 
-    tex = pypandoc.convert_text(adjusted_md, "latex", format="markdown")
-    return tex
+    return pypandoc.convert_text(adjusted_md, "latex", format="markdown")
 
 
 # ── extract module-level section from pdoc3 output ────────────────────────────

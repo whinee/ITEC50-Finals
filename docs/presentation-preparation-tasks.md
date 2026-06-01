@@ -127,10 +127,10 @@ ______________________________________________________________________
 
 ### Workstream 2 — Paper Finalization
 
-- [ ] Proofread all sections for grammar and tone
-- [ ] Remove unsupported claims and contradictions
-- [ ] Verify citations against `paper/refs.bib`
-- [ ] Verify captions, figure labels, and cross-references
+- [x] Proofread all sections for grammar and tone
+- [x] Remove unsupported claims and contradictions
+- [x] Verify citations against `paper/refs.bib`
+- [x] Verify captions, figure labels, and cross-references
 - [x] Document architecture accurately
 - [x] Document database schema accurately
 - [x] Document deployment steps accurately

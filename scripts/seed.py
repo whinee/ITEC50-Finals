@@ -309,14 +309,13 @@ async def process_user(  # noqa: C901
     return next_tag_id, next_jd_id, next_bookmark_id
 
 
-async def main() -> None:
+async def main(count: int) -> None:
     """
     Ingest database records massively and fast.
 
     It leverages raw SQLModel arrays and multiprocessing pools to synthesize and commit thousands of users, tens of thousands of bookmarks, and complex junction tables into PostgreSQL at mind-bending speeds, bypassing all ORM bottlenecks for raw performance.
     """
     # 1. Prepare User Data
-    count = random.randint(1100, 1500)  # noqa: S311
     print(f"Preparing to seed {count} users and hundreds of thousands of bookmarks...")
 
     users_data = [
@@ -420,4 +419,14 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    import argparse
+
+    parser = argparse.ArgumentParser(description="High-Performance Database Seeder")
+    parser.add_argument(
+        "--users",
+        type=int,
+        default=100,
+        help="Number of users to generate",
+    )
+    args = parser.parse_args()
+    asyncio.run(main(args.users))

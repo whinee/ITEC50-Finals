@@ -1,0 +1,29 @@
+name: Trigger Webhook
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Webhook to Komodo
+        env:
+          # In GitHub repo settings: Settings -> Secrets and variables -> Actions
+          # Add a repository secret named KOMODO_WEBHOOK_SECRET
+          KOMODO_WEBHOOK_SECRET: ${{ secrets.KOMODO_WEBHOOK_SECRET }}
+        run: |
+          PAYLOAD='{"ref": "refs/heads/main", "zen": "test", "hook_id": 123}'
+          
+          # Compute the HMAC-SHA256 signature using the secret
+          SIGNATURE="$(echo -n "$PAYLOAD" | openssl dgst -sha256 -hmac "$KOMODO_WEBHOOK_SECRET" | cut -d ' ' -f2)"
+          
+          # Send the request
+          curl -i -X POST \
+            'https://komodo-ckn-omv-main.lyra-on.top/listener/github/repo/ITEC50-Finals/clone' \
+            -H 'Content-Type: application/json' \
+            -H "X-Hub-Signature-256: sha256=$SIGNATURE" \
+            -H 'X-GitHub-Event: push' \
+            -d "$PAYLOAD"

@@ -19,7 +19,13 @@ DATABASE_ASYNC_URL = settings.PG_ASYNC_URL
 sync_engine = create_engine(DATABASE_SYNC_URL)
 
 # async engine for queries
-async_engine = create_async_engine(DATABASE_ASYNC_URL, echo=False)
+async_engine = create_async_engine(
+    DATABASE_ASYNC_URL,
+    echo=False,
+    pool_size=50,
+    max_overflow=100,
+    pool_timeout=60,
+)
 
 async_session = async_sessionmaker(
     async_engine,

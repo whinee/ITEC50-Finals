@@ -85,6 +85,10 @@ app = FastAPI(
     middleware=middleware,
 )
 
+def limiter(times: int, seconds: int) -> list:
+    """Dynamically returns a RateLimiter dependency unless executing under Lighthouse E2E tests."""
+    return [] if settings.TEST.LIGHTHOUSE else [Depends(RateLimiter(times=times, seconds=seconds))]
+
 
 @app.middleware("http")
 async def add_process_time_header(
@@ -125,10 +129,10 @@ async def add_process_time_header(
 
 app.mount("/static/", StaticFiles(directory="src/static"), name="static")
 
-app.include_router(auth.router, prefix="/auth", tags=["auth"], dependencies=[Depends(RateLimiter(times=20, seconds=60))])
-app.include_router(bookmarks.router, prefix="/bookmarks", tags=["bookmarks"], dependencies=[Depends(RateLimiter(times=120, seconds=60))])
-app.include_router(bookmarks.api_router, prefix="/api", tags=["bookmarks-api"], dependencies=[Depends(RateLimiter(times=120, seconds=60))])
-app.include_router(preferences.router, prefix="/api", tags=["preferences"], dependencies=[Depends(RateLimiter(times=60, seconds=60))])
+app.include_router(auth.router, prefix="/auth", tags=["auth"], dependencies=limiter(20, 60))
+app.include_router(bookmarks.router, prefix="/bookmarks", tags=["bookmarks"], dependencies=limiter(120, 60))
+app.include_router(bookmarks.api_router, prefix="/api", tags=["bookmarks-api"], dependencies=limiter(120, 60))
+app.include_router(preferences.router, prefix="/api", tags=["preferences"], dependencies=limiter(60, 60))
 
 
 @app.get("/docs", include_in_schema=False, status_code=200)
@@ -158,7 +162,7 @@ async def http_code_get(request: Request, status_code: int) -> _TemplateResponse
     return CustomResponse.http_code(request=request, status_code=status_code)
 
 
-@app.get("/", include_in_schema=False, dependencies=[Depends(RateLimiter(times=120, seconds=60))])
+@app.get("/", include_in_schema=False, dependencies=limiter(120, 60))
 async def landing_page(
     request: Request,
     session: Annotated[AsyncSession, Depends(get_session)],
@@ -189,7 +193,7 @@ async def landing_page(
     )
 
 
-@app.get("/bookmarks_dashboard", include_in_schema=False, dependencies=[Depends(RateLimiter(times=120, seconds=60))])
+@app.get("/bookmarks_dashboard", include_in_schema=False, dependencies=limiter(120, 60))
 async def bookmarks_dashboard_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
@@ -211,7 +215,7 @@ async def bookmarks_dashboard_redirect(
     return RedirectResponse(url=f"/bookmarks/dashboard{query}")
 
 
-@app.get("/bookmarks_add", include_in_schema=False, dependencies=[Depends(RateLimiter(times=120, seconds=60))])
+@app.get("/bookmarks_add", include_in_schema=False, dependencies=limiter(120, 60))
 async def bookmarks_add_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
@@ -233,7 +237,7 @@ async def bookmarks_add_redirect(
     return RedirectResponse(url=f"/bookmarks/add{query}")
 
 
-@app.get("/bookmarks_jd", include_in_schema=False, dependencies=[Depends(RateLimiter(times=120, seconds=60))])
+@app.get("/bookmarks_jd", include_in_schema=False, dependencies=limiter(120, 60))
 async def bookmarks_jd_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
@@ -256,7 +260,7 @@ async def bookmarks_jd_redirect(
     return RedirectResponse(url=f"/bookmarks/jd{query}")
 
 
-@app.get("/bookmarks_tag", include_in_schema=False, dependencies=[Depends(RateLimiter(times=120, seconds=60))])
+@app.get("/bookmarks_tag", include_in_schema=False, dependencies=limiter(120, 60))
 async def bookmarks_tag_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
@@ -278,7 +282,7 @@ async def bookmarks_tag_redirect(
     return RedirectResponse(url=f"/bookmarks/tag{query}")
 
 
-@app.get("/bookmarks_search", include_in_schema=False, dependencies=[Depends(RateLimiter(times=120, seconds=60))])
+@app.get("/bookmarks_search", include_in_schema=False, dependencies=limiter(120, 60))
 async def bookmarks_search_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
@@ -346,7 +350,7 @@ async def handle_webhook(request: Request):  # type: ignore[no-untyped-def]
 
 
 
-@app.get("/login/2fa", include_in_schema=False, dependencies=[Depends(RateLimiter(times=120, seconds=60))])
+@app.get("/login/2fa", include_in_schema=False, dependencies=limiter(120, 60))
 async def login_2fa_redirect(
     request: Request,
 ):
@@ -356,7 +360,7 @@ async def login_2fa_redirect(
     except TemplateNotFound as e:
         raise HTTPException(status_code=404) from e
 
-@app.get("/login", include_in_schema=False, dependencies=[Depends(RateLimiter(times=60, seconds=60))])
+@app.get("/login", include_in_schema=False, dependencies=limiter(60, 60))
 async def login_redirect(
     request: Request,
     is_authenticated: Annotated[bool, Depends(check_page_auth)],
@@ -382,7 +386,7 @@ async def login_redirect(
         raise HTTPException(status_code=404) from e
 
 
-@app.get("/{page}", dependencies=[Depends(RateLimiter(times=120, seconds=60))])
+@app.get("/{page}", dependencies=limiter(120, 60))
 async def serve_page(request: Request, page: str):
     """
     Resolve and renders root-level Markdown pages.

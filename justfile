@@ -151,8 +151,8 @@ lint:
     just lint-tex
 
 # Seed data
-seed:
-    uv run scripts/seed.py
+seed users="2000":
+    uv run scripts/seed.py --users {{users}}
 
 [private]
 restart-web-deps:

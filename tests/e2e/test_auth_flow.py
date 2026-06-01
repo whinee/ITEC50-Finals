@@ -22,6 +22,7 @@ async def test_successful_login(page: Page):
     
     await page.fill('input[name="identifier"]', user["username"])
     await page.fill('input[name="password"]', user["password"])
+    await page.fill('input[name="captcha_answer"]', "1234")
     await page.click('input[type="submit"]')
     
     # Wait for navigation and verify we're on the dashboard
@@ -39,6 +40,7 @@ async def test_invalid_login(page: Page):
     
     await page.fill('input[name="identifier"]', "invalid_user")
     await page.fill('input[name="password"]', "wrongpassword")
+    await page.fill('input[name="captcha_answer"]', "1234")
     await page.click('input[type="submit"]')
     
     # Wait for the toast container or error element

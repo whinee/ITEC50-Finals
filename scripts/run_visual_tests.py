@@ -40,8 +40,8 @@ PAGES = [
     ("dashboard", "/bookmarks", True),
     ("add", "/bookmarks/add", True),
     ("edit", "/bookmarks/edit?id=1", True),
-    ("jd", "/bookmarks/jd", True),
-    ("tag", "/bookmarks/tag", True),
+    ("jd", "/bookmarks/jd?jdId=10", True),
+    ("tag", "/bookmarks/tag?tag=test", True),
     ("search", "/bookmarks/search?q=test", True),
     ("404", "/http_code/404", False),
     ("500", "/http_code/500", False),
@@ -143,7 +143,7 @@ def run_lighthouse(url: str, file_label: str) -> dict:
             print(f"Lighthouse failed for {url}: {e}")
 
 
-async def capture_viewport(context, url, theme, vp, output_dir, label):
+async def capture_viewport(context, url, theme, vp, output_dir, label):  # noqa: C901
     """Capture a single viewport using its own page instance concurrently."""
     async with sem:
         page = await context.new_page()
@@ -151,6 +151,45 @@ async def capture_viewport(context, url, theme, vp, output_dir, label):
         await page.set_viewport_size({"width": vp["width"], "height": vp["height"]})
 
         await page.goto(url, wait_until="networkidle")
+
+        if label in ["login", "register"]:
+            captcha_loaded = False
+            for _ in range(5):
+                try:
+                    await page.wait_for_function(
+                        """() => {
+                        const img = document.getElementById('captcha-img');
+                        return img && img.complete && img.naturalWidth !== 0 && img.src.startsWith('data:image');
+                    }""",
+                        timeout=5000,
+                    )
+                    captcha_loaded = True
+                    break
+                except Exception:  # noqa: BLE001
+                    reload_btn = await page.query_selector("#reload-captcha")
+                    if reload_btn:
+                        await reload_btn.click()
+
+            if not captcha_loaded:
+                raise RuntimeError(f"Captcha failed to load on {label} after 5 retries")
+
+        if label == "tag":
+            try:
+                await page.wait_for_function(
+                    "() => { const el = document.getElementById('view-title'); return el && el.innerText.includes('Bookmarks by tag test'); }",
+                    timeout=5000,
+                )
+            except Exception:
+                pass
+        elif label == "jd":
+            try:
+                await page.wait_for_function(
+                    "() => { const el = document.getElementById('view-title'); return el && el.innerText.includes('Bookmarks by JD 10'); }",
+                    timeout=5000,
+                )
+            except Exception:
+                pass
+
         await page.wait_for_timeout(1000)
 
         filename = f"{label}-{theme}-{vp['width']}x{vp['height']}.png"
@@ -184,6 +223,9 @@ async def process_pages(
     lighthouse_tex_content,
 ):
     """Process a subset of pages using the provided contexts."""
+    # Limit concurrent Playwright connections
+    semaphore = asyncio.Semaphore(4)
+
     for label, path, _requires_auth in pages_subset:
         page_start_time = time.time()
         url = f"{BASE_URL}{path}"
@@ -193,20 +235,21 @@ async def process_pages(
         pages_tex_content += path_section
         lighthouse_tex_content += path_subsection
 
-        screenshot_tasks = []
-        for theme in ["light", "dark"]:
-            ctx = contexts[theme]
-            screenshot_tasks.extend(
-                [
-                    capture_viewport(ctx, url, theme, vp, SCREENSHOTS_OUTPUT_DIR, label)
-                    for vp in VIEWPORTS
-                ],
-            )
+        async def bounded_capture(*args, sem=semaphore, **kwargs):
+            async with sem:
+                return await capture_viewport(*args, **kwargs)
+
+        bounded_tasks = [
+            bounded_capture(ctx, url, theme, vp, SCREENSHOTS_OUTPUT_DIR, label)
+            for theme in ["light", "dark"]
+            for ctx in [contexts[theme]]
+            for vp in VIEWPORTS
+        ]
 
         # Run screenshots and Lighthouse concurrently
         lighthouse_task = asyncio.to_thread(run_lighthouse, url, label)
         results, metrics = await asyncio.gather(
-            asyncio.gather(*screenshot_tasks),
+            asyncio.gather(*bounded_tasks),
             lighthouse_task,
         )
 
@@ -229,16 +272,11 @@ async def run_tests():  # noqa: C901
     os.environ["TEST__LIGHTHOUSE"] = "true"
     os.environ["AUTH__OTP"] = "true"
 
-    port = os.environ.get("EXTERNAL_DB_PORT", "5432")
-    user = os.environ.get("PG__USER", "postgres")
-    pwd = os.environ.get("PG__PASSWORD", "postgres")
-    db = os.environ.get("PG__DBNAME", "decimark")
-
     os.environ["PG_SYNC_URL"] = (
-        f"postgresql+psycopg://{user}:{pwd}@localhost:{port}/{db}"
+        f"postgresql+psycopg://{os.environ.get('PG__USER', 'postgres')}:{os.environ.get('PG__PASSWORD', 'postgres')}@localhost:{os.environ.get('EXTERNAL_DB_PORT', '5432')}/{os.environ.get('TEST__DBNAME', 'decimark_test')}"
     )
     os.environ["PG_ASYNC_URL"] = (
-        f"postgresql+psycopg://{user}:{pwd}@localhost:{port}/{db}"
+        f"postgresql+psycopg_async://{os.environ.get('PG__USER', 'postgres')}:{os.environ.get('PG__PASSWORD', 'postgres')}@localhost:{os.environ.get('EXTERNAL_DB_PORT', '5432')}/{os.environ.get('TEST__DBNAME', 'decimark_test')}"
     )
     os.environ["REDIS_URL"] = (
         f"redis://localhost:{os.environ.get('EXTERNAL_REDIS_PORT', '6379')}/0"
@@ -253,8 +291,6 @@ async def run_tests():  # noqa: C901
             "main:app",
             "--bind",
             f"0.0.0.0:{PORT}",
-            "--workers",
-            "4",
         ],
         stdout=sys.stdout,
         stderr=sys.stderr,
@@ -276,7 +312,7 @@ async def run_tests():  # noqa: C901
             time.sleep(0.5)
 
     if not server_ready:
-        server_process.kill()
+        server_process.terminate()
         raise RuntimeError("Server did not start")
 
     try:
@@ -327,11 +363,18 @@ async def run_tests():  # noqa: C901
                 await page.fill('input[name="password"]', user["password"])
                 await page.fill('input[name="captcha_answer"]', "1234")
                 await page.click('input[type="submit"]')
-                await page.wait_for_selector(
-                    'input[name="otp"]',
-                    state="visible",
-                    timeout=30000,
-                )
+                try:
+                    await page.wait_for_selector(
+                        'input[name="otp"]',
+                        state="visible",
+                        timeout=30000,
+                    )
+                except Exception:
+                    content = await page.content()
+                    print("PAGE CONTENT ON TIMEOUT:")
+                    print(content)
+                    await page.screenshot(path=f"debug_login_fail_{theme}.png")
+                    raise
                 await page.fill('input[name="otp"]', "000000")
                 await page.click('input[type="submit"]')
                 await page.wait_for_url("**/bookmarks*")
@@ -360,7 +403,7 @@ async def run_tests():  # noqa: C901
             print(f"🎉 All tests fully completed in {total_test_elapsed:.2f} seconds!")
 
     finally:
-        server_process.kill()
+        server_process.terminate()
         server_process.wait()
 
 

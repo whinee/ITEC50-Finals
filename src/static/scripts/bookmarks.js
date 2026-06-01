@@ -456,7 +456,7 @@ async function initFilteredView(type) {
         const filters =
             type === "jd" ? { jdId: nextValue } : { tag: nextValue };
         title.textContent = nextValue
-            ? `Bookmarks for ${nextValue}`
+            ? `Bookmarks by ${type === 'jd' ? 'JD' : 'tag'} ${nextValue}`
             : title.textContent;
 
         renderSkeletonList(results);

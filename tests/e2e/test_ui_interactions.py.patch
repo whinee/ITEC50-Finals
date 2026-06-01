@@ -1,0 +1,38 @@
+--- tests/e2e/test_ui_interactions.py
++++ tests/e2e/test_ui_interactions.py
+@@ -69,2 +69,37 @@
+     await expect(modal_area).not_to_be_visible()
+ 
++async def test_bookmark_add_ui(auth_page: Page):
++    """Test the add bookmark UI flow."""
++    await auth_page.goto("/bookmarks/add")
++    await expect(auth_page.locator("h1")).to_have_text("Save a new link")
++    
++    await auth_page.fill('input[name="title"]', "Playwright UI Bookmark")
++    await auth_page.fill('input[name="url"]', "https://playwright.dev")
++    
++    await auth_page.screenshot(path="docs/screenshots/add_bookmark_form.png")
++    await auth_page.click('button[type="submit"]')
++    
++    # Wait for redirect to dashboard
++    await auth_page.wait_for_url("**/bookmarks/dashboard")
++    await auth_page.screenshot(path="docs/screenshots/dashboard_after_add.png")
++
++async def test_search_ui(auth_page: Page):
++    """Test the search UI functionality."""
++    await auth_page.goto("/bookmarks/search")
++    await expect(auth_page.locator("h1")).to_have_text("Search bookmarks")
++    
++    # Search for something
++    await auth_page.fill('input[id="search"]', "Playwright")
++    await auth_page.click('button[type="submit"]')
++    
++    await auth_page.wait_for_timeout(1000) # Wait for fetch and render
++    await auth_page.screenshot(path="docs/screenshots/search_results.png")
++
++async def test_tags_ui(auth_page: Page):
++    """Test the tag UI view."""
++    await auth_page.goto("/bookmarks/tag")
++    await auth_page.wait_for_timeout(1000)
++    await auth_page.screenshot(path="docs/screenshots/tags_view.png")
++
