@@ -12,20 +12,30 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from src.config.settings import settings
 
-DATABASE_SYNC_URL = settings.PG_SYNC_URL
-DATABASE_ASYNC_URL = settings.PG_ASYNC_URL
+DATABASE_SYNC_URL = settings.PG_SYNC_URL if settings.DB == "postgres" else "sqlite:///decimark.db"
+DATABASE_ASYNC_URL = settings.PG_ASYNC_URL if settings.DB == "postgres" else "sqlite+aiosqlite:///decimark.db"
 
 # sync engine ONLY for table creation
-sync_engine = create_engine(DATABASE_SYNC_URL)
+sync_engine = create_engine(
+    DATABASE_SYNC_URL,
+    connect_args={"check_same_thread": False} if settings.DB == "sqlite" else {}
+)
 
 # async engine for queries
-async_engine = create_async_engine(
-    DATABASE_ASYNC_URL,
-    echo=False,
-    pool_size=50,
-    max_overflow=100,
-    pool_timeout=60,
-)
+if settings.DB == "postgres":
+    async_engine = create_async_engine(
+        DATABASE_ASYNC_URL,
+        echo=False,
+        pool_size=50,
+        max_overflow=100,
+        pool_timeout=60,
+    )
+else:
+    async_engine = create_async_engine(
+        DATABASE_ASYNC_URL,
+        echo=False,
+        connect_args={"check_same_thread": False},
+    )
 
 async_session = async_sessionmaker(
     async_engine,

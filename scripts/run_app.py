@@ -18,6 +18,10 @@ def get_base_path():
 
 
 async def run_server():
+    # Force offline fallback modes
+    os.environ["DB"] = "sqlite"
+    os.environ["CACHE"] = "memory"
+    
     from main import app  # Import app here to ensure environment variables and paths are set first
 
     config = Config()
@@ -34,6 +38,8 @@ if __name__ == "__main__":
     # Force the current working directory to the bundled base path so that relative paths (like reading .env or templates) work properly.
     base_path = get_base_path()
     os.chdir(base_path)
+    if base_path not in sys.path:
+        sys.path.insert(0, base_path)
     
     try:
         asyncio.run(run_server())

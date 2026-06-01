@@ -93,7 +93,7 @@ Ensure Lyra is prepared for catastrophic server failure during the presentation.
 
 ### 4. Implement Offline Database Fallback (CRITICAL CONTINGENCY)
 I have configured a GitHub Actions pipeline (`.github/workflows/release.yml`) to automatically package the application into a standalone `.exe` (Windows) and an ELF binary (Linux) using PyInstaller, driven by the `scripts/run_app.py` entrypoint. **However, the app currently hard-requires PostgreSQL and Redis.**
-- [ ] **Your Task**: Implement a fallback in `src/db/main.py` and `src/config/settings.py` so that when the app is run from the standalone executable (i.e., when PyInstaller's `sys.frozen` or `sys._MEIPASS` is active), it seamlessly falls back to a local SQLite database (`sqlite:///decimark.db`) and an in-memory session/rate-limiting backend instead of Redis. This is required so Lyra can run the `.exe` on university PCs without installing Docker or Postgres.
+- [x] **Your Task**: Implement a fallback in `src/db/main.py` and `src/config/settings.py` so that when the app is run from the standalone executable (i.e., when PyInstaller's `sys.frozen` or `sys._MEIPASS` is active), it seamlessly falls back to a local SQLite database (`sqlite:///decimark.db`) and an in-memory session/rate-limiting backend instead of Redis. This is required so Lyra can run the `.exe` on university PCs without installing Docker or Postgres. *(Update: Done!)*
 
 ### 5. Paper-to-Code Parity Check
 Even though the LaTeX paper is in feature freeze and should not be modified *by you*, Lyra may want to manually tweak it. Help her proofread it by verifying parity between the written claims and the actual codebase. Use the feature list below to cross-reference her document.

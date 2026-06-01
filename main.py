@@ -58,12 +58,23 @@ middleware = [
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
-    # Initialize redis and fastapi-limiter
-    redis_url = os.getenv("REDIS_URL", "redis://localhost")
-    redis_conn = redis.from_url(redis_url, encoding="utf-8", decode_responses=True)
-    await FastAPILimiter.init(redis_conn)
-    yield
-    await redis_conn.aclose()
+    # Auto-create tables for offline standalone SQLite mode
+    if settings.DB == "sqlite":
+        from sqlmodel import SQLModel
+        from src.db.main import sync_engine
+        # Ensure all models are imported before creating tables
+        import src.schema  # noqa
+        SQLModel.metadata.create_all(sync_engine)
+
+    # Initialize redis and fastapi-limiter if CACHE is redis
+    if settings.CACHE == "redis":
+        redis_url = os.getenv("REDIS_URL", "redis://localhost")
+        redis_conn = redis.from_url(redis_url, encoding="utf-8", decode_responses=True)
+        await FastAPILimiter.init(redis_conn)
+        yield
+        await redis_conn.aclose()
+    else:
+        yield
 
 app = FastAPI(
     lifespan=lifespan,
@@ -86,8 +97,8 @@ app = FastAPI(
 )
 
 def limiter(times: int, seconds: int) -> list:
-    """Dynamically returns a RateLimiter dependency unless executing under Lighthouse E2E tests."""
-    return [] if settings.TEST.LIGHTHOUSE else [Depends(RateLimiter(times=times, seconds=seconds))]
+    """Dynamically returns a RateLimiter dependency unless executing under Lighthouse E2E tests or running with memory cache."""
+    return [] if settings.TEST.LIGHTHOUSE or settings.CACHE == "memory" else [Depends(RateLimiter(times=times, seconds=seconds))]
 
 
 @app.middleware("http")

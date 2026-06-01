@@ -109,6 +109,8 @@ class Settings(BaseSettings):
     """
 
     ENV: Annotated[Literal["development", "production", "test"], Field()] = "production"
+    DB: Annotated[Literal["postgres", "sqlite"], Field()] = "postgres"
+    CACHE: Annotated[Literal["redis", "memory"], Field()] = "redis"
     DEBUG: Annotated[bool, Field()] = False
     AUTH: Annotated[AuthConfig, Field()] = AuthConfig()
     PG_SYNC_URL: Annotated[str, Field()] = ""

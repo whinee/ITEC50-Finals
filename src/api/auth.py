@@ -580,7 +580,10 @@ async def seed_demo_account(session: AsyncSession, user_id: int):  # noqa: C901
             for j_id in sampled_jds:
                 b_jd_batch.append({"bookmark_id": b_id, "jd_node_id": j_id})
 
-        if len(b_batch) >= 5000:
+        # SQLite has a strict limit on the number of variables per query (32766).
+        # A batch size of 1000 keeps us well below the limit even with many columns.
+        max_batch_size = 1000 if settings.DB == "sqlite" else 5000
+        if len(b_batch) >= max_batch_size:
             await session.execute(insert(Bookmark).values(b_batch))
             if b_tag_batch:
                 await session.execute(insert(bookmark_tag_junction).values(b_tag_batch))
@@ -600,23 +603,24 @@ async def seed_demo_account(session: AsyncSession, user_id: int):  # noqa: C901
 
     await session.commit()
 
-    # Reset sequences
-    await session.execute(
-        text(
-            "SELECT setval(pg_get_serial_sequence('tags', 'id'), coalesce(max(id), 1)) FROM tags;",
-        ),
-    )
-    await session.execute(
-        text(
-            "SELECT setval(pg_get_serial_sequence('jd_nodes', 'id'), coalesce(max(id), 1)) FROM jd_nodes;",
-        ),
-    )
-    await session.execute(
-        text(
-            "SELECT setval(pg_get_serial_sequence('bookmarks', 'id'), coalesce(max(id), 1)) FROM bookmarks;",
-        ),
-    )
-    await session.commit()
+    # Reset sequences (Postgres only)
+    if settings.DB == "postgres":
+        await session.execute(
+            text(
+                "SELECT setval(pg_get_serial_sequence('tags', 'id'), coalesce(max(id), 1)) FROM tags;",
+            ),
+        )
+        await session.execute(
+            text(
+                "SELECT setval(pg_get_serial_sequence('jd_nodes', 'id'), coalesce(max(id), 1)) FROM jd_nodes;",
+            ),
+        )
+        await session.execute(
+            text(
+                "SELECT setval(pg_get_serial_sequence('bookmarks', 'id'), coalesce(max(id), 1)) FROM bookmarks;",
+            ),
+        )
+        await session.commit()
 
 
 @router.post("/demo")

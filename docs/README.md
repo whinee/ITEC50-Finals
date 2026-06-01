@@ -251,6 +251,8 @@ The application relies on the following environment variables, detailed in `.env
 | Variable | Purpose |
 | --- | --- |
 | `ENV` | Environment mode (e.g., `production`, `development`). |
+| `DB` | Offline fallback db backend: `postgres` (default) or `sqlite`. |
+| `CACHE` | Offline fallback cache backend: `redis` (default) or `memory`. |
 | `DEBUG` | Enables debugging features when `true`. |
 | `HOST` / `PORT` | Bind address and port for the application server. |
 | `WORKERS` | Number of Uvicorn/Hypercorn workers to run. |
