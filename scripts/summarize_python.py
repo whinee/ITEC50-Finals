@@ -301,7 +301,7 @@ def generate_tex_index(tex_files: list[Path]) -> str:
     ]
     for tex_path in tex_files:
         rel = tex_path.relative_to(TEX_MAIN_PAPER_DIR)
-        lines.append(f"\\input{{./{rel}}}")
+        lines.append(f"\\include{{{rel.with_suffix('')}}}")
     lines.append("")
     return "\n".join(lines)
 
@@ -337,7 +337,6 @@ def generate_tex_code_index(py_files: list[Path]) -> str:
         lines.append(
             r"\inputmintedstyled{python}{" + str(rel_from_paper) + "}",
         )
-        lines.append(r"\newpage")
     lines.append("")
     return "\n".join(lines)
 

@@ -640,8 +640,8 @@ def generate_tex_index(css_files: list[str], tex_dir: str) -> str:
     ]
     for css_path in css_files:
         rel = Path(css_path).relative_to(ROOT_FOLDER, walk_up=True)
-        tex_name = f"{TEX_OUTPUT_DIR_REL_MAIN_PAPER}/{rel.with_suffix('.tex')}"
-        lines.append(f"\\input{{{tex_name}}}")
+        tex_name = f"{TEX_OUTPUT_DIR_REL_MAIN_PAPER}/{rel.with_suffix('')}"
+        lines.append(f"\\include{{{tex_name}}}")
     lines.append(r"")
     return "\n".join(lines)
 
@@ -664,7 +664,6 @@ def generate_tex_code_index(css_files: list[str]) -> str:
             )
             + "}",
         )
-        lines.append(r"\newpage")
     lines.append(r"")
     return "\n".join(lines)
 
