@@ -1623,7 +1623,6 @@ dev = [
     { name = "brotli" },
     { name = "cairosvg" },
     { name = "djlint" },
-    { name = "erdantic" },
     { name = "faker" },
     { name = "fonttools" },
     { name = "httpx" },
@@ -1643,6 +1642,9 @@ dev = [
     { name = "ruff" },
     { name = "translate-toolkit" },
     { name = "wonderwords" },
+]
+diagrams = [
+    { name = "erdantic" },
 ]
 seeding = [
     { name = "faker" },
@@ -1685,7 +1687,6 @@ dev = [
     { name = "brotli", specifier = ">=1.2.0" },
     { name = "cairosvg", specifier = ">=2.9.0" },
     { name = "djlint", specifier = ">=1.34.1" },
-    { name = "erdantic", specifier = ">=1.1.0.post1" },
     { name = "faker", specifier = ">=40.19.1" },
     { name = "fonttools", specifier = ">=4.63.0" },
     { name = "httpx", specifier = ">=0.26.0" },
@@ -1706,6 +1707,7 @@ dev = [
     { name = "translate-toolkit", specifier = ">=3.15.2" },
     { name = "wonderwords", specifier = ">=3.0.1" },
 ]
+diagrams = [{ name = "erdantic", specifier = ">=1.1.0.post1" }]
 seeding = [
     { name = "faker", specifier = ">=40.19.1" },
     { name = "wonderwords", specifier = ">=3.0.1" },
