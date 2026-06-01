@@ -285,6 +285,7 @@ The application relies on the following environment variables, detailed in `.env
 | `AUTH__COOKIE_SECRET` | Secret key for encrypting HTTP-only cookies. |
 | `AUTH__WEBHOOK_SECRET` | Secret key for validating incoming webhooks. |
 | `AUTH__DB_ENCRYPTION_KEY` | Secret key for encrypting sensitive data at rest in PostgreSQL. |
+| `AUTH__OTP` | Toggles Two-Factor Authentication (OTP) during login. |
 
 ### Testing
 
@@ -334,10 +335,13 @@ In the interest of academic integrity, the following discloses the use of artifi
 
 - **HTML/CSS Refactoring**: Scaffolded Jinja2 templates, removed inline styles, fixed accessibility warnings, and migrated to semantic classes to comply with strict `stylelint` rules.
 - **Backend Architecture & Security**: Accelerated the implementation of zero-trust E2EE, OAuth 2.0, rate limiting, and demo auto-provisioning.
+- **Feature Flag Toggle**: Assisted in implementing the `AUTH__OTP` environment variable to dynamically control the execution of the two-factor authentication flow.
 - **Dynamic Theming**: Developed the Base64 JSON state export and HSL color manipulation pipeline for Tag rendering.
 - **Deployment & QA**: Configured Docker Compose deployments, resolved Python dependency warnings, and expanded Playwright visual tests.
 - **Documentation**: Drafted Python docstrings, utility scripts, and LaTeX paper chapters under the author's direction.
 - **Captcha Validation**: Implemented server-side verification of the base64 captcha token during login.
 - **Global Rate Limiting**: Integrated `fastapi-limiter` with Redis to enforce strict rate limits across all API endpoints and root pages.
+- **Tag Header Alignment**: Wrapped the tag view header title and color picker in a flex container to align them vertically in the UI, and added horizontal spacing between them.
+- **Color Picker Race Condition**: Refactored the inline JavaScript in the tag template to use a polling interval instead of a static timeout, ensuring the color picker UI consistently renders after the tag map loads.
 
 The overall system architecture, the Johnny.Decimal integration model, the zero-trust security design, the CSS design system, the JavaScript interaction logic, the database schema, the deployment strategy, and the substantive content of the reflection and rationale were authored entirely by the author. The use of AI tools did not substitute for technical understanding; it accelerated execution of decisions already made.

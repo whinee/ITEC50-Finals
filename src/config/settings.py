@@ -86,6 +86,7 @@ class AuthConfig(BaseModel):
     COOKIE_SECRET: Annotated[str, Field()] = ""
     WEBHOOK_SECRET: Annotated[str, Field()] = ""
     DB_ENCRYPTION_KEY: Annotated[str, Field()] = ""
+    OTP: Annotated[bool, Field()] = False
 
 
 class TestConfig(BaseModel):

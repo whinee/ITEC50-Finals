@@ -261,7 +261,6 @@
 
 \addbibresource{refs.bib}
 
-
 \begin{document}
 
 \begin{titlepage}
@@ -1568,7 +1567,10 @@ In the interest of academic integrity, the following discloses the use of artifi
   \item \textbf{Deployment \& QA}: Configured Docker Compose deployments, resolved Python dependency warnings, and expanded Playwright visual tests.
   \item \textbf{Documentation}: Drafted Python docstrings, utility scripts, and specific {\LatinModernRoman \LaTeX} paper chapters (e.g., Theoretical Foundations, Brand Identity) under the author's direction.
   \item \textbf{Captcha Validation}: Implemented server-side verification of the base64 captcha token during login.
+  \item \textbf{Feature Flag Toggle}: Assisted in implementing the \texttt{AUTH\_\_OTP} environment variable to dynamically control the execution of the two-factor authentication flow.
   \item \textbf{Global Rate Limiting}: Integrated \texttt{fastapi-limiter} with Redis to enforce strict rate limits across all API endpoints and root pages.
+  \item \textbf{Tag Header Alignment}: Wrapped the tag view header title and color picker in a flex container to align them vertically in the UI, and added horizontal spacing between them.
+  \item \textbf{Color Picker Race Condition}: Refactored the inline JavaScript in the tag template to use a polling interval instead of a static timeout, ensuring the color picker UI consistently renders after the tag map loads.
 \end{itemize}
 
 The overall system architecture, the Johnny.Decimal integration model, the zero-trust security design, the CSS design system, the JavaScript interaction logic, the database schema, the deployment strategy, and the substantive content of the reflection and rationale were authored entirely by the author. The use of AI tools did not substitute for technical understanding; it accelerated execution of decisions already made.

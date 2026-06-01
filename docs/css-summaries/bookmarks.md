@@ -1,10 +1,9 @@
 # `bookmarks.css`
 
-> Generated on 2026-06-01 07:13\
+> Generated on 2026-06-01 11:36  
 > Source: `src/static/stylesheets/bookmarks.css`
 
 ## Lint Results
-
 > ✅ No lint issues found.
 
 ## Section Tree
@@ -18,6 +17,6 @@
 ├── GRID AND CARDS  (line 206-237)
 ├── TAGS AND PILLS  (line 239-280)
 ├── FORMS AND SEARCH  (line 282-363)
-├── TAG STYLES  (line 365-399)
-└── MEDIA QUERIES  (line 401-430)
+├── TAG STYLES  (line 365-406)
+└── MEDIA QUERIES  (line 408-437)
 ```

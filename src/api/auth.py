@@ -182,7 +182,7 @@ async def login_user(  # noqa: C901
             category="error",
             status_code=HTTP_400_BAD_REQUEST,
         )
-    
+
     try:
         claims = jwt_service.verify(captcha_token)
         if not claims.sub or claims.sub.lower() != data.captcha_answer.strip().lower():
@@ -233,32 +233,56 @@ async def login_user(  # noqa: C901
             category="error",
             status_code=HTTP_500_INTERNAL_SERVER_ERROR,
         )
-    # Generate 6-digit OTP
-    otp = str(random.randint(100000, 999999))  # noqa: S311
-    send_otp_email(user.email, otp)
+    if settings.AUTH.OTP:
+        # Generate 6-digit OTP
+        otp = str(random.randint(100000, 999999))  # noqa: S311
+        send_otp_email(user.email, otp)
 
-    # Store OTP in a short-lived 2FA JWT
+        # Store OTP in a short-lived 2FA JWT
+        issued_at = int(datetime.datetime.now(datetime.UTC).timestamp())
+        expires_at = issued_at + 300  # 5 minutes
+        claims = Claims(exp=expires_at, sub=f"{user.email}:{otp}", iat=issued_at)
+        # Add custom claims for OTP (we'll just append it to the subject for simplicity)
+        token = jwt_service.sign(claims)
+
+        cookie_params = set_default_cookie_params_with_encryption(
+            name="2fa_token",
+            value=token,
+            expires_at=datetime.datetime.fromtimestamp(expires_at, tz=datetime.UTC),
+        )
+
+        return CustomResponse.json_flash(
+            message="2FA Verification required. Check your email.",
+            category="info",
+            status_code=HTTP_200_OK,
+            json={"redirect": "/login/2fa"},
+            cookie_params=[
+                cookie_params,
+                theme_cookie_params(normalize_theme(user.theme)),
+            ],
+            headers={
+                "HX-Redirect": "/login/2fa",
+            },  # Assuming the frontend uses HTMX to redirect or handle it
+        )
+
+    # Issue real session if OTP is disabled
     issued_at = int(datetime.datetime.now(datetime.UTC).timestamp())
-    expires_at = issued_at + 300  # 5 minutes
-    claims = Claims(exp=expires_at, sub=f"{user.email}:{otp}", iat=issued_at)
-    # Add custom claims for OTP (we'll just append it to the subject for simplicity)
-    token = jwt_service.sign(claims)
+    expires_at = issued_at + COOKIE_EXPIRES_AFTER
+    claims = Claims(exp=expires_at, sub=user.email, iat=issued_at)
+    session_token = jwt_service.sign(claims=claims)
 
     cookie_params = set_default_cookie_params_with_encryption(
-        name="2fa_token",
-        value=token,
+        name="session",
+        value=session_token,
         expires_at=datetime.datetime.fromtimestamp(expires_at, tz=datetime.UTC),
     )
 
     return CustomResponse.json_flash(
-        message="2FA Verification required. Check your email.",
-        category="info",
+        message="Login successful!",
+        category="success",
         status_code=HTTP_200_OK,
-        json={"redirect": "/login/2fa"},
         cookie_params=[cookie_params, theme_cookie_params(normalize_theme(user.theme))],
-        headers={
-            "HX-Redirect": "/login/2fa",
-        },  # Assuming the frontend uses HTMX to redirect or handle it
+        headers={"HX-Redirect": "/bookmarks"},
     )
 
 

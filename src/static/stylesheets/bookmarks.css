@@ -363,6 +363,13 @@ body {
 /* FORMS AND SEARCH: END */
 
 /* TAG STYLES: START */
+.view-header-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
 .view-header-title {
     display: inline-block;
     margin-right: 1rem;
