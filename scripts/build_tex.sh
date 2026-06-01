@@ -36,22 +36,8 @@ xelatex -synctex=1 -interaction=nonstopmode -file-line-error -shell-escape "${TE
 
 BASENAME=$(basename "${TEXFILE}" .tex)
 mkdir -p "image-export/${BASENAME}"
-echo "Exporting ${BASENAME}.pdf to images in parallel chunks..."
+echo "Exporting ${BASENAME}.pdf to images..."
 
-# Get total pages
-PAGES=$(pdfinfo "${BASENAME}.pdf" | awk '/^Pages:/ {print $2}')
-
-# Process in 8 parallel chunks to avoid loading the PDF hundreds of times and segfaulting
-CHUNKS=8
-PAGES_PER_CHUNK=$(( (PAGES + CHUNKS - 1) / CHUNKS ))
-
-for i in $(seq 0 $((CHUNKS - 1))); do
-    START=$(( i * PAGES_PER_CHUNK + 1 ))
-    END=$(( (i + 1) * PAGES_PER_CHUNK ))
-    if [ "$END" -gt "$PAGES" ]; then END=$PAGES; fi
-    pdftoppm -r 300 -png -f "$START" -l "$END" "${BASENAME}.pdf" "image-export/${BASENAME}/page" &
-done
-
-wait
+pdftoppm -r 300 -png "${BASENAME}.pdf" "image-export/${BASENAME}/page"
 
 echo "Image export complete!"
