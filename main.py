@@ -24,16 +24,17 @@ from fastapi_limiter import FastAPILimiter
 from fastapi_limiter.depends import RateLimiter
 from jinja2 import TemplateNotFound
 from sqlalchemy import func
-from sqlmodel import select
+from sqlmodel import SQLModel, select
 from sqlmodel.ext.asyncio.session import AsyncSession
 from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.templating import _TemplateResponse
 
+import src.schema  # type: ignore # noqa
 from src.api import auth, bookmarks, preferences
 from src.config.settings import settings
-from src.db.main import get_session
+from src.db.main import get_session, sync_engine
 from src.middlewares.auth import check_page_auth
 from src.schema import Bookmark, User
 from src.utils.custom_response import TEMPLATES, CustomResponse
@@ -60,10 +61,7 @@ middleware = [
 async def lifespan(_app: FastAPI):
     # Auto-create tables for offline standalone SQLite mode
     if settings.DB == "sqlite":
-        from sqlmodel import SQLModel
-        from src.db.main import sync_engine
-        # Ensure all models are imported before creating tables
-        import src.schema  # noqa
+        
         SQLModel.metadata.create_all(sync_engine)
 
     # Initialize redis and fastapi-limiter if CACHE is redis
